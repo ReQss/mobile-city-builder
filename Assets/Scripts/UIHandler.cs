@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    public List<GameObject> uiBuildingObjects;
     void Start()
     {
 
@@ -34,11 +35,29 @@ public class UIHandler : MonoBehaviour
     }
     public void CloseUIObject(GameObject gameObject)
     {
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.SetBool("IsOpen", false);
+        // if (animator != null)
+        // {
+        //     animator.SetTrigger("closeAlert");
+        // }
+    }
+    public void CloseListOfUIObjects()
+    {
+        foreach (GameObject go in uiBuildingObjects)
+        {
+            go.SetActive(false);
+        }
     }
     public void OpenUIObject(GameObject gameObject)
     {
         gameObject.SetActive(true);
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.SetBool("IsOpen", true);
+        // if (animator != null)
+        // {
+        //     animator.SetTrigger("openAlert");
+        // }
     }
-
 }
