@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WorkerScript : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class WorkerScript : MonoBehaviour
     private Vector3 targetPosition;
     private bool isDestinationAchieved = false;
     bool isTargetBuilding = false;
+    private NavMeshAgent agent;
 
     void Start()
     {
@@ -19,11 +21,20 @@ public class WorkerScript : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+
+        // Get or add NavMeshAgent
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+        {
+            agent = gameObject.AddComponent<NavMeshAgent>();
+        }
+        agent.speed = moveSpeed;
+        agent.stoppingDistance = 0.3f;
+        agent.updateRotation = false; // We'll handle rotation for animation
     }
 
     void Update()
     {
-
         // Check for mouse input
         if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
@@ -31,15 +42,28 @@ public class WorkerScript : MonoBehaviour
             animator.SetBool("working", false);
             bool isTargetSet = SetTargetPosition();
             isTargetBuilding = CheckForTargetBuilding();
-            // Debug.Log(isTargetBuilding);
             if (isTargetSet)
+            {
                 isDestinationAchieved = false;
+                agent.SetDestination(targetPosition);
+            }
         }
-        Debug.Log(Vector3.Distance(transform.position, targetPosition));
-        if (Vector3.Distance(transform.position, targetPosition) > 0.3f && isDestinationAchieved == false)
-        {
+        // Debug.Log(Vector3.Distance(transform.position, targetPosition));
 
-            MoveWorkerTowardsDestination();
+        if (agent.pathPending)
+            return;
+
+        if (Vector3.Distance(transform.position, targetPosition) > agent.stoppingDistance && isDestinationAchieved == false)
+        {
+            animator.SetBool("walking", true);
+
+            // Manual rotation for animation
+            Vector3 direction = (agent.steeringTarget - transform.position).normalized;
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+            }
         }
         else if (isTargetBuilding)
         {
@@ -47,12 +71,24 @@ public class WorkerScript : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPosition) > 3.5f)
             {
                 Debug.Log("waking");
-                MoveWorkerTowardsDestination();
+                agent.SetDestination(targetPosition);
+                animator.SetBool("walking", true);
+
+                // Manual rotation for animation
+                Vector3 direction = (agent.steeringTarget - transform.position).normalized;
+                if (direction != Vector3.zero)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
             }
             else
             {
                 isTargetBuilding = false;
                 animator.SetBool("working", true);
+                animator.SetBool("walking", false);
+                isDestinationAchieved = true;
+                agent.ResetPath();
             }
         }
         else
@@ -60,27 +96,10 @@ public class WorkerScript : MonoBehaviour
             // Stop the walking animation
             animator.SetBool("walking", false);
             isDestinationAchieved = true;
+            agent.ResetPath();
         }
-
     }
-    void MoveWorkerTowardsDestination()
-    {
-        animator.SetBool("walking", true);
 
-        // Adjust the target position to match the worker's current Y position
-        targetPosition = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
-
-        // Rotate towards the target position
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        if (direction != Vector3.zero) // Ensure direction is valid
-        {
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        }
-
-        // Move towards the target position
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-    }
     bool CheckForTargetBuilding()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -90,13 +109,13 @@ public class WorkerScript : MonoBehaviour
         }
         return false;
     }
+
     bool SetTargetPosition()
     {
         // Perform a raycast from the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Log the name of the object hit by the raycast
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
             if (hit.collider.CompareTag("Terrain") == false) return false;
             // Set the target position to the point where the ray hit
@@ -105,27 +124,24 @@ public class WorkerScript : MonoBehaviour
         }
         else
         {
-            // Log if the raycast doesn't hit anything
             Debug.Log("Raycast did not hit anything.");
             return false;
         }
     }
+
     bool SetTargetForBuilding()
     {
         // Perform a raycast from the mouse position
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            // Log the name of the object hit by the raycast
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
             if (hit.collider.CompareTag("Building") == false) return false;
-            // Set the target position to the point where the ray hit
             targetPosition = hit.point;
             return true;
         }
         else
         {
-            // Log if the raycast doesn't hit anything
             Debug.Log("Raycast did not hit anything.");
             return false;
         }
