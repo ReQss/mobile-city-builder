@@ -13,13 +13,24 @@ public class UIHandler : MonoBehaviour
     private GameObject coinBubble;
     void Start()
     {
-        SetMoney(GameManager.Instance.playerCoinCount);
+        if (GameManager.Instance != null)
+            SetMoney(GameManager.Instance.playerCoinCount);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (coinCounter != null)
+            coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
+    }
+    private IEnumerator UpdateCoinCount(float time)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(time);
+            if (coinCounter != null)
+                coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
+        }
     }
     public void TestDebug()
     {
@@ -67,7 +78,7 @@ public class UIHandler : MonoBehaviour
     {
         int collectedMoney = GameManager.Instance.temporaryCoinsToCollect;
         GameManager.Instance.increaseCoins(collectedMoney);
-
+        GameManager.Instance.temporaryCoinsToCollect = 0;
         if (coinCounter != null)
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
         if (coinBubble != null)
@@ -88,4 +99,5 @@ public class UIHandler : MonoBehaviour
         if (coinCounter != null)
             coinCounter.text = amount.ToString();
     }
+
 }
