@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
     public int playerCoinCount = 0;
     public int temporaryCoinsToCollect = 0;
     public float coinsTimeInterval = 3f;
+    public GameObject currentPickedBuilding;
+    public bool isWorkerUpgrading = false;
+    public bool isUIOpen = false;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -108,4 +111,5 @@ public class GameManager : MonoBehaviour
         StartCoroutine(IncreaseCoinsOverTime(1, 0.5f));
 
     }
+
 }

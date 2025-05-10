@@ -53,6 +53,14 @@ public class UIHandler : MonoBehaviour
         // gameObject.SetActive(false);
         Animator animator = gameObject.GetComponent<Animator>();
         animator.SetBool("IsOpen", false);
+        GameManager.Instance.isUIOpen = false;
+    }
+    public void CloseUIInteractiveObject(GameObject gameObject)
+    {
+        // gameObject.SetActive(false);
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.SetBool("IsOpen", false);
+        // GameManager.Instance.isUIOpen = false;
     }
     public void CloseListOfUIObjects()
     {
@@ -60,6 +68,8 @@ public class UIHandler : MonoBehaviour
         {
             go.SetActive(false);
         }
+        GameManager.Instance.isUIOpen = false;
+
     }
     public void CloseListOfUIObjectsWithAnimation()
     {
@@ -67,13 +77,24 @@ public class UIHandler : MonoBehaviour
         {
             CloseUIObject(go);
         }
+        GameManager.Instance.isUIOpen = false;
     }
     public void OpenUIObject(GameObject gameObject)
     {
         gameObject.SetActive(true);
         Animator animator = gameObject.GetComponent<Animator>();
         animator.SetBool("IsOpen", true);
+        GameManager.Instance.isUIOpen = true;
     }
+    public void OpenUIInteractiveObject(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.SetBool("IsOpen", true);
+        // GameManager.Instance.isUIOpen = true;
+    }
+
+
     public void CollectMoney()
     {
         int collectedMoney = GameManager.Instance.temporaryCoinsToCollect;
@@ -83,7 +104,7 @@ public class UIHandler : MonoBehaviour
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
         if (coinBubble != null)
         {
-            CloseUIObject(coinBubble);
+            CloseUIInteractiveObject(coinBubble);
             StartCoroutine(openAlertAfterTime());
         }
         else Debug.Log("ui not signed");
@@ -92,12 +113,33 @@ public class UIHandler : MonoBehaviour
     private IEnumerator openAlertAfterTime()
     {
         yield return new WaitForSeconds(5f);
-        OpenUIObject(coinBubble);
+        OpenUIInteractiveObject(coinBubble);
     }
+
     public void SetMoney(int amount)
     {
         if (coinCounter != null)
             coinCounter.text = amount.ToString();
+    }
+    public void SetBuildingToUse(GameObject pickedBuidling)
+    {
+        GameManager.Instance.currentPickedBuilding = pickedBuidling;
+    }
+    public void UpgradePickedBuilding()
+    {
+        GameManager.Instance.isUIOpen = false;
+        GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
+    }
+    public void SetAlertCost(TextMeshProUGUI alertCostText)
+    {
+        if (alertCostText != null && GameManager.Instance.currentPickedBuilding != null)
+        {
+            Building building = GameManager.Instance.currentPickedBuilding.GetComponent<Building>();
+            if (building != null)
+            {
+                alertCostText.text = building.cost.ToString();
+            }
+        }
     }
 
 }
