@@ -29,6 +29,7 @@ public class Armor
 public class GameManager : MonoBehaviour
 {
     public Building moneyFactory;
+    public int moneyFactoryLevel = 1;
     public Player playerStats;
     [SerializeField]
     public List<Armor> armors;
@@ -56,10 +57,12 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator IncreaseCoinsToCollectOverTime(int amount, float time)
     {
+        if (moneyFactory != null)
+            moneyFactoryLevel = moneyFactory.level;
         while (true)
         {
             yield return new WaitForSeconds(time);
-            switch (moneyFactory.level)
+            switch (moneyFactoryLevel)
             {
                 case 1:
                     temporaryCoinsToCollect += amount;
@@ -78,11 +81,14 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator IncreaseCoinsOverTime(int amount, float time)
     {
+        if (moneyFactory != null)
+            moneyFactoryLevel = moneyFactory.level;
+
         while (true)
         {
             yield return new WaitForSeconds(time);
             // Debug.Log("Coin updae" + playerCoinCount);
-            switch (moneyFactory.level)
+            switch (moneyFactoryLevel)
             {
                 case 1:
                     playerCoinCount += amount;
