@@ -22,11 +22,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject shootingProjectilePrefab;
     public GameObject accelerationArrowPrefab;
 
-    private float combatTimer = 0f; // Timer for shooting projectiles
-    public float shootInterval = 1f; // Interval between shots
-    public float projectileSpeed = 35f; // Speed of the projectile
-    public float divideMovementSpeedWhenShooting = 3f; // Speed reduction when shooting
-    public float maxDistanceCheck = 10f; // Maximum distance to check for items
+    private float combatTimer = 0f;
+    public float shootInterval = 1f;
+    public float projectileSpeed = 35f;
+    public float divideMovementSpeedWhenShooting = 3f;
+    public float maxDistanceCheck = 10f;
+    public Animator alertAnimator;
 
     void Start()
     {
@@ -43,30 +44,23 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDir = (isoRight * horizontal + isoUp * vertical).normalized;
 
-        // Adjust speed based on combat mode
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
 
         controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
-        // Obrót w kierunku ruchu
         if (moveDir != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        // Combat mode toggle
         if (Input.GetKeyDown(KeyCode.Space))
         {
             isCombat = !isCombat;
-            if (currentWeapon != null)
-            {
-                currentWeapon.SetActive(isCombat);
-                accelerationArrowPrefab.SetActive(isCombat);
-            }
-        }
 
-        // Shooting logic
+        }
+        ShowWeapon();
+
         ShootingFunction();
         if (animator != null)
         {
@@ -75,13 +69,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isShooting", isCombat);
         }
 
-        // // Grawitacja
-        // if (controller.isGrounded && velocity.y < 0)
-        // {
-        //     velocity.y = -2f;
-        // }
-
-        // velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         CheckForItemsInRange();
     }
@@ -94,55 +81,77 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
-                // Spawn the projectile
                 GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
 
-                // Add velocity to the projectile to move it forward
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.velocity = transform.forward * projectileSpeed; // Adjust speed as needed
+                    rb.velocity = transform.forward * projectileSpeed;
                 }
             }
         }
     }
     public void CheckForItemsInRange()
     {
-        // Define the range within which to check for objects
-        float range = maxDistanceCheck; // Adjust the range as needed
+        float range = maxDistanceCheck;
 
-        // Find all colliders within the specified range
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
         foreach (Collider collider in colliders)
         {
-            // Check if the object is on the "Weapon" layer
+
             if (collider.gameObject.layer == LayerMask.NameToLayer("Weapon"))
             {
                 Debug.Log($"Player is in range of weapon: {collider.gameObject.name}");
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    // Perform any action when the player is in range of a weapon
-                    Debug.Log($"Picked up weapon: {collider.gameObject.name}");
-                    Quaternion originalRotation = collider.transform.localRotation;
-                    Vector3 originalScale = collider.transform.localScale;
-                    // Create a copy of the weapon
-                    GameObject weaponCopy = Instantiate(collider.gameObject, playerHandPos.position, playerHandPos.rotation);
-
-                    // Set the weapon as a child of the player's hand
-                    weaponCopy.transform.SetParent(playerHandPos, true);
-                    Debug.Log(originalRotation);
-                    weaponCopy.transform.localRotation = originalRotation;
-                    weaponCopy.transform.localScale = originalScale;
-
-                    // Assign the copy to the player's current weapon
-                    Destroy(currentWeapon); // Destroy the previous weapon if it exists
-                    currentWeapon = weaponCopy;
-                    Destroy(currentWeapon.GetComponent<SphereCollider>());
-                    // Optionally, disable or destroy the original weapon object
-                    Destroy(collider.gameObject);
+                    DestroyAndCopyWeapon(collider);
+                    ShowAlert();
                 }
             }
+        }
+    }
+    public void DestroyAndCopyWeapon(Collider collider)
+    {
+        Quaternion originalRotation = collider.transform.localRotation;
+        Vector3 originalScale = collider.transform.localScale;
+        GameObject weaponCopy = Instantiate(collider.gameObject, playerHandPos.position, playerHandPos.rotation);
+
+        weaponCopy.transform.SetParent(playerHandPos, true);
+        Debug.Log(originalRotation);
+        weaponCopy.transform.localRotation = originalRotation;
+        weaponCopy.transform.localScale = originalScale;
+
+        Destroy(currentWeapon);
+        currentWeapon = weaponCopy;
+        Destroy(currentWeapon.GetComponent<SphereCollider>());
+
+        Destroy(collider.gameObject);
+        isCombat = !isCombat;
+    }
+    private void ShowAlert()
+    {
+        if (alertAnimator != null)
+        {
+            alertAnimator.SetBool("openAlert", true);
+            CancelInvoke(nameof(CloseAlert));
+            Invoke(nameof(CloseAlert), 1f);
+        }
+    }
+
+    private void CloseAlert()
+    {
+        if (alertAnimator != null)
+        {
+            alertAnimator.SetBool("openAlert", false);
+        }
+    }
+    private void ShowWeapon()
+    {
+        if (currentWeapon != null)
+        {
+            currentWeapon.SetActive(isCombat);
+            accelerationArrowPrefab.SetActive(isCombat);
         }
     }
 }
