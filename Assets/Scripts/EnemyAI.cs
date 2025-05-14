@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private float lostPlayerTimer = 0f;
     private bool playerWasInRange = false;
+    public bool EnemyCanvasLockOnIsEnabled = false;
     public GameObject EnemyCanvasLockOn;
 
     void Start()
@@ -41,6 +42,7 @@ public class EnemyAI : MonoBehaviour
             {
                 anim.SetBool("isRunning", true);
             }
+            // EnemyCanvasLockOnIsEnabled = true;
         }
         else
         {
@@ -57,34 +59,26 @@ public class EnemyAI : MonoBehaviour
                     {
                         anim.SetBool("isRunning", false);
                     }
+                    // EnemyCanvasLockOnIsEnabled = false;
                 }
                 else
                 {
-                    // Keep chasing for 3 seconds after losing player
                     agent.SetDestination(player.position);
                     if (anim != null)
                     {
                         anim.SetBool("isRunning", true);
                     }
-                    if (EnemyCanvasLockOn != null)
-                    {
-                        EnemyCanvasLockOn.SetActive(true);
-                    }
+                    // EnemyCanvasLockOnIsEnabled = true;
                 }
             }
             else
             {
-                // Set animator isRunning to false when not chasing
                 if (anim != null)
                 {
                     anim.SetBool("isRunning", false);
                 }
-                if (EnemyCanvasLockOn != null)
-                {
-                    EnemyCanvasLockOn.SetActive(false);
-                }
+                // EnemyCanvasLockOnIsEnabled = false;
 
-                // Patrol logic
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
                 {
                     patrolTimer += Time.deltaTime;
@@ -99,6 +93,11 @@ public class EnemyAI : MonoBehaviour
                     agent.SetDestination(patrolTarget);
                 }
             }
+        }
+
+        if (EnemyCanvasLockOn != null)
+        {
+            EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
         }
     }
 

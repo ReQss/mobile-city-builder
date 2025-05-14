@@ -28,7 +28,8 @@ public class PlayerMovement : MonoBehaviour
     public float divideMovementSpeedWhenShooting = 3f;
     public float maxDistanceCheck = 10f;
     public Animator alertAnimator;
-
+    public Vector3 closestEnemyInRangePosition;
+    public float enemyRange = 15f;
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -61,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         }
         ShowWeapon();
 
+        CheckForEnemiesInRange();
         ShootingFunction();
         if (animator != null)
         {
@@ -81,12 +83,74 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
+                // Face the player toward the enemy before shooting
+                if (closestEnemyInRangePosition != Vector3.zero)
+                {
+                    Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
+                    lookDir.y = 0f;
+                    if (lookDir != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.LookRotation(lookDir);
+                    }
+                }
+
                 GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
 
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.velocity = transform.forward * projectileSpeed;
+                    if (closestEnemyInRangePosition != Vector3.zero)
+                    {
+                        Vector3 direction = (closestEnemyInRangePosition - currentWeapon.transform.position).normalized;
+                        rb.velocity = direction * projectileSpeed;
+                    }
+                    else
+                    {
+                        rb.velocity = transform.forward * projectileSpeed;
+                    }
+                }
+            }
+        }
+    }
+    public void CheckForEnemiesInRange()
+    {
+        float range = enemyRange;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+
+        bool enemyFound = false;
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Debug.Log($"Player is in range of enemy: {collider.gameObject.name}");
+                closestEnemyInRangePosition = collider.transform.position;
+                enemyFound = true;
+
+                EnemyAI enemyAI = collider.GetComponent<EnemyAI>();
+                if (enemyAI != null)
+                {
+                    enemyAI.EnemyCanvasLockOnIsEnabled = true;
+                }
+                break;
+            }
+        }
+
+        if (!enemyFound)
+        {
+            closestEnemyInRangePosition = Vector3.zero;
+
+            // Set all enemies' EnemyCanvasLockOnIsEnabled to false
+            Collider[] allEnemies = Physics.OverlapSphere(transform.position, enemyRange * 2);
+            foreach (Collider col in allEnemies)
+            {
+                if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    EnemyAI enemyAI = col.GetComponent<EnemyAI>();
+                    if (enemyAI != null)
+                    {
+                        enemyAI.EnemyCanvasLockOnIsEnabled = false;
+                    }
                 }
             }
         }
