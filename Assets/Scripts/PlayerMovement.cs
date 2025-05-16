@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public float enemyRange = 15f;
     public bool notificationEnabled = false;
     public GameObject notificationPrefab;
+    private int shotsFired = 0; // Add this at the top of your class
     void Start()
     {
         playerMovementInstance = this; // Assign instance
@@ -62,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && currentWeapon != null)
         {
             isCombat = !isCombat;
 
@@ -137,6 +138,20 @@ public class PlayerMovement : MonoBehaviour
                         rb.linearVelocity = transform.forward * projectileSpeed;
                     }
                 }
+
+                shotsFired++;
+                if (shotsFired >= 5)
+                {
+                     GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
+                    if (gameUIHandler != null)
+                    {
+                        gameUIHandler.UpdateWeaponImage("Nothing");
+                    }
+                    Destroy(currentWeapon);
+                    currentWeapon = null;
+                    shotsFired = 0;
+                    isCombat = false;
+                }
             }
         }
     }
@@ -198,6 +213,11 @@ public class PlayerMovement : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     DestroyAndCopyWeapon(collider);
+                    GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
+                    if (gameUIHandler != null)
+                    {
+                        gameUIHandler.UpdateWeaponImage(collider.gameObject.name);
+                    }
                     ShowAlert();
                 }
             }

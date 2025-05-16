@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -16,6 +17,21 @@ public class EnemyAI : MonoBehaviour
     private bool playerWasInRange = false;
     public bool EnemyCanvasLockOnIsEnabled = false;
     public GameObject EnemyCanvasLockOn;
+    public int health = 100;
+    public GameObject DamageDealtPrefab;
+    public Transform DamageDealtPrefabTransform;
+    public int Health
+    {
+        get { return health; }
+        set
+        {
+            health = value;
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
 
     void Start()
     {
@@ -25,7 +41,17 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        Animator anim = GetComponentInChildren<Animator>();
+        
+        EnemyMovementLogicAndAnimations();
+
+        if (EnemyCanvasLockOn != null)
+        {
+            EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
+        }
+    }
+    private void EnemyMovementLogicAndAnimations()
+    {
+         Animator anim = GetComponentInChildren<Animator>();
         if (player == null)
             return;
 
@@ -42,7 +68,6 @@ public class EnemyAI : MonoBehaviour
             {
                 anim.SetBool("isRunning", true);
             }
-            // EnemyCanvasLockOnIsEnabled = true;
         }
         else
         {
@@ -59,7 +84,6 @@ public class EnemyAI : MonoBehaviour
                     {
                         anim.SetBool("isRunning", false);
                     }
-                    // EnemyCanvasLockOnIsEnabled = false;
                 }
                 else
                 {
@@ -68,7 +92,6 @@ public class EnemyAI : MonoBehaviour
                     {
                         anim.SetBool("isRunning", true);
                     }
-                    // EnemyCanvasLockOnIsEnabled = true;
                 }
             }
             else
@@ -77,7 +100,6 @@ public class EnemyAI : MonoBehaviour
                 {
                     anim.SetBool("isRunning", false);
                 }
-                // EnemyCanvasLockOnIsEnabled = false;
 
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
                 {
@@ -94,18 +116,68 @@ public class EnemyAI : MonoBehaviour
                 }
             }
         }
-
-        if (EnemyCanvasLockOn != null)
-        {
-            EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
-        }
     }
-
     void SetNewPatrolTarget()
     {
         Vector3 randomDirection = Random.insideUnitSphere * patrolRange;
         randomDirection.y = 0;
         patrolTarget = transform.position + randomDirection;
         agent.SetDestination(patrolTarget);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Health -= damage;
+        ApplySlow(2f, 1f);
+    }
+
+    private void ApplySlow(float slowFactor, float duration)
+    {
+        float originalSpeed = agent.speed;
+        agent.speed = originalSpeed / slowFactor;
+
+        StartCoroutine(RevertSpeedAfterDelay(originalSpeed, duration));
+    }
+
+    private System.Collections.IEnumerator RevertSpeedAfterDelay(float originalSpeed, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (agent != null)
+        {
+            agent.speed = originalSpeed;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            int damageAmount = 20;
+            TakeDamage(damageAmount); 
+            GameObject damageDealt = Instantiate(DamageDealtPrefab, DamageDealtPrefabTransform.position, Quaternion.identity);
+
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = damageAmount.ToString();
+            }
+
+
+            Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+            float knockbackForce = 2f; 
+            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
+            }
+
+            Destroy(other.gameObject);
+            Destroy(damageDealt, 0.5f); 
+        }
+        else if (other.CompareTag("Sword"))
+        {
+            TakeDamage(10); 
+        }
     }
 }
