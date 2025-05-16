@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement playerMovementInstance; // Singleton instance
+
     public Transform playerHandPos;
     public float speed = 5f;
     public float gravity = -9.81f;
@@ -30,8 +32,12 @@ public class PlayerMovement : MonoBehaviour
     public Animator alertAnimator;
     public Vector3 closestEnemyInRangePosition;
     public float enemyRange = 15f;
+    public bool notificationEnabled = false;
+    public GameObject notificationPrefab;
     void Start()
     {
+        playerMovementInstance = this; // Assign instance
+
         controller = GetComponent<CharacterController>();
 
         isoRight = new Vector3(1, 0, -1).normalized;
@@ -40,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -73,6 +80,27 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
         CheckForItemsInRange();
+        EnableNotification();
+
+        // Reset the flag for the next frame
+        NPC.anyNPCDetectsPlayer = false;
+    }
+    public void EnableNotification()
+    {
+        if (NPC.anyNPCDetectsPlayer)
+        {
+            if (notificationPrefab != null)
+            {
+                notificationPrefab.SetActive(true);
+            }
+        }
+        else
+        {
+            if (notificationPrefab != null)
+            {
+                notificationPrefab.SetActive(false);
+            }
+        }
     }
     public void ShootingFunction()
     {
@@ -102,11 +130,11 @@ public class PlayerMovement : MonoBehaviour
                     if (closestEnemyInRangePosition != Vector3.zero)
                     {
                         Vector3 direction = (closestEnemyInRangePosition - currentWeapon.transform.position).normalized;
-                        rb.velocity = direction * projectileSpeed;
+                        rb.linearVelocity = direction * projectileSpeed;
                     }
                     else
                     {
-                        rb.velocity = transform.forward * projectileSpeed;
+                        rb.linearVelocity = transform.forward * projectileSpeed;
                     }
                 }
             }
@@ -123,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log($"Player is in range of enemy: {collider.gameObject.name}");
+                // Debug.Log($"Player is in range of enemy: {collider.gameObject.name}");
                 closestEnemyInRangePosition = collider.transform.position;
                 enemyFound = true;
 
@@ -166,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (collider.gameObject.layer == LayerMask.NameToLayer("Weapon"))
             {
-                Debug.Log($"Player is in range of weapon: {collider.gameObject.name}");
+                // Debug.Log($"Player is in range of weapon: {collider.gameObject.name}");
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     DestroyAndCopyWeapon(collider);
