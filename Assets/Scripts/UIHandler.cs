@@ -11,6 +11,8 @@ public class UIHandler : MonoBehaviour
     private TextMeshProUGUI coinCounter;
     [SerializeField]
     private GameObject coinBubble;
+    public GameObject rewardsPrefab;
+    private int amountToUse = 0;
     void Start()
     {
         if (GameManager.Instance != null)
@@ -22,6 +24,15 @@ public class UIHandler : MonoBehaviour
     {
         if (coinCounter != null)
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
+        if (GameManager.Instance.coinsCollected > 0 && rewardsPrefab != null)
+        {
+            rewardsPrefab.SetActive(true);
+        }
+        else if (GameManager.Instance.coinsCollected <= 0 && rewardsPrefab != null)
+        {
+            rewardsPrefab.SetActive(false);
+        }
+
     }
     private IEnumerator UpdateCoinCount(float time)
     {
@@ -118,17 +129,34 @@ public class UIHandler : MonoBehaviour
 
     public void SetMoney(int amount)
     {
+        amountToUse = amount;
         if (coinCounter != null)
             coinCounter.text = amount.ToString();
+    }
+    public void SetMoneyToCollect()
+    {
+         amountToUse = GameManager.Instance.coinsCollected;
     }
     public void SetBuildingToUse(GameObject pickedBuidling)
     {
         GameManager.Instance.currentPickedBuilding = pickedBuidling;
     }
+    public void ResetMoneysToCollect()
+    {
+        GameManager.Instance.coinsCollected = 0;
+      
+    }
     public void UpgradePickedBuilding()
     {
         GameManager.Instance.isUIOpen = false;
         GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
+    }
+    public void GetMoney()
+    {
+        GameManager.Instance.increaseCoins(amountToUse);
+        if (coinCounter != null)
+            coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
+
     }
     public void SetAlertCost(TextMeshProUGUI alertCostText)
     {
@@ -139,6 +167,15 @@ public class UIHandler : MonoBehaviour
             {
                 alertCostText.text = building.cost.ToString();
             }
+        }
+    }
+    public void SetRewardsCost(TextMeshProUGUI alertCostText)
+     {
+        if (alertCostText != null )
+        {
+          
+                alertCostText.text = amountToUse.ToString();
+            
         }
     }
 

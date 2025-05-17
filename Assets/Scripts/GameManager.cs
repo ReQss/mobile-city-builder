@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public GameObject currentPickedBuilding;
     public bool isWorkerUpgrading = false;
     public bool isUIOpen = false;
+    public int coinsCollected = 0;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+     
     private IEnumerator IncreaseCoinsOverTime(int amount, float time)
     {
         if (moneyFactory != null)

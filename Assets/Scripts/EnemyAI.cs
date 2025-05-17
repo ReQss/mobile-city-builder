@@ -19,7 +19,8 @@ public class EnemyAI : MonoBehaviour
     public GameObject EnemyCanvasLockOn;
     public int health = 100;
     public GameObject DamageDealtPrefab;
-    public Transform DamageDealtPrefabTransform;
+    public Transform DamageSpawnPoint;
+    public int coinsAmount = 50;
     public int Health
     {
         get { return health; }
@@ -28,6 +29,7 @@ public class EnemyAI : MonoBehaviour
             health = value;
             if (health <= 0)
             {
+                GameManager.Instance.coinsCollected += coinsAmount;
                 Destroy(gameObject);
             }
         }
@@ -154,7 +156,7 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = 20;
             TakeDamage(damageAmount); 
-            GameObject damageDealt = Instantiate(DamageDealtPrefab, DamageDealtPrefabTransform.position, Quaternion.identity);
+            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x,3.2f,DamageSpawnPoint.position.z), Quaternion.identity);
 
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
