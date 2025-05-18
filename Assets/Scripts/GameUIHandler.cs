@@ -97,6 +97,12 @@ public class GameUIHandler : MonoBehaviour
             }
         }
     }
-  
+    public void EnableOrDisableUI(GameObject gameObject)
+    {
+        if (gameObject != null)
+        {
+            gameObject.SetActive(!gameObject.activeSelf);
+        }
+    }
 
 }
