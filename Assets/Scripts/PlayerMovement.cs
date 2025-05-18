@@ -1,6 +1,7 @@
 using Unity.Notifications;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -36,11 +37,11 @@ public class PlayerMovement : MonoBehaviour
     public float enemyRange = 15f;
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
-    private int shotsFired = 0; // Add this at the top of your class
+    private int shotsFired = 0; 
     void Start()
     {
         gameUIHandler = FindObjectOfType<GameUIHandler>();
-        playerMovementInstance = this; // Assign instance
+        playerMovementInstance = this; 
 
         controller = GetComponent<CharacterController>();
 
@@ -71,15 +72,41 @@ public class PlayerMovement : MonoBehaviour
             isCombat = !isCombat;
 
         }
+
         ShowWeapon();
 
         CheckForEnemiesInRange();
-        ShootingFunction();
+        if (currentWeapon != null)
+        {
+            string weaponName = currentWeapon.gameObject.name;
+            if (weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                SlashingFunction();
+            }
+            else if (weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                ShootingFunction();
+            }
+
+            // Debug.Log(weaponName);
+        }
         if (animator != null)
         {
             bool isMoving = moveDir.magnitude > 0.1f;
             animator.SetBool("isRunning", isMoving);
-            animator.SetBool("isShooting", isCombat);
+
+            bool hasSword = false;
+            bool hasCrossbow = false;
+            if (currentWeapon != null)
+            {
+                string weaponName = currentWeapon.gameObject.name;
+                hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+          
+
+            animator.SetBool("isShooting", isCombat && hasCrossbow);
+            animator.SetBool("isSlashing", isCombat && hasSword);
         }
 
         controller.Move(velocity * Time.deltaTime);
@@ -87,7 +114,18 @@ public class PlayerMovement : MonoBehaviour
         // Reset the flag for the next frame
         NPC.anyNPCDetectsPlayer = false;
     }
-   
+    private void RotateTowardsEnemy()
+    {
+         if (closestEnemyInRangePosition != Vector3.zero)
+                {
+                    Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
+                    lookDir.y = 0f;
+                    if (lookDir != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.LookRotation(lookDir);
+                    }
+                }
+    }
     public void ShootingFunction()
     {
         if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
@@ -97,17 +135,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
-                // Face the player toward the enemy before shooting
-                if (closestEnemyInRangePosition != Vector3.zero)
-                {
-                    Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
-                    lookDir.y = 0f;
-                    if (lookDir != Vector3.zero)
-                    {
-                        transform.rotation = Quaternion.LookRotation(lookDir);
-                    }
-                }
-
+                RotateTowardsEnemy();
                 GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
 
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -144,7 +172,39 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-   
+   public void SlashingFunction()
+    {
+        if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
+        {
+            combatTimer += Time.deltaTime;
+            if (combatTimer >= shootInterval)
+            {
+                combatTimer = 0f;
+
+                // Face the player toward the enemy before shooting
+                RotateTowardsEnemy();
+
+
+                shotsFired++;
+                if (gameUIHandler != null)
+                {
+                    gameUIHandler.UpdateUsesCount(5 - shotsFired);
+                }
+                if (shotsFired >= 5)
+                {
+                 
+                    if (gameUIHandler != null)
+                    {
+                        gameUIHandler.UpdateWeaponImage("Nothing");
+                    }
+                    Destroy(currentWeapon);
+                    currentWeapon = null;
+                    ChangeCombat();
+                    shotsFired = 0;
+                }
+            }
+        }
+    }
     public void CheckForEnemiesInRange()
     {
         float range = enemyRange;
@@ -224,6 +284,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         gameUIHandler.UpdateWeaponImage(collider.gameObject.name);
                         gameUIHandler.UpdateUsesCount(5);
+                        shotsFired = 0;
                     }
                     ShowAlert();
                 }

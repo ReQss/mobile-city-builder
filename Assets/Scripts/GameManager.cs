@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     public bool isWorkerUpgrading = false;
     public bool isUIOpen = false;
     public int coinsCollected = 0;
+    public int weaponLevel = 0;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -110,6 +111,10 @@ public class GameManager : MonoBehaviour
     public void increaseCoins(int amount)
     {
         playerCoinCount += amount;
+    }
+    public void decreaseCoins(int amount)
+    {
+        playerCoinCount -= amount;
     }
 
 

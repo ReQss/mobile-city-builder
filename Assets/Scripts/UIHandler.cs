@@ -13,12 +13,53 @@ public class UIHandler : MonoBehaviour
     private GameObject coinBubble;
     public GameObject rewardsPrefab;
     private int amountToUse = 0;
+    public GameObject weaponPrefab1;
+    public GameObject weaponPrefab2;
+    public GameObject weaponPrefab3;
+
+    // Add this dictionary to map weapon prices to prefabs
+    private Dictionary<int, GameObject> weaponPriceToPrefab;
+
     void Start()
     {
         if (GameManager.Instance != null)
             SetMoney(GameManager.Instance.playerCoinCount);
-    }
 
+        // Initialize the dictionary
+        weaponPriceToPrefab = new Dictionary<int, GameObject>
+        {
+            { 200, weaponPrefab1 },
+            { 800, weaponPrefab2 },
+            { 2000, weaponPrefab3 }
+        };
+        DisableWeaponsThatAreUnlocked();
+    }
+    public void DisableWeaponsThatAreUnlocked()
+    {
+        if (GameManager.Instance.weaponLevel == 1)
+        {
+            if(weaponPrefab1 != null)
+                DisableUIElement(weaponPrefab1);
+            DisableUIElement(weaponPrefab1);
+        }
+        else if (GameManager.Instance.weaponLevel == 2)
+        {
+            if(weaponPrefab1 != null)
+                DisableUIElement(weaponPrefab1);
+            if (weaponPrefab2 != null)
+                DisableUIElement(weaponPrefab2);
+        }
+        else if (GameManager.Instance.weaponLevel == 3)
+        {
+            if(weaponPrefab1 != null)
+                DisableUIElement(weaponPrefab1);
+            if(weaponPrefab2 != null)
+                DisableUIElement(weaponPrefab2);
+            if(weaponPrefab3 != null)
+                DisableUIElement(weaponPrefab3);
+          
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -146,10 +187,32 @@ public class UIHandler : MonoBehaviour
         GameManager.Instance.coinsCollected = 0;
       
     }
+    public void BuyWeapon(int amount)
+    {
+        if (amount > GameManager.Instance.playerCoinCount)
+            return;
+
+        GameManager.Instance.decreaseCoins(amount);
+        IncreaseWeaponLevel();
+
+        if (weaponPriceToPrefab.TryGetValue(amount, out GameObject prefab) && prefab != null)
+        {
+            DisableUIElement(prefab);
+        }
+    }
+    public void IncreaseWeaponLevel()
+    {
+        GameManager.Instance.weaponLevel++;
+
+    }
     public void UpgradePickedBuilding()
     {
         GameManager.Instance.isUIOpen = false;
         GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
+    }
+    public void DisableUIElement(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
     }
     public void GetMoney()
     {

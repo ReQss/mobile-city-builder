@@ -164,7 +164,6 @@ public class EnemyAI : MonoBehaviour
                 tmp.text = damageAmount.ToString();
             }
 
-
             Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
             float knockbackForce = 2f; 
             Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
@@ -177,9 +176,21 @@ public class EnemyAI : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(damageDealt, 0.5f); 
         }
-        else if (other.CompareTag("Sword"))
+        else if (other.CompareTag("SwordHitbox"))
         {
-            TakeDamage(10); 
+            int damageAmount = 35;
+            TakeDamage(damageAmount);
+            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = damageAmount.ToString();
+            }
+
+            Destroy(damageDealt, 0.5f);
+
+            Debug.Log("Enemy hit by sword!");
         }
     }
 }
