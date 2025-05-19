@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 [System.Serializable]
 public class Player
 {
@@ -26,8 +29,20 @@ public class Armor
     public int healthBonus;
     public bool isActive;
 }
+[System.Serializable]
+public class CurrentUpgradedBuilding
+{
+    public string buildingName;
+    public int level;
+    public int timeToUpgrade;
+    public int cost;
+    public int timeLeft;
+    public long upgradeEndTimestamp; 
+}
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    public List<CurrentUpgradedBuilding> currentUpgradedBuildings = new List<CurrentUpgradedBuilding>();
     public Building moneyFactory;
     public int moneyFactoryLevel = 1;
     public Player playerStats;
@@ -43,13 +58,94 @@ public class GameManager : MonoBehaviour
     public int coinsCollected = 0;
     public int weaponLevel = 0;
     public static GameManager Instance { get; private set; }
+    public IEnumerator UpgradingBuilding(Building building)
+    {
+        if(currentUpgradedBuildings.Find(x => x.buildingName == building.nameOfBuilding) != null)
+        {
+            Debug.Log("Already upgrading this building");
+            yield break;
+        }
+        long endTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + (int)building.TimeToUpgrade;
+        currentUpgradedBuildings.Add(new CurrentUpgradedBuilding
+        {
+            buildingName = building.nameOfBuilding,
+            level = building.level,
+            timeToUpgrade = (int)building.TimeToUpgrade,
+            cost = building.cost,
+            timeLeft = (int)building.TimeToUpgrade,
+            upgradeEndTimestamp = endTimestamp
+        });
 
+        isWorkerUpgrading = true;
+        playerCoinCount -= building.cost;
+        yield break; 
+    }
+    public void UpdateUpgradeTimers()
+    {
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        foreach (var currentBuilding in currentUpgradedBuildings)
+        {
+            if(currentBuilding.timeLeft>0)
+            currentBuilding.timeLeft = (int)(currentBuilding.upgradeEndTimestamp - now);
+        }
+    }
+    public void FindMoneyFactory()
+    {
+        Building[] buildings = FindObjectsOfType<Building>();
+        moneyFactory = buildings.FirstOrDefault(b => b.nameOfBuilding == "MoneyFactory");
+        if (moneyFactory != null)
+        {
+            moneyFactoryLevel = moneyFactory.level;
+            Debug.Log("Money Factory found: " + moneyFactory.nameOfBuilding);
+        }
+    }
+    public void FindUpgradedBuildingsAndUpdate()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName != "City")
+            return;
+
+        for (int i = 0; i < currentUpgradedBuildings.Count; i++)
+        {
+            var currentBuilding = currentUpgradedBuildings[i];
+            if (currentBuilding.timeLeft <= 0)
+            {
+                Building[] buildings = FindObjectsOfType<Building>();
+                Building buildingToUpgrade = buildings.FirstOrDefault(b => b.nameOfBuilding == currentBuilding.buildingName);
+
+                if (buildingToUpgrade != null)
+                {
+                    buildingToUpgrade.level = currentBuilding.level + 1;
+                    buildingToUpgrade.cost = currentBuilding.cost * 2;
+                    Debug.Log($"Building {currentBuilding.buildingName} found and upgraded to level {currentBuilding.level + 1}");
+                    currentUpgradedBuildings.RemoveAt(i);
+                    i--;
+                    if(buildingToUpgrade.nameOfBuilding == "Money Factory")
+                    {
+                        moneyFactoryLevel = buildingToUpgrade.level;
+                        Debug.Log("Money Factory upgraded to level: " + moneyFactoryLevel);
+                    }
+                    else
+                    {
+                        Debug.Log("Building upgraded: " + buildingToUpgrade.nameOfBuilding);
+                    }
+                }
+               
+            }
+        }
+    }
+    void Update()
+    {
+        UpdateUpgradeTimers(); 
+        FindUpgradedBuildingsAndUpdate(); 
+    }
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            currentUpgradedBuildings = new List<CurrentUpgradedBuilding>();
         }
         else
         {
@@ -57,8 +153,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
     private IEnumerator IncreaseCoinsToCollectOverTime(int amount, float time)
     {
+        FindMoneyFactory();
         if (moneyFactory != null)
             moneyFactoryLevel = moneyFactory.level;
         while (true)
@@ -90,7 +188,6 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(time);
-            // Debug.Log("Coin updae" + playerCoinCount);
             switch (moneyFactoryLevel)
             {
                 case 1:

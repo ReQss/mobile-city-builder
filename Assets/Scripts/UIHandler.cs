@@ -16,8 +16,6 @@ public class UIHandler : MonoBehaviour
     public GameObject weaponPrefab1;
     public GameObject weaponPrefab2;
     public GameObject weaponPrefab3;
-
-    // Add this dictionary to map weapon prices to prefabs
     private Dictionary<int, GameObject> weaponPriceToPrefab;
 
     void Start()
@@ -208,7 +206,9 @@ public class UIHandler : MonoBehaviour
     public void UpgradePickedBuilding()
     {
         GameManager.Instance.isUIOpen = false;
-        GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
+        // GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
+                GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding2();
+
     }
     public void DisableUIElement(GameObject gameObject)
     {

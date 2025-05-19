@@ -52,7 +52,19 @@ public class Building : MonoBehaviour
         if (GameManager.Instance.playerCoinCount >= cost)
         {
             StartCoroutine(UpgradingBuilding());
+             StartCoroutine(UpgradingBuilding());
 
+        }
+        else
+        {
+            Debug.Log("Not enough coins to upgrade the building.");
+        }
+    }
+     public void UpgradeBuilding2()
+    {
+        if (GameManager.Instance.playerCoinCount >= cost)
+        {
+            StartCoroutine(GameManager.Instance.UpgradingBuilding(this));
         }
         else
         {
@@ -84,11 +96,9 @@ public class Building : MonoBehaviour
         {
             loadingTransform.gameObject.SetActive(true);
 
-            // Find "RawImage" inside "Loading"
             Transform rawImageTransform = loadingTransform.Find("RawImage");
             if (rawImageTransform != null)
             {
-                // Find "LoadingText" inside "RawImage" and set its text to TimeToUpgrade
                 Transform loadingTextTransform = rawImageTransform.Find("LoadingText");
                 if (loadingTextTransform != null)
                 {
