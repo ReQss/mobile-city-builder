@@ -6,6 +6,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
+public class PlayerPerks
+{
+    public string perkName;
+    public string perkDescription;
+    public int perkLevel;
+    public int perkMaxLevel;
+    public bool perkIsActive;
+}
+
+[System.Serializable]
 public class Player
 {
     public int health;
@@ -57,6 +67,7 @@ public class GameManager : MonoBehaviour
     public bool isUIOpen = false;
     public int coinsCollected = 0;
     public int weaponLevel = 0;
+    public List <PlayerPerks> playerPerks = new List<PlayerPerks>();
     public static GameManager Instance { get; private set; }
     public IEnumerator UpgradingBuilding(Building building)
     {
@@ -219,7 +230,8 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(IncreaseCoinsToCollectOverTime(10, coinsTimeInterval));
         StartCoroutine(IncreaseCoinsOverTime(1, 0.5f));
-
+playerPerks.Add(new PlayerPerks { perkName = "Dash", perkDescription = "Dashes in the direction of movement", perkLevel = 1, perkMaxLevel = 3, perkIsActive = true });
+   
     }
 
 }

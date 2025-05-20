@@ -38,7 +38,6 @@ public class UIHandler : MonoBehaviour
         {
             if(weaponPrefab1 != null)
                 DisableUIElement(weaponPrefab1);
-            DisableUIElement(weaponPrefab1);
         }
         else if (GameManager.Instance.weaponLevel == 2)
         {

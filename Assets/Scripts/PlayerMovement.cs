@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using Unity.Notifications;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -38,16 +39,35 @@ public class PlayerMovement : MonoBehaviour
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
     private int shotsFired = 0; 
+    public int health = 100;
+    private bool enemiesTouching = false;
+    private float healthTickTimer = 0f;
+    public float enemyRangeDamage = 1f;
+    private float lastEnemyTouchTime = -1f;
+    public Image healthBarImage; 
+    
+    
+
+    [Header("Player Dash Settings")]
+    private bool isDashing = false;
+    private float dashSpeed = 20f;
+    private float dashDuration = 0.15f;
+    private float dashCooldown = 1f;
+    private float dashTimer = 0f;
+    private float dashCooldownTimer = 0f;
+    private Vector3 dashDirection;
+
+
     void Start()
     {
         gameUIHandler = FindObjectOfType<GameUIHandler>();
-        playerMovementInstance = this; 
+        playerMovementInstance = this;
 
         controller = GetComponent<CharacterController>();
 
         isoRight = new Vector3(1, 0, -1).normalized;
         isoUp = new Vector3(1, 0, 1).normalized;
-    }
+         }
 
     void Update()
     {
@@ -87,8 +107,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 ShootingFunction();
             }
-
-            // Debug.Log(weaponName);
         }
         if (animator != null)
         {
@@ -108,23 +126,84 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isShooting", isCombat && hasCrossbow);
             animator.SetBool("isSlashing", isCombat && hasSword);
         }
-
         controller.Move(velocity * Time.deltaTime);
         CheckForItemsInRange();
-        // Reset the flag for the next frame
         NPC.anyNPCDetectsPlayer = false;
+
+        DamageHandling();
+
+        if (Time.time - lastEnemyTouchTime > 0.1f)
+        {
+            enemiesTouching = false;
+        }
+        
+        HandleActivePerks();
+    }
+    public void HandleActivePerks()
+    {
+        foreach (PlayerPerks perk in GameManager.Instance.playerPerks)
+        {
+            if (perk.perkIsActive)
+            {
+                if (perk.perkName == "Dash")
+                {
+                    HandleDash();
+                }
+            }
+        }
+    }
+    private void DamageHandling()
+    {
+        if (enemiesTouching)
+        {
+            healthTickTimer += Time.deltaTime;
+            if (healthTickTimer >= 0.1f)
+            {
+                health -= 1;
+                healthTickTimer = 0f;
+                Debug.Log("Health: " + health);
+                UpdateHealthBar(); // Update health bar after health changes
+            }
+        }
+        else
+        {
+            healthTickTimer = 0f;
+        }
+    }
+    private void UpdateHealthBar()
+    {
+        if (healthBarImage != null)
+        {
+            float fill = Mathf.Clamp01(health / 100f); // Assuming max health is 100
+            healthBarImage.fillAmount = fill;
+        }
+    }
+    private void EnemyDetection()
+    {
+        float range = enemyRange;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                closestEnemyInRangePosition = collider.transform.position;
+                Debug.Log("Enemy detected: " + collider.gameObject.name);
+                break;
+            }
+        }
     }
     private void RotateTowardsEnemy()
     {
-         if (closestEnemyInRangePosition != Vector3.zero)
-                {
-                    Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
-                    lookDir.y = 0f;
-                    if (lookDir != Vector3.zero)
-                    {
-                        transform.rotation = Quaternion.LookRotation(lookDir);
-                    }
-                }
+        if (closestEnemyInRangePosition != Vector3.zero)
+        {
+            Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
+            lookDir.y = 0f;
+            if (lookDir != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(lookDir);
+            }
+        }
     }
     public void ShootingFunction()
     {
@@ -181,7 +260,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
-                // Face the player toward the enemy before shooting
                 RotateTowardsEnemy();
 
 
@@ -344,6 +422,50 @@ public class PlayerMovement : MonoBehaviour
         {
             currentWeapon.SetActive(isCombat);
             accelerationArrowPrefab.SetActive(isCombat);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemiesTouching = true;
+            lastEnemyTouchTime = Time.time;
+            closestEnemyInRangePosition = other.transform.position;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemiesTouching = false;
+        }
+    }
+
+    private void HandleDash()
+    {
+        // Cooldown timer
+        if (dashCooldownTimer > 0f)
+            dashCooldownTimer -= Time.deltaTime;
+
+        if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f)
+        {
+            isDashing = true;
+            dashTimer = dashDuration;
+            // Dash in the direction the player is facing (forward)
+            dashDirection = transform.forward;
+            dashCooldownTimer = dashCooldown;
+        }
+
+        if (isDashing)
+        {
+            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
         }
     }
 }
