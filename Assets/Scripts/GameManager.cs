@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour
     public bool isUIOpen = false;
     public int coinsCollected = 0;
     public int weaponLevel = 0;
-    public List <PlayerPerks> playerPerks = new List<PlayerPerks>();
+    public bool isPlayerInteracting = false;
+    public List<PlayerPerks> playerPerks = new List<PlayerPerks>();
     public static GameManager Instance { get; private set; }
     public IEnumerator UpgradingBuilding(Building building)
     {
@@ -148,7 +149,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateUpgradeTimers(); 
-        FindUpgradedBuildingsAndUpdate(); 
+        FindUpgradedBuildingsAndUpdate();
+
+        // Pause/unpause game based on isPlayerInteracting
+        if (isPlayerInteracting && Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+        }
+        else if (!isPlayerInteracting && Time.timeScale != 1)
+        {
+            Time.timeScale = 1;
+        }
     }
     private void Awake()
     {
