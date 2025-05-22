@@ -18,8 +18,7 @@ public class DialogueManager : MonoBehaviour
     public bool specialAction = false;
     public string sceneName = null;
     public bool haveChoice = false;
-    public GameObject UIDialoguePanel;
-    void Start()
+    public GameObject UIDialoguePanel;    void Start()
     {
         sentences = new Queue<string>();
     }

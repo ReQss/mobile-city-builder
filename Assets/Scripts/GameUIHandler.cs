@@ -14,6 +14,7 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI currentWeaponUses;
     public TextMeshProUGUI currentCoinsCollected;
     public GameObject notificationPrefab;
+    public GameObject questAcceptUI;
     
    
     [SerializeField]
@@ -33,9 +34,16 @@ public class GameUIHandler : MonoBehaviour
         EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
 
     }
+    public void SwitchQuestAcceptUI()
+    {
+        if (questAcceptUI != null)
+        {
+            questAcceptUI.SetActive(!questAcceptUI.activeSelf);
+        }
+    }
     public void UpdatePerksUI()
     {
-        
+
         if (GameManager.Instance != null)
         {
             if (GameManager.Instance.playerPerks != null)
@@ -47,7 +55,7 @@ public class GameUIHandler : MonoBehaviour
                         foreach (GameObject perkUISlot in perksUISlots)
                         {
                             GameObject elements = perkUISlot.transform.Find("Elements").gameObject;
-                            if(!elements.activeSelf)
+                            if (!elements.activeSelf)
                             {
                                 elements.SetActive(true);
                             }

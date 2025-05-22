@@ -21,7 +21,7 @@ public class ProceduralWeaponPlacement : MonoBehaviour
         
     }
 
-    void SpawnObjects()
+    public void SpawnObjects()
     {
         Vector3 spawnCenter = centerTransform != null ? centerTransform.position : center;
 

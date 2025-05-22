@@ -5,24 +5,59 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Dialogue dialogue;
+    public List<Dialogue> dialogue;
     public string sceneName = null;
     public bool isSpecialAction;
     private Transform player;
     public float detectionRadius = 5f;
     public bool eagleAchievedTrigger = false;
     public bool powerBookTrigger = false;
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
+    [SerializeField]
+    public List<Quest> quests;
+    public int questIndex = 0;
+    public GameObject npcCanvas;
+    public GameObject questCanvas;
     void Start()
     {
         player = GameObject.Find("Player").transform;
+        SetNPCQuests();
     }
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, sceneName, isSpecialAction);
+        if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0))
+        {
+            
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction);
+            QuestManager.Instance.givenQuest = quests[questIndex];
+            questIndex++;
+            StartQuestCanvas();
+        }
+        else
+            Debug.Log("Finish your quest first");
+    }
+    public void SetNPCQuests()
+    {
+        foreach (var quest in quests)
+        {
+        if (quest != null)
+            quest.npc = this.gameObject;
+        }
+    }
+    public void ChangeCanvas()
+    {
+        if (npcCanvas != null && questCanvas != null)
+        {
+            npcCanvas.SetActive(!npcCanvas.activeSelf);
+            questCanvas.SetActive(!questCanvas.activeSelf);
+        }
+    }
+    public void StartQuestCanvas()
+    {
+         if (npcCanvas != null && questCanvas != null)
+        {
+            npcCanvas.SetActive(false);
+            questCanvas.SetActive(true);
+        }
     }
     private void Update()
     {
@@ -30,7 +65,6 @@ public class DialogueTrigger : MonoBehaviour
         if (distance <= detectionRadius && Input.GetKeyDown(KeyCode.E))
         {
             TriggerDialogue();
-          
         }
     }
 }

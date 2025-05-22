@@ -30,6 +30,14 @@ public class EnemyAI : MonoBehaviour
             if (health <= 0)
             {
                 GameManager.Instance.coinsCollected += coinsAmount;
+                if(QuestManager.Instance.currentQuest != null)
+                {
+                    if(QuestManager.Instance.currentQuest.questType == QuestType.KillEnemies)
+                    {
+                        QuestManager.Instance.currentQuest.currentAmount++;
+                       QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
+                    }
+                }
                 Destroy(gameObject);
             }
         }

@@ -34,6 +34,12 @@ public class UIHandler : MonoBehaviour
     }
     public void DisableWeaponsThatAreUnlocked()
     {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameManager.Instance is null in DisableWeaponsThatAreUnlocked!");
+            return;
+        }
+
         if (GameManager.Instance.weaponLevel == 1)
         {
             if(weaponPrefab1 != null)
@@ -60,15 +66,18 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (coinCounter != null)
+        if (coinCounter != null && GameManager.Instance != null)
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
-        if (GameManager.Instance.coinsCollected > 0 && rewardsPrefab != null)
+
+        if (GameManager.Instance != null && GameManager.Instance.coinsCollected > 0)
         {
-            rewardsPrefab.SetActive(true);
+            if (rewardsPrefab != null)
+                rewardsPrefab.SetActive(true);
         }
-        else if (GameManager.Instance.coinsCollected <= 0 && rewardsPrefab != null)
+        else if (GameManager.Instance != null && GameManager.Instance.coinsCollected <= 0 && rewardsPrefab != null)
         {
-            rewardsPrefab.SetActive(false);
+            if (rewardsPrefab != null)
+                rewardsPrefab.SetActive(false);
         }
 
     }

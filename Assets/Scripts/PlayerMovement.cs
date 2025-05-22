@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Unity.Notifications;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public float enemyRangeDamage = 1f;
     private float lastEnemyTouchTime = -1f;
     public Image healthBarImage; 
+    public Animator healthBarAnimator;
     
     
 
@@ -159,6 +157,8 @@ public class PlayerMovement : MonoBehaviour
             healthTickTimer += Time.deltaTime;
             if (healthTickTimer >= 0.1f)
             {
+
+                healthBarAnimator.SetBool("isDamaged", true);
                 health -= 1;
                 healthTickTimer = 0f;
                 Debug.Log("Health: " + health);
@@ -168,6 +168,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             healthTickTimer = 0f;
+            
+                healthBarAnimator.SetBool("isDamaged", false);
         }
     }
     private void UpdateHealthBar()
@@ -288,30 +290,41 @@ public class PlayerMovement : MonoBehaviour
         float range = enemyRange;
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
-        bool enemyFound = false;
+        Collider closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
 
+        // Find the closest enemy
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                closestEnemyInRangePosition = collider.transform.position;
-                enemyFound = true;
-
-                EnemyAI enemyAI = collider.GetComponent<EnemyAI>();
-                if (enemyAI != null)
+                float distance = Vector3.Distance(transform.position, collider.transform.position);
+                if (distance < closestDistance)
                 {
-                    enemyAI.EnemyCanvasLockOnIsEnabled = true;
+                    closestDistance = distance;
+                    closestEnemy = collider;
                 }
-
-                LookAtClosestEnemy();
-                break;
             }
         }
 
-        if (!enemyFound)
+        if (closestEnemy != null)
+        {
+            closestEnemyInRangePosition = closestEnemy.transform.position;
+
+            // Enable lock-on for the closest enemy
+            EnemyAI enemyAI = closestEnemy.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                enemyAI.EnemyCanvasLockOnIsEnabled = true;
+            }
+
+            LookAtClosestEnemy();
+        }
+        else
         {
             closestEnemyInRangePosition = Vector3.zero;
 
+            // Disable lock-on for all enemies in extended range
             Collider[] allEnemies = Physics.OverlapSphere(transform.position, enemyRange * 2);
             foreach (Collider col in allEnemies)
             {
