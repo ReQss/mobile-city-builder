@@ -33,7 +33,11 @@ public class Quest
     {
         isCompleted = true;
         GameManager.Instance.coinsCollected += goldReward;
+        if(npc != null)
+        {
+            
         npc.GetComponent<DialogueTrigger>().ChangeCanvas();
+        }
     }
 }
 public class QuestManager : MonoBehaviour
