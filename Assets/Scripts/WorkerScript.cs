@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,9 +10,15 @@ public class WorkerScript : MonoBehaviour
     private Vector3 targetPosition;
     private bool isDestinationAchieved = false;
     bool isTargetBuilding = false;
+     private bool isTargetRewards = false;
     bool isTargetUpgrader = false;
     private NavMeshAgent agent;
     public GameObject currentObject;
+    public UIHandler uiHandler;
+    public GameObject getRewardsAlert;
+    public TextMeshProUGUI getRewardsText;
+    private bool rewardPanelOpened = false;
+
     void Start()
     {
         // Set the initial target position to the current position
@@ -40,27 +47,29 @@ public class WorkerScript : MonoBehaviour
         {
             return;
         }
-        // Check for mouse input
-        // if (GameManager.Instance.isWorkerUpgrading == true)
-        // {
-        //     return;
-        // }
         if (Input.GetMouseButtonDown(0)) // Left mouse button
         {
+            ResetRewardPanelFlag();
             isDestinationAchieved = true;
             animator.SetBool("working", false);
             bool isTargetSet = SetTargetPosition();
-
+            isTargetRewards = CheckForTargetRwards();
             isTargetBuilding = CheckForTargetBuilding();
             if (isTargetSet)
             {
                 isDestinationAchieved = false;
                 agent.SetDestination(targetPosition);
             }
+
         }
+         SetDestinations();
         // Debug.Log(Vector3.Distance(transform.position, targetPosition));
 
-        if (agent.pathPending)
+
+    }
+    public void SetDestinations()
+    {
+         if (agent.pathPending)
             return;
 
         if (Vector3.Distance(transform.position, targetPosition) > agent.stoppingDistance && isDestinationAchieved == false)
@@ -102,33 +111,35 @@ public class WorkerScript : MonoBehaviour
                 GameManager.Instance.isWorkerUpgrading = true;
             }
         }
-        // else if (isTargetUpgrader)
-        // {
+        else if (isTargetRewards)
+        {
+            // Debug.Log("isTargetRewards");
+            SetTargetForBuilding();
+            if (Vector3.Distance(transform.position, targetPosition) > 3.5f)
+            {
+                Debug.Log("waking");
+                agent.SetDestination(targetPosition);
+                animator.SetBool("walking", true);
 
-        //     if (Vector3.Distance(transform.position, targetPosition) > 3.5f)
-        //     {
-        //         Debug.Log("waking");
-        //         agent.SetDestination(targetPosition);
-        //         animator.SetBool("walking", true);
-
-        //         // Manual rotation for animation
-        //         Vector3 direction = (agent.steeringTarget - transform.position).normalized;
-        //         if (direction != Vector3.zero)
-        //         {
-        //             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        //             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         isTargetBuilding = false;
-        //         animator.SetBool("working", true);
-        //         animator.SetBool("walking", false);
-        //         isDestinationAchieved = true;
-        //         agent.ResetPath();
-        //         GameManager.Instance.isWorkerUpgrading = true;
-        //     }
-        // }
+                // Manual rotation for animation
+                Vector3 direction = (agent.steeringTarget - transform.position).normalized;
+                if (direction != Vector3.zero)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                }
+            }
+            else
+            {
+                isTargetBuilding = false;
+                animator.SetBool("working", true);
+                animator.SetBool("walking", false);
+                GetRewards();
+                isDestinationAchieved = true;
+                agent.ResetPath();
+                GameManager.Instance.isWorkerUpgrading = true;
+            }
+        }
         else
         {
             // Stop the walking animation
@@ -137,13 +148,34 @@ public class WorkerScript : MonoBehaviour
             agent.ResetPath();
         }
     }
+    public void GetRewards()
+    {
+        if (rewardPanelOpened) return; // zapobiega wielokrotnemu otwieraniu
+        rewardPanelOpened = true;
 
+        uiHandler.SetMoneyToCollect();
+        uiHandler.OpenUIObject(getRewardsAlert);
+        uiHandler.SetRewardsCost(getRewardsText);
+    }
+    public void ResetRewardPanelFlag()
+{
+    rewardPanelOpened = false;
+}
     bool CheckForTargetBuilding()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Building")) return true;
+        }
+        return false;
+    }
+    bool CheckForTargetRwards()
+    {
+         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (hit.collider.CompareTag("Rewards")) return true;
         }
         return false;
     }
@@ -155,7 +187,7 @@ public class WorkerScript : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             currentObject = hit.collider.gameObject;
-            Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+            // Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
             if (hit.collider.CompareTag("Terrain") == false) return false;
             // Set the target position to the point where the ray hit
             targetPosition = hit.point;
@@ -163,7 +195,7 @@ public class WorkerScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Raycast did not hit anything.");
+            // Debug.Log("Raycast did not hit anything.");
             return false;
         }
     }
@@ -186,8 +218,8 @@ public class WorkerScript : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
-            if (hit.collider.CompareTag("Building") == false) return false;
+            // Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+            if (hit.collider.CompareTag("Building") == false && hit.collider.CompareTag("Rewards") == false) return false;
             targetPosition = hit.point;
             return true;
         }
@@ -204,7 +236,7 @@ public class WorkerScript : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             setObject = hit.collider.gameObject;
-            Debug.Log($"Raycast hit: {setObject.name}");
+            // Debug.Log($"Raycast hit: {setObject.name}");
             if (hit.collider.CompareTag("Building") == false) return false;
             targetPosition = hit.point;
 

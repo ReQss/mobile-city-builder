@@ -110,7 +110,9 @@ public class UIHandler : MonoBehaviour
     {
         // gameObject.SetActive(false);
         Animator animator = gameObject.GetComponent<Animator>();
-        animator.SetBool("IsOpen", false);
+        if (animator != null)
+            animator.SetBool("IsOpen", false);
+        else Debug.Log("Not found");
         GameManager.Instance.isUIOpen = false;
     }
     public void CloseUIInteractiveObject(GameObject gameObject)
