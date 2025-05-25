@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     public bool isUIOpen = false;
     public int coinsCollected = 0;
     public int weaponLevel = 0;
+    public int workerCount = 0;
     public bool isPlayerInteracting = false;
     public List<PlayerPerks> playerPerks = new List<PlayerPerks>();
     public static GameManager Instance { get; private set; }
@@ -151,7 +152,6 @@ public class GameManager : MonoBehaviour
         UpdateUpgradeTimers(); 
         FindUpgradedBuildingsAndUpdate();
 
-        // Pause/unpause game based on isPlayerInteracting
         if (isPlayerInteracting && Time.timeScale != 0)
         {
             Time.timeScale = 0;
@@ -187,13 +187,13 @@ public class GameManager : MonoBehaviour
             switch (moneyFactoryLevel)
             {
                 case 1:
-                    temporaryCoinsToCollect += amount;
+                    temporaryCoinsToCollect += amount * (workerCount + 1);
                     break;
                 case 2:
-                    temporaryCoinsToCollect += amount * 5;
+                    temporaryCoinsToCollect += amount * 2 *  (workerCount + 1);
                     break;
                 case 3:
-                    temporaryCoinsToCollect += amount * 20;
+                    temporaryCoinsToCollect += amount * 3 * (workerCount + 1);;
                     break;
                 default:
                     break;
@@ -213,13 +213,13 @@ public class GameManager : MonoBehaviour
             switch (moneyFactoryLevel)
             {
                 case 1:
-                    playerCoinCount += amount;
+                    playerCoinCount += amount *  (workerCount + 1);
                     break;
                 case 2:
-                    playerCoinCount += amount * 5;
+                    playerCoinCount += amount * 2 *  (workerCount + 1);;
                     break;
                 case 3:
-                    playerCoinCount += amount * 20;
+                    playerCoinCount += amount * 3 *  (workerCount + 1);;
                     break;
                 default:
                     break;

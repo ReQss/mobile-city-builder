@@ -11931,6 +11931,7 @@ MonoBehaviour:
   isUIOpen: 0
   coinsCollected: 0
   weaponLevel: 2
+  workerCount: 0
   isPlayerInteracting: 0
   playerPerks: []
 --- !u!4 &231748237
@@ -17142,6 +17143,9 @@ MonoBehaviour:
   weaponPrefab1: {fileID: 0}
   weaponPrefab2: {fileID: 0}
   weaponPrefab3: {fileID: 0}
+  workerPrefabs: []
+  workerPrefabsEnabled: []
+  npcWorkersPrefabs: []
 --- !u!4 &638691618
 Transform:
   m_ObjectHideFlags: 0
@@ -31654,74 +31658,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109319497}
   m_CullTransparentMesh: 1
---- !u!1001 &1120514278
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3635593401587647969, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_Name
-      value: Butterfly_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 11.83
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 8.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4125271159695646555, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a6d6ea13d2c75614bb4fbd0e198daa49, type: 3}
 --- !u!1001 &1126142506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57616,12 +57552,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1543663891}
   m_CullTransparentMesh: 1
---- !u!1 &1552956147 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3635593401587647969, guid: a6d6ea13d2c75614bb4fbd0e198daa49,
-    type: 3}
-  m_PrefabInstance: {fileID: 1120514278}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1557093917 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2721016404294148004, guid: 91281152657f4e34fbf0f27c718526f1,
@@ -59055,66 +58985,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642246758}
   m_CullTransparentMesh: 1
---- !u!1 &1643939696
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1643939698}
-  - component: {fileID: 1643939697}
-  - component: {fileID: 1643939699}
-  m_Layer: 0
-  m_Name: butterflyspawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1643939697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643939696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2d1c42e3127af4085a6e78ce29e663, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _butterflyChild: {fileID: 1552956147}
---- !u!4 &1643939698
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643939696}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1643939699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643939696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f31b20a778ade6341b5b642f0ac7c8bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MinCooldown: 1
-  MaxCooldown: 10
 --- !u!1 &1646618945
 GameObject:
   m_ObjectHideFlags: 0
@@ -67454,7 +67324,6 @@ SceneRoots:
   - {fileID: 534508121}
   - {fileID: 1186074051}
   - {fileID: 265773838}
-  - {fileID: 1643939698}
   - {fileID: 638691618}
   - {fileID: 2123292334}
   - {fileID: 2353122781677408005}
@@ -67494,4 +67363,3 @@ SceneRoots:
   - {fileID: 745815619}
   - {fileID: 660982321}
   - {fileID: 101766781}
-  - {fileID: 1120514278}

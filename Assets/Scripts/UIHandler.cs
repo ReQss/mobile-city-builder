@@ -16,21 +16,53 @@ public class UIHandler : MonoBehaviour
     public GameObject weaponPrefab1;
     public GameObject weaponPrefab2;
     public GameObject weaponPrefab3;
+    public List<GameObject> workerPrefabs;
+    public List<GameObject> workerPrefabsEnabled;
+    public List<GameObject> npcWorkersPrefabs;
     private Dictionary<int, GameObject> weaponPriceToPrefab;
-
+    private Dictionary<int, GameObject> workerPriceToPrefab;
+    private Dictionary<int, GameObject> workerPriceToPrefabEnabled;
+    private Dictionary<int, GameObject> npcWorkerPriceToPrefab;
     void Start()
     {
         if (GameManager.Instance != null)
             SetMoney(GameManager.Instance.playerCoinCount);
 
-        // Initialize the dictionary
-        weaponPriceToPrefab = new Dictionary<int, GameObject>
+        WeaponAndNpcHandling();
+        DisableWeaponsThatAreUnlocked();
+        DisableWorkersThatAreUnlocked();
+    }
+    public void WeaponAndNpcHandling()
+    {
+          weaponPriceToPrefab = new Dictionary<int, GameObject>
         {
             { 200, weaponPrefab1 },
             { 800, weaponPrefab2 },
             { 2000, weaponPrefab3 }
         };
-        DisableWeaponsThatAreUnlocked();
+        workerPriceToPrefab = new Dictionary<int, GameObject>();
+        int price = 1000;
+        for (int i = 0; i < workerPrefabs.Count; i++)
+        {
+            workerPriceToPrefab.Add(price, workerPrefabs[i]);
+            price *= 2;
+        }
+         workerPriceToPrefabEnabled = new Dictionary<int, GameObject>();
+        price = 1000;
+        for (int i = 0; i < workerPrefabs.Count; i++)
+        {
+            workerPriceToPrefabEnabled.Add(price, workerPrefabsEnabled[i]);
+            price *= 2;
+        }
+
+        npcWorkerPriceToPrefab = new Dictionary<int, GameObject>();
+         price = 1000;
+        for (int i = 0; i < npcWorkersPrefabs.Count; i++)
+        {
+            npcWorkerPriceToPrefab.Add(price, npcWorkersPrefabs[i]);
+            price *= 2;
+        }
+
     }
     public void DisableWeaponsThatAreUnlocked()
     {
@@ -42,26 +74,53 @@ public class UIHandler : MonoBehaviour
 
         if (GameManager.Instance.weaponLevel == 1)
         {
-            if(weaponPrefab1 != null)
+            if (weaponPrefab1 != null)
                 DisableUIElement(weaponPrefab1);
         }
         else if (GameManager.Instance.weaponLevel == 2)
         {
-            if(weaponPrefab1 != null)
+            if (weaponPrefab1 != null)
                 DisableUIElement(weaponPrefab1);
             if (weaponPrefab2 != null)
                 DisableUIElement(weaponPrefab2);
         }
         else if (GameManager.Instance.weaponLevel == 3)
         {
-            if(weaponPrefab1 != null)
+            if (weaponPrefab1 != null)
                 DisableUIElement(weaponPrefab1);
-            if(weaponPrefab2 != null)
+            if (weaponPrefab2 != null)
                 DisableUIElement(weaponPrefab2);
-            if(weaponPrefab3 != null)
+            if (weaponPrefab3 != null)
                 DisableUIElement(weaponPrefab3);
-          
+
         }
+    }
+    public void DisableWorkersThatAreUnlocked()
+    {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogWarning("GameManager.Instance is null in DisableWorkersThatAreUnlocked!");
+            return;
+        }
+
+        for (int i = 0; i < GameManager.Instance.workerCount && i < workerPrefabs.Count; i++)
+        {
+            if (workerPrefabs[i] != null)
+                DisableUIElement(workerPrefabs[i]);
+        }
+        for (int i = 0; i < GameManager.Instance.workerCount && i < workerPrefabsEnabled.Count; i++)
+        {
+            if (workerPrefabsEnabled[i] != null)
+                EnableUIElement(workerPrefabsEnabled[i]);
+        }
+
+
+        for (int i = 0; i < GameManager.Instance.workerCount && i < npcWorkersPrefabs.Count; i++)
+        {
+            if (npcWorkersPrefabs[i] != null)
+                EnableUIElement(npcWorkersPrefabs[i]);
+        }
+       
     }
     // Update is called once per frame
     void Update()
@@ -208,21 +267,51 @@ public class UIHandler : MonoBehaviour
             DisableUIElement(prefab);
         }
     }
+    public void BuyWorker(int amount)
+    {
+        if (amount > GameManager.Instance.playerCoinCount)
+            return;
+
+        GameManager.Instance.decreaseCoins(amount);
+        IncreaseWorkerCount();
+
+        if (workerPriceToPrefab.TryGetValue(amount, out GameObject prefab) && prefab != null)
+        {
+            DisableUIElement(prefab);
+        }
+        if (workerPriceToPrefabEnabled.TryGetValue(amount, out GameObject prefabEnabled) && prefabEnabled != null)
+        {
+            EnableUIElement(prefabEnabled);
+        }
+        if (npcWorkerPriceToPrefab.TryGetValue(amount, out GameObject npcPrefab) && npcPrefab != null)
+        {
+            EnableUIElement(npcPrefab);
+        }
+    }
     public void IncreaseWeaponLevel()
     {
         GameManager.Instance.weaponLevel++;
 
     }
+    public void IncreaseWorkerCount()
+    {
+        GameManager.Instance.workerCount++;
+        
+    }
     public void UpgradePickedBuilding()
     {
         GameManager.Instance.isUIOpen = false;
         // GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding();
-                GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding2();
+        GameManager.Instance.currentPickedBuilding.GetComponent<Building>().UpgradeBuilding2();
 
     }
     public void DisableUIElement(GameObject gameObject)
     {
         gameObject.SetActive(false);
+    }
+    public void EnableUIElement(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
     }
     public void GetMoney()
     {
