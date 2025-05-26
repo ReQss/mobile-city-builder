@@ -157,19 +157,32 @@ public class PlayerMovement : MonoBehaviour
             healthTickTimer += Time.deltaTime;
             if (healthTickTimer >= 0.1f)
             {
+                int damage = 1;
+                // Check if the closest enemy has the "mele" tag
+                if (closestEnemyInRangePosition != Vector3.zero)
+                {
+                    Collider[] colliders = Physics.OverlapSphere(closestEnemyInRangePosition, 0.1f);
+                    foreach (Collider col in colliders)
+                    {
+                        if (col.CompareTag("mele"))
+                        {
+                            damage = 5;
+                            break;
+                        }
+                    }
+                }
 
                 healthBarAnimator.SetBool("isDamaged", true);
-                health -= 1;
+                health -= damage;
                 healthTickTimer = 0f;
                 Debug.Log("Health: " + health);
-                UpdateHealthBar(); // Update health bar after health changes
+                UpdateHealthBar(); 
             }
         }
         else
         {
             healthTickTimer = 0f;
-            
-                healthBarAnimator.SetBool("isDamaged", false);
+            healthBarAnimator.SetBool("isDamaged", false);
         }
     }
     private void UpdateHealthBar()
@@ -180,21 +193,7 @@ public class PlayerMovement : MonoBehaviour
             healthBarImage.fillAmount = fill;
         }
     }
-    private void EnemyDetection()
-    {
-        float range = enemyRange;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-
-        foreach (Collider collider in colliders)
-        {
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                closestEnemyInRangePosition = collider.transform.position;
-                Debug.Log("Enemy detected: " + collider.gameObject.name);
-                break;
-            }
-        }
-    }
+  
     private void RotateTowardsEnemy()
     {
         if (closestEnemyInRangePosition != Vector3.zero)

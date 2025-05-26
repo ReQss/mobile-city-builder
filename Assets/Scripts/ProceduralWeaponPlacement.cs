@@ -18,14 +18,14 @@ public class ProceduralWeaponPlacement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SpawnObjects()
     {
         Vector3 spawnCenter = centerTransform != null ? centerTransform.position : center;
 
-        if (objectsToSpawn == null || objectsToSpawn.Count == 0 || GameManager.Instance.weaponLevel <= 0)
+        if (objectsToSpawn == null || objectsToSpawn.Count == 0 )
             return;
 
         int maxIndex = Mathf.Min(GameManager.Instance.weaponLevel, objectsToSpawn.Count);
@@ -39,6 +39,27 @@ public class ProceduralWeaponPlacement : MonoBehaviour
                 Random.Range(-spawnRange, spawnRange)
             );
             Instantiate(prefab, randomPos, Quaternion.identity);
+        }
+    }
+     public void SpawnObjectsNumber(int count)
+    {
+        Vector3 spawnCenter = centerTransform != null ? centerTransform.position : center;
+
+        if (objectsToSpawn == null || objectsToSpawn.Count == 0 )
+            return;
+
+        int maxIndex = Mathf.Min(GameManager.Instance.weaponLevel, objectsToSpawn.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject prefab = objectsToSpawn[Random.Range(0, maxIndex)];
+            Vector3 randomPos = spawnCenter + new Vector3(
+                Random.Range(-spawnRange, spawnRange),
+                0f,
+                Random.Range(-spawnRange, spawnRange)
+            );
+            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity);
+            objectSpawned.SetActive(true);
         }
     }
 }

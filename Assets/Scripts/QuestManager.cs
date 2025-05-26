@@ -20,7 +20,7 @@ public class Quest
     public int targetAmount; 
     public int currentAmount;
     public int goldReward;
-    public GameObject npc; // NPC that gives the quest
+    public GameObject npc; 
 
     public Quest(string name, string description)
     {
@@ -47,6 +47,8 @@ public class QuestManager : MonoBehaviour
     public int currentQuestIndex = 0; 
     public Quest currentQuest;
     public Quest givenQuest;
+    [SerializeField]
+    private ProceduralWeaponPlacement enemyGenerator;
 
     public TextMeshProUGUI currentQuestDescription;
 
@@ -80,6 +82,18 @@ public class QuestManager : MonoBehaviour
         quests.Add(quest);
         UpdateQuestUI();
         givenQuest = null;
+        if(quest.questType == QuestType.KillEnemies)
+        {
+            enemyGenerator.SpawnObjectsNumber(quest.targetAmount);
+        }
+        else if (quest.questType == QuestType.CollectItems)
+        {
+            // Logic to spawn items for collection
+        }
+        else if (quest.questType == QuestType.TalkToNPC)
+        {
+            // Logic to set up NPC interaction
+        }
     }
        public Quest GetCurrentQuest()
     {
@@ -119,11 +133,10 @@ public class QuestManager : MonoBehaviour
                     quest.CompleteQuest();
                 break;
             case QuestType.TalkToNPC:
-                // np. po rozmowie z NPC ustawiasz currentAmount = 1
                 if (quest.currentAmount >= 1)
                     quest.CompleteQuest();
                 break;
-            // Dodaj inne typy
+        
         }
 
         UpdateQuestUI();

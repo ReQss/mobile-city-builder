@@ -1093,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 1160654113222995940, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_text
-      value: Beginning
+      value: Tutorial
       objectReference: {fileID: 0}
     - target: {fileID: 1160654113222995940, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -1553,6 +1553,9 @@ MonoBehaviour:
   weaponPrefab1: {fileID: 0}
   weaponPrefab2: {fileID: 0}
   weaponPrefab3: {fileID: 0}
+  workerPrefabs: []
+  workerPrefabsEnabled: []
+  npcWorkersPrefabs: []
 --- !u!1 &1669630767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1852,16 +1855,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 34583722}
     m_Modifications:
-    - target: {fileID: 1160654113222995940, guid: d0c4eb89eaa21bb4992de19ce584eab4,
-        type: 3}
-      propertyPath: m_text
-      value: COPERNICUS
-      objectReference: {fileID: 0}
-    - target: {fileID: 1160654113222995940, guid: d0c4eb89eaa21bb4992de19ce584eab4,
-        type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
-      value: 1801810542
-      objectReference: {fileID: 0}
     - target: {fileID: 1941743237086237163, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1921,6 +1914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_radius
       value: 676.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823314923518835902, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2889997722189437601, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -1996,8 +1994,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 391.6501
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077181143894340496, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -688
+      value: -649
       objectReference: {fileID: 0}
     - target: {fileID: 7136984087052996224, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -2028,6 +2056,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234963731095476155, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -2062,7 +2095,7 @@ PrefabInstance:
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: GameLevel2
+      value: Level2
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}

@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public Transform player; // Assign the player transform in the inspector or via script
     public float chaseRange = 10f;
     public float patrolRange = 5f;
+    public float attackRange = 1f;
     public float patrolWaitTime = 2f;
 
     private NavMeshAgent agent;
@@ -21,6 +22,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject DamageDealtPrefab;
     public Transform DamageSpawnPoint;
     public int coinsAmount = 50;
+    public bool isMele = false;
     public int Health
     {
         get { return health; }
@@ -30,12 +32,12 @@ public class EnemyAI : MonoBehaviour
             if (health <= 0)
             {
                 GameManager.Instance.coinsCollected += coinsAmount;
-                if(QuestManager.Instance.currentQuest != null)
+                if (QuestManager.Instance.currentQuest != null)
                 {
-                    if(QuestManager.Instance.currentQuest.questType == QuestType.KillEnemies)
+                    if (QuestManager.Instance.currentQuest.questType == QuestType.KillEnemies)
                     {
                         QuestManager.Instance.currentQuest.currentAmount++;
-                       QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
+                        QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
                     }
                 }
                 Destroy(gameObject);
@@ -67,20 +69,33 @@ public class EnemyAI : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= chaseRange)
+        if (distanceToPlayer <= attackRange && isMele)
+        {
+            // Stop moving and attack
+            agent.isStopped = true;
+            if (anim != null)
+            {
+                anim.SetBool("isRunning", false);
+                anim.SetBool("isAttacking", true);
+            }
+        }
+        else if (distanceToPlayer <= chaseRange)
         {
             isChasing = true;
             playerWasInRange = true;
             lostPlayerTimer = 0f;
+            agent.isStopped = false;
             agent.SetDestination(player.position);
 
             if (anim != null)
             {
                 anim.SetBool("isRunning", true);
+                anim.SetBool("isAttacking", false); // <-- Reset attacking when chasing
             }
         }
         else
         {
+            agent.isStopped = false; // Resume movement if not attacking
             if (isChasing && playerWasInRange)
             {
                 lostPlayerTimer += Time.deltaTime;
@@ -93,6 +108,7 @@ public class EnemyAI : MonoBehaviour
                     if (anim != null)
                     {
                         anim.SetBool("isRunning", false);
+                        anim.SetBool("isAttacking", false);
                     }
                 }
                 else
@@ -101,6 +117,7 @@ public class EnemyAI : MonoBehaviour
                     if (anim != null)
                     {
                         anim.SetBool("isRunning", true);
+                        anim.SetBool("isAttacking", false); // <-- Reset attacking when chasing
                     }
                 }
             }
@@ -109,6 +126,7 @@ public class EnemyAI : MonoBehaviour
                 if (anim != null)
                 {
                     anim.SetBool("isRunning", false);
+                    anim.SetBool("isAttacking", false); // <-- Reset attacking when patrolling
                 }
 
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
@@ -138,7 +156,7 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        ApplySlow(2f, 1f);
+        // ApplySlow(2f, 1f);
     }
 
     private void ApplySlow(float slowFactor, float duration)
