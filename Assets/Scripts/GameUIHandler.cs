@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameUIHandler : MonoBehaviour
 {
-    public enum NotificationType { None, NPC, Weapon }
+    public enum NotificationType { None, NPC, Weapon ,QuestItem}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameObject currentWeaponImage;
     [SerializeField]

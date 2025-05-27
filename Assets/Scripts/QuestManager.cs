@@ -20,7 +20,8 @@ public class Quest
     public int targetAmount; 
     public int currentAmount;
     public int goldReward;
-    public GameObject npc; 
+    public GameObject npc;
+    public bool disableNpcAfterAcceptedQuest = false;
 
     public Quest(string name, string description)
     {
@@ -82,7 +83,7 @@ public class QuestManager : MonoBehaviour
         quests.Add(quest);
         UpdateQuestUI();
         givenQuest = null;
-        if(quest.questType == QuestType.KillEnemies)
+        if (quest.questType == QuestType.KillEnemies)
         {
             enemyGenerator.SpawnObjectsNumber(quest.targetAmount);
         }
@@ -93,6 +94,10 @@ public class QuestManager : MonoBehaviour
         else if (quest.questType == QuestType.TalkToNPC)
         {
             // Logic to set up NPC interaction
+        }
+        if (quest.disableNpcAfterAcceptedQuest && quest.npc != null)
+        {
+            quest.npc.SetActive(false);
         }
     }
        public Quest GetCurrentQuest()
@@ -107,7 +112,7 @@ public class QuestManager : MonoBehaviour
             {
                 if(currentQuest.isCompleted)
                 {
-                    currentQuestDescription.text = "Quest completed!";
+                    currentQuestDescription.text = "Go back to your NPC";
                 }
                 else
                 {

@@ -362,10 +362,10 @@ public class PlayerMovement : MonoBehaviour
             if (collider.gameObject.layer == LayerMask.NameToLayer("Weapon"))
             {
                 if (gameUIHandler != null)
-                { 
+                {
                     gameUIHandler.EnableNotification("Press E to pick up the " + collider.gameObject.name, GameUIHandler.NotificationType.Weapon);
                 }
-                
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     DestroyAndCopyWeapon(collider);
@@ -377,6 +377,20 @@ public class PlayerMovement : MonoBehaviour
                         shotsFired = 0;
                     }
                     ShowAlert();
+                }
+            }
+            if (collider.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
+            {
+                if (gameUIHandler != null)
+                {
+                    gameUIHandler.EnableNotification("Press E to pick up the quest item", GameUIHandler.NotificationType.Weapon);
+                }
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    // Destroy(collider.gameObject);
+                    ShowAlert();
+                    QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
                 }
             }
         }
