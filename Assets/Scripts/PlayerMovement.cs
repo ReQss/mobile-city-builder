@@ -447,7 +447,10 @@ public class PlayerMovement : MonoBehaviour
         if (currentWeapon != null)
         {
             currentWeapon.SetActive(isCombat);
-            accelerationArrowPrefab.SetActive(isCombat);
+            if (accelerationArrowPrefab != null)
+            {
+                accelerationArrowPrefab.SetActive(isCombat);
+            }
         }
     }
 

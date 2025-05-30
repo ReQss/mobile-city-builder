@@ -1767,8 +1767,8 @@ RectTransform:
   m_GameObject: {fileID: 169389498}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2139707035}
   m_Father: {fileID: 527885478}
@@ -6998,7 +6998,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.6431373}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -13079,7 +13079,7 @@ PrefabInstance:
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_text
-      value: Guardian
+      value: Nicolaus Copernicus
       objectReference: {fileID: 0}
     - target: {fileID: 1024231690584015247, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -13366,7 +13366,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.44313726}
     m_HighlightedColor: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -18986,7 +18986,7 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   shootingProjectilePrefab: {fileID: 2201519091578685389, guid: f6c479a519d7eb1458ad887101d3110d,
     type: 3}
-  accelerationArrowPrefab: {fileID: 63221508}
+  accelerationArrowPrefab: {fileID: 0}
   shootInterval: 2
   projectileSpeed: 35
   divideMovementSpeedWhenShooting: 3
@@ -34715,7 +34715,7 @@ PrefabInstance:
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_text
-      value: Guardian
+      value: Nicolaus Copernicus
       objectReference: {fileID: 0}
     - target: {fileID: 1024231690584015247, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -35531,6 +35531,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1185957135}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2fff0198cf015724e893d488bea85383,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1185957137}
   m_SourcePrefab: {fileID: 100100000, guid: 2fff0198cf015724e893d488bea85383, type: 3}
 --- !u!1 &1185957134 stripped
 GameObject:
@@ -35551,7 +35555,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3ef7c47861323d548af009c676e71e5e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -35566,6 +35570,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1185957133}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1185957137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185957134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1424d9cedb7a0434b921495c493a9eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRoot: {fileID: 666996282}
 --- !u!1 &1186074048
 GameObject:
   m_ObjectHideFlags: 0
@@ -63181,7 +63198,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: db7567a028fd6e74abcba2ed13dd2a49,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.2420292
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: db7567a028fd6e74abcba2ed13dd2a49,
         type: 3}
