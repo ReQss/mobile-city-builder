@@ -40,6 +40,7 @@ public class GrassGenerator : MonoBehaviour
 
     public float spacingFactor = 0.5f;
     public int chanceForGrassSpawn = 4;
+    public List<string> tagsToAvoid = new List<string> { "Building", "Water" };
 
     void Start()
     {
@@ -104,12 +105,24 @@ public class GrassGenerator : MonoBehaviour
 
                 if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
                 {
+                    
+                    bool skipTag = false;
+                    for (int i = 0; i < tagsToAvoid.Count; i++)
+                    {
+                        if (hit.collider.CompareTag(tagsToAvoid[i]))
+                        {
+                            skipTag = true;
+                            break;
+                        }
+                    }
+                  
 
                     position = hit.point;
                     if (position.y > terrainHeightLevel.rockHeight || position.y < terrainHeightLevel.sandHeight)
                     {
                         continue;
                     }
+                    if (skipTag) continue;
                     position.y += adjustGrassHeight;
 
                     float randomScaleFactor = Random.Range(0.8f, 1.2f);

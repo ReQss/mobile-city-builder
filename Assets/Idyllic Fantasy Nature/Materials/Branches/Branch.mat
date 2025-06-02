@@ -30,10 +30,10 @@ Material:
   - _COVERAGE_OVERLAY_VERTEX_POSITION
   m_InvalidKeywords:
   - _OVERLAY_NORMAL_VECTOR
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 5000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses:
@@ -217,7 +217,7 @@ Material:
     - _OVERLAY: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueControl: 0
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RockMetallicSmoothness: 0
