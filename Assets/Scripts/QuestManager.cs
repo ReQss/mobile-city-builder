@@ -8,6 +8,7 @@ public enum QuestType
     CollectItems,
     TalkToNPC,
     KillBoss,
+    FinalQuest
 }
 
 [System.Serializable]
@@ -22,6 +23,7 @@ public class Quest
     public int goldReward;
     public GameObject npc;
     public bool disableNpcAfterAcceptedQuest = false;
+    
 
     public Quest(string name, string description)
     {
@@ -43,6 +45,8 @@ public class Quest
 }
 public class QuestManager : MonoBehaviour
 {
+    
+    public int actIndex = 0;
     public static QuestManager Instance { get; private set; } 
     public List<Quest> quests;
     public int currentQuestIndex = 0; 
@@ -52,6 +56,7 @@ public class QuestManager : MonoBehaviour
     private ProceduralWeaponPlacement enemyGenerator;
 
     public TextMeshProUGUI currentQuestDescription;
+    public GameUIHandler gameUIHandler;
 
     void Awake()
     {
@@ -85,15 +90,22 @@ public class QuestManager : MonoBehaviour
         givenQuest = null;
         if (quest.questType == QuestType.KillEnemies)
         {
-            enemyGenerator.SpawnObjectsNumber(quest.targetAmount);
+            enemyGenerator.SpawnObjectsNumberNearbyPlayer(quest.targetAmount);
         }
         else if (quest.questType == QuestType.CollectItems)
         {
-            // Logic to spawn items for collection
         }
         else if (quest.questType == QuestType.TalkToNPC)
         {
-            // Logic to set up NPC interaction
+        }
+        else if (quest.questType == QuestType.KillBoss)
+        {
+        }
+        else if (quest.questType == QuestType.FinalQuest)
+        {
+            gameUIHandler.FinishActUI();
+            Debug.Log("Act finished, final quest started");
+            GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
         }
         if (quest.disableNpcAfterAcceptedQuest && quest.npc != null)
         {

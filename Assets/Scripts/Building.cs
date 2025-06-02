@@ -33,7 +33,7 @@ public class Building : MonoBehaviour
             buildingName.text = nameOfBuilding;
             buildingDescription.text = descriptionOfBuilding;
         }
-        else Debug.Log("UI not found");
+        
     }
     private void SetBuildingValues(int level, int cost, string nameOfBuilding, string descriptionOfBuilding)
     {

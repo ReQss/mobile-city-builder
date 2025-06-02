@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUIHandler : MonoBehaviour
 {
-    public enum NotificationType { None, NPC, Weapon ,QuestItem}
+    public enum NotificationType { None, NPC, Weapon, QuestItem }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameObject currentWeaponImage;
     [SerializeField]
@@ -15,8 +16,10 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI currentCoinsCollected;
     public GameObject notificationPrefab;
     public GameObject questAcceptUI;
-    
-   
+    public GameObject finishActUI;
+    public GameObject darkBackground;
+
+
     [SerializeField]
     private List<GameObject> perksUISlots;
     void Start()
@@ -30,7 +33,7 @@ public class GameUIHandler : MonoBehaviour
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();
         }
-        
+
         EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
 
     }
@@ -91,7 +94,7 @@ public class GameUIHandler : MonoBehaviour
             }
         }
     }
-  
+
     public void UpdateUsesCount(int usesCount)
     {
         if (currentWeaponUses != null)
@@ -101,7 +104,7 @@ public class GameUIHandler : MonoBehaviour
     }
     public void EnableNotification(String notificationText, NotificationType notificationType)
     {
-       
+
         if (NPC.anyNPCDetectsPlayer && notificationType == NotificationType.NPC)
         {
             if (notificationPrefab != null)
@@ -114,7 +117,7 @@ public class GameUIHandler : MonoBehaviour
                 }
             }
         }
-        else if ( notificationType == NotificationType.Weapon)
+        else if (notificationType == NotificationType.Weapon)
         {
             if (notificationPrefab != null)
             {
@@ -126,7 +129,7 @@ public class GameUIHandler : MonoBehaviour
                 }
             }
         }
-        
+
         else
         {
             if (notificationPrefab != null)
@@ -140,6 +143,30 @@ public class GameUIHandler : MonoBehaviour
         if (gameObject != null)
         {
             gameObject.SetActive(!gameObject.activeSelf);
+        }
+    }
+    public void FinishActUI()
+    {
+        if (finishActUI != null)
+        {
+            
+        GameManager.Instance.isPlayerInteracting = true;
+            finishActUI.SetActive(true);
+            darkBackground.SetActive(true);
+        }
+    }
+    public void LoadSceneByName(string sceneName)
+    {
+
+        GameManager.Instance.isPlayerInteracting = false;
+        if (Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            SceneManager.LoadScene(sceneName);
+            Debug.Log("Ładowanie sceny: " + sceneName);
+        }
+        else
+        {
+            Debug.LogError("Scena " + sceneName + " nie istnieje.");
         }
     }
 

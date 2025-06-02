@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
     public int workerCount = 0;
     public bool isPlayerInteracting = false;
     public List<PlayerPerks> playerPerks = new List<PlayerPerks>();
+    public int questActFinishedIndex = 0;
     public static GameManager Instance { get; private set; }
     public IEnumerator UpgradingBuilding(Building building)
     {
@@ -146,6 +147,14 @@ public class GameManager : MonoBehaviour
                
             }
         }
+    }
+    public void UpdateQuestFinishedIndex(int val)
+    {
+        if (val > questActFinishedIndex)
+        {
+            questActFinishedIndex = val;
+        }
+        else Debug.Log("Quest was already finished");
     }
     void Update()
     {
