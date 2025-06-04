@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class GameUIHandler : MonoBehaviour
 {
     public enum NotificationType { None, NPC, Weapon, QuestItem }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameObject currentWeaponImage;
     [SerializeField]
     public List<GameObject> weaponImages;
@@ -18,6 +17,7 @@ public class GameUIHandler : MonoBehaviour
     public GameObject questAcceptUI;
     public GameObject finishActUI;
     public GameObject darkBackground;
+    public GameObject MapUI;
 
 
     [SerializeField]
@@ -33,7 +33,22 @@ public class GameUIHandler : MonoBehaviour
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+              if (MapUI != null)
+                {
+                    MapUI.SetActive(!MapUI.activeSelf);
+                }
+            if (Time.timeScale != 0)
+            {
 
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
+        }
         EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
 
     }
@@ -74,14 +89,19 @@ public class GameUIHandler : MonoBehaviour
     {
         foreach (GameObject weaponImage in weaponImages)
         {
-            if (weaponImage.name == weaponName)
+            if (weaponImage.name.Contains( weaponName))
             {
+                Debug.Log("Updating weapon image: " + weaponName);
                 weaponImage.SetActive(true);
-                break;
+               
             }
-            else if (currentWeaponImage != null)
+            // else if (currentWeaponImage != null)
+            // {
+            //     currentWeaponImage.SetActive(false);
+            // }
+            else
             {
-                currentWeaponImage.SetActive(false);
+                weaponImage.SetActive(false);
             }
         }
 

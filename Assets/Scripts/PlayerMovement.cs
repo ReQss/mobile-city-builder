@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     public float enemyRange = 15f;
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
+    public string currentWeaponName;
     private int shotsFired = 0; 
     public int health = 100;
     private bool enemiesTouching = false;
@@ -372,7 +373,8 @@ public class PlayerMovement : MonoBehaviour
                     GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
                     if (gameUIHandler != null)
                     {
-                        gameUIHandler.UpdateWeaponImage(collider.gameObject.name);
+                        currentWeaponName = collider.gameObject.name;
+                        gameUIHandler.UpdateWeaponImage(currentWeaponName);
                         gameUIHandler.UpdateUsesCount(5);
                         shotsFired = 0;
                     }
