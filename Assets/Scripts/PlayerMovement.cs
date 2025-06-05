@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
@@ -6,6 +7,10 @@ public class PlayerMovement : MonoBehaviour
 {
     
     public static PlayerMovement playerMovementInstance; 
+    [Header("Input Actions")]
+    public InputActionReference moveAction;
+    public Vector2 _moveDirection;
+
 
     public Transform playerHandPos;
     public float speed = 5f;
@@ -66,15 +71,19 @@ public class PlayerMovement : MonoBehaviour
 
         isoRight = new Vector3(1, 0, -1).normalized;
         isoUp = new Vector3(1, 0, 1).normalized;
-         }
+
+        // Enable the input action if not already enabled
+        if (moveAction != null && !moveAction.action.enabled)
+        {
+            moveAction.action.Enable();
+        }
+    }
 
     void Update()
     {
-
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 moveDir = (isoRight * horizontal + isoUp * vertical).normalized;
+        // Read movement from InputAction
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        Vector3 moveDir = (isoRight * input.x + isoUp * input.y).normalized;
 
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
 
@@ -89,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && currentWeapon != null)
         {
             isCombat = !isCombat;
-
         }
 
         ShowWeapon();
@@ -120,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
                 hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
             }
-          
 
             animator.SetBool("isShooting", isCombat && hasCrossbow);
             animator.SetBool("isSlashing", isCombat && hasSword);
