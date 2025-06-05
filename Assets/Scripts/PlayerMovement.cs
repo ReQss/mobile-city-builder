@@ -72,15 +72,7 @@ public class PlayerMovement : MonoBehaviour
         isoRight = new Vector3(1, 0, -1).normalized;
         isoUp = new Vector3(1, 0, 1).normalized;
 
-        // Enable the input action if not already enabled
-        if (GameUIHandler.Instance.moveAction != null && !GameUIHandler.Instance.moveAction.action.enabled)
-        {
-            GameUIHandler.Instance.moveAction.action.Enable();
-        }
-        if (GameUIHandler.Instance.interactionAction != null && !GameUIHandler.Instance.interactionAction.action.enabled)
-        {
-            GameUIHandler.Instance.interactionAction.action.Enable();
-        }
+        
     }
 
     void Update()
@@ -99,7 +91,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && currentWeapon != null)
+        if ((GameUIHandler.Instance.playerAction != null && GameUIHandler.Instance.playerAction.action.triggered && currentWeapon != null)
+        ||(GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
         {
             isCombat = !isCombat;
         }
@@ -491,7 +484,7 @@ public class PlayerMovement : MonoBehaviour
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
 
-        if (!isDashing && Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f)
+        if (!isDashing && GameUIHandler.Instance.specialAction.action.triggered && dashCooldownTimer <= 0f)
         {
             isDashing = true;
             dashTimer = dashDuration;

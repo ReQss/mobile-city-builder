@@ -22,9 +22,14 @@ public class GameUIHandler : MonoBehaviour
     public GameObject MapUI;
     [Header("Input Actions")]
      public InputActionReference moveAction;
-    public InputActionReference interactionAction; 
-    
+    public InputActionReference interactionAction;
+    public InputActionReference playerAction;
+    public InputActionReference mapAction;
+    public InputActionReference specialAction;
+    [Header("Input Actions City")]
+    public InputActionReference cityMoveAction;
 
+    public bool cityMoveClicked = false;
 
     [SerializeField]
     private List<GameObject> perksUISlots;
@@ -36,6 +41,32 @@ public class GameUIHandler : MonoBehaviour
     void Start()
     {
 
+
+        // Enable the input action if not already enabled
+        if (GameUIHandler.Instance.moveAction != null && !GameUIHandler.Instance.moveAction.action.enabled)
+        {
+            GameUIHandler.Instance.moveAction.action.Enable();
+        }
+        if (GameUIHandler.Instance.interactionAction != null && !GameUIHandler.Instance.interactionAction.action.enabled)
+        {
+            GameUIHandler.Instance.interactionAction.action.Enable();
+        }
+        if (GameUIHandler.Instance.playerAction != null && !GameUIHandler.Instance.playerAction.action.enabled)
+        {
+            GameUIHandler.Instance.playerAction.action.Enable();
+        }
+        if (mapAction != null && !mapAction.action.enabled)
+        {
+            mapAction.action.Enable();
+        }
+        if (GameUIHandler.Instance.cityMoveAction != null && !GameUIHandler.Instance.cityMoveAction.action.enabled)
+        {
+            GameUIHandler.Instance.cityMoveAction.action.Enable();
+        }
+         if (GameUIHandler.Instance.specialAction != null && !GameUIHandler.Instance.specialAction.action.enabled)
+        {
+            GameUIHandler.Instance.specialAction.action.Enable();
+        }
     }
 
     void Update()
@@ -44,25 +75,27 @@ public class GameUIHandler : MonoBehaviour
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();
         }
-        if (Input.GetKeyDown(KeyCode.M))
+    if (mapAction != null && mapAction.action.triggered)
+    {
+        if (MapUI != null)
         {
-              if (MapUI != null)
-                {
-                    MapUI.SetActive(!MapUI.activeSelf);
-                }
-            if (Time.timeScale != 0)
-            {
-
-                Time.timeScale = 0;
-            }
-            else
-            {
-                Time.timeScale = 1;
-            }
+            MapUI.SetActive(!MapUI.activeSelf);
         }
+        if (Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
         EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
 
-    }
+    // Check every frame if cityMoveAction is pressed (mouse/touch click)
+    cityMoveClicked = cityMoveAction != null && cityMoveAction.action.WasPressedThisFrame();
+}
+
     public void SwitchQuestAcceptUI()
     {
         if (questAcceptUI != null)
@@ -201,4 +234,6 @@ public class GameUIHandler : MonoBehaviour
         }
     }
 
+    // Add a public property to access the click state from other scripts
+    // public bool CityMoveClicked => cityMoveClicked;
 }

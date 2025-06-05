@@ -1,13 +1,14 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem; // <-- Add this for new Input System
 
 public class WorkerScript : MonoBehaviour
 {
     public float moveSpeed = 2f; // Speed of movement
     public Animator animator;   // Reference to the Animator component
 
-    private Vector3 targetPosition;
+    public Vector3 targetPosition;
     private bool isDestinationAchieved = false;
     bool isTargetBuilding = false;
      private bool isTargetRewards = false;
@@ -18,6 +19,7 @@ public class WorkerScript : MonoBehaviour
     public GameObject getRewardsAlert;
     public TextMeshProUGUI getRewardsText;
     private bool rewardPanelOpened = false;
+    public bool isMouseClicked = false;
 
     void Start()
     {
@@ -43,11 +45,13 @@ public class WorkerScript : MonoBehaviour
 
     void Update()
     {
+        isMouseClicked =GameUIHandler.Instance.cityMoveAction.action.triggered;
         if (GameManager.Instance.isUIOpen == true)
         {
             return;
         }
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
+       
+        if (isMouseClicked) // Left mouse button
         {
             ResetRewardPanelFlag();
             isDestinationAchieved = true;
@@ -61,6 +65,10 @@ public class WorkerScript : MonoBehaviour
                 agent.SetDestination(targetPosition);
             }
 
+        }
+        if (GameUIHandler.Instance.cityMoveClicked)
+        {
+            Debug.Log("Pointer clicked/tapped");
         }
          SetDestinations();
         // Debug.Log(Vector3.Distance(transform.position, targetPosition));
@@ -161,9 +169,26 @@ public class WorkerScript : MonoBehaviour
 {
     rewardPanelOpened = false;
 }
+    // Helper to get pointer/touch position for both desktop and mobile
+    private Vector2 GetPointerPosition()
+    {
+        // Touch (mobile)
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+        {
+            return Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        // Mouse (desktop)
+        if (Mouse.current != null)
+        {
+            return Mouse.current.position.ReadValue();
+        }
+        // Fallback
+        return Vector2.zero;
+    }
+
     bool CheckForTargetBuilding()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(GetPointerPosition());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Building")) return true;
@@ -172,7 +197,7 @@ public class WorkerScript : MonoBehaviour
     }
     bool CheckForTargetRwards()
     {
-         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(GetPointerPosition());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.collider.CompareTag("Rewards")) return true;
@@ -182,8 +207,8 @@ public class WorkerScript : MonoBehaviour
 
     bool SetTargetPosition()
     {
-        // Perform a raycast from the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Perform a raycast from the pointer/touch position
+        Ray ray = Camera.main.ScreenPointToRay(GetPointerPosition());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             currentObject = hit.collider.gameObject;
@@ -214,8 +239,8 @@ public class WorkerScript : MonoBehaviour
     }
     bool SetTargetForBuilding()
     {
-        // Perform a raycast from the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Perform a raycast from the pointer/touch position
+        Ray ray = Camera.main.ScreenPointToRay(GetPointerPosition());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             // Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
@@ -231,8 +256,8 @@ public class WorkerScript : MonoBehaviour
     }
     bool SetTargetForBuilding2(GameObject setObject)
     {
-        // Perform a raycast from the mouse position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // Perform a raycast from the pointer/touch position
+        Ray ray = Camera.main.ScreenPointToRay(GetPointerPosition());
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             setObject = hit.collider.gameObject;

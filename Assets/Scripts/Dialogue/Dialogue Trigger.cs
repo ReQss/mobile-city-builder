@@ -24,11 +24,6 @@ public class DialogueTrigger : MonoBehaviour
         player = GameObject.Find("Player").transform;
         SetNPCQuests();
 
-        // Enable the input action if not already enabled
-        if ( GameUIHandler.Instance.interactionAction != null && ! GameUIHandler.Instance.interactionAction.action.enabled)
-        {
-             GameUIHandler.Instance.interactionAction.action.Enable();
-        }
     }
 
     public void TriggerDialogue()
