@@ -45,7 +45,8 @@ public class WorkerScript : MonoBehaviour
 
     void Update()
     {
-        isMouseClicked =GameUIHandler.Instance.cityMoveAction.action.triggered;
+        if(GameUIHandler.Instance!=null && GameUIHandler.Instance.cityMoveAction != null)
+            isMouseClicked =GameUIHandler.Instance.cityMoveAction.action.triggered;
         if (GameManager.Instance.isUIOpen == true)
         {
             return;
