@@ -25,7 +25,16 @@ public class GrassGenerator : MonoBehaviour
     public Camera playerCamera;
     public Transform terrain;
     public float chunkSize = 10f;
-    private Dictionary<Vector2Int, List<Matrix4x4>> grassChunks = new Dictionary<Vector2Int, List<Matrix4x4>>();
+    // Dodaj strukturę pomocniczą na dane chunków
+    private class GrassChunkData
+    {
+        public List<Matrix4x4> matrices = new();
+        public List<Vector3> positions = new();
+        public GrassObject[] grassObjects;
+        public float minY = Mathf.Infinity;
+        public float maxY = -Mathf.Infinity;
+    }
+    private Dictionary<Vector2Int, GrassChunkData> grassChunks = new();
     private Dictionary<Vector2Int, GrassObject[]> grassObjectsByChunk = new Dictionary<Vector2Int, GrassObject[]>();
     public List<GrassObject> grassObjects;
     public int grassCount = 10000;
@@ -42,10 +51,18 @@ public class GrassGenerator : MonoBehaviour
     public int chanceForGrassSpawn = 4;
     public List<string> tagsToAvoid = new List<string> { "Building", "Water" };
 
+    private Vector3 lastPlayerPosition;
+    private Quaternion lastCameraRotation;
+    private Dictionary<GrassObject, List<Matrix4x4>> visibleHighPolyGrass = new();
+    private Dictionary<GrassObject, List<Matrix4x4>> visibleLowPolyGrass = new();
+
     void Start()
     {
         NormalizeProbabilities();
         GenerateGrass();
+        lastPlayerPosition = player.position;
+        lastCameraRotation = playerCamera.transform.rotation;
+        UpdateVisibleGrass();
     }
 
     void NormalizeProbabilities()
@@ -83,7 +100,6 @@ public class GrassGenerator : MonoBehaviour
     {
         int rowCount = Mathf.CeilToInt(Mathf.Sqrt(grassCount));
         float cellSize = areaSize / rowCount * spacingFactor;
-
         int index = 0;
 
         for (int x = 0; x < rowCount; x++)
@@ -97,15 +113,13 @@ public class GrassGenerator : MonoBehaviour
 
                 float randomPositionOffset = Random.Range(0f, 1f);
                 Vector3 position = new Vector3(
-                    (x * cellSize) - (areaSize / 2f) + terrainCenter.x + randomPositionOffset
-                    ,
-                    100f, randomPositionOffset +
-                    (z * cellSize) - (areaSize / 2f) + terrainCenter.z
+                    (x * cellSize) - (areaSize / 2f) + terrainCenter.x + randomPositionOffset,
+                    100f,
+                    randomPositionOffset + (z * cellSize) - (areaSize / 2f) + terrainCenter.z
                 );
 
                 if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
                 {
-                    
                     bool skipTag = false;
                     for (int i = 0; i < tagsToAvoid.Count; i++)
                     {
@@ -115,24 +129,19 @@ public class GrassGenerator : MonoBehaviour
                             break;
                         }
                     }
-                  
-
                     position = hit.point;
                     if (position.y > terrainHeightLevel.rockHeight || position.y < terrainHeightLevel.sandHeight)
-                    {
                         continue;
-                    }
                     if (skipTag) continue;
                     position.y += adjustGrassHeight;
 
                     float randomScaleFactor = Random.Range(0.8f, 1.2f);
                     Quaternion rotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
-
                     Vector2Int chunkCoord = new Vector2Int(
-                         Mathf.FloorToInt(position.x / chunkSize),
-                         Mathf.FloorToInt(position.z / chunkSize)
-                     );
+                        Mathf.FloorToInt(position.x / chunkSize),
+                        Mathf.FloorToInt(position.z / chunkSize)
+                    );
 
                     GrassObject selectedGrassObject = SelectGrassObject();
                     Vector3 finalScale = selectedGrassObject.scale * randomScaleFactor;
@@ -140,84 +149,36 @@ public class GrassGenerator : MonoBehaviour
 
                     if (!grassChunks.ContainsKey(chunkCoord))
                     {
-                        grassChunks[chunkCoord] = new List<Matrix4x4>();
-                        grassObjectsByChunk[chunkCoord] = new GrassObject[grassCount];
+                        grassChunks[chunkCoord] = new GrassChunkData
+                        {
+                            grassObjects = new GrassObject[grassCount]
+                        };
                     }
-
-                    grassChunks[chunkCoord].Add(matrix);
-                    grassObjectsByChunk[chunkCoord][grassChunks[chunkCoord].Count - 1] = selectedGrassObject;
+                    var chunk = grassChunks[chunkCoord];
+                    chunk.matrices.Add(matrix);
+                    chunk.positions.Add(position);
+                    chunk.grassObjects[chunk.matrices.Count - 1] = selectedGrassObject;
+                    if (position.y < chunk.minY) chunk.minY = position.y;
+                    if (position.y > chunk.maxY) chunk.maxY = position.y;
 
                     index++;
                 }
             }
         }
-
         matrixBuffer = new ComputeBuffer(grassCount, 64);
     }
 
     void Update()
     {
-        Vector3 playerPosition = player.position;
-        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
-
-        Dictionary<GrassObject, List<Matrix4x4>> visibleHighPolyGrass = new Dictionary<GrassObject, List<Matrix4x4>>();
-        Dictionary<GrassObject, List<Matrix4x4>> visibleLowPolyGrass = new Dictionary<GrassObject, List<Matrix4x4>>();
-
-        foreach (var kvp in grassChunks)
+        // Sprawdzaj tylko, czy gracz się ruszył lub kamera się obróciła
+        if ((player.position - lastPlayerPosition).sqrMagnitude > 1f || Quaternion.Angle(playerCamera.transform.rotation, lastCameraRotation) > 2f)
         {
-            Vector2Int chunkCoord = kvp.Key;
-            Vector3 chunkCenter = new Vector3(
-                chunkCoord.x * chunkSize + chunkSize / 2,
-                0f,
-                chunkCoord.y * chunkSize + chunkSize / 2
-            );
-
-            float minY = Mathf.Infinity;
-            float maxY = -Mathf.Infinity;
-            foreach (var matrix in kvp.Value)
-            {
-                float yPos = matrix.GetColumn(3).y;
-                if (yPos < minY) minY = yPos;
-                if (yPos > maxY) maxY = yPos;
-            }
-
-            float chunkHeight = maxY - minY;
-            Bounds chunkBounds = new Bounds(
-                new Vector3(chunkCenter.x, (minY + maxY) / 2, chunkCenter.z),
-                new Vector3(chunkSize, chunkHeight, chunkSize)
-            );
-
-            if (GeometryUtility.TestPlanesAABB(frustumPlanes, chunkBounds))
-            {
-                if (Vector3.Distance(playerPosition, chunkCenter) <= renderRadius)
-                {
-                    for (int i = 0; i < kvp.Value.Count; i++)
-                    {
-                        Vector3 grassPosition = kvp.Value[i].GetColumn(3);
-                        float distanceToPlayer = Vector3.Distance(playerPosition, grassPosition);
-                        GrassObject grassObject = grassObjectsByChunk[kvp.Key][i];
-
-                        if (distanceToPlayer <= switchDistance)
-                        {
-                            if (!visibleHighPolyGrass.ContainsKey(grassObject))
-                            {
-                                visibleHighPolyGrass[grassObject] = new List<Matrix4x4>();
-                            }
-                            visibleHighPolyGrass[grassObject].Add(kvp.Value[i]);
-                        }
-                        else
-                        {
-                            if (!visibleLowPolyGrass.ContainsKey(grassObject))
-                            {
-                                visibleLowPolyGrass[grassObject] = new List<Matrix4x4>();
-                            }
-                            visibleLowPolyGrass[grassObject].Add(kvp.Value[i]);
-                        }
-                    }
-                }
-            }
+            lastPlayerPosition = player.position;
+            lastCameraRotation = playerCamera.transform.rotation;
+            UpdateVisibleGrass();
         }
 
+        // Rysuj trawę (samo rysowanie jest szybkie)
         foreach (var kvp in visibleHighPolyGrass)
         {
             if (kvp.Value.Count > 0)
@@ -226,7 +187,6 @@ public class GrassGenerator : MonoBehaviour
                 Graphics.DrawMeshInstanced(kvp.Key.highPolyMesh, 0, kvp.Key.material, kvp.Value.ToArray(), kvp.Value.Count, null, ShadowCastingMode.Off, receiveShadows: true);
             }
         }
-
         foreach (var kvp in visibleLowPolyGrass)
         {
             if (kvp.Value.Count > 0)
@@ -237,6 +197,56 @@ public class GrassGenerator : MonoBehaviour
         }
     }
 
+
+    // Przeniesiona logika widoczności do osobnej funkcji
+    void UpdateVisibleGrass()
+    {
+        visibleHighPolyGrass.Clear();
+        visibleLowPolyGrass.Clear();
+
+        Vector3 playerPosition = player.position;
+        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
+
+        foreach (var kvp in grassChunks)
+        {
+            Vector2Int chunkCoord = kvp.Key;
+            var chunk = kvp.Value;
+            Vector3 chunkCenter = new Vector3(
+                chunkCoord.x * chunkSize + chunkSize / 2,
+                (chunk.minY + chunk.maxY) / 2,
+                chunkCoord.y * chunkSize + chunkSize / 2
+            );
+            float chunkHeight = chunk.maxY - chunk.minY;
+            Bounds chunkBounds = new Bounds(
+                chunkCenter,
+                new Vector3(chunkSize, chunkHeight, chunkSize)
+            );
+
+            if (!GeometryUtility.TestPlanesAABB(frustumPlanes, chunkBounds))
+                continue;
+            if (Vector3.Distance(playerPosition, chunkCenter) > renderRadius)
+                continue;
+
+            for (int i = 0; i < chunk.matrices.Count; i++)
+            {
+                float distanceToPlayer = Vector3.Distance(playerPosition, chunk.positions[i]);
+                GrassObject grassObject = chunk.grassObjects[i];
+
+                if (distanceToPlayer <= switchDistance)
+                {
+                    if (!visibleHighPolyGrass.ContainsKey(grassObject))
+                        visibleHighPolyGrass[grassObject] = new List<Matrix4x4>();
+                    visibleHighPolyGrass[grassObject].Add(chunk.matrices[i]);
+                }
+                else
+                {
+                    if (!visibleLowPolyGrass.ContainsKey(grassObject))
+                        visibleLowPolyGrass[grassObject] = new List<Matrix4x4>();
+                    visibleLowPolyGrass[grassObject].Add(chunk.matrices[i]);
+                }
+            }
+        }
+    }
 
     void OnDestroy()
     {
