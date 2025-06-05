@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -17,11 +18,19 @@ public class DialogueTrigger : MonoBehaviour
     public int questIndex = 0;
     public GameObject npcCanvas;
     public GameObject questCanvas;
+
     void Start()
     {
         player = GameObject.Find("Player").transform;
         SetNPCQuests();
+
+        // Enable the input action if not already enabled
+        if ( GameUIHandler.Instance.interactionAction != null && ! GameUIHandler.Instance.interactionAction.action.enabled)
+        {
+             GameUIHandler.Instance.interactionAction.action.Enable();
+        }
     }
+
     public void TriggerDialogue()
     {
         if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0))
@@ -62,7 +71,7 @@ public class DialogueTrigger : MonoBehaviour
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius && Input.GetKeyDown(KeyCode.E))
+        if (distance <= detectionRadius &&  GameUIHandler.Instance.interactionAction != null &&  GameUIHandler.Instance.interactionAction.action.triggered)
         {
             TriggerDialogue();
         }

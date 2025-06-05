@@ -18469,6 +18469,10 @@ MonoBehaviour:
   finishActUI: {fileID: 1577376751}
   darkBackground: {fileID: 299171808}
   MapUI: {fileID: 1259866621}
+  moveAction: {fileID: -6509860760420825000, guid: 0cb1d55cf66407d43beef1e3c4e542da,
+    type: 3}
+  interactionAction: {fileID: 132406136541561373, guid: 0cb1d55cf66407d43beef1e3c4e542da,
+    type: 3}
   perksUISlots:
   - {fileID: 1692874758}
   - {fileID: 1271939873}
@@ -22077,8 +22081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1186649dcd6804aa3067a71b3c7bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAction: {fileID: -6509860760420825000, guid: 0cb1d55cf66407d43beef1e3c4e542da,
-    type: 3}
   _moveDirection: {x: 0, y: 0}
   playerHandPos: {fileID: 6418863}
   speed: 8
@@ -62276,6 +62278,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 321636204}
   questCanvas: {fileID: 321636201}
+  interactionAction: {fileID: 0}
 --- !u!1001 &1456519093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72163,7 +72166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1709316811
 RectTransform:
   m_ObjectHideFlags: 0
@@ -78440,6 +78443,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 1868869874}
   questCanvas: {fileID: 385266451}
+  interactionAction: {fileID: 0}
 --- !u!1001 &2036059665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78961,6 +78965,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 1182009706}
   questCanvas: {fileID: 1182009704}
+  interactionAction: {fileID: 0}
 --- !u!114 &2053762296
 MonoBehaviour:
   m_ObjectHideFlags: 0

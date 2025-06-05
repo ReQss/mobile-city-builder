@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
     public static PlayerMovement playerMovementInstance; 
     [Header("Input Actions")]
-    public InputActionReference moveAction;
+   
     public Vector2 _moveDirection;
 
 
@@ -73,16 +73,20 @@ public class PlayerMovement : MonoBehaviour
         isoUp = new Vector3(1, 0, 1).normalized;
 
         // Enable the input action if not already enabled
-        if (moveAction != null && !moveAction.action.enabled)
+        if (GameUIHandler.Instance.moveAction != null && !GameUIHandler.Instance.moveAction.action.enabled)
         {
-            moveAction.action.Enable();
+            GameUIHandler.Instance.moveAction.action.Enable();
+        }
+        if (GameUIHandler.Instance.interactionAction != null && !GameUIHandler.Instance.interactionAction.action.enabled)
+        {
+            GameUIHandler.Instance.interactionAction.action.Enable();
         }
     }
 
     void Update()
     {
         // Read movement from InputAction
-        Vector2 input = moveAction.action.ReadValue<Vector2>();
+        Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
         Vector3 moveDir = (isoRight * input.x + isoUp * input.y).normalized;
 
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
@@ -374,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
                     gameUIHandler.EnableNotification("Press E to pick up the " + collider.gameObject.name, GameUIHandler.NotificationType.Weapon);
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
                 {
                     DestroyAndCopyWeapon(collider);
                     GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
@@ -395,7 +399,7 @@ public class PlayerMovement : MonoBehaviour
                     gameUIHandler.EnableNotification("Press E to pick up the quest item", GameUIHandler.NotificationType.Weapon);
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
                 {
                     // Destroy(collider.gameObject);
                     ShowAlert();

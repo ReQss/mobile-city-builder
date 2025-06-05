@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUIHandler : MonoBehaviour
 {
+     public static GameUIHandler Instance;
     public enum NotificationType { None, NPC, Weapon, QuestItem }
     GameObject currentWeaponImage;
     [SerializeField]
@@ -18,10 +20,19 @@ public class GameUIHandler : MonoBehaviour
     public GameObject finishActUI;
     public GameObject darkBackground;
     public GameObject MapUI;
+    [Header("Input Actions")]
+     public InputActionReference moveAction;
+    public InputActionReference interactionAction; 
+    
 
 
     [SerializeField]
     private List<GameObject> perksUISlots;
+     void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
 
