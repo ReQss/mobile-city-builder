@@ -10,6 +10,8 @@ public class UIHandler : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI coinCounter;
     [SerializeField]
+    private TextMeshProUGUI energyCounter;
+    [SerializeField]
     private GameObject coinBubble;
     public GameObject rewardsPrefab;
     private int amountToUse = 0;
@@ -127,7 +129,10 @@ public class UIHandler : MonoBehaviour
     {
         if (coinCounter != null && GameManager.Instance != null)
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
-
+        if(energyCounter != null && GameManager.Instance != null){
+            energyCounter.text = GameManager.Instance.energy.ToString()+"/100";
+        }
+            
         if (GameManager.Instance != null && GameManager.Instance.coinsCollected > 0)
         {
             if (rewardsPrefab != null)
@@ -164,6 +169,18 @@ public class UIHandler : MonoBehaviour
         {
             Debug.LogError("Scena " + sceneName + " nie istnieje.");
         }
+    }
+      public void LoadLevelByName(string sceneName)
+    {
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.energy >= GameManager.Instance.energyRequiredForQuest)
+            {
+                GameManager.Instance.energy -= GameManager.Instance.energyRequiredForQuest;
+                LoadSceneByName(sceneName);
+            }
+        }
+        
     }
     public void CloseUIObject(GameObject gameObject)
     {

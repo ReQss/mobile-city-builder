@@ -1317,6 +1317,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 71385929}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &75080097 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6651041717294340826, guid: 91f8f659e4d573848acd233292d195ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 501591414}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &78517335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6029,6 +6041,7 @@ MonoBehaviour:
   currentUpgradedBuildings: []
   moneyFactory: {fileID: 1861501384}
   moneyFactoryLevel: 1
+  wellLevel: 1
   playerStats:
     health: 5
     attack: 2
@@ -6051,19 +6064,20 @@ MonoBehaviour:
     defenseBonus: 60
     healthBonus: 150
     isActive: 0
-  energy: 100
-  playerCoinCount: 10000
   temporaryCoinsToCollect: 10
   coinsTimeInterval: 3
   currentPickedBuilding: {fileID: 0}
   isWorkerUpgrading: 0
   isUIOpen: 0
-  coinsCollected: 20000
-  weaponLevel: 0
-  workerCount: 0
   isPlayerInteracting: 0
   playerPerks: []
   questActFinishedIndex: 0
+  energyRequiredForQuest: 10
+  coinsCollected: 20000
+  weaponLevel: 0
+  workerCount: 0
+  energy: 20
+  playerCoinCount: 10000
 --- !u!4 &412372281
 Transform:
   m_ObjectHideFlags: 0
@@ -7334,18 +7348,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 895920607}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &571392003 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6638146876954865030, guid: b78bae80e37c62c47a04470e5363548e,
-    type: 3}
-  m_PrefabInstance: {fileID: 895920607}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571392001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &571392005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7386,7 +7388,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 571392003}
+  m_TargetGraphic: {fileID: 1888805750}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -7414,13 +7416,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1050328832}
+      - m_Target: {fileID: 1050328834}
         m_TargetAssemblyTypeName: UIHandler, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: SetAlertCost
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgument: {fileID: 134818620}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12143,6 +12145,7 @@ MonoBehaviour:
   - {fileID: 1773947406}
   - {fileID: 1463880598}
   coinCounter: {fileID: 658302232}
+  energyCounter: {fileID: 75080097}
   coinBubble: {fileID: 1634783239}
   rewardsPrefab: {fileID: 696204116}
   weaponPrefab1: {fileID: 961706352}
@@ -22354,7 +22357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   cost: 200
-  TimeToUpgrade: 10
+  TimeToUpgrade: 30
   nameOfBuilding: Money Factory
   descriptionOfBuilding: Collects money over time
   buildingLevel: {fileID: 1788231309}
@@ -26162,6 +26165,11 @@ PrefabInstance:
       objectReference: {fileID: 696774349}
     - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
+      propertyPath: TimeToUpgrade
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
+        type: 3}
       propertyPath: buildingLevel
       value: 
       objectReference: {fileID: 793068685}
@@ -27633,7 +27641,7 @@ PrefabInstance:
     - target: {fileID: 6233505292249484422, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6424751169350734410, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}

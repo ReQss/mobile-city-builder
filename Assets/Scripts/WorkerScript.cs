@@ -67,10 +67,7 @@ public class WorkerScript : MonoBehaviour
             }
 
         }
-        if (GameUIHandler.Instance.cityMoveClicked)
-        {
-            Debug.Log("Pointer clicked/tapped");
-        }
+       
          SetDestinations();
         // Debug.Log(Vector3.Distance(transform.position, targetPosition));
 

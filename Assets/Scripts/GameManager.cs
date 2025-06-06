@@ -54,23 +54,29 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public List<CurrentUpgradedBuilding> currentUpgradedBuildings = new List<CurrentUpgradedBuilding>();
     public Building moneyFactory;
+    [Header("Buildings levels")]
     public int moneyFactoryLevel = 1;
+    public int wellLevel = 1;
     public Player playerStats;
     [SerializeField]
     public List<Armor> armors;
-    public int energy = 100;
-    public int playerCoinCount = 0;
     public int temporaryCoinsToCollect = 0;
     public float coinsTimeInterval = 3f;
     public GameObject currentPickedBuilding;
     public bool isWorkerUpgrading = false;
     public bool isUIOpen = false;
-    public int coinsCollected = 0;
-    public int weaponLevel = 0;
-    public int workerCount = 0;
     public bool isPlayerInteracting = false;
     public List<PlayerPerks> playerPerks = new List<PlayerPerks>();
     public int questActFinishedIndex = 0;
+    public int energyRequiredForQuest = 10;
+    [Header("Game attributes")]
+    
+    public int coinsCollected = 0;
+    public int weaponLevel = 0;
+    public int workerCount = 0;
+    
+    public int energy = 20;
+    public int playerCoinCount = 0;
     public static GameManager Instance { get; private set; }
     public IEnumerator UpgradingBuilding(Building building)
     {
@@ -131,13 +137,20 @@ public class GameManager : MonoBehaviour
                 {
                     buildingToUpgrade.level = currentBuilding.level + 1;
                     buildingToUpgrade.cost = currentBuilding.cost * 2;
-                    Debug.Log($"Building {currentBuilding.buildingName} found and upgraded to level {currentBuilding.level + 1}");
+                    Debug.Log($"Building {currentBuilding.buildingName} found  {currentBuilding.level + 1}");
                     currentUpgradedBuildings.RemoveAt(i);
                     i--;
-                    if(buildingToUpgrade.nameOfBuilding == "Money Factory")
+                    if (buildingToUpgrade.nameOfBuilding == "Money Factory")
                     {
                         moneyFactoryLevel = buildingToUpgrade.level;
                         Debug.Log("Money Factory upgraded to level: " + moneyFactoryLevel);
+                    }
+                    else if (buildingToUpgrade.nameOfBuilding == "Mystical Well")
+                    {
+                        this.wellLevel = buildingToUpgrade.level;
+                        Debug.Log("Mysterious Well upgraded to level: " + wellLevel);
+                        // Debug.Log("poziom " + wellLevel);
+                    
                     }
                     else
                     {
@@ -249,9 +262,35 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(IncreaseCoinsToCollectOverTime(10, coinsTimeInterval));
+           StartCoroutine(RestoreEnergyOverTime(1, 30f)); 
         StartCoroutine(IncreaseCoinsOverTime(1, 0.5f));
 playerPerks.Add(new PlayerPerks { perkName = "Dash", perkDescription = "Dashes in the direction of movement", perkLevel = 1, perkMaxLevel = 3, perkIsActive = true });
    
+    }
+    private IEnumerator RestoreEnergyOverTime(int amount, float time)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(time);
+            switch (wellLevel)
+            {
+                case 1:
+                    energy += amount * 1;
+                    break;
+                case 2:
+                    energy += amount * 2;
+                    break;
+                case 3:
+                    energy += amount * 3;
+                    break;
+                default:
+                    break;
+
+            }
+            // energy += amount;
+            
+            energy = Mathf.Min(energy, 100);
+        }
     }
 
 }
