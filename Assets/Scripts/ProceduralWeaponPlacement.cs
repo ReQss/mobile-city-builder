@@ -9,6 +9,10 @@ public class ProceduralWeaponPlacement : MonoBehaviour
     public Vector3 center = Vector3.zero;
     public Transform centerTransform;
     public GameObject player;
+    public Transform parentFolder; // Assign this in the inspector to act as the folder
+    public float enableDistance = 15f; // Distance to enable weapon
+
+    private List<GameObject> spawnedWeapons = new List<GameObject>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,7 +23,17 @@ public class ProceduralWeaponPlacement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player == null) return;
 
+        Vector3 playerPos = player.transform.position;
+        foreach (var weapon in spawnedWeapons)
+        {
+            if (weapon == null) continue;
+            float dist = Vector3.Distance(playerPos, weapon.transform.position);
+            bool shouldEnable = dist <= enableDistance;
+            if (weapon.activeSelf != shouldEnable)
+                weapon.SetActive(shouldEnable);
+        }
     }
 
     public void SpawnObjects()
@@ -39,7 +53,9 @@ public class ProceduralWeaponPlacement : MonoBehaviour
                 0f,
                 Random.Range(-spawnRange, spawnRange)
             );
-            Instantiate(prefab, randomPos, Quaternion.identity);
+            GameObject weapon = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder);
+            weapon.SetActive(false); // Start inactive
+            spawnedWeapons.Add(weapon);
         }
     }
     public void SpawnObjectsNumber(int count)
@@ -59,7 +75,7 @@ public class ProceduralWeaponPlacement : MonoBehaviour
                 0f,
                 Random.Range(-spawnRange, spawnRange)
             );
-            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity);
+            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
             objectSpawned.SetActive(true);
         }
     }
@@ -86,7 +102,7 @@ public class ProceduralWeaponPlacement : MonoBehaviour
         Vector3 offset = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * distance;
         Vector3 randomPos = player.transform.position + offset;
 
-        GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity);
+        GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
         objectSpawned.SetActive(true);
     }
 }
