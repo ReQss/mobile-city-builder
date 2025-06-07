@@ -44,6 +44,7 @@ public class UIHandler : MonoBehaviour
     }
     private void DisablePerkUIElement()
     {
+        if (GameManager.Instance == null || GameManager.Instance.playerPerks == null) return;
           var swiftSteps = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
         if (swiftSteps != null)
         {
