@@ -30,6 +30,7 @@ public class GameUIHandler : MonoBehaviour
     public InputActionReference specialAction;
     [Header("Input Actions City")]
     public InputActionReference cityMoveAction;
+    public InputActionReference cityInteractionAction;
 
     public bool cityMoveClicked = false;
 
@@ -70,6 +71,10 @@ public class GameUIHandler : MonoBehaviour
         if (GameUIHandler.Instance.specialAction != null && !GameUIHandler.Instance.specialAction.action.enabled)
         {
             GameUIHandler.Instance.specialAction.action.Enable();
+        }
+        if (GameUIHandler.Instance.cityInteractionAction != null && !GameUIHandler.Instance.cityInteractionAction.action.enabled)
+        {
+            GameUIHandler.Instance.cityInteractionAction.action.Enable();
         }
         LoadPerksToUI();
     }

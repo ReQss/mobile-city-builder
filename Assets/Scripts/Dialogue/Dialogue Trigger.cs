@@ -39,12 +39,19 @@ public class DialogueTrigger : MonoBehaviour
         else
             Debug.Log("Finish your quest first");
     }
+    public void TriggerDialogueCity()
+    {
+        
+        FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
+           
+        
+    }
     public void SetNPCQuests()
     {
         foreach (var quest in quests)
         {
-        if (quest != null)
-            quest.npc = this.gameObject;
+            if (quest != null)
+                quest.npc = this.gameObject;
         }
     }
     public void ChangeCanvas()
@@ -66,9 +73,14 @@ public class DialogueTrigger : MonoBehaviour
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius &&  GameUIHandler.Instance.interactionAction != null &&  GameUIHandler.Instance.interactionAction.action.triggered)
+        if (distance <= detectionRadius && GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
         {
             TriggerDialogue();
         }
+        if (GameUIHandler.Instance.cityInteractionAction != null && GameUIHandler.Instance.cityInteractionAction.action.triggered)
+        {
+            TriggerDialogueCity();
+        }
+     
     }
 }

@@ -46,6 +46,25 @@ public class DialogueManager : MonoBehaviour
         }
         DisplayNextSentence();
     }
+    public void StartDialogueCity(Dialogue dialogue, string sceneName, bool isSpecialAction)
+    {
+       
+        if(UIDialoguePanel != null)
+        UIDialoguePanel.SetActive(true);
+        GameManager.Instance.isPlayerInteracting = true;
+        // Cursor.lockState = CursorLockMode.None;
+        // DisableUIElements();
+        animator.SetBool("IsOpen", true);
+        nameText.text = dialogue.name;
+        if (dialogue.npcImage != null)
+            image.sprite = dialogue.npcImage;
+        sentences.Clear();
+        foreach (string sentence in dialogue.sentences)
+        {
+            sentences.Enqueue(sentence);
+        }
+        DisplayNextSentence();
+    }
     public void StartChoice()
     {
         specialAction = false;
