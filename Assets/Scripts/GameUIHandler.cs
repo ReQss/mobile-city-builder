@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameUIHandler : MonoBehaviour
 {
-     public static GameUIHandler Instance;
+    public static GameUIHandler Instance;
     public enum NotificationType { None, NPC, Weapon, QuestItem }
     GameObject currentWeaponImage;
     [SerializeField]
@@ -21,7 +21,7 @@ public class GameUIHandler : MonoBehaviour
     public GameObject darkBackground;
     public GameObject MapUI;
     [Header("Input Actions")]
-     public InputActionReference moveAction;
+    public InputActionReference moveAction;
     public InputActionReference interactionAction;
     public InputActionReference playerAction;
     public InputActionReference mapAction;
@@ -33,7 +33,9 @@ public class GameUIHandler : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> perksUISlots;
-     void Awake()
+    [SerializeField]
+    private List<TextMeshProUGUI> statistics;
+    void Awake()
     {
         Instance = this;
     }
@@ -63,10 +65,11 @@ public class GameUIHandler : MonoBehaviour
         {
             GameUIHandler.Instance.cityMoveAction.action.Enable();
         }
-         if (GameUIHandler.Instance.specialAction != null && !GameUIHandler.Instance.specialAction.action.enabled)
+        if (GameUIHandler.Instance.specialAction != null && !GameUIHandler.Instance.specialAction.action.enabled)
         {
             GameUIHandler.Instance.specialAction.action.Enable();
         }
+        LoadPerksToUI();
     }
 
     void Update()
@@ -75,26 +78,26 @@ public class GameUIHandler : MonoBehaviour
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();
         }
-    if (mapAction != null && mapAction.action.triggered)
-    {
-        if (MapUI != null)
+        if (mapAction != null && mapAction.action.triggered)
         {
-            MapUI.SetActive(!MapUI.activeSelf);
+            if (MapUI != null)
+            {
+                MapUI.SetActive(!MapUI.activeSelf);
+            }
+            if (Time.timeScale != 0)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
-        if (Time.timeScale != 0)
-        {
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Time.timeScale = 1;
-        }
-    }
         EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
 
-    // Check every frame if cityMoveAction is pressed (mouse/touch click)
-    cityMoveClicked = cityMoveAction != null && cityMoveAction.action.WasPressedThisFrame();
-}
+        // Check every frame if cityMoveAction is pressed (mouse/touch click)
+        cityMoveClicked = cityMoveAction != null && cityMoveAction.action.WasPressedThisFrame();
+    }
 
     public void SwitchQuestAcceptUI()
     {
@@ -133,11 +136,11 @@ public class GameUIHandler : MonoBehaviour
     {
         foreach (GameObject weaponImage in weaponImages)
         {
-            if (weaponImage.name.Contains( weaponName))
+            if (weaponImage.name.Contains(weaponName))
             {
                 Debug.Log("Updating weapon image: " + weaponName);
                 weaponImage.SetActive(true);
-               
+
             }
             // else if (currentWeaponImage != null)
             // {
@@ -213,8 +216,8 @@ public class GameUIHandler : MonoBehaviour
     {
         if (finishActUI != null)
         {
-            
-        GameManager.Instance.isPlayerInteracting = true;
+
+            GameManager.Instance.isPlayerInteracting = true;
             finishActUI.SetActive(true);
             darkBackground.SetActive(true);
         }
@@ -233,7 +236,98 @@ public class GameUIHandler : MonoBehaviour
             Debug.LogError("Scena " + sceneName + " nie istnieje.");
         }
     }
+    private void LoadPerksToUI()
+    {
+        // First, disable all perk slots
+        foreach (var slot in perksUISlots)
+        {
+            var elements = slot.transform.Find("Elements");
+            if (elements != null)
+                elements.gameObject.SetActive(false);
+        }
 
-    // Add a public property to access the click state from other scripts
-    // public bool CityMoveClicked => cityMoveClicked;
+        List<PlayerPerks> playerPerks = GameManager.Instance.playerPerks;
+        int i = 0;
+        foreach (PlayerPerks perk in playerPerks)
+        {
+            if (perk.perkIsActive && i < perksUISlots.Count)
+            {
+                EnablePerk(perksUISlots[i], perk);
+                i++;
+                Debug.Log($"Actived Perk: {perk.perkName} ");
+            }
+        }
+    }
+
+    private void EnablePerk(GameObject perkUISlot, PlayerPerks perk)
+    {
+        Transform elementsTransform = perkUISlot.transform.Find("Elements");
+        if (elementsTransform == null)
+        {
+            Debug.LogError("Elements not found in " + perkUISlot.name);
+            return;
+        }
+        GameObject element = elementsTransform.gameObject;
+        if (!element.activeSelf)
+        {
+            element.SetActive(true);
+        }
+
+        // Name
+        Transform perkNameTextTransform = elementsTransform.Find("Name/Text (TMP)");
+        if (perkNameTextTransform == null)
+        {
+            Debug.LogError("Text (TMP) not found in " + perkUISlot.name);
+            return;
+        }
+        TextMeshProUGUI perkName = perkNameTextTransform.GetComponent<TextMeshProUGUI>();
+        if (perkName == null)
+        {
+            Debug.LogError("TextMeshProUGUI missing on Text (TMP) in " + perkUISlot.name);
+            return;
+        }
+        perkName.text = perk.perkName;
+
+        // Description
+        Transform perkDescTextTransform = elementsTransform.Find("Description/Text (TMP)");
+        if (perkDescTextTransform != null)
+        {
+            TextMeshProUGUI perkDesc = perkDescTextTransform.GetComponent<TextMeshProUGUI>();
+            if (perkDesc != null)
+            {
+                perkDesc.text = perk.perkDescription;
+            }
+        }
+
+        // Icon
+        Transform perkIconTransform = elementsTransform.Find("PerkIcon/RawImage");
+        if (perkIconTransform != null)
+        {
+            UnityEngine.UI.RawImage iconImage = perkIconTransform.GetComponent<UnityEngine.UI.RawImage>();
+            if (iconImage != null && perk.perkIcon != null)
+            {
+                iconImage.texture = perk.perkIcon.texture;
+            }
+        }
+
+        // isActiveColor
+        Transform isActiveColorTransform = elementsTransform.Find("isActiveColor");
+        if (isActiveColorTransform != null)
+        {
+            UnityEngine.UI.Image colorImage = isActiveColorTransform.GetComponent<UnityEngine.UI.Image>();
+            if (colorImage != null)
+            {
+                colorImage.color = perk.perkIsActive ? Color.green : Color.red;
+            }
+        }
+    }
+    public void HandleStatistics()
+    {
+        if (PlayerMovement.playerMovementInstance != null)
+        {
+            statistics[0].text = PlayerMovement.playerMovementInstance.health.ToString();
+            statistics[1].text = PlayerMovement.playerMovementInstance.playerAttack.ToString();
+            statistics[2].text = PlayerMovement.playerMovementInstance.speed.ToString();
+        }
+    }
 }

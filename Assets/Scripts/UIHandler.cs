@@ -25,6 +25,12 @@ public class UIHandler : MonoBehaviour
     private Dictionary<int, GameObject> workerPriceToPrefab;
     private Dictionary<int, GameObject> workerPriceToPrefabEnabled;
     private Dictionary<int, GameObject> npcWorkerPriceToPrefab;
+    [SerializeField] private GameObject speed1Button;
+    [SerializeField] private GameObject speed2Button;
+    [SerializeField] private GameObject speed3Button;
+    [SerializeField] private GameObject ironConstitution1Button;
+    [SerializeField] private GameObject ironConstitution2Button;
+    [SerializeField] private GameObject ironConstitution3Button;
     void Start()
     {
         if (GameManager.Instance != null)
@@ -33,10 +39,36 @@ public class UIHandler : MonoBehaviour
         WeaponAndNpcHandling();
         DisableWeaponsThatAreUnlocked();
         DisableWorkersThatAreUnlocked();
+
+        DisablePerkUIElement();
+    }
+    private void DisablePerkUIElement()
+    {
+          var swiftSteps = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
+        if (swiftSteps != null)
+        {
+            if (swiftSteps.perkLevel >= 1 && speed1Button != null)
+                DisableUIElement(speed1Button);
+            if (swiftSteps.perkLevel >= 2 && speed2Button != null)
+                DisableUIElement(speed2Button);
+            if (swiftSteps.perkLevel >= 3 && speed3Button != null)
+                DisableUIElement(speed3Button);
+        }
+
+        var ironConstitution = GameManager.Instance.playerPerks.Find(p => p.perkName == "Iron Constitution");
+        if (ironConstitution != null)
+        {
+            if (ironConstitution.perkLevel >= 1 && ironConstitution1Button != null)
+                DisableUIElement(ironConstitution1Button);
+            if (ironConstitution.perkLevel >= 2 && ironConstitution2Button != null)
+                DisableUIElement(ironConstitution2Button);
+            if (ironConstitution.perkLevel >= 3 && ironConstitution3Button != null)
+                DisableUIElement(ironConstitution3Button);
+        }
     }
     public void WeaponAndNpcHandling()
     {
-          weaponPriceToPrefab = new Dictionary<int, GameObject>
+        weaponPriceToPrefab = new Dictionary<int, GameObject>
         {
             { 200, weaponPrefab1 },
             { 800, weaponPrefab2 },
@@ -49,7 +81,7 @@ public class UIHandler : MonoBehaviour
             workerPriceToPrefab.Add(price, workerPrefabs[i]);
             price *= 2;
         }
-         workerPriceToPrefabEnabled = new Dictionary<int, GameObject>();
+        workerPriceToPrefabEnabled = new Dictionary<int, GameObject>();
         price = 1000;
         for (int i = 0; i < workerPrefabs.Count; i++)
         {
@@ -58,7 +90,7 @@ public class UIHandler : MonoBehaviour
         }
 
         npcWorkerPriceToPrefab = new Dictionary<int, GameObject>();
-         price = 1000;
+        price = 1000;
         for (int i = 0; i < npcWorkersPrefabs.Count; i++)
         {
             npcWorkerPriceToPrefab.Add(price, npcWorkersPrefabs[i]);
@@ -291,6 +323,88 @@ public class UIHandler : MonoBehaviour
             DisableUIElement(prefab);
         }
     }
+    public void BuySpeed1(int amount)
+    {
+        BuySpeedPerk(amount, 1);
+    }
+
+    public void BuySpeed2(int amount)
+    {
+        BuySpeedPerk(amount, 2);
+    }
+
+    public void BuySpeed3(int amount)
+    {
+        BuySpeedPerk(amount, 3);
+    }
+
+    private void BuySpeedPerk(int amount, int targetLevel)
+    {
+        if (amount > GameManager.Instance.playerCoinCount)
+            return;
+
+        var perk = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
+        if (perk != null && perk.perkLevel < targetLevel)
+        {
+            GameManager.Instance.decreaseCoins(amount);
+            perk.perkLevel = targetLevel;
+            perk.perkIsActive = true;
+            Debug.Log($"Swift Steps upgraded to level {perk.perkLevel}");
+
+            if (targetLevel == 1 && speed1Button != null)
+                DisableUIElement(speed1Button);
+            else if (targetLevel == 2 && speed2Button != null)
+                DisableUIElement(speed2Button);
+            else if (targetLevel == 3 && speed3Button != null)
+                DisableUIElement(speed3Button);
+        }
+        else
+        {
+            Debug.LogWarning("Swift Steps perk not found or already at this level or higher.");
+        }
+    }
+      public void BuyIronConstitution1(int amount)
+    {
+        BuyIronConstitutionPerk(amount, 1);
+    }
+
+    public void BuyIronConstitution2(int amount)
+    {
+        BuyIronConstitutionPerk(amount, 2);
+    }
+
+    public void BuyIronConstitution3(int amount)
+    {
+        BuyIronConstitutionPerk(amount, 3);
+    }
+
+    private void BuyIronConstitutionPerk(int amount, int targetLevel)
+    {
+        if (amount > GameManager.Instance.playerCoinCount)
+            return;
+
+        var perk = GameManager.Instance.playerPerks.Find(p => p.perkName == "Iron Constitution");
+        if (perk != null && perk.perkLevel < targetLevel)
+        {
+            GameManager.Instance.decreaseCoins(amount);
+            perk.perkLevel = targetLevel;
+            perk.perkIsActive = true;
+            Debug.Log($"Iron Constitution upgraded to level {perk.perkLevel}");
+
+            // Optionally, disable buttons for Iron Constitution here if you have them
+            // Example:
+            if (targetLevel == 1 && ironConstitution1Button != null)
+                DisableUIElement(ironConstitution1Button);
+            else if (targetLevel == 2 && ironConstitution2Button != null)
+                DisableUIElement(ironConstitution2Button);
+            else if (targetLevel == 3 && ironConstitution3Button != null)
+                DisableUIElement(ironConstitution3Button);
+        }
+        else
+        {
+            Debug.LogWarning("Iron Constitution perk not found or already at this level or higher.");
+        }
+    }
     public void BuyWorker(int amount)
     {
         if (amount > GameManager.Instance.playerCoinCount)
@@ -364,5 +478,6 @@ public class UIHandler : MonoBehaviour
             
         }
     }
+  
 
 }

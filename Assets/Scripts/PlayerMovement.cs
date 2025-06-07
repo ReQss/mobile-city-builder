@@ -5,15 +5,15 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    
-    public static PlayerMovement playerMovementInstance; 
+
+    public static PlayerMovement playerMovementInstance;
     [Header("Input Actions")]
-   
+
     public Vector2 _moveDirection;
 
 
     public Transform playerHandPos;
-    public float speed = 5f;
+
     public float gravity = -9.81f;
     public float rotationSpeed = 10f;
 
@@ -41,16 +41,20 @@ public class PlayerMovement : MonoBehaviour
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
     public string currentWeaponName;
-    private int shotsFired = 0; 
+    private int shotsFired = 0;
+    [Header("Player Stats")]
     public int health = 100;
+    public float speed = 5f;
+    public int playerAttack = 0;
+
     private bool enemiesTouching = false;
     private float healthTickTimer = 0f;
     public float enemyRangeDamage = 1f;
     private float lastEnemyTouchTime = -1f;
-    public Image healthBarImage; 
+    public Image healthBarImage;
     public Animator healthBarAnimator;
-    
-    
+
+
 
     [Header("Player Dash Settings")]
     private bool isDashing = false;
@@ -71,8 +75,11 @@ public class PlayerMovement : MonoBehaviour
 
         isoRight = new Vector3(1, 0, -1).normalized;
         isoUp = new Vector3(1, 0, 1).normalized;
-
-        
+        health = GameManager.Instance.playerHealth; 
+        speed = GameManager.Instance.playerSpeed; 
+        playerAttack = GameManager.Instance.playerAttack; 
+        HandleActivePerks();
+        GameUIHandler.Instance.HandleStatistics();
     }
 
     void Update()
@@ -92,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if ((GameUIHandler.Instance.playerAction != null && GameUIHandler.Instance.playerAction.action.triggered && currentWeapon != null)
-        ||(GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
+        || (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
         {
             isCombat = !isCombat;
         }
@@ -129,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isShooting", isCombat && hasCrossbow);
             animator.SetBool("isSlashing", isCombat && hasSword);
         }
+       
         controller.Move(velocity * Time.deltaTime);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
@@ -139,8 +147,8 @@ public class PlayerMovement : MonoBehaviour
         {
             enemiesTouching = false;
         }
-        
-        HandleActivePerks();
+
+        HandleActiveDash();
     }
     public void HandleActivePerks()
     {
@@ -148,10 +156,28 @@ public class PlayerMovement : MonoBehaviour
         {
             if (perk.perkIsActive)
             {
-                if (perk.perkName == "Dash")
+                if (perk.perkName == "Iron Constitution")
+                {
+                    HandleHealthPerk(perk);
+                }
+                if (perk.perkName == "Swift Steps")
+                {
+                    HandleSpeedPerk(perk);
+                }
+            }
+        }
+    }
+    public void HandleActiveDash()
+    {
+        foreach (PlayerPerks perk in GameManager.Instance.playerPerks)
+        {
+            if (perk.perkIsActive)
+            {
+                if (perk.perkName == "Windwalker's Step")
                 {
                     HandleDash();
                 }
+
             }
         }
     }
@@ -181,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
                 health -= damage;
                 healthTickTimer = 0f;
                 Debug.Log("Health: " + health);
-                UpdateHealthBar(); 
+                UpdateHealthBar();
             }
         }
         else
@@ -198,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
             healthBarImage.fillAmount = fill;
         }
     }
-  
+
     private void RotateTowardsEnemy()
     {
         if (closestEnemyInRangePosition != Vector3.zero)
@@ -244,7 +270,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (shotsFired >= 5)
                 {
-                 
+
                     if (gameUIHandler != null)
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
@@ -257,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-   public void SlashingFunction()
+    public void SlashingFunction()
     {
         if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
         {
@@ -276,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (shotsFired >= 5)
                 {
-                 
+
                     if (gameUIHandler != null)
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
@@ -297,7 +323,6 @@ public class PlayerMovement : MonoBehaviour
         Collider closestEnemy = null;
         float closestDistance = Mathf.Infinity;
 
-        // Find the closest enemy
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -315,7 +340,6 @@ public class PlayerMovement : MonoBehaviour
         {
             closestEnemyInRangePosition = closestEnemy.transform.position;
 
-            // Enable lock-on for the closest enemy
             EnemyAI enemyAI = closestEnemy.GetComponent<EnemyAI>();
             if (enemyAI != null)
             {
@@ -328,7 +352,6 @@ public class PlayerMovement : MonoBehaviour
         {
             closestEnemyInRangePosition = Vector3.zero;
 
-            // Disable lock-on for all enemies in extended range
             Collider[] allEnemies = Physics.OverlapSphere(transform.position, enemyRange * 2);
             foreach (Collider col in allEnemies)
             {
@@ -348,11 +371,11 @@ public class PlayerMovement : MonoBehaviour
         if (closestEnemyInRangePosition != Vector3.zero)
         {
             Vector3 lookDir = (closestEnemyInRangePosition - transform.position).normalized;
-                lookDir.y = 0f;
-                if (lookDir != Vector3.zero && isCombat)
-                {
-                    transform.rotation = Quaternion.LookRotation(lookDir);
-                }
+            lookDir.y = 0f;
+            if (lookDir != Vector3.zero && isCombat)
+            {
+                transform.rotation = Quaternion.LookRotation(lookDir);
+            }
         }
     }
     public void CheckForItemsInRange()
@@ -368,7 +391,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.EnableNotification("Press E to pick up the " + collider.gameObject.name, GameUIHandler.NotificationType.Weapon);
+                    gameUIHandler.EnableNotification("Press Button to pick up the " + collider.gameObject.name, GameUIHandler.NotificationType.Weapon);
                 }
 
                 if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
@@ -389,7 +412,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.EnableNotification("Press E to pick up the quest item", GameUIHandler.NotificationType.Weapon);
+                    gameUIHandler.EnableNotification("Press Button to pick up the quest item", GameUIHandler.NotificationType.Weapon);
                 }
 
                 if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
@@ -435,7 +458,7 @@ public class PlayerMovement : MonoBehaviour
             alertAnimator.SetBool("openAlert", false);
         }
     }
-     private void ChangeCombat()
+    private void ChangeCombat()
     {
         isCombat = !isCombat;
         if (currentWeapon != null)
@@ -502,5 +525,36 @@ public class PlayerMovement : MonoBehaviour
                 isDashing = false;
             }
         }
+    }
+    private void HandleHealthPerk(PlayerPerks perk)
+    {
+        if (perk.perkLevel == 1)
+        {
+            health += 50;
+        }
+        else if (perk.perkLevel == 2)
+        {
+            health += 100;
+        }
+        else if (perk.perkLevel == 3)
+        {
+            health += 150;
+        }
+    }
+     private void HandleSpeedPerk(PlayerPerks perk)
+    {
+            if (perk.perkLevel == 1)
+                    {
+            speed += 2f;
+                    }
+                    else if (perk.perkLevel == 2)
+                    {
+                        speed += 4f;
+                    }
+                    else if (perk.perkLevel == 3)
+                    {
+                        speed += 6f;    
+                    }
+                
     }
 }

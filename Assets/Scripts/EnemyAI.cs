@@ -125,6 +125,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (anim != null)
                 {
+                    
                     anim.SetBool("isRunning", false);
                     anim.SetBool("isAttacking", false); // <-- Reset attacking when patrolling
                 }

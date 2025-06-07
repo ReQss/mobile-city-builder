@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class PlayerPerks
 {
     public string perkName;
     public string perkDescription;
+    public Sprite perkIcon;
     public int perkLevel;
     public int perkMaxLevel;
     public bool perkIsActive;
@@ -77,6 +79,9 @@ public class GameManager : MonoBehaviour
     
     public int energy = 20;
     public int playerCoinCount = 0;
+    public int playerHealth=100;
+    public int playerAttack = 10;
+    public int playerSpeed = 8;
     public static GameManager Instance { get; private set; }
     public IEnumerator UpgradingBuilding(Building building)
     {
@@ -264,8 +269,47 @@ public class GameManager : MonoBehaviour
         StartCoroutine(IncreaseCoinsToCollectOverTime(10, coinsTimeInterval));
            StartCoroutine(RestoreEnergyOverTime(1, 30f)); 
         StartCoroutine(IncreaseCoinsOverTime(1, 0.5f));
-playerPerks.Add(new PlayerPerks { perkName = "Dash", perkDescription = "Dashes in the direction of movement", perkLevel = 1, perkMaxLevel = 3, perkIsActive = true });
-   
+
+        // AddPerks();
+    }
+    public void AddPerks()
+    {
+          playerPerks.Add(new PlayerPerks
+    {
+        perkName = "Windwalker's Step",
+        perkDescription = "Harness the ancient winds to dash swiftly across the land, leaving only a whisper in your wake.",
+        perkLevel = 1,
+        perkMaxLevel = 3,
+        perkIsActive = true
+    });
+
+
+    playerPerks.Add(new PlayerPerks
+    {
+        perkName = "Swift Steps",
+        perkDescription = "Increases your movement speed, letting you zip around the city faster.",
+        perkLevel = 1,
+        perkMaxLevel = 3,
+        perkIsActive = true
+    });
+
+    playerPerks.Add(new PlayerPerks
+    {
+        perkName = "Iron Constitution",
+        perkDescription = "Boosts your maximum health, making you tougher against all odds.",
+        perkLevel = 1,
+        perkMaxLevel = 3,
+        perkIsActive = true
+    });
+
+    playerPerks.Add(new PlayerPerks
+    {
+        perkName = "Mighty Strikes",
+        perkDescription = "Enhances your attack power, allowing you to deal more damage.",
+        perkLevel = 1,
+        perkMaxLevel = 3,
+        perkIsActive = false
+    });
     }
     private IEnumerator RestoreEnergyOverTime(int amount, float time)
     {
@@ -288,7 +332,7 @@ playerPerks.Add(new PlayerPerks { perkName = "Dash", perkDescription = "Dashes i
 
             }
             // energy += amount;
-            
+
             energy = Mathf.Min(energy, 100);
         }
     }
