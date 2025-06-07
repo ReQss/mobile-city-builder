@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class GameUIHandler : MonoBehaviour
     public GameObject notificationPrefab;
     public GameObject questAcceptUI;
     public GameObject finishActUI;
+    public GameObject gameOverUI;
     public GameObject darkBackground;
     public GameObject MapUI;
     [Header("Input Actions")]
@@ -258,7 +260,19 @@ public class GameUIHandler : MonoBehaviour
             }
         }
     }
+    public IEnumerator ShowGameOverScreen()
+    {
+        yield return new WaitForSeconds(6f);
+        if (gameOverUI != null)
+        {
+            Debug.Log("Game Over UI is enabled");
+            GameManager.Instance.isPlayerInteracting = true;
+            gameOverUI.SetActive(true);
+            darkBackground.SetActive(true);
+        }
+        yield return null;
 
+    }
     private void EnablePerk(GameObject perkUISlot, PlayerPerks perk)
     {
         Transform elementsTransform = perkUISlot.transform.Find("Elements");

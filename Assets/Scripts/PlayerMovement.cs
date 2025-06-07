@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastEnemyTouchTime = -1f;
     public Image healthBarImage;
     public Animator healthBarAnimator;
+    private bool isPlayerDead = false;
 
 
 
@@ -84,6 +86,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(isPlayerDead)
+        {
+            animator.SetBool("isDead", true);
+            PlayerDeathScene();
+            return; // Stop processing if the player is dead
+        }
         // Read movement from InputAction
         Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
         Vector3 moveDir = (isoRight * input.x + isoUp * input.y).normalized;
@@ -150,6 +158,13 @@ public class PlayerMovement : MonoBehaviour
 
         HandleActiveDash();
     }
+    private void PlayerDeathScene()
+    {
+        if (gameUIHandler != null)
+        {
+            StartCoroutine(gameUIHandler.ShowGameOverScreen());
+        }
+    }
     public void HandleActivePerks()
     {
         foreach (PlayerPerks perk in GameManager.Instance.playerPerks)
@@ -183,6 +198,14 @@ public class PlayerMovement : MonoBehaviour
     }
     private void DamageHandling()
     {
+        if(health <= 0)
+        {
+            if (gameUIHandler != null)
+            {
+                isPlayerDead = true;
+            }
+            return;
+        }
         if (enemiesTouching)
         {
             healthTickTimer += Time.deltaTime;
