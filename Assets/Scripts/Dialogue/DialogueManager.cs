@@ -53,7 +53,7 @@ public class DialogueManager : MonoBehaviour
         UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
         // Cursor.lockState = CursorLockMode.None;
-        // DisableUIElements();
+        DisableUIElements();
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
         if (dialogue.npcImage != null)
