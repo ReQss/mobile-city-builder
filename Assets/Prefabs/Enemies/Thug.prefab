@@ -1162,17 +1162,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  chaseRange: 100
+  chaseRange: 10
   patrolRange: 5
   attackRange: 2
   patrolWaitTime: 2
   EnemyCanvasLockOnIsEnabled: 0
   EnemyCanvasLockOn: {fileID: 6560927320855199520}
-  health: 100
+  health: 250
   DamageDealtPrefab: {fileID: 5315537711970309577, guid: 2d873b078635599499552502ab5f9147,
     type: 3}
+  DamageDealtPrefabMagic2: {fileID: 5315537711970309577, guid: 9390fcad4fe390a408e82061dc03f1d5,
+    type: 3}
   DamageSpawnPoint: {fileID: 5998728742366237106}
-  coinsAmount: 50
+  coinsAmount: 75
   isMele: 1
 --- !u!195 &8225277712065359833
 NavMeshAgent:

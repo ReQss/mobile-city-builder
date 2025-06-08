@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
@@ -20,9 +21,13 @@ public class EnemyAI : MonoBehaviour
     public GameObject EnemyCanvasLockOn;
     public int health = 100;
     public GameObject DamageDealtPrefab;
+    public GameObject DamageDealtPrefabMagic2;
     public Transform DamageSpawnPoint;
     public int coinsAmount = 50;
     public bool isMele = false;
+
+    private Coroutine magicDotCoroutine; // Add this field to prevent overlapping DoTs
+
     public int Health
     {
         get { return health; }
@@ -53,7 +58,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        
+
         EnemyMovementLogicAndAnimations();
 
         if (EnemyCanvasLockOn != null)
@@ -63,7 +68,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void EnemyMovementLogicAndAnimations()
     {
-         Animator anim = GetComponentInChildren<Animator>();
+        Animator anim = GetComponentInChildren<Animator>();
         if (player == null)
             return;
 
@@ -125,7 +130,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (anim != null)
                 {
-                    
+
                     anim.SetBool("isRunning", false);
                     anim.SetBool("isAttacking", false); // <-- Reset attacking when patrolling
                 }
@@ -182,8 +187,8 @@ public class EnemyAI : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             int damageAmount = 20;
-            TakeDamage(damageAmount); 
-            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x,3.2f,DamageSpawnPoint.position.z), Quaternion.identity);
+            TakeDamage(damageAmount);
+            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
@@ -192,7 +197,7 @@ public class EnemyAI : MonoBehaviour
             }
 
             Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
-            float knockbackForce = 2f; 
+            float knockbackForce = 2f;
             Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -200,8 +205,37 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject);
-            Destroy(damageDealt, 0.5f); 
+            Destroy(other.gameObject,0.1f);
+            Destroy(damageDealt, 0.5f);
+        }
+        else if (other.CompareTag("Magic"))
+        {
+            int damageAmount = 60;
+            TakeDamage(damageAmount);
+            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = damageAmount.ToString();
+            }
+
+            Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+            float knockbackForce = 2f;
+            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
+            }
+
+            Destroy(other.gameObject,0.4f);
+            Destroy(damageDealt, 0.5f);
+
+            // Start DoT effect (cancel previous if running)
+            if (magicDotCoroutine != null)
+                StopCoroutine(magicDotCoroutine);
+            magicDotCoroutine = StartCoroutine(MagicDotEffect());
         }
         else if (other.CompareTag("SwordHitbox"))
         {
@@ -219,5 +253,40 @@ public class EnemyAI : MonoBehaviour
 
             Debug.Log("Enemy hit by sword!");
         }
+    }
+
+    // Add this coroutine at the end of the class
+    private IEnumerator MagicDotEffect()
+    {
+        float duration = 2f;
+        float tickInterval = 0.1f;
+        int tickCount = Mathf.FloorToInt(duration / tickInterval);
+        int tickDamage = 3;
+
+        for (int i = 0; i < tickCount; i++)
+        {
+            TakeDamage(tickDamage);
+
+            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = tickDamage.ToString();
+            }
+
+            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+                float knockbackForce = 1f;
+                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 25f, ForceMode.Impulse);
+            }
+
+            Destroy(damageDealt, 0.5f);
+
+            yield return new WaitForSeconds(tickInterval);
+        }
+        magicDotCoroutine = null;
     }
 }

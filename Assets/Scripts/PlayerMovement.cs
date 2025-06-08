@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject currentWeapon;
     public GameObject shootingProjectilePrefab;
     public GameObject accelerationArrowPrefab;
+    public GameObject magicalProjectilePrefab;
 
     private float combatTimer = 0f;
     public float shootInterval = 1f;
@@ -42,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
     public string currentWeaponName;
-    private int shotsFired = 0;
+    public int shotsFired = 0;
     [Header("Player Stats")]
     public int health = 100;
     public float speed = 5f;
@@ -126,6 +127,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 ShootingFunction();
             }
+            else if (weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                MagicalRod();
+            }
         }
         if (animator != null)
         {
@@ -134,15 +139,18 @@ public class PlayerMovement : MonoBehaviour
 
             bool hasSword = false;
             bool hasCrossbow = false;
+            bool hasRod = false;
             if (currentWeapon != null)
             {
                 string weaponName = currentWeapon.gameObject.name;
                 hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
             }
 
             animator.SetBool("isShooting", isCombat && hasCrossbow);
             animator.SetBool("isSlashing", isCombat && hasSword);
+            animator.SetBool("isCasting", isCombat && hasRod); // Added for Rod
         }
        
         controller.Move(velocity * Time.deltaTime);
@@ -265,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
         if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
         {
             combatTimer += Time.deltaTime;
-            if (combatTimer >= shootInterval)
+            if (combatTimer >= shootInterval/8)
             {
                 combatTimer = 0f;
 
@@ -289,9 +297,9 @@ public class PlayerMovement : MonoBehaviour
                 shotsFired++;
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.UpdateUsesCount(5 - shotsFired);
+                    gameUIHandler.UpdateUsesCount(45 - shotsFired);
                 }
-                if (shotsFired >= 5)
+                if (shotsFired >= 45)
                 {
 
                     if (gameUIHandler != null)
@@ -324,6 +332,52 @@ public class PlayerMovement : MonoBehaviour
                     gameUIHandler.UpdateUsesCount(5 - shotsFired);
                 }
                 if (shotsFired >= 5)
+                {
+
+                    if (gameUIHandler != null)
+                    {
+                        gameUIHandler.UpdateWeaponImage("Nothing");
+                    }
+                    Destroy(currentWeapon);
+                    currentWeapon = null;
+                    ChangeCombat();
+                    shotsFired = 0;
+                }
+            }
+        }
+    }
+    public void MagicalRod()
+    {
+        if (isCombat && currentWeapon != null && magicalProjectilePrefab != null)
+        {
+            combatTimer += Time.deltaTime;
+            if (combatTimer >= shootInterval/1.5f)
+            {
+                combatTimer = 0f;
+
+                RotateTowardsEnemy();
+                Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
+            GameObject projectile = Instantiate(magicalProjectilePrefab, spawnPos, currentWeapon.transform.rotation);
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    if (closestEnemyInRangePosition != Vector3.zero)
+                    {
+                        Vector3 direction = (closestEnemyInRangePosition - currentWeapon.transform.position).normalized;
+                        rb.linearVelocity = direction * projectileSpeed;
+                    }
+                    else
+                    {
+                        rb.linearVelocity = transform.forward * projectileSpeed;
+                    }
+                }
+
+                shotsFired++;
+                if (gameUIHandler != null)
+                {
+                    gameUIHandler.UpdateUsesCount(10 - shotsFired);
+                }
+                if (shotsFired >= 10)
                 {
 
                     if (gameUIHandler != null)
