@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private float dashTimer = 0f;
     private float dashCooldownTimer = 0f;
     private Vector3 dashDirection;
+    public GameObject shieldPrefab;
 
 
     void Start()
@@ -577,10 +578,30 @@ public class PlayerMovement : MonoBehaviour
             enemiesTouching = false;
         }
     }
+    private void HandleShield()
+    {
+        
+        if (GameUIHandler.Instance.specialAction.action.triggered )
+        {
+            isDashing = true;
+            dashTimer = dashDuration;
+            // Dash in the direction the player is facing (forward)
+            dashDirection = transform.forward;
+            dashCooldownTimer = dashCooldown;
+        }
 
+        if (isDashing)
+        {
+            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+            }
+        }
+    }
     private void HandleDash()
     {
-        // Cooldown timer
         if (dashCooldownTimer > 0f)
             dashCooldownTimer -= Time.deltaTime;
 
@@ -588,7 +609,6 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = true;
             dashTimer = dashDuration;
-            // Dash in the direction the player is facing (forward)
             dashDirection = transform.forward;
             dashCooldownTimer = dashCooldown;
         }
