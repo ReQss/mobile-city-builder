@@ -26983,6 +26983,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 539783850}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &540786596
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 540786597}
+  m_Layer: 0
+  m_Name: Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &540786597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540786596}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.4107086, z: -0, w: 0.9117667}
+  m_LocalPosition: {x: -0.18999998, y: 1.72, z: -0.22000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1026344913}
+  m_Father: {fileID: 666996282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &542946038
 GameObject:
   m_ObjectHideFlags: 0
@@ -32089,6 +32121,7 @@ Transform:
   - {fileID: 1933636202}
   - {fileID: 527885478}
   - {fileID: 815080992}
+  - {fileID: 540786597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 48.499, z: 0}
 --- !u!143 &666996284
@@ -32155,6 +32188,7 @@ MonoBehaviour:
   enemyRangeDamage: 1
   healthBarImage: {fileID: 2139707036}
   healthBarAnimator: {fileID: 2139707038}
+  shieldPrefab: {fileID: 540786596}
 --- !u!54 &666996287
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -53225,6 +53259,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1026344912
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 540786597}
+    m_Modifications:
+    - target: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_Name
+      value: vfx_Shield_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ccf28ea29cf499744ac31bab90073aba, type: 3}
+--- !u!4 &1026344913 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8461846582903198423, guid: ccf28ea29cf499744ac31bab90073aba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1026344912}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1026754037
 GameObject:
   m_ObjectHideFlags: 0
@@ -83948,6 +84056,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 200
     npc: {fileID: 1414124857}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Second quest
     questDescription: Escort copernicus to Monastery (Follow the path of torches)
@@ -83957,6 +84066,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 400
     npc: {fileID: 1414124857}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 1
   questIndex: 0
   npcCanvas: {fileID: 321636204}
@@ -85012,6 +85122,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 0
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   givenQuest:
     questName: 
@@ -85022,10 +85133,12 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 0
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   enemyGenerator: {fileID: 1937535595}
   currentQuestDescription: {fileID: 1844009107}
   gameUIHandler: {fileID: 508787344}
+  healthPrefab: {fileID: 0}
 --- !u!4 &1503635251
 Transform:
   m_ObjectHideFlags: 0
@@ -102590,6 +102703,7 @@ Transform:
   - {fileID: 1319019966}
   - {fileID: 1058003093}
   - {fileID: 328325541}
+  - {fileID: 2128834955}
   - {fileID: 27080454}
   - {fileID: 1313785610}
   - {fileID: 96480078}
@@ -107420,6 +107534,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 200
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Second quest
     questDescription: Defeat 4 enemies
@@ -107429,6 +107544,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 400
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   questIndex: 0
   npcCanvas: {fileID: 1868869874}
@@ -108140,6 +108256,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 200
     npc: {fileID: 2053762290}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Inquisition arrives after letter
     questDescription: Defeat 4 enemies
@@ -108149,6 +108266,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 400
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Finish of Act
     questDescription: 
@@ -108158,6 +108276,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 800
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 1
   questIndex: 0
   npcCanvas: {fileID: 1182009706}
@@ -108183,6 +108302,7 @@ MonoBehaviour:
     currentAmount: 0
     goldReward: 0
     npc: {fileID: 0}
+    amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   distanceLeft: 0
 --- !u!1001 &2055011858
@@ -111229,6 +111349,63 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2124113723}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2128834954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2128834955}
+  - component: {fileID: 2128834956}
+  m_Layer: 0
+  m_Name: HealingGen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2128834955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128834954}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 675.38306, y: 533.66974, z: -81.629845}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1928814743}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2128834956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128834954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1270cb77980a941aa3220a66279cc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 169138277614193748, guid: caa5240b95450cd4bb963a1ca930e070, type: 3}
+  xSize: {x: 0, y: 175}
+  zSize: {x: -50, y: 250}
+  ySize: {x: -20, y: 20}
+  layerToExclude:
+    serializedVersion: 2
+    m_Bits: 8
+  radius: 5
+  positionClear: 1
+  numberOfObjects: 15
+  instantiatedObjectsFolder: {fileID: 1026097255}
+  spawnObjects: 1
 --- !u!1 &2138136464
 GameObject:
   m_ObjectHideFlags: 0

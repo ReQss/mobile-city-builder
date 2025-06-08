@@ -69,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 dashDirection;
     public GameObject shieldPrefab;
 
+    private bool isShieldActive = false;
+    private float shieldDuration = 2f;
+    private float shieldCooldown = 10f;
+    private float shieldTimer = 0f;
+    private float shieldCooldownTimer = 0f;
 
     void Start()
     {
@@ -166,6 +171,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         HandleActiveDash();
+        HandleShield(); // Make sure this is called in Update
     }
     private void PlayerDeathScene()
     {
@@ -207,7 +213,14 @@ public class PlayerMovement : MonoBehaviour
     }
     private void DamageHandling()
     {
-        if(health <= 0)
+        if (isShieldActive)
+        {
+            // No damage while shield is active
+            healthBarAnimator.SetBool("isDamaged", false);
+            return;
+        }
+
+        if (health <= 0)
         {
             if (gameUIHandler != null)
             {
@@ -238,7 +251,6 @@ public class PlayerMovement : MonoBehaviour
                 healthBarAnimator.SetBool("isDamaged", true);
                 health -= damage;
                 healthTickTimer = 0f;
-                Debug.Log("Health: " + health);
                 UpdateHealthBar();
             }
         }
@@ -569,6 +581,13 @@ public class PlayerMovement : MonoBehaviour
             lastEnemyTouchTime = Time.time;
             closestEnemyInRangePosition = other.transform.position;
         }
+        // Healing logic
+        if (other.CompareTag("Healing"))
+        {
+            health = Mathf.Min(health + 25, 300); // Heal by 25, max 100
+            UpdateHealthBar();
+            Destroy(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -580,23 +599,30 @@ public class PlayerMovement : MonoBehaviour
     }
     private void HandleShield()
     {
-        
-        if (GameUIHandler.Instance.specialAction.action.triggered )
+        // Cooldown timer
+        if (shieldCooldownTimer > 0f)
+            shieldCooldownTimer -= Time.deltaTime;
+
+        // Activate shield if special action triggered and not on cooldown
+        if (!isShieldActive && GameUIHandler.Instance.specialAction.action.triggered && shieldCooldownTimer <= 0f)
         {
-            isDashing = true;
-            dashTimer = dashDuration;
-            // Dash in the direction the player is facing (forward)
-            dashDirection = transform.forward;
-            dashCooldownTimer = dashCooldown;
+            isShieldActive = true;
+            shieldTimer = shieldDuration;
+            shieldCooldownTimer = shieldCooldown;
+
+            if (shieldPrefab != null)
+                shieldPrefab.SetActive(true);
         }
 
-        if (isDashing)
+        // While shield is active
+        if (isShieldActive)
         {
-            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
-            dashTimer -= Time.deltaTime;
-            if (dashTimer <= 0f)
+            shieldTimer -= Time.deltaTime;
+            if (shieldTimer <= 0f)
             {
-                isDashing = false;
+                isShieldActive = false;
+                if (shieldPrefab != null)
+                    shieldPrefab.SetActive(false);
             }
         }
     }

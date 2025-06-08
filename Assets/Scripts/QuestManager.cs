@@ -22,6 +22,7 @@ public class Quest
     public int currentAmount;
     public int goldReward;
     public GameObject npc;
+    public int amountOfHeals = 0;
     public bool disableNpcAfterAcceptedQuest = false;
     
 
@@ -36,10 +37,16 @@ public class Quest
     {
         isCompleted = true;
         GameManager.Instance.coinsCollected += goldReward;
-        if(npc != null)
+        if (npc != null)
         {
-            
-        npc.GetComponent<DialogueTrigger>().ChangeCanvas();
+            npc.GetComponent<DialogueTrigger>().ChangeCanvas();
+
+            // Spawn heals nearby NPC in random position
+            if (QuestManager.Instance != null)
+            {
+                if(amountOfHeals>0)
+                QuestManager.Instance.SpawnHealsNearNPC(npc, amountOfHeals);
+            }
         }
     }
 }
@@ -57,6 +64,7 @@ public class QuestManager : MonoBehaviour
 
     public TextMeshProUGUI currentQuestDescription;
     public GameUIHandler gameUIHandler;
+    public GameObject healthPrefab;
 
     void Awake()
     {
@@ -157,5 +165,22 @@ public class QuestManager : MonoBehaviour
         }
 
         UpdateQuestUI();
+    }
+
+    public void SpawnHealsNearNPC(GameObject npc, int amountOfHeals)
+    {
+        if (healthPrefab == null || npc == null) return;
+
+        for (int i = 0; i < amountOfHeals; i++)
+        {
+            float radius = 10f; // Increase this value for more distance
+            Vector2 randomCircle = Random.insideUnitCircle * radius;
+            Vector3 spawnPos = new Vector3(
+                npc.transform.position.x + randomCircle.x,
+                npc.transform.position.y + 0f, // 1f above NPC's base position
+                npc.transform.position.z + randomCircle.y
+            );
+            Instantiate(healthPrefab, spawnPos, Quaternion.identity);
+        }
     }
 }
