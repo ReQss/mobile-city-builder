@@ -3809,6 +3809,7 @@ MonoBehaviour:
     description: Go back to  Zareth
   currentObjectiveIndex: 0
   dialogueTrigger: {fileID: 1794650110}
+  player: {fileID: 656470556}
 --- !u!4 &216763124
 Transform:
   m_ObjectHideFlags: 0
@@ -7886,7 +7887,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1888805750}
   m_OnClick:
     m_PersistentCalls:
@@ -11000,6 +11001,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BottomPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 299581143226053419, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 711049476829677154, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
@@ -11009,6 +11015,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 728174856869569051, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 755772943412858030, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -11128,6 +11139,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1322035688121611003, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322035688121611003, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
       propertyPath: m_Colors.m_PressedColor.b
       value: 0.4716981
       objectReference: {fileID: 0}
@@ -11189,7 +11205,7 @@ PrefabInstance:
     - target: {fileID: 6233505292249484422, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6424751169350734410, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
