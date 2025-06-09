@@ -203,6 +203,23 @@ public class UIHandler : MonoBehaviour
             Debug.LogError("Scena " + sceneName + " nie istnieje.");
         }
     }
+    public void LoadSceneByNameCity(string sceneName)
+    {
+       
+        if (Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+             if (GameManager.Instance == null)
+        {
+             SceneManager.LoadScene("TutorialCity");
+        }
+        else SceneManager.LoadScene(sceneName);
+            Debug.Log("Ładowanie sceny: " + sceneName);
+        }
+        else
+        {
+            Debug.LogError("Scena " + sceneName + " nie istnieje.");
+        }
+    }
       public void LoadLevelByName(string sceneName)
     {
         if (GameManager.Instance != null)
@@ -213,7 +230,7 @@ public class UIHandler : MonoBehaviour
                 LoadSceneByName(sceneName);
             }
         }
-        
+
     }
     public void CloseUIObject(GameObject gameObject)
     {

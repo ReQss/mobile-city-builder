@@ -22,6 +22,7 @@ public class TutorialScript : MonoBehaviour
     public List<TutorialObject> tutorialObjects;
     public int currentObjectiveIndex = 0;
     public DialogueTrigger dialogueTrigger;
+    public GameObject player;
 
     void Awake()
     {
@@ -38,6 +39,15 @@ public class TutorialScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Animator animator = player.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("getup");
+        }
+        else
+        {
+            Debug.LogError("Animator component not found on player GameObject.");
+        }
         SetDescription();
     }
 

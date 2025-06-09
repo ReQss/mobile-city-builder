@@ -18,7 +18,10 @@ public class DialogueManager : MonoBehaviour
     public bool specialAction = false;
     public string sceneName = null;
     public bool haveChoice = false;
-    public GameObject UIDialoguePanel;    void Start()
+    public GameObject UIDialoguePanel;
+    private bool shouldLoadSceneAfterDialogue = false;
+    private string sceneToLoadAfterDialogue = null;
+    void Start()
     {
         sentences = new Queue<string>();
     }
@@ -48,9 +51,9 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogueCity(Dialogue dialogue, string sceneName, bool isSpecialAction)
     {
-       
-        if(UIDialoguePanel != null)
-        UIDialoguePanel.SetActive(true);
+
+        if (UIDialoguePanel != null)
+            UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
         // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
@@ -64,6 +67,32 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
         DisplayNextSentence();
+      
+    }
+    public void StartDialogueCityChangeScene(Dialogue dialogue, string sceneName, bool isSpecialAction)
+    {
+        if (UIDialoguePanel != null)
+            UIDialoguePanel.SetActive(true);
+        GameManager.Instance.isPlayerInteracting = true;
+        // Cursor.lockState = CursorLockMode.None;
+        DisableUIElements();
+        animator.SetBool("IsOpen", true);
+        nameText.text = dialogue.name;
+        if (dialogue.npcImage != null)
+            image.sprite = dialogue.npcImage;
+        sentences.Clear();
+        foreach (string sentence in dialogue.sentences)
+        {
+            sentences.Enqueue(sentence);
+        }
+        DisplayNextSentence();
+
+        // Set up scene change after dialogue ends
+        if (sceneName != null)
+        {
+            shouldLoadSceneAfterDialogue = true;
+            sceneToLoadAfterDialogue = sceneName;
+        }
     }
     public void StartChoice()
     {
@@ -106,7 +135,13 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.isPlayerInteracting = false;
         if(UIDialoguePanel != null)
         UIDialoguePanel.SetActive(false);
-      
+
+        // Load scene if flagged
+        if (shouldLoadSceneAfterDialogue && !string.IsNullOrEmpty(sceneToLoadAfterDialogue))
+        {
+            shouldLoadSceneAfterDialogue = false;
+            SceneManager.LoadScene(sceneToLoadAfterDialogue);
+        }
     }
    
    
