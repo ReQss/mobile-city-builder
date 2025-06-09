@@ -93,7 +93,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if(isPlayerDead)
+     
+        if (isPlayerDead)
         {
             animator.SetBool("isDead", true);
             PlayerDeathScene();

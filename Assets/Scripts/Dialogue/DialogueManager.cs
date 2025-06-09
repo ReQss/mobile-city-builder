@@ -121,6 +121,7 @@ public class DialogueManager : MonoBehaviour
     {
         foreach (GameObject gameObject in uiToDisable)
         {
+            if(gameObject != null)
             gameObject.SetActive(false);
         }
     }

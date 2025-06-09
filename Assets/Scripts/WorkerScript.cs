@@ -20,9 +20,12 @@ public class WorkerScript : MonoBehaviour
     public TextMeshProUGUI getRewardsText;
     private bool rewardPanelOpened = false;
     public bool isMouseClicked = false;
+    
+    public bool playerDisabled = false;
 
     void Start()
     {
+       
         // Set the initial target position to the current position
         targetPosition = transform.position;
 
@@ -45,8 +48,10 @@ public class WorkerScript : MonoBehaviour
 
     void Update()
     {
-        if(GameUIHandler.Instance!=null && GameUIHandler.Instance.cityMoveAction != null)
-            isMouseClicked =GameUIHandler.Instance.cityMoveAction.action.triggered;
+           if (playerDisabled == true) return;
+       
+        if (GameUIHandler.Instance != null && GameUIHandler.Instance.cityMoveAction != null)
+            isMouseClicked = GameUIHandler.Instance.cityMoveAction.action.triggered;
         if (GameManager.Instance.isUIOpen == true)
         {
             return;

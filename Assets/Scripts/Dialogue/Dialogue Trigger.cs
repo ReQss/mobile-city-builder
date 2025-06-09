@@ -43,7 +43,17 @@ public class DialogueTrigger : MonoBehaviour
     {
         
         FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
-           
+        questIndex++;
+        
+    }
+    public void TriggerDialogueCityTutorial(int currentIndex)
+    {
+        if(currentIndex != TutorialScript.Instance.currentObjectiveIndex)
+        {
+            return;
+        }
+        FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
+        questIndex++;
         
     }
     public void SetNPCQuests()
