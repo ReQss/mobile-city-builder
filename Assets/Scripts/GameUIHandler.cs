@@ -38,6 +38,11 @@ public class GameUIHandler : MonoBehaviour
     private List<GameObject> perksUISlots;
     [SerializeField]
     private List<TextMeshProUGUI> statistics;
+    [Header("Notifcations elements")]
+    string notificationNPC = "Press 'Interaction Button' to interact with NPCs";
+    public GameObject interactionButton;
+    public bool isInteractingWithNpc= false;
+    public bool isInteractingWithWeapon = false;
     void Awake()
     {
         Instance = this;
@@ -100,8 +105,16 @@ public class GameUIHandler : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
-        EnableNotification("Press E to interact with NPCs", NotificationType.NPC);
-
+        // EnableNotification(notificationNPC, NotificationType.NPC);
+        if (isInteractingWithNpc || isInteractingWithWeapon)
+        {
+            TriggerButtonAnimation(interactionButton,true);
+        }
+        else
+        {
+            TriggerButtonAnimation(interactionButton, false);
+        }
+       
         // Check every frame if cityMoveAction is pressed (mouse/touch click)
         cityMoveClicked = cityMoveAction != null && cityMoveAction.action.WasPressedThisFrame();
     }
@@ -178,37 +191,67 @@ public class GameUIHandler : MonoBehaviour
     }
     public void EnableNotification(String notificationText, NotificationType notificationType)
     {
+        if (notificationType == NotificationType.None)
+        {
+            if (notificationPrefab != null)
+            {
+                notificationPrefab.SetActive(false);
+            }
+            isInteractingWithNpc = false;
+            isInteractingWithWeapon = false;
+            return;
+        }
 
         if (NPC.anyNPCDetectsPlayer && notificationType == NotificationType.NPC)
         {
-            if (notificationPrefab != null)
-            {
-                notificationPrefab.SetActive(true);
-                TextMeshProUGUI notificationTextComponent = notificationPrefab.GetComponentInChildren<TextMeshProUGUI>();
-                if (notificationTextComponent != null)
-                {
-                    notificationTextComponent.text = notificationText;
-                }
-            }
+            EnableNotificationPrefab(notificationText);
+            isInteractingWithNpc = true;
         }
         else if (notificationType == NotificationType.Weapon)
         {
-            if (notificationPrefab != null)
-            {
-                notificationPrefab.SetActive(true);
-                TextMeshProUGUI notificationTextComponent = notificationPrefab.GetComponentInChildren<TextMeshProUGUI>();
-                if (notificationTextComponent != null)
-                {
-                    notificationTextComponent.text = notificationText;
-                }
-            }
+            EnableNotificationPrefab(notificationText);
+            isInteractingWithWeapon = true;
         }
-
         else
         {
             if (notificationPrefab != null)
             {
                 notificationPrefab.SetActive(false);
+            }
+            isInteractingWithNpc = false;
+            isInteractingWithWeapon = false;
+        }
+
+        // Ensure only one interaction type is true at a time
+        if (notificationType != NotificationType.NPC)
+            isInteractingWithNpc = false;
+        if (notificationType != NotificationType.Weapon)
+            isInteractingWithWeapon = false;
+    }
+    public void TriggerButtonAnimation(GameObject button, bool turnOn)
+    {
+        if (button != null)
+        {
+            Animator animator = button.GetComponent<Animator>();
+            if (animator != null)
+            {
+                if (turnOn == true)
+                    animator.SetBool("isEnabled", true);
+                else
+                    animator.SetBool("isEnabled", false);
+            }
+
+        }
+    }
+    public void EnableNotificationPrefab(String notificationText)
+    {
+        if (notificationPrefab != null)
+        {
+            notificationPrefab.SetActive(true);
+            TextMeshProUGUI notificationTextComponent = notificationPrefab.GetComponentInChildren<TextMeshProUGUI>();
+            if (notificationTextComponent != null)
+            {
+                notificationTextComponent.text = notificationText;
             }
         }
     }

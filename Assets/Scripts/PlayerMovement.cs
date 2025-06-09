@@ -471,14 +471,23 @@ public class PlayerMovement : MonoBehaviour
     public void CheckForItemsInRange()
     {
         float range = maxDistanceCheck;
+        bool foundInteractable = false; // Track if any interactable is found
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
         foreach (Collider collider in colliders)
         {
-
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+            if (collider.gameObject.layer == LayerMask.NameToLayer("NPC"))
             {
+                foundInteractable = true;
+                if (gameUIHandler != null)
+                {
+                    gameUIHandler.EnableNotification("Press Button to interact with NPC", GameUIHandler.NotificationType.NPC);
+                }
+            }
+            else if (collider.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+            {
+                foundInteractable = true;
                 if (gameUIHandler != null)
                 {
                     gameUIHandler.EnableNotification("Press Button to pick up the " + collider.gameObject.name, GameUIHandler.NotificationType.Weapon);
@@ -498,8 +507,10 @@ public class PlayerMovement : MonoBehaviour
                     ShowAlert();
                 }
             }
+            
             if (collider.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
             {
+                foundInteractable = true;
                 if (gameUIHandler != null)
                 {
                     gameUIHandler.EnableNotification("Press Button to pick up the quest item", GameUIHandler.NotificationType.Weapon);
@@ -512,6 +523,12 @@ public class PlayerMovement : MonoBehaviour
                     QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
                 }
             }
+        }
+
+        // If no interactable found, disable notification
+        if (!foundInteractable && gameUIHandler != null)
+        {
+            gameUIHandler.EnableNotification("", GameUIHandler.NotificationType.None);
         }
     }
     public void DestroyAndCopyWeapon(Collider collider)

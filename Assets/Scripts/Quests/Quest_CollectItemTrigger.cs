@@ -25,7 +25,7 @@ public class Quest_CollectItemTrigger : MonoBehaviour
             distanceLeft = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
             if (distanceLeft < 2.5f)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
                 {
                     Debug.Log("Player is close enough to talk to the NPC.");
                     QuestManager.Instance.currentQuest.currentAmount = currentQuest.targetAmount;
