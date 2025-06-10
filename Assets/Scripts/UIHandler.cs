@@ -31,6 +31,31 @@ public class UIHandler : MonoBehaviour
     [SerializeField] private GameObject ironConstitution1Button;
     [SerializeField] private GameObject ironConstitution2Button;
     [SerializeField] private GameObject ironConstitution3Button;
+    public List<GameObject> uiElements;
+    public GameObject darkBackground;
+    public GameObject uiTopPanel;
+    public bool IsUIOpen()
+    {
+        foreach (GameObject go in uiElements)
+        {
+            if (go.activeSelf)
+            {
+                Animator animator = go.GetComponent<Animator>();
+                if (animator != null && animator.GetBool("IsOpen"))
+                {
+                    return true;
+                }
+                else if (animator == null)
+                {
+                    return true; // If there's no animator, we assume the UI is open if the GameObject is active
+                }
+               
+            }
+            
+        }
+        return false;
+    }
+
     void Start()
     {
         if (GameManager.Instance != null)
@@ -162,10 +187,11 @@ public class UIHandler : MonoBehaviour
     {
         if (coinCounter != null && GameManager.Instance != null)
             coinCounter.text = GameManager.Instance.playerCoinCount.ToString();
-        if(energyCounter != null && GameManager.Instance != null){
-            energyCounter.text = GameManager.Instance.energy.ToString()+"/100";
+        if (energyCounter != null && GameManager.Instance != null)
+        {
+            energyCounter.text = GameManager.Instance.energy.ToString() + "/100";
         }
-            
+
         if (GameManager.Instance != null && GameManager.Instance.coinsCollected > 0)
         {
             if (rewardsPrefab != null)
@@ -176,7 +202,31 @@ public class UIHandler : MonoBehaviour
             if (rewardsPrefab != null)
                 rewardsPrefab.SetActive(false);
         }
-
+        if (IsUIOpen())
+        {
+            GameManager.Instance.isUIOpen = true;
+            if (darkBackground != null)
+            {
+                darkBackground.SetActive(true);
+            }
+            if (uiTopPanel != null)
+            {
+                uiTopPanel.SetActive(false);
+            }
+        }
+        else
+        {
+            GameManager.Instance.isUIOpen = false;
+            if (darkBackground != null)
+            {
+                darkBackground.SetActive(false);
+            }
+            if (uiTopPanel != null)
+            {
+                uiTopPanel.SetActive(true);
+            }
+        }
+     
     }
     private IEnumerator UpdateCoinCount(float time)
     {
@@ -241,10 +291,22 @@ public class UIHandler : MonoBehaviour
         else Debug.Log("Not found");
         GameManager.Instance.isUIOpen = false;
     }
+    public void DisableUIObject(GameObject gameObject)
+    {
+        if (gameObject != null)
+        {
+            gameObject.SetActive(false);
+
+        }
+        else
+        {
+            Debug.LogWarning("GameObject is null in DisableUIObject!");
+        }
+    }
      public void CloseUIObjectNoAnimation(GameObject gameObject)
     {
-         gameObject.SetActive(false);
-       
+        gameObject.SetActive(false);
+
         GameManager.Instance.isUIOpen = false;
     }
     public void CloseUIInteractiveObject(GameObject gameObject)

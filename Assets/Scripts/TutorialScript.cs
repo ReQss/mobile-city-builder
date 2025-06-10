@@ -85,7 +85,7 @@ public class TutorialScript : MonoBehaviour
         }
         if (currentObjectiveIndex < objectivesDescription.Count - 1)
         {
-            currentObjectiveIndex++;
+            // currentObjectiveIndex++;
             SetDescription();
         }
         else

@@ -48,13 +48,16 @@ public class DialogueTrigger : MonoBehaviour
     }
     public void TriggerDialogueCityChangeScene(int currentIndex)
     {
-        
-         if (currentIndex != TutorialScript.Instance.currentObjectiveIndex)
+
+        if (currentIndex != TutorialScript.Instance.currentObjectiveIndex)
         {
             return;
         }
-        FindObjectOfType<DialogueManager>().StartDialogueCityChangeScene(dialogue[questIndex],"Menu" , isSpecialAction);
-        questIndex++;
+        else
+        {
+            FindObjectOfType<DialogueManager>().StartDialogueCityChangeScene(dialogue[questIndex], "Menu", isSpecialAction);
+            questIndex++;
+        }
         
     }
     public void TriggerDialogueCityTutorial(int currentIndex)
@@ -63,9 +66,12 @@ public class DialogueTrigger : MonoBehaviour
         {
             return;
         }
-        FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
-        questIndex++;
-
+        else
+        {
+            FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
+            questIndex++;
+            TutorialScript.Instance.currentObjectiveIndex++;
+        }
     }
     public void SetNPCQuests()
     {
