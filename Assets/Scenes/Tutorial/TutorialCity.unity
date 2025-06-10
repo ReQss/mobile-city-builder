@@ -3784,8 +3784,8 @@ MonoBehaviour:
   - Buy weapon in workshop
   - Collect money from money factory
   - Collect rewards from ancient box - move Elarion by clicking the ground
-  - Go back to Zareth
-  - Go back to Zareth
+  - Use Mystical Well to travel through time and space
+  - Use Mystical Well to travel through time and space
   tutorialObjects:
   - name: Talking to zareth
     isCompleted: 0
@@ -3807,10 +3807,11 @@ MonoBehaviour:
     description: Collect rewards from the box by clicking it
   - name: Ready to journey
     isCompleted: 0
-    description: Go back to  Zareth
+    description: Use Mystical Well to travel through time and space
   currentObjectiveIndex: 1
   dialogueTrigger: {fileID: 1794650110}
   player: {fileID: 656470556}
+  buttonToUnlock: {fileID: 895920609}
 --- !u!4 &216763124
 Transform:
   m_ObjectHideFlags: 0
@@ -11435,6 +11436,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 895920607}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &895920609 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1322035688121611003, guid: b78bae80e37c62c47a04470e5363548e,
+    type: 3}
+  m_PrefabInstance: {fileID: 895920607}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &899845289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16643,7 +16656,7 @@ PrefabInstance:
     - target: {fileID: 6691943460200810439, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_MethodName
-      value: TriggerDialogueCityTutorial
+      value: TriggerDialogueCityTutorialAndEnableButton
       objectReference: {fileID: 0}
     - target: {fileID: 6691943460200810439, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
         type: 3}
@@ -23894,7 +23907,7 @@ MonoBehaviour:
     - You are ready for your journey
     - "That\u2019s it! You\u2019ve completed the City tutorial. You\u2019ve learned
       the basics \u2014 navigation, trading, and who to trust."
-    - Good luck, traveler.
+    - Now go into mystical well and start your first adventure
   sceneName: 
   isSpecialAction: 0
   detectionRadius: 5
@@ -24004,6 +24017,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 1563336196}
   questCanvas: {fileID: 1563336196}
+  specialButton: {fileID: 0}
 --- !u!114 &1794650111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29166,6 +29180,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 773468950}
   questCanvas: {fileID: 773468950}
+  specialButton: {fileID: 0}
 --- !u!1001 &2131780211
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 [System.Serializable]
 public class TutorialObject
 {
@@ -23,6 +24,8 @@ public class TutorialScript : MonoBehaviour
     public int currentObjectiveIndex = 0;
     public DialogueTrigger dialogueTrigger;
     public GameObject player;
+    
+    public Button buttonToUnlock;
 
     void Awake()
     {

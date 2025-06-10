@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class DialogueTrigger : MonoBehaviour
     public int questIndex = 0;
     public GameObject npcCanvas;
     public GameObject questCanvas;
+    public Button specialButton;
 
     void Start()
     {
@@ -71,6 +73,20 @@ public class DialogueTrigger : MonoBehaviour
             FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
             questIndex++;
             TutorialScript.Instance.currentObjectiveIndex++;
+        }
+    }
+    public void TriggerDialogueCityTutorialAndEnableButton(int currentIndex)
+    {
+        if (currentIndex != TutorialScript.Instance.currentObjectiveIndex)
+        {
+            return;
+        }
+        else
+        {
+            FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
+            questIndex++;
+            TutorialScript.Instance.currentObjectiveIndex++;
+            TutorialScript.Instance.buttonToUnlock.interactable = true;
         }
     }
     public void SetNPCQuests()
