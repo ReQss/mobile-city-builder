@@ -653,7 +653,8 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = true;
             dashTimer = dashDuration;
-            dashDirection = transform.forward;
+            // Dash in opposite direction if attacking
+            dashDirection = isCombat ? -transform.forward : transform.forward;
             dashCooldownTimer = dashCooldown;
         }
 
