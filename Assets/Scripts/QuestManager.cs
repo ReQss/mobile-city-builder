@@ -26,6 +26,7 @@ public class Quest
     public int amountOfHeals = 0;
     public bool disableNpcAfterAcceptedQuest = false;
     
+    
 
     public Quest(string name, string description)
     {
@@ -112,13 +113,16 @@ public class QuestManager : MonoBehaviour
         if (quest.questType == QuestType.KillEnemies)
         {
             enemyGenerator.SpawnEnemiesNumberNearbyPlayer(quest.targetAmount);
+            GameUIHandler.Instance.PlayBattleMusic();
         }
         else if (quest.questType == QuestType.CollectItems)
         {
+            
         }
         else if (quest.questType == QuestType.TalkToNPC)
         {
             StartCoroutine(SpawnEnemies());
+            GameUIHandler.Instance.PlayBattleMusic();
         }
         else if (quest.questType == QuestType.KillBoss)
         {
@@ -165,15 +169,25 @@ public class QuestManager : MonoBehaviour
         {
             case QuestType.KillEnemies:
                 if (quest.currentAmount >= quest.targetAmount)
+                {
                     quest.CompleteQuest();
+                    GameUIHandler.Instance.PlayAmbientMusic();
+                }
                 break;
             case QuestType.CollectItems:
                 if (quest.currentAmount >= quest.targetAmount)
+                {
                     quest.CompleteQuest();
+                    
+                }
                 break;
             case QuestType.TalkToNPC:
                 if (quest.currentAmount >= 1)
+                {
                     quest.CompleteQuest();
+                    
+             GameUIHandler.Instance.PlayAmbientMusic();
+                }
                 break;
         
         }

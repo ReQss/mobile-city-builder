@@ -43,6 +43,32 @@ public class GameUIHandler : MonoBehaviour
     public GameObject interactionButton;
     public bool isInteractingWithNpc= false;
     public bool isInteractingWithWeapon = false;
+    public AudioClip ambientMusicClip;
+    public AudioClip battleMusicClip;
+    public AudioSource musicSource;
+    public bool musicChanging = false;
+    public void PlayBattleMusic()
+    {
+        if (musicChanging == false) return;
+        if (musicSource != null && battleMusicClip != null)
+        {
+            musicSource.clip = battleMusicClip;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
+    }
+
+    public void PlayAmbientMusic()
+    {
+        if (musicChanging == false) return;
+        if (musicSource != null && ambientMusicClip != null)
+        {
+            musicSource.clip = ambientMusicClip;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
+    }
+
     void Awake()
     {
         Instance = this;
