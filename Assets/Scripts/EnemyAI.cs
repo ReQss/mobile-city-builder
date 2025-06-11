@@ -25,8 +25,17 @@ public class EnemyAI : MonoBehaviour
     public Transform DamageSpawnPoint;
     public int coinsAmount = 50;
     public bool isMele = false;
+    public bool isRanged = false;
+
+    public GameObject bulletPrefab; // Assign in inspector
+    public Transform bulletSpawnPoint; // Assign in inspector
+    public float bulletSpeed = 15f;
+    public float rangedAttackCooldown = 2f;
+    private float rangedAttackTimer = 0f;
+    public GameObject enemyBulletFolder;
 
     private Coroutine magicDotCoroutine; // Add this field to prevent overlapping DoTs
+    public bool isShoting = false;
 
     public int Health
     {
@@ -72,6 +81,18 @@ public class EnemyAI : MonoBehaviour
         if (player == null)
             return;
 
+        // Prevent movement while shooting
+        if (isShoting)
+        {
+            agent.isStopped = true;
+            if (anim != null)
+            {
+                anim.SetBool("isRunning", false);
+                anim.SetBool("isAttacking", true);
+            }
+            return;
+        }
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer <= attackRange && isMele)
@@ -95,7 +116,30 @@ public class EnemyAI : MonoBehaviour
             if (anim != null)
             {
                 anim.SetBool("isRunning", true);
-                anim.SetBool("isAttacking", false); // <-- Reset attacking when chasing
+                anim.SetBool("isAttacking", false);
+            }
+
+            // Ranged attack logic
+            if (isRanged && distanceToPlayer <= attackRange * 3f) // Ranged enemies attack from further away
+            {
+                agent.isStopped = true;
+                rangedAttackTimer -= Time.deltaTime;
+
+                // Always face the player when attacking
+                Vector3 lookDirection = (player.position - transform.position).normalized;
+                lookDirection.y = 0; // Keep only horizontal rotation
+                if (lookDirection != Vector3.zero)
+                    transform.rotation = Quaternion.LookRotation(lookDirection);
+
+                if (rangedAttackTimer <= 0f)
+                {
+                    // ShootAtPlayer(); // Call from animation event instead
+                    rangedAttackTimer = rangedAttackCooldown;
+                }
+                if (anim != null)
+                {
+                    anim.SetBool("isAttacking", true);
+                }
             }
         }
         else
@@ -122,7 +166,7 @@ public class EnemyAI : MonoBehaviour
                     if (anim != null)
                     {
                         anim.SetBool("isRunning", true);
-                        anim.SetBool("isAttacking", false); // <-- Reset attacking when chasing
+                        anim.SetBool("isAttacking", false); 
                     }
                 }
             }
@@ -132,7 +176,7 @@ public class EnemyAI : MonoBehaviour
                 {
 
                     anim.SetBool("isRunning", false);
-                    anim.SetBool("isAttacking", false); // <-- Reset attacking when patrolling
+                    anim.SetBool("isAttacking", false); 
                 }
 
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
@@ -186,7 +230,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            int damageAmount = 20;
+            int damageAmount = GameManager.Instance.playerAttack*2;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -210,7 +254,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("Magic"))
         {
-            int damageAmount = 60;
+            int damageAmount = GameManager.Instance.playerAttack*6;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -239,7 +283,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("SwordHitbox"))
         {
-            int damageAmount = 35;
+            int damageAmount = GameManager.Instance.playerAttack * 3;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -288,5 +332,31 @@ public class EnemyAI : MonoBehaviour
             yield return new WaitForSeconds(tickInterval);
         }
         magicDotCoroutine = null;
+    }
+
+    // Add this method to the class
+    public void ShootAtPlayer()
+    {
+        if (bulletPrefab != null && bulletSpawnPoint != null && player != null)
+        {
+            Transform parentFolder = null;
+            if (enemyBulletFolder != null)
+            {
+                parentFolder = enemyBulletFolder.transform;
+            }
+
+            Vector3 dir = (player.position - bulletSpawnPoint.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            GameObject bullet=null;
+            if (parentFolder != null)
+                bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation, parentFolder);
+            else bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation);
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = dir * bulletSpeed;
+            }
+            Destroy(bullet, 3f);
+        }
     }
 }

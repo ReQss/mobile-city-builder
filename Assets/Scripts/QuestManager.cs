@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -81,7 +82,19 @@ public class QuestManager : MonoBehaviour
 
     void Update()
     {
+        if (currentQuest != null)
+        {
 
+        }
+    }
+    IEnumerator SpawnEnemies()
+    {
+    while (currentQuest != null && !currentQuest.isCompleted)
+        {
+            enemyGenerator.SpawnObjectsNumberNearbyPlayer(1);
+            Debug.Log("Enemy spawned");
+            yield return new WaitForSeconds(4f);
+        }
     }
     public void AcceptQuest()
     {
@@ -105,6 +118,7 @@ public class QuestManager : MonoBehaviour
         }
         else if (quest.questType == QuestType.TalkToNPC)
         {
+            StartCoroutine(SpawnEnemies());
         }
         else if (quest.questType == QuestType.KillBoss)
         {

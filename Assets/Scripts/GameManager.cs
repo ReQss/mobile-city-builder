@@ -82,10 +82,12 @@ public class GameManager : MonoBehaviour
     public int playerHealth=100;
     public int playerAttack = 10;
     public int playerSpeed = 8;
+    public int priceForStatistics=1000;
     public static GameManager Instance { get; private set; }
+    
     public IEnumerator UpgradingBuilding(Building building)
     {
-        if(currentUpgradedBuildings.Find(x => x.buildingName == building.nameOfBuilding) != null)
+        if (currentUpgradedBuildings.Find(x => x.buildingName == building.nameOfBuilding) != null)
         {
             Debug.Log("Already upgrading this building");
             yield break;
@@ -103,7 +105,7 @@ public class GameManager : MonoBehaviour
 
         isWorkerUpgrading = true;
         playerCoinCount -= building.cost;
-        yield break; 
+        yield break;
     }
     public void UpdateUpgradeTimers()
     {
@@ -337,4 +339,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void IncreasePlayerHealth(int amount)
+    {
+        playerHealth += amount;
+    }
+
+    public void IncreasePlayerAttack(int amount)
+    {
+        playerAttack += amount;
+    }
+
+    public void IncreasePlayerSpeed(int amount)
+    {
+        playerSpeed += amount;
+    }
 }

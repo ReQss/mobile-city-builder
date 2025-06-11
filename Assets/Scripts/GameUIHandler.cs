@@ -83,6 +83,7 @@ public class GameUIHandler : MonoBehaviour
         }
         LoadPerksToUI();
     }
+    
 
     void Update()
     {
@@ -390,6 +391,37 @@ public class GameUIHandler : MonoBehaviour
             statistics[0].text = PlayerMovement.playerMovementInstance.health.ToString();
             statistics[1].text = PlayerMovement.playerMovementInstance.playerAttack.ToString();
             statistics[2].text = PlayerMovement.playerMovementInstance.speed.ToString();
+        }
+    }
+
+    public void IncreasePlayerHealthUI(int amount)
+    {
+        if(GameManager.Instance.coinsCollected >= GameManager.Instance.priceForStatistics){
+            GameManager.Instance.coinsCollected -= GameManager.Instance.priceForStatistics;
+            GameManager.Instance.IncreasePlayerHealth(amount);
+            PlayerMovement.playerMovementInstance.health += amount;
+            HandleStatistics();
+        }
+       
+    }
+
+    public void IncreasePlayerAttackUI(int amount)
+    {
+        if(GameManager.Instance.coinsCollected >= GameManager.Instance.priceForStatistics){
+            GameManager.Instance.coinsCollected -= GameManager.Instance.priceForStatistics;
+            GameManager.Instance.IncreasePlayerAttack(amount);
+            PlayerMovement.playerMovementInstance.playerAttack += amount;
+            HandleStatistics();
+        }
+    }
+
+    public void IncreasePlayerSpeedUI(int amount)
+    {
+        if(GameManager.Instance.coinsCollected >= GameManager.Instance.priceForStatistics){
+            GameManager.Instance.coinsCollected -= GameManager.Instance.priceForStatistics;
+            GameManager.Instance.IncreasePlayerSpeed(amount);
+            PlayerMovement.playerMovementInstance.speed += amount;
+            HandleStatistics();
         }
     }
 }

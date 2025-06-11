@@ -602,9 +602,34 @@ public class PlayerMovement : MonoBehaviour
         // Healing logic
         if (other.CompareTag("Healing"))
         {
-            health = Mathf.Min(health + 25, 300); // Heal by 25, max 100
+            health = Mathf.Min(health + 25, 300); // Heal by 25, max 300
             UpdateHealthBar();
             Destroy(other.gameObject);
+        }
+        // Damage from enemy bullets
+        if (other.CompareTag("EnemyBullet"))
+        {
+            if (isShieldActive) return;
+            int bulletDamage = 10; // Default bullet damage
+            // You can set different damage based on bullet type if needed
+            if (other.name.ToLower().Contains("magic"))
+                bulletDamage = 15;
+            else if (other.name.ToLower().Contains("arrow"))
+                bulletDamage = 10;
+
+            health -= bulletDamage;
+            UpdateHealthBar();
+            Destroy(other.gameObject); // Destroy bullet so it can't damage again
+
+            // Optional: play damage animation
+            if (healthBarAnimator != null)
+                healthBarAnimator.SetBool("isDamaged", true);
+
+            // Optional: check for death immediately
+            if (health <= 0 && gameUIHandler != null)
+            {
+                isPlayerDead = true;
+            }
         }
     }
 
