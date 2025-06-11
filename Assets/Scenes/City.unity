@@ -6484,14 +6484,15 @@ MonoBehaviour:
     perkIsActive: 0
   questActFinishedIndex: 0
   energyRequiredForQuest: 10
-  coinsCollected: 100
+  coinsCollected: 1000
   weaponLevel: 0
   workerCount: 0
   energy: 80
-  playerCoinCount: 10000
+  playerCoinCount: 0
   playerHealth: 100
   playerAttack: 10
   playerSpeed: 8
+  priceForStatistics: 1000
 --- !u!4 &412372281
 Transform:
   m_ObjectHideFlags: 0
@@ -12967,7 +12968,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -22, y: -78}
+  m_AnchoredPosition: {x: -58, y: -65}
   m_SizeDelta: {x: 802.64, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957934253
@@ -15701,6 +15702,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1188013024}
+    - targetCorrespondingSourceObject: {fileID: 6744970977293044365, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1188013025}
     - targetCorrespondingSourceObject: {fileID: 5169827021201431431, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       insertIndex: -1
@@ -15894,6 +15899,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &1188013025
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188013019}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 230f3f3b1141127479e342f12847ae8a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1192080867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7087778213672153286, guid: 28e7215f7f3d4af479961532235129be,
@@ -20794,6 +20821,11 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 829986727227494904, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
     - target: {fileID: 1024231690584015247, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_Name
@@ -20987,6 +21019,21 @@ PrefabInstance:
     - target: {fileID: 7156863253735232945, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -98.1275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8391633288132951792, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
@@ -21712,6 +21759,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
+      propertyPath: m_fontSize
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
@@ -21833,17 +21890,17 @@ PrefabInstance:
     - target: {fileID: 8683336190267305577, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7
+      value: 1.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 8683336190267305577, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7
+      value: 1.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 8683336190267305577, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.7
+      value: 1.9999999
       objectReference: {fileID: 0}
     - target: {fileID: 8683336190267305577, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -26130,6 +26187,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 1563336196}
   questCanvas: {fileID: 1563336196}
+  specialButton: {fileID: 0}
 --- !u!114 &1794650111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27557,7 +27615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1870278705
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30300,6 +30358,7 @@ MonoBehaviour:
   questIndex: 0
   npcCanvas: {fileID: 773468950}
   questCanvas: {fileID: 773468950}
+  specialButton: {fileID: 0}
 --- !u!1001 &2131780211
 PrefabInstance:
   m_ObjectHideFlags: 0

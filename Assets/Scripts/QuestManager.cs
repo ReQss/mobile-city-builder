@@ -93,7 +93,7 @@ public class QuestManager : MonoBehaviour
         {
             enemyGenerator.SpawnObjectsNumberNearbyPlayer(1);
             Debug.Log("Enemy spawned");
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(8f);
         }
     }
     public void AcceptQuest()
