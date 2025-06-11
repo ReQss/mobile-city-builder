@@ -553,7 +553,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (alertAnimator != null)
         {
-            alertAnimator.SetBool("openAlert", true);
+            alertAnimator.SetBool("openAlertTop", true);
             CancelInvoke(nameof(CloseAlert));
             Invoke(nameof(CloseAlert), 1f);
         }
@@ -563,7 +563,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (alertAnimator != null)
         {
-            alertAnimator.SetBool("openAlert", false);
+            alertAnimator.SetBool("openAlertTop", false);
         }
     }
     private void ChangeCombat()
