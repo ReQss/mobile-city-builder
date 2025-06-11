@@ -51,7 +51,7 @@ public class TutorialScript : MonoBehaviour
         {
             Debug.LogError("Animator component not found on player GameObject.");
         }
-        SetDescription();
+        // SetDescription();
     }
 
     // Update is called once per frame

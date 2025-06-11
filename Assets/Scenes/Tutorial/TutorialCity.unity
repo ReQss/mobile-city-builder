@@ -3790,6 +3790,9 @@ MonoBehaviour:
   - name: Talking to zareth
     isCompleted: 0
     description: Talk to Zareth
+  - name: Ready to journey
+    isCompleted: 0
+    description: Use Mystical Well to travel through time and space
   - name: Money factory
     isCompleted: 0
     description: Check money factory and see what you can do
@@ -6421,6 +6424,7 @@ MonoBehaviour:
   playerHealth: 100
   playerAttack: 10
   playerSpeed: 8
+  priceForStatistics: 1000
 --- !u!4 &412372281
 Transform:
   m_ObjectHideFlags: 0
@@ -6956,7 +6960,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Check money factory by clicking button
+  m_text: 'Awakening - Talk to Zareth
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}

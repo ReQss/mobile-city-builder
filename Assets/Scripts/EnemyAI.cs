@@ -354,7 +354,7 @@ public class EnemyAI : MonoBehaviour
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.velocity = dir * bulletSpeed;
+                rb.linearVelocity = dir * bulletSpeed;
             }
             Destroy(bullet, 3f);
         }

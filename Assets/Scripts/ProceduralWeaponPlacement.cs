@@ -79,7 +79,34 @@ public class ProceduralWeaponPlacement : MonoBehaviour
             objectSpawned.SetActive(true);
         }
     }
-     public void SpawnObjectsNumberNearbyPlayer(int count)
+    public void SpawnObjectsNumberNearbyPlayer(int count)
+    {
+        if (player == null)
+        {
+            Debug.LogWarning("Player reference is null. Cannot spawn objects nearby player.");
+            return;
+        }
+
+        if (objectsToSpawn == null || objectsToSpawn.Count == 0)
+            return;
+
+        int maxIndex = Mathf.Min(GameManager.Instance.weaponLevel, objectsToSpawn.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject prefab = objectsToSpawn[Random.Range(0, maxIndex)];
+            // Spawn within a radius around the player
+            float radius = spawnRange * 0.5f;
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float distance = Random.Range(2f, radius); // min distance from player
+            Vector3 offset = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * distance;
+            Vector3 randomPos = player.transform.position + offset;
+
+            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
+            objectSpawned.SetActive(true);
+        }
+    }
+     public void SpawnEnemiesNumberNearbyPlayer(int count)
     {
          if (player == null)
     {
@@ -90,7 +117,7 @@ public class ProceduralWeaponPlacement : MonoBehaviour
     if (objectsToSpawn == null || objectsToSpawn.Count == 0)
         return;
 
-    int maxIndex = Mathf.Min(GameManager.Instance.weaponLevel, objectsToSpawn.Count);
+    int maxIndex = Mathf.Min(objectsToSpawn.Count, objectsToSpawn.Count);
 
     for (int i = 0; i < count; i++)
     {
@@ -105,5 +132,5 @@ public class ProceduralWeaponPlacement : MonoBehaviour
         GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
         objectSpawned.SetActive(true);
     }
-}
+    }
 }

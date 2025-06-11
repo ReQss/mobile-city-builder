@@ -610,12 +610,12 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("EnemyBullet"))
         {
             if (isShieldActive) return;
-            int bulletDamage = 10; // Default bullet damage
+            int bulletDamage = 5; // Default bullet damage
             // You can set different damage based on bullet type if needed
             if (other.name.ToLower().Contains("magic"))
-                bulletDamage = 15;
+                bulletDamage = 5;
             else if (other.name.ToLower().Contains("arrow"))
-                bulletDamage = 10;
+                bulletDamage = 5;
 
             health -= bulletDamage;
             UpdateHealthBar();

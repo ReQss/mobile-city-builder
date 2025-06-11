@@ -111,7 +111,7 @@ public class QuestManager : MonoBehaviour
         givenQuest = null;
         if (quest.questType == QuestType.KillEnemies)
         {
-            enemyGenerator.SpawnObjectsNumberNearbyPlayer(quest.targetAmount);
+            enemyGenerator.SpawnEnemiesNumberNearbyPlayer(quest.targetAmount);
         }
         else if (quest.questType == QuestType.CollectItems)
         {
