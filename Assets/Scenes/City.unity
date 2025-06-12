@@ -7370,7 +7370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_radius: 4.34
-  m_arcDegrees: 35
+  m_arcDegrees: 50.1
   m_angularOffset: -90
   m_maxDegreesPerLetter: 360
 --- !u!224 &510339725 stripped
@@ -8246,6 +8246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320927631796161805, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5864809487084411601, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -13183,6 +13188,11 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5320927631796161805, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5864809487084411601, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -13697,6 +13707,10 @@ MonoBehaviour:
   interactionButton: {fileID: 0}
   isInteractingWithNpc: 0
   isInteractingWithWeapon: 0
+  ambientMusicClip: {fileID: 0}
+  battleMusicClip: {fileID: 0}
+  musicSource: {fileID: 0}
+  musicChanging: 0
 --- !u!4 &1062980182
 Transform:
   m_ObjectHideFlags: 0
@@ -14960,28 +14974,28 @@ PrefabInstance:
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_fontSize
-      value: 0.35
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_fontColor.a
-      value: 0.6901961
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 0.35
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 2969567231
+      value: 4227858431
       objectReference: {fileID: 0}
     - target: {fileID: 829986727227494904, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 53417a0cac2779e4bb6ddfa49226310f,
+      objectReference: {fileID: 21300000, guid: 787f9403410972a40a966985fc9f28e1,
         type: 3}
     - target: {fileID: 829986727227494904, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -15151,17 +15165,17 @@ PrefabInstance:
     - target: {fileID: 3570474247286962289, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3570474247286962289, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3570474247286962289, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570474247286962289, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -4.1
+      value: -3.69
       objectReference: {fileID: 0}
     - target: {fileID: 3622764899971888485, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -15266,12 +15280,12 @@ PrefabInstance:
     - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -97.0592
+      value: -95.1992
       objectReference: {fileID: 0}
     - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -98.6821
+      value: -97.376
       objectReference: {fileID: 0}
     - target: {fileID: 8179881787578601575, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -18725,7 +18739,7 @@ PrefabInstance:
     - target: {fileID: 719759343648889714, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.8509804
       objectReference: {fileID: 0}
     - target: {fileID: 3242145705998655590, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -18941,7 +18955,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Texture
       value: 
-      objectReference: {fileID: 2800000, guid: 0c0ad777c2232a34e8b6a1264dc7a3ee, type: 3}
+      objectReference: {fileID: 2800000, guid: 1ec528b3087aa2943a398ef19ffa4128, type: 3}
     - target: {fileID: 6653739033114352612, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -19085,12 +19099,17 @@ PrefabInstance:
     - target: {fileID: 8962258489369725825, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0.0034580003
+      value: 0.003353
       objectReference: {fileID: 0}
     - target: {fileID: 8962258489369725825, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0.0020299992
+      value: 0.003169
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962258489369725825, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962258489369725825, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -19100,7 +19119,7 @@ PrefabInstance:
     - target: {fileID: 8962258489369725825, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00036
+      value: 0.00046
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

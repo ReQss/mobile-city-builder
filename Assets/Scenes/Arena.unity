@@ -6940,6 +6940,10 @@ MonoBehaviour:
   interactionButton: {fileID: 1951878181}
   isInteractingWithNpc: 0
   isInteractingWithWeapon: 0
+  ambientMusicClip: {fileID: 0}
+  battleMusicClip: {fileID: 0}
+  musicSource: {fileID: 0}
+  musicChanging: 0
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -9853,6 +9857,7 @@ MonoBehaviour:
   healthBarImage: {fileID: 2139707036}
   healthBarAnimator: {fileID: 2139707038}
   shieldPrefab: {fileID: 1498511964}
+  moveDir: {x: 0, y: 0, z: 0}
 --- !u!54 &666996287
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25365,11 +25370,6 @@ PrefabInstance:
       propertyPath: m_text
       value: Gravik the Herald
       objectReference: {fileID: 0}
-    - target: {fileID: 491137510115014714, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.14
-      objectReference: {fileID: 0}
     - target: {fileID: 1024231690584015247, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_Name
@@ -25398,12 +25398,12 @@ PrefabInstance:
     - target: {fileID: 1966702119430771054, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2.4082
+      value: 2.5628
       objectReference: {fileID: 0}
     - target: {fileID: 1966702119430771054, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.0804
+      value: 1.3922
       objectReference: {fileID: 0}
     - target: {fileID: 1966702119430771054, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -25535,11 +25535,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3570474247286962289, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 3622764899971888485, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_Layer
@@ -25548,7 +25543,7 @@ PrefabInstance:
     - target: {fileID: 3622764899971888485, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3758565852371378322, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -25573,16 +25568,6 @@ PrefabInstance:
     - target: {fileID: 5169827021201431431, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6182259849471322552, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6182259849471322552, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
-        type: 3}
-      propertyPath: m_fontSizeBase
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6228706604778209372, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
@@ -25634,6 +25619,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854643822477610405, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -0.3918
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854643822477610405, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854643822477610405, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8932890413353031921, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}

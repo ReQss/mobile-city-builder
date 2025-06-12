@@ -216,6 +216,11 @@ public class UIHandler : MonoBehaviour
         }
         else
         {
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning("GameManager.Instance is null in Update!");
+                return;
+            }
             GameManager.Instance.isUIOpen = false;
             if (darkBackground != null)
             {

@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     private float shieldCooldown = 10f;
     private float shieldTimer = 0f;
     private float shieldCooldownTimer = 0f;
-
+    public Vector3 moveDir;
     void Start()
     {
         gameUIHandler = FindObjectOfType<GameUIHandler>();
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // Read movement from InputAction
         Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
-        Vector3 moveDir = (isoRight * input.x + isoUp * input.y).normalized;
+        moveDir = (isoRight * input.x + isoUp * input.y).normalized;
 
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
 
@@ -472,7 +472,7 @@ public class PlayerMovement : MonoBehaviour
     public void CheckForItemsInRange()
     {
         float range = maxDistanceCheck;
-        bool foundInteractable = false; // Track if any interactable is found
+        bool foundInteractable = false; 
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
@@ -546,7 +546,7 @@ public class PlayerMovement : MonoBehaviour
         currentWeapon = weaponCopy;
         Destroy(currentWeapon.GetComponent<SphereCollider>());
 
-        Destroy(collider.gameObject);
+        Destroy(collider.gameObject.transform.parent.gameObject); 
         isCombat = !isCombat;
     }
     private void ShowAlert()
@@ -678,8 +678,8 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = true;
             dashTimer = dashDuration;
-            // Dash in opposite direction if attacking
-            dashDirection = isCombat ? -transform.forward : transform.forward;
+            dashDirection = moveDir.normalized != Vector3.zero ? moveDir.normalized : transform.forward;
+
             dashCooldownTimer = dashCooldown;
         }
 
