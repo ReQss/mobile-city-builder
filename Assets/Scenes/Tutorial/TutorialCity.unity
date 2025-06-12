@@ -6472,7 +6472,7 @@ MonoBehaviour:
   weaponLevel: 0
   workerCount: 0
   energy: 80
-  playerCoinCount: 0
+  playerCoinCount: 60000
   playerHealth: 100
   playerAttack: 10
   playerSpeed: 8
@@ -11276,7 +11276,7 @@ PrefabInstance:
     - target: {fileID: 6233505292249484422, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6424751169350734410, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -11397,6 +11397,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_text
+      value: Use mystical well to travel trough epochs.
       objectReference: {fileID: 0}
     - target: {fileID: 9194475963626020667, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -30764,6 +30769,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1518189905}
     m_Modifications:
+    - target: {fileID: 728174856869569051, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 755772943412858030, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -31074,10 +31084,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7407221820018607055, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7957466545913778047, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_text
+      value: In blacksmith forge you are able to buy weapons that helps you fighting
+        with your enemies.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
