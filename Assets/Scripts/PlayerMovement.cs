@@ -55,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private float lastEnemyTouchTime = -1f;
     public Image healthBarImage;
     public Animator healthBarAnimator;
+    
+    public Image healthBarImage2;
+    // public Animator healthBarAnimator2;
     private bool isPlayerDead = false;
 
 
@@ -218,6 +221,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // No damage while shield is active
             healthBarAnimator.SetBool("isDamaged", false);
+            // healthBarAnimator2.SetBool("isDamaged", false);
             return;
         }
 
@@ -250,6 +254,7 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 healthBarAnimator.SetBool("isDamaged", true);
+                // healthBarAnimator2.SetBool("isDamaged", true);
                 health -= damage;
                 healthTickTimer = 0f;
                 UpdateHealthBar();
@@ -259,6 +264,7 @@ public class PlayerMovement : MonoBehaviour
         {
             healthTickTimer = 0f;
             healthBarAnimator.SetBool("isDamaged", false);
+            // healthBarAnimator2.SetBool("isDamaged", false);
         }
     }
     private void UpdateHealthBar()
@@ -267,6 +273,11 @@ public class PlayerMovement : MonoBehaviour
         {
             float fill = Mathf.Clamp01(health / 100f); // Assuming max health is 100
             healthBarImage.fillAmount = fill;
+        }
+         if (healthBarImage2 != null)
+        {
+            float fill = Mathf.Clamp01(health / 100f); // Assuming max health is 100
+            healthBarImage2.fillAmount = fill;
         }
     }
 
@@ -624,6 +635,8 @@ public class PlayerMovement : MonoBehaviour
             // Optional: play damage animation
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);
+            //  if (healthBarAnimator2 != null)
+                // healthBarAnimator2.SetBool("isDamaged", true);
 
             // Optional: check for death immediately
             if (health <= 0 && gameUIHandler != null)
