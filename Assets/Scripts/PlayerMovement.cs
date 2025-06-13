@@ -99,7 +99,9 @@ public class PlayerMovement : MonoBehaviour
      
         if (isPlayerDead)
         {
+            velocity = Vector3.zero;
             animator.SetBool("isDead", true);
+             
             PlayerDeathScene();
             return; // Stop processing if the player is dead
         }
@@ -163,7 +165,16 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isCasting", isCombat && hasRod); // Added for Rod
         }
        
-        controller.Move(velocity * Time.deltaTime);
+        if (controller.isGrounded)
+        {
+            velocity.y = 0f;
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+
+        controller.Move((moveDir * currentSpeed + velocity) * Time.deltaTime);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
 
