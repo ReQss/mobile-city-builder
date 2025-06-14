@@ -187,8 +187,8 @@ public class PlayerMovement : MonoBehaviour
                 navDir.y = 0f;
                 isMoving = navDir.magnitude > 0.1f;
             }
-            
-            animator.SetBool("isRunning", isMoving);
+            if (autoNavigationEnabled) animator.SetBool("isRunning", true);
+            else animator.SetBool("isRunning", isMoving);
 
             bool hasSword = false;
             bool hasCrossbow = false;
@@ -228,6 +228,11 @@ public class PlayerMovement : MonoBehaviour
 
         HandleActiveDash();
         HandleShield(); 
+        if (navMeshAgent != null)
+        {
+            if(autoNavigationEnabled)
+                navMeshAgent.nextPosition = transform.position;
+        }
     }
     public void FightingMode()
     {
@@ -286,6 +291,7 @@ public class PlayerMovement : MonoBehaviour
         isFighting = false;
         return closestEnemy;
     }
+    
     public void NavigateTowardsCurrentQuestNpc()
     {
         if (autoNavigationEnabled == false) return;
@@ -297,23 +303,6 @@ public class PlayerMovement : MonoBehaviour
 
         navMeshAgent.enabled = true;
         navMeshAgent.SetDestination(currentTarget.position);
-
-        // Calculate navigation direction
-        Vector3 navDir = navMeshAgent.nextPosition - transform.position;
-        navDir.y = 0f;
-
-        // Rotate towards movement direction if moving
-        if (navDir.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(navDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-
-        // Set isRunning animation
-        if (animator != null)
-        {
-            animator.SetBool("isRunning", navDir.magnitude > 0.1f);
-        }
 
         // Sync player position to NavMeshAgent
         if (Vector3.Distance(transform.position, navMeshAgent.nextPosition) > 0.01f)
@@ -330,12 +319,6 @@ public class PlayerMovement : MonoBehaviour
             autoNavigationEnabled = false;
             currentQuestNPC.GetComponent<DialogueTrigger>().TriggerDialogue();
             navMeshAgent.ResetPath();
-
-            // Stop running animation when arrived
-            if (animator != null)
-            {
-                animator.SetBool("isRunning", false);
-            }
         }
         else
         {
@@ -343,6 +326,7 @@ public class PlayerMovement : MonoBehaviour
             // No manual controller.Move here; NavMeshAgent handles movement
         }
     }
+
     public void RunTowardsTargetEnemy()
     {
         if (currentTarget == null || navMeshAgent == null || !autoAttackEnabled) return;
