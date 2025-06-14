@@ -148,7 +148,18 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
-        if (moveDir != Vector3.zero && (!autoAttackEnabled || currentTarget == null))
+        // ROTATION
+        if (autoNavigationEnabled && currentTarget != null && navMeshAgent != null)
+        {
+            Vector3 navVelocity = navMeshAgent.desiredVelocity;
+            navVelocity.y = 0f;
+            if (navVelocity.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(navVelocity);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
+        else if (moveDir != Vector3.zero && (!autoAttackEnabled || currentTarget == null))
         {
             // Rotate towards input direction when not auto-attacking
             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
