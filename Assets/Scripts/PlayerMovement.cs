@@ -278,6 +278,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void NavigateTowardsCurrentQuestNpc()
     {
+        if (autoNavigationEnabled == false) return;
         if (QuestManager.Instance == null || QuestManager.Instance.currentQuest == null || QuestManager.Instance.currentQuest.npc == null)
             return;
 
@@ -292,10 +293,11 @@ public class PlayerMovement : MonoBehaviour
 
         float distanceToEnemy = Vector3.Distance(transform.position, currentTarget.position);
 
-        if (distanceToEnemy <= 1f)
+        if (distanceToEnemy <= 2)
         {
             //  do something when reached the NPC
             autoNavigationEnabled = false;
+            currentQuestNPC.GetComponent<DialogueTrigger>().TriggerDialogue();
             navMeshAgent.ResetPath();
         }
         else 
