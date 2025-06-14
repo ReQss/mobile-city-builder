@@ -117,6 +117,11 @@ public class PlayerMovement : MonoBehaviour
             // Find enemy
             if (currentTarget == null)
                 currentTarget = FindClosestEnemy();
+            if (currentTarget == null)
+            {
+                isCombat = false;
+                autoAttackEnabled = false;
+            }
             if (currentTarget != null)
             {
                 RunTowardsTargetEnemy();
