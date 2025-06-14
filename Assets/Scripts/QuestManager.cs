@@ -23,6 +23,7 @@ public class Quest
     public int currentAmount;
     public int goldReward;
     public GameObject npc;
+    public GameObject refToThisNpc;
     public int amountOfHeals = 0;
     public bool disableNpcAfterAcceptedQuest = false;
     
@@ -133,9 +134,9 @@ public class QuestManager : MonoBehaviour
             Debug.Log("Act finished, final quest started");
             GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
         }
-        if (quest.disableNpcAfterAcceptedQuest && quest.npc != null)
+        if (quest.disableNpcAfterAcceptedQuest && quest.refToThisNpc != null)
         {
-            quest.npc.SetActive(false);
+            quest.refToThisNpc.SetActive(false);
         }
     }
        public Quest GetCurrentQuest()

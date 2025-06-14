@@ -24,7 +24,7 @@ public class DialogueTrigger : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").transform;
-        SetNPCQuests();
+        // SetNPCQuests();
 
     }
 
