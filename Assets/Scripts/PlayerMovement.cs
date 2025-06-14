@@ -187,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
                 navDir.y = 0f;
                 isMoving = navDir.magnitude > 0.1f;
             }
-
+            
             animator.SetBool("isRunning", isMoving);
 
             bool hasSword = false;
@@ -258,6 +258,11 @@ public class PlayerMovement : MonoBehaviour
     public void EnableOrDisableAutoNavigation()
     {
         autoNavigationEnabled = !autoNavigationEnabled;
+         if (navMeshAgent != null)
+        {
+            navMeshAgent.Warp(transform.position);
+        }
+
         autoAttackEnabled = false;
         currentTarget = null;
         
@@ -293,25 +298,49 @@ public class PlayerMovement : MonoBehaviour
         navMeshAgent.enabled = true;
         navMeshAgent.SetDestination(currentTarget.position);
 
-        Vector3 direction = (navMeshAgent.nextPosition - transform.position);
-        direction.y = 0f;
+        // Calculate navigation direction
+        Vector3 navDir = navMeshAgent.nextPosition - transform.position;
+        navDir.y = 0f;
 
-        float distanceToEnemy = Vector3.Distance(transform.position, currentTarget.position);
-
-        if (distanceToEnemy <= 2)
+        // Rotate towards movement direction if moving
+        if (navDir.magnitude > 0.1f)
         {
-            //  do something when reached the NPC
+            Quaternion targetRotation = Quaternion.LookRotation(navDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        // Set isRunning animation
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", navDir.magnitude > 0.1f);
+        }
+
+        // Sync player position to NavMeshAgent
+        if (Vector3.Distance(transform.position, navMeshAgent.nextPosition) > 0.01f)
+        {
+            controller.enabled = false; // Disable CharacterController to avoid conflicts
+            transform.position = navMeshAgent.nextPosition;
+            controller.enabled = true;
+        }
+
+        float distanceToNPC = Vector3.Distance(transform.position, currentTarget.position);
+
+        if (distanceToNPC <= 2)
+        {
             autoNavigationEnabled = false;
             currentQuestNPC.GetComponent<DialogueTrigger>().TriggerDialogue();
             navMeshAgent.ResetPath();
+
+            // Stop running animation when arrived
+            if (animator != null)
+            {
+                animator.SetBool("isRunning", false);
+            }
         }
-        else 
+        else
         {
             isCombat = false;
-            if (direction.magnitude > 0.1f)
-            {
-                controller.Move(direction.normalized * speed * 2 * Time.deltaTime);
-            }
+            // No manual controller.Move here; NavMeshAgent handles movement
         }
     }
     public void RunTowardsTargetEnemy()
