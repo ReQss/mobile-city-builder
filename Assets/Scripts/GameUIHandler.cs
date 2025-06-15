@@ -47,6 +47,8 @@ public class GameUIHandler : MonoBehaviour
     public AudioClip battleMusicClip;
     public AudioSource musicSource;
     public bool musicChanging = false;
+    public GameObject autonavigationUI;
+    public GameObject autoAttackUI;
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;
@@ -178,6 +180,13 @@ public class GameUIHandler : MonoBehaviour
                 }
             }
         }
+    }
+    public void DisableOrEnableElement(GameObject gameObject)
+    {
+        if (gameObject != null)
+        {
+            gameObject.SetActive(!gameObject.activeSelf);
+        }   
     }
     public void UpdateWeaponImage(String weaponName)
     {

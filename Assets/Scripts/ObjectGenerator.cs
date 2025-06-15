@@ -26,6 +26,7 @@ public class ObjectGenerator : MonoBehaviour
         {
             Generate();
         }
+        FindObjectOfType<TerrainBuildNavMesh>().BakeNavMeshAfterGeneration();
     }
 
     void OnDrawGizmos()

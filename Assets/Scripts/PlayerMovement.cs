@@ -87,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform currentTarget=null;
     public float stopDistance;
     public bool autoNavigationEnabled = false;
+    
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -127,11 +128,21 @@ public class PlayerMovement : MonoBehaviour
                 RunTowardsTargetEnemy();
             }
         }
-        if( autoNavigationEnabled)
+        else
+        {
+            GameObject temp = GameUIHandler.Instance.autoAttackUI;
+           temp.SetActive(false);
+        }
+        if (autoNavigationEnabled)
         {
             NavigateTowardsCurrentQuestNpc();
         }
-     
+        else
+        {
+            GameObject temp = GameUIHandler.Instance.autonavigationUI;
+            temp.SetActive(false);
+        }
+
         if (isPlayerDead)
         {
             velocity = Vector3.zero;
@@ -267,6 +278,7 @@ public class PlayerMovement : MonoBehaviour
     public void EnableOrDisableAutoAttack()
     {
         autoAttackEnabled = !autoAttackEnabled;
+        isCombat = false;
         autoNavigationEnabled = false; 
         currentTarget = null;
         
