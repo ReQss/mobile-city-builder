@@ -21,6 +21,7 @@ public class Quest
      public QuestType questType;
     public int targetAmount; 
     public int currentAmount;
+    public GameObject itemToCollect;
     public int goldReward;
     public GameObject npc;
     public GameObject refToThisNpc;
@@ -47,9 +48,11 @@ public class Quest
             // Spawn heals nearby NPC in random position
             if (QuestManager.Instance != null)
             {
-                if(amountOfHeals>0)
-                QuestManager.Instance.SpawnHealsNearNPC(npc, amountOfHeals);
+                if (amountOfHeals > 0)
+                    QuestManager.Instance.SpawnHealsNearNPC(npc, amountOfHeals);
             }
+            // npc = null;
+            //  npc = refToThisNpc;
         }
     }
 }
@@ -151,7 +154,7 @@ public class QuestManager : MonoBehaviour
             {
                 if(currentQuest.isCompleted)
                 {
-                    currentQuestDescription.text = "Go back to your NPC";
+                    currentQuestDescription.text = "Powróć do miejsca zadania";
                 }
                 else
                 {
@@ -179,6 +182,7 @@ public class QuestManager : MonoBehaviour
                 if (quest.currentAmount >= quest.targetAmount)
                 {
                     quest.CompleteQuest();
+                   
                     
                 }
                 break;

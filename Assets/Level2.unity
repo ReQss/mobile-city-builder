@@ -75754,10 +75754,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - name: Nicolaus Copernicus
+  - name: Heretyk
     npcImage: {fileID: 0}
     sentences:
-    - "Co\u015B jest nie tak... Ten krzyk, dochodzi z niedaleka"
+    - Hej Ty!
+    - "Wygl\u0105dasz na siln\u0105 osobe godn\u0105 zaufania."
+    - "Jestem wybitnym uczonym pos\u0105dzanym o herezje, herezje kt\xF3re tak naprawd\u0119
+      s\u0105 prawd\u0119 o naszym \u015Bwiecie kt\xF3rej ko\u015Bcio\u0142 nie chce
+      \u017Ceby wysz\u0142a na jaw."
+    - "Pom\xF3\u017C mi, nied\u0142ugo przyjd\u0105 tu inkwizytorzy \u017Ceby mnie
+      napa\u015B\u0107 i torturowa\u0107."
+    - "Pom\xF3\u017C mi ich powstrzyma\u0107. Chro\u0144 moje notatki, moje przyrz\u0105dy
+      \u2014 i moje \u017Cycie, je\u015Bli do tego dojdzie."
     - "Ostrzegano mnie, \u017Ce mog\u0105 przyj\u015B\u0107. Ludzie wys\u0142ani,
       by uciszy\u0107 m\xF3j g\u0142os, zanim moje idee zakorzeni\u0105 si\u0119."
     - "Teoria heliocentryczna od dawna jest postrzegana jako herezja. Nie nosz\u0105
@@ -75767,8 +75775,8 @@ MonoBehaviour:
       nie do miecza."
     - "Ale ty\u2026 wydajesz si\u0119 zdolny. Pom\xF3\u017C mi ich powstrzyma\u0107.
       Chro\u0144 moje notatki, moje przyrz\u0105dy \u2014 i moje \u017Cycie, je\u015Bli
-      do tego dojdzie."
-  - name: Nicolaus Copernicus
+      do tego dojdzie, obiecuje \u017Ce Ci si\u0119 odp\u0142ace."
+  - name: "Miko\u0142aj Kopernik"
     npcImage: {fileID: 0}
     sentences:
     - "Dotar\u0142y do mnie wie\u015Bci, kolejni agenci Inkwizycji s\u0105 ju\u017C
@@ -75781,9 +75789,8 @@ MonoBehaviour:
     - "Lecz droga nie jest bezpieczna. Widzia\u0142em obcych przy lesie. Uzbrojonych
       ludzi. Wilki.Potrzebuj\u0119 kogo\u015B, komu mog\u0119 zaufa\u0107 \u2014
       kogo\u015B takiego jak ty."
-    - "Zaprowad\u017A mnie do klasztoru. Chro\u0144 moje \u017Cycie. Je\u015Bli upadniemy,
-      upadnie wszystko, co odkry\u0142em.\nPod\u0105\u017Caj za pochodniami, one
-      wska\u017C\u0105 drog\u0119 do klasztoru."
+    - "Spotkamy si\u0119 w klasztorze, oczy\u015B\u0107 przy okazji dla mnie droge.\nPod\u0105\u017Caj
+      za pochodniami, one wska\u017C\u0105 drog\u0119 do klasztoru."
   sceneName: 
   isSpecialAction: 0
   detectionRadius: 5
@@ -75791,22 +75798,24 @@ MonoBehaviour:
   powerBookTrigger: 0
   quests:
   - questName: Escape of Copernicus
-    questDescription: Escort Copernicus
+    questDescription: "Uchro\u0144 heretyka przed oprawcami"
     isCompleted: 0
     questType: 0
     targetAmount: 2
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 200
     npc: {fileID: 1414124857}
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Second quest
-    questDescription: Escort copernicus to Monastery (Follow the path of torches)
+    questDescription: "Spotkaj si\u0119 z Kopernikiem w klasztorze"
     isCompleted: 0
     questType: 2
     targetAmount: 1
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 400
     npc: {fileID: 1702820579}
     refToThisNpc: {fileID: 1414124857}
@@ -76967,6 +76976,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 1414124857}
     refToThisNpc: {fileID: 0}
@@ -76979,6 +76989,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -86738,6 +86749,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -86774,43 +86786,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-  - name: Nicolaus Copernicus - stealing
+  - name: "Miko\u0142aj Kopernik"
     npcImage: {fileID: 0}
     sentences:
-    - We made it. I owe you more than I can say
-    - "This place\u2026 it may not look like much, but within these walls, I can
-      think freely again \u2014 at least for a time"
-    - But there is more to be done
-    - Bishop Giese, my friend and protector, wishes to help me continue my work in
-      Olsztyn, where I will have access to better instruments and clearer skies
-    - Yet not all in the Church agree. Some still fear what I might find written
-      in the stars
-    - "The Bishop has asked for your help. He needs someone persuasive \u2014 someone
-      unbound by robes or rank \u2014 to sway the clergy to support our efforts"
-    - "Bishop Giese believes a certain document \u2014 a sealed letter kept by Canon
-      Dobrowolski \u2014 contains support for our cause from higher authorities in
-      Krak\xF3w"
-    - "If you could obtain it quietly\u2026 without alerting the wrong eyes\u2026
-      it may change everything"
-    - "I won\u2019t ask you to steal. But if you do\u2026 make sure no one sees you"
+    - "Uda\u0142o si\u0119\u2026 Jestem ci winien wi\u0119cej, ni\u017C potrafi\u0119
+      wyrazi\u0107 s\u0142owami."
+    - "To miejsce, cho\u0107 niepozorne, daje mi co\u015B, czego od dawna mi brakowa\u0142o,
+      wolno\u015B\u0107 my\u015Bli. Przynajmniej na jaki\u015B czas."
+    - "(Robi kr\xF3tk\u0105 pauz\u0119, po czym spogl\u0105da z wi\u0119ksz\u0105
+      powag\u0105)"
+    - "Ale to jeszcze nie koniec. Przede mn\u0105 wci\u0105\u017C wiele pracy"
+    - "Biskup Tiedemann Giese \u2014 m\xF3j przyjaciel i obro\u0144ca \u2014 pragnie,
+      bym przeni\xF3s\u0142 si\u0119 do Olsztyna. Tam czekaj\u0105 lepsze instrumenty\u2026
+      i czystsze niebo. Ale nie wszyscy w Ko\u015Bciele s\u0105 przychylni"
+    - "Wiesz przecie\u017C, co spotka\u0142o tych, kt\xF3rzy o\u015Bmielili si\u0119
+      my\u015Ble\u0107 inaczej. Giordano Bruno, spalony \u017Cywcem. Galileusz, 
+      zmuszony do milczenia. Ich grzech? Odrzucenie geocentryzmu. Spojrzenie w niebo
+      z otwartymi oczami"
+    - "Biskup potrzebuje twojej pomocy. Szuka kogo\u015B\u2026 przekonuj\u0105cego.
+      Kogo\u015B spoza kleru, kto potrafi rozmawia\u0107, przekonywa\u0107 \u2014
+      i przetrwa\u0107 bez ochrony sutanny"
+    - "Istnieje pewien dokument,  zapiecz\u0119towany list, przechowywany przez kanonika
+      Dobrowolskiego. Podobno zawiera poparcie z samego Krakowa. Mo\u017Ce nawet
+      od ludzi bliskich kr\xF3lowi. Je\u017Celi uda\u0142oby si\u0119 zdoby\u0107
+      go\u2026 po cichu\u2026 m\xF3g\u0142by odmieni\u0107 losy naszej sprawy."
+    - "Nie prosz\u0119 ci\u0119 o kradzie\u017C. Ale\u2026 je\u015Bli mia\u0142by\u015B
+      to zrobi\u0107\u2026 upewnij si\u0119, \u017Ce nikt ci\u0119 nie widzi"
   - name: Nicolaus Copernicus - bandits
     npcImage: {fileID: 0}
     sentences:
-    - "The shadows lengthen. The Inquisition grows desperate. They know what is at
-      stake \u2014 and they will stop at nothing to silence us"
-    - This letter we carry is more than parchment and ink. It is a beacon of hope,
-      a key to unlock the future of knowledge
-    - We must be swift, yet cautious. Your skill and resolve are the only shields
-      between truth and oblivion
-    - "Should they fall upon us, do not falter. Protect me as I protect this fragile
-      flame of discovery \u2014 for the stars wait for no one."
-  - name: Nicolaus Copernicus - Finaly safe
+    - "Cienie si\u0119 wyd\u0142u\u017Caj\u0105. Inkwizycja staje si\u0119 coraz
+      bardziej rozpaczliwa.\nOni wiedz\u0105, co jest stawk\u0105 \u2014 i nie cofn\u0105
+      si\u0119 przed niczym, by nas uciszy\u0107."
+    - "Ten list, kt\xF3ry niesiemy, to co\u015B wi\u0119cej ni\u017C pergamin i atrament.\nTo
+      latarnia nadziei. Klucz, kt\xF3ry mo\u017Ce otworzy\u0107 drzwi do przysz\u0142o\u015Bci
+      nauki i my\u015Bli wolnej od dogmat"
+    - "Musimy dzia\u0142a\u0107 szybko, lecz ostro\u017Cnie.\nTwoje umiej\u0119tno\u015Bci
+      i niez\u0142omno\u015B\u0107 to jedyna tarcza, jaka stoi mi\u0119dzy prawd\u0105
+      a zapomnieniem."
+    - "Je\u015Bli nas dopadn\u0105, nie wahaj si\u0119.\nChro\u0144 mnie \u2014 tak
+      jak ja chroni\u0119 ten kruchy p\u0142omie\u0144 odkrycia."
+  - name: "Miko\u0142aj Kopernik"
     npcImage: {fileID: 0}
     sentences:
-    - "Thanks to you, I stand safe once more \u2014 free to pursue the heavens without
-      fear"
-    - Your courage has saved not just me, but the future of knowledge itself.
-    - I am deeply grateful. Together, we will unveil the secrets written in the stars
+    - "Dzi\u0119ki tobie zn\xF3w jestem bezpieczny \u2014 wolny, by bez l\u0119ku
+      spogl\u0105da\u0107 w niebo.\nTwoja odwaga ocali\u0142a nie tylko mnie, ale
+      i przysz\u0142o\u015B\u0107 ca\u0142ej wiedzy"
+    - "(Robi krok bli\u017Cej, m\xF3wi z wi\u0119ksz\u0105 si\u0142\u0105)"
+    - "\u201EJestem ci g\u0142\u0119boko wdzi\u0119czny. Razem ods\u0142onimy sekrety
+      zapisane w\u015Br\xF3d gwiazd."
+    - "(Odwraca si\u0119, spogl\u0105da w dal \u2014 w kierunku mapy nieba lub ksi\u0119\u017Cyca
+      na horyzoncie)"
+    - "Odszukaj mnie w Olsztynie. Tam b\u0119d\u0119 kontynuowa\u0142 moje badania\u2026
+      tam zacznie si\u0119 nowy rozdzia\u0142."
   sceneName: 
   isSpecialAction: 0
   detectionRadius: 5
@@ -86818,25 +86846,27 @@ MonoBehaviour:
   powerBookTrigger: 0
   quests:
   - questName: Steal sealed letter from Dobrowolski
-    questDescription: stealing letter
+    questDescription: "Zanim zap\u0142onie stos - ukradnij list Dobrowolskiego"
     isCompleted: 0
     questType: 1
     targetAmount: 1
     currentAmount: 0
+    itemToCollect: {fileID: 1234547858}
     goldReward: 200
     npc: {fileID: 1234547858}
-    refToThisNpc: {fileID: 0}
+    refToThisNpc: {fileID: 1702820579}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Inquisition arrives after letter
-    questDescription: Defeat 4 enemies
+    questDescription: "Inkwizycja nadchodzi ponownie, pokonaj wrog\xF3w"
     isCompleted: 0
     questType: 0
     targetAmount: 4
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 400
     npc: {fileID: 2053762290}
-    refToThisNpc: {fileID: 0}
+    refToThisNpc: {fileID: 1702820579}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
   - questName: Finish of Act
@@ -86845,6 +86875,7 @@ MonoBehaviour:
     questType: 4
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 800
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -95964,6 +95995,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 2
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 200
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -95975,6 +96007,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 4
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 400
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -96544,6 +96577,7 @@ MonoBehaviour:
     questType: 1
     targetAmount: 1
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 200
     npc: {fileID: 2053762290}
     refToThisNpc: {fileID: 0}
@@ -96555,6 +96589,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 4
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 400
     npc: {fileID: 2053762290}
     refToThisNpc: {fileID: 0}
@@ -96566,6 +96601,7 @@ MonoBehaviour:
     questType: 4
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 800
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -96594,6 +96630,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}

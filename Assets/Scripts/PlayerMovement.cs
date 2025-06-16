@@ -130,8 +130,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            GameObject temp = GameUIHandler.Instance.autoAttackUI;
-           temp.SetActive(false);
+            GameObject temp = null;
+            if (GameUIHandler.Instance.autoAttackUI != null)
+                temp = GameUIHandler.Instance.autoAttackUI;
+            if(temp!=null)
+                temp.SetActive(false);
         }
         if (autoNavigationEnabled)
         {
@@ -139,8 +142,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            GameObject temp = GameUIHandler.Instance.autonavigationUI;
-            temp.SetActive(false);
+            GameObject temp = null;
+            if( GameUIHandler.Instance.autonavigationUI != null)
+                temp = GameUIHandler.Instance.autonavigationUI;
+            if(temp!=null)
+                temp.SetActive(false);
         }
 
         if (isPlayerDead)

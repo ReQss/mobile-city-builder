@@ -5150,6 +5150,8 @@ MonoBehaviour:
   battleMusicClip: {fileID: 0}
   musicSource: {fileID: 0}
   musicChanging: 0
+  autonavigationUI: {fileID: 0}
+  autoAttackUI: {fileID: 0}
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -17642,6 +17644,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
@@ -17654,6 +17657,7 @@ MonoBehaviour:
     questType: 0
     targetAmount: 0
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 0
     npc: {fileID: 0}
     refToThisNpc: {fileID: 0}
@@ -24244,26 +24248,36 @@ MonoBehaviour:
   - name: Gravik the Herald
     npcImage: {fileID: 0}
     sentences:
-    - Welcome to the arena, warrior.
-    - "Only one thing matters here \u2013 survival"
-    - There are no rules. No mercy
-    - Kill as many as you can before you fall.
-    - "Let\u2019s see if you're worthy of the blade you carry"
+    - Witaj na arenie wojowniku!
+    - W tym miejscu liczy sie tylko jedno - przetrwanie
+    - "Nie ma \u017Cadnych zasad ani lito\u015Bci."
+    - "Zabij tyle przeciwnik\xF3w ile zdo\u0142asz zanim oni dopadn\u0105 Ciebie."
+    - "Sprawd\u017Amy, czy jeste\u015B godzien ostrza, kt\xF3re nosisz"
   - name: Gravik the Herald
     npcImage: {fileID: 0}
     sentences:
-    - Ready for next one?
-    - Prepare yourself and let me know.
+    - "Gotowy na kolejn\u0105 runde?"
+    - "Przygotuj si\u0119 i daj mi zna\u0107"
   - name: Gravik the Herald
     npcImage: {fileID: 0}
     sentences:
-    - Ready for next one?
-    - Prepare yourself and let me know.
+    - "Gotowy na kolejn\u0105 runde?"
+    - "Przygotuj si\u0119 i daj mi zna\u0107"
   - name: Gravik the Herald
     npcImage: {fileID: 0}
     sentences:
-    - Ready for next one?
-    - Prepare yourself and let me know.
+    - "Gotowy na kolejn\u0105 runde?"
+    - "Przygotuj si\u0119 i daj mi zna\u0107"
+  - name: Gravik the Herald
+    npcImage: {fileID: 0}
+    sentences:
+    - "Gotowy na kolejn\u0105 runde?"
+    - "Przygotuj si\u0119 i daj mi zna\u0107"
+  - name: Gravik the Herald
+    npcImage: {fileID: 0}
+    sentences:
+    - "Gotowy na kolejn\u0105 runde?"
+    - "Przygotuj si\u0119 i daj mi zna\u0107"
   sceneName: 
   isSpecialAction: 0
   detectionRadius: 4
@@ -24271,44 +24285,48 @@ MonoBehaviour:
   powerBookTrigger: 0
   quests:
   - questName: Blood of Glory
-    questDescription: Kill your enemies.
+    questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
     questType: 0
     targetAmount: 5
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 1000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
     amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
   - questName: Blood of Glory
-    questDescription: Kill your enemies.
+    questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
     questType: 0
     targetAmount: 10
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 2000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
     amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
   - questName: Blood of Glory
-    questDescription: Kill your enemies.
+    questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
     questType: 0
     targetAmount: 20
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 4000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
     amountOfHeals: 5
     disableNpcAfterAcceptedQuest: 0
   - questName: Blood of Glory
-    questDescription: Kill your enemies.
+    questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
     questType: 0
     targetAmount: 40
     currentAmount: 0
+    itemToCollect: {fileID: 0}
     goldReward: 8000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}

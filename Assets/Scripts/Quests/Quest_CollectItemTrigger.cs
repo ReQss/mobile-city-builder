@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Quest_CollectItemTrigger : MonoBehaviour
@@ -6,6 +7,9 @@ public class Quest_CollectItemTrigger : MonoBehaviour
     QuestManager questManager;
     public Quest currentQuest;
     public float distanceLeft = 0f;
+    public bool destroyObject = false;
+    int dialogueIndex = 0;
+    public List<Dialogue> dialogue;
     void Start()
     {
         questManager = QuestManager.Instance;
@@ -13,14 +17,14 @@ public class Quest_CollectItemTrigger : MonoBehaviour
         {
             Debug.LogError("QuestManager instance not found. Make sure it is initialized in the scene.");
         }
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-          currentQuest = questManager.GetCurrentQuest();
-        if (currentQuest != null && currentQuest.questType == QuestType.CollectItems)
+        currentQuest = questManager.GetCurrentQuest();
+        if (currentQuest != null && currentQuest.questType == QuestType.CollectItems && currentQuest.itemToCollect == this.gameObject)
         {
             distanceLeft = Vector3.Distance(transform.position, GameObject.Find("Player").transform.position);
             if (distanceLeft < 2.5f)
@@ -29,12 +33,25 @@ public class Quest_CollectItemTrigger : MonoBehaviour
                 {
                     Debug.Log("Player is close enough to talk to the NPC.");
                     QuestManager.Instance.currentQuest.currentAmount = currentQuest.targetAmount;
+                    QuestManager.Instance.currentQuest.npc = QuestManager.Instance.currentQuest.refToThisNpc;
                     questManager.CheckQuestProgress(currentQuest);
                     // CollectItem();
+                    if(destroyObject)
                     Destroy(this.gameObject);
+                    if (dialogue.Count > 0)
+                    {
+                        TriggerDialogue();
+                    
                 }
-        
+                }
+               
             }
         }
+    }
+     public void TriggerDialogue()
+    {
+         
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[dialogueIndex],null, false);
+        dialogueIndex++;
     }
 }
