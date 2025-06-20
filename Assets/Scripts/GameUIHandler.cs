@@ -49,6 +49,11 @@ public class GameUIHandler : MonoBehaviour
     public bool musicChanging = false;
     public GameObject autonavigationUI;
     public GameObject autoAttackUI;
+     public GameObject MoneyFactoryUpgradingPanel;
+     public TextMeshProUGUI MoneyFactoryUpgradingPanelTimeLeft;
+    public GameObject WellUpgradingPanel;
+    
+     public TextMeshProUGUI WellUpgradingPanelTimeLeft;
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;
@@ -59,7 +64,60 @@ public class GameUIHandler : MonoBehaviour
             musicSource.Play();
         }
     }
+    public void SetTimeLeftForUpgrading()
+    {
+        bool foundWell = false;
+        bool foundFactory = false;
 
+        if (GameManager.Instance.currentUpgradedBuildings.Count > 0)
+        {
+            foreach (CurrentUpgradedBuilding temp in GameManager.Instance.currentUpgradedBuildings)
+            {
+                if (temp.buildingName == "Mystical Well")
+                {
+                    foundWell = true;
+                    WellUpgradingPanel.SetActive(true);
+                    if (WellUpgradingPanelTimeLeft != null)
+                    {
+                        WellUpgradingPanelTimeLeft.text = temp.timeLeft.ToString();
+                    }
+                }
+                if (temp.buildingName == "Money Factory")
+                {
+                    foundFactory = true;
+                    MoneyFactoryUpgradingPanel.SetActive(true);
+                    if (MoneyFactoryUpgradingPanelTimeLeft != null)
+                    {
+                        MoneyFactoryUpgradingPanelTimeLeft.text = temp.timeLeft.ToString();
+                    }
+                }
+            }
+        }
+
+        if (!foundWell && WellUpgradingPanel != null)
+            WellUpgradingPanel.SetActive(false);
+
+        if (!foundFactory && MoneyFactoryUpgradingPanel != null)
+        {
+            MoneyFactoryUpgradingPanel.SetActive(false);
+        }
+    }
+   
+   
+    public void ActiveBlackSmithNotification()
+    {
+        if (MoneyFactoryUpgradingPanel != null)
+        {
+            MoneyFactoryUpgradingPanel.SetActive(true);
+        }
+    }
+    public void ActiveWellNotification()
+    {
+        if (WellUpgradingPanel != null)
+        {
+            WellUpgradingPanel.SetActive(true);
+        }
+    }
     public void PlayAmbientMusic()
     {
         if (musicChanging == false) return;
@@ -115,6 +173,9 @@ public class GameUIHandler : MonoBehaviour
 
     void Update()
     {
+        
+            SetTimeLeftForUpgrading();
+         
         if (currentCoinsCollected != null)
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();

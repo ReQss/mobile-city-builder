@@ -382,9 +382,20 @@ public class UIHandler : MonoBehaviour
         if (coinCounter != null)
             coinCounter.text = amount.ToString();
     }
+     public void TriggerScaleAnim(GameObject gameobject) 
+    {
+        if (gameobject != null)
+        {
+            Animator animator = gameobject.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("enable");
+            }
+        }
+    }
     public void SetMoneyToCollect()
     {
-         amountToUse = GameManager.Instance.coinsCollected;
+        amountToUse = GameManager.Instance.coinsCollected;
     }
     public void SetBuildingToUse(GameObject pickedBuidling)
     {
@@ -395,7 +406,7 @@ public class UIHandler : MonoBehaviour
         GameManager.Instance.coinsCollected = 0;
       
     }
-    public void BuyWeapon(int amount)
+        public void BuyWeapon(int amount)
     {
         if (amount > GameManager.Instance.playerCoinCount)
             return;
@@ -405,8 +416,15 @@ public class UIHandler : MonoBehaviour
 
         if (weaponPriceToPrefab.TryGetValue(amount, out GameObject prefab) && prefab != null)
         {
-            DisableUIElement(prefab);
+            TriggerScaleAnim(prefab);
+            StartCoroutine(DisableUIElementAfterDelay(prefab, 0.3f));
         }
+    }
+
+    private IEnumerator DisableUIElementAfterDelay(GameObject gameObject, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        DisableUIElement(gameObject);
     }
     public void BuySpeed1(int amount)
     {
@@ -437,16 +455,25 @@ public class UIHandler : MonoBehaviour
             Debug.Log($"Swift Steps upgraded to level {perk.perkLevel}");
 
             if (targetLevel == 1 && speed1Button != null)
-                DisableUIElement(speed1Button);
+            {
+                TriggerScaleAnim(speed1Button);
+                StartCoroutine(DisableUIElementAfterDelay(speed1Button, 0.3f));
+            }
             else if (targetLevel == 2 && speed2Button != null)
-                DisableUIElement(speed2Button);
+            {
+                TriggerScaleAnim(speed2Button);
+                StartCoroutine(DisableUIElementAfterDelay(speed2Button, 0.3f));
+            }
             else if (targetLevel == 3 && speed3Button != null)
-                DisableUIElement(speed3Button);
+            {
+                TriggerScaleAnim(speed3Button);
+                StartCoroutine(DisableUIElementAfterDelay(speed3Button, 0.3f));
+            }
         }
-        else
-        {
-            Debug.LogWarning("Swift Steps perk not found or already at this level or higher.");
-        }
+            else
+            {
+                Debug.LogWarning("Swift Steps perk not found or already at this level or higher.");
+            }
     }
       public void BuyIronConstitution1(int amount)
     {
@@ -476,14 +503,21 @@ public class UIHandler : MonoBehaviour
             perk.perkIsActive = true;
             Debug.Log($"Iron Constitution upgraded to level {perk.perkLevel}");
 
-            // Optionally, disable buttons for Iron Constitution here if you have them
-            // Example:
             if (targetLevel == 1 && ironConstitution1Button != null)
-                DisableUIElement(ironConstitution1Button);
+            {
+                TriggerScaleAnim(ironConstitution1Button);
+                StartCoroutine(DisableUIElementAfterDelay(ironConstitution1Button, 0.3f));
+            }
             else if (targetLevel == 2 && ironConstitution2Button != null)
-                DisableUIElement(ironConstitution2Button);
+            {
+                TriggerScaleAnim(ironConstitution2Button);
+                StartCoroutine(DisableUIElementAfterDelay(ironConstitution2Button, 0.3f));
+            }
             else if (targetLevel == 3 && ironConstitution3Button != null)
-                DisableUIElement(ironConstitution3Button);
+            {
+                TriggerScaleAnim(ironConstitution3Button);
+                StartCoroutine(DisableUIElementAfterDelay(ironConstitution3Button, 0.3f));
+            }
         }
         else
         {

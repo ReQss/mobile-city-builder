@@ -5,7 +5,11 @@ using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player; // Assign the player transform in the inspector or via script
+    public Transform player;
+    public AudioClip walkSound;
+    public AudioClip attackSound;
+    public AudioClip screamSound;
+    private AudioSource audioSource;
     public float chaseRange = 10f;
     public float patrolRange = 5f;
     public float attackRange = 1f;
@@ -21,6 +25,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject EnemyCanvasLockOn;
     public int health = 100;
     public GameObject DamageDealtPrefab;
+    public GameObject DamageDealtPrefabSmall;
     public GameObject DamageDealtPrefabMagic2;
     public Transform DamageSpawnPoint;
     public int coinsAmount = 50;
@@ -36,7 +41,7 @@ public class EnemyAI : MonoBehaviour
 
     private Coroutine magicDotCoroutine; // Add this field to prevent overlapping DoTs
     public bool isShoting = false;
-
+private float areaHitboxDamageTimer = 0f;
     public int Health
     {
         get { return health; }
@@ -166,7 +171,7 @@ public class EnemyAI : MonoBehaviour
                     if (anim != null)
                     {
                         anim.SetBool("isRunning", true);
-                        anim.SetBool("isAttacking", false); 
+                        anim.SetBool("isAttacking", false);
                     }
                 }
             }
@@ -176,7 +181,7 @@ public class EnemyAI : MonoBehaviour
                 {
 
                     anim.SetBool("isRunning", false);
-                    anim.SetBool("isAttacking", false); 
+                    anim.SetBool("isAttacking", false);
                 }
 
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
@@ -230,7 +235,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            int damageAmount = GameManager.Instance.playerAttack*2;
+            int damageAmount = GameManager.Instance.playerAttack * 2;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -249,12 +254,12 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject,0.1f);
+            Destroy(other.gameObject, 0.1f);
             Destroy(damageDealt, 0.5f);
         }
         else if (other.CompareTag("Magic"))
         {
-            int damageAmount = GameManager.Instance.playerAttack*6;
+            int damageAmount = GameManager.Instance.playerAttack * 6;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -273,7 +278,7 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject,0.4f);
+            Destroy(other.gameObject, 0.4f);
             Destroy(damageDealt, 0.5f);
 
             // Start DoT effect (cancel previous if running)
@@ -295,9 +300,39 @@ public class EnemyAI : MonoBehaviour
 
             Destroy(damageDealt, 0.5f);
 
-            Debug.Log("Enemy hit by sword!");
+            // Debug.Log("Enemy hit by sword!");
         }
     }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("AreaHitbox"))
+        {
+            areaHitboxDamageTimer += Time.deltaTime;
+            if (areaHitboxDamageTimer >= 0.3f)
+            {
+                int damageAmount = 1;
+                TakeDamage(damageAmount);
+                GameObject damageDealt = Instantiate(DamageDealtPrefabSmall, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+
+                var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+                if (tmp != null)
+                {
+                    tmp.text = damageAmount.ToString();
+                }
+
+                Destroy(damageDealt, 0.5f);
+
+                areaHitboxDamageTimer = 0f;
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+{
+    if (other.CompareTag("AreaHitbox"))
+    {
+        areaHitboxDamageTimer = 0f;
+    }
+}
 
     // Add this coroutine at the end of the class
     private IEnumerator MagicDotEffect()
@@ -347,7 +382,7 @@ public class EnemyAI : MonoBehaviour
 
             Vector3 dir = (player.position - bulletSpawnPoint.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(dir);
-            GameObject bullet=null;
+            GameObject bullet = null;
             if (parentFolder != null)
                 bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation, parentFolder);
             else bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation);
@@ -357,6 +392,64 @@ public class EnemyAI : MonoBehaviour
                 rb.linearVelocity = dir * bulletSpeed;
             }
             Destroy(bullet, 3f);
+        }
+    }
+
+    public void PlayWalkSound()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (walkSound != null && audioSource != null)
+        {
+            if (audioSource.isPlaying && audioSource.clip == walkSound)
+                return;
+
+            audioSource.Stop();
+            audioSource.clip = walkSound;
+            audioSource.loop = true;
+            audioSource.pitch = Random.Range(0.95f, 1.05f); // Dodaj losowy pitch
+            audioSource.Play();
+        }
+    }
+
+    public void PlayAttackSound()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (attackSound != null && audioSource != null)
+        {
+            audioSource.Stop(); // Dodaj to!
+            audioSource.clip = attackSound;
+            audioSource.loop = false;
+            audioSource.Play();
+        }
+    }
+
+    public void StopSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+    }
+    public void StopWalkSound()
+    {
+        if (audioSource != null && audioSource.isPlaying && audioSource.clip == walkSound)
+        {
+            audioSource.Stop();
+        }
+
+    }
+    public void PlayScreamSound()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (screamSound != null && audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.clip = screamSound;
+            audioSource.loop = false;
+            audioSource.Play();
         }
     }
 }

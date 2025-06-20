@@ -7,6 +7,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject dashEffectParticles;
+    public AudioClip walkSound;
+    public AudioClip attackSound;
+    private AudioSource audioSource;
 
     public static PlayerMovement playerMovementInstance;
     [Header("Input Actions")]
@@ -56,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastEnemyTouchTime = -1f;
     public Image healthBarImage;
     public Animator healthBarAnimator;
-    
+
     public Image healthBarImage2;
     private bool isPlayerDead = false;
 
@@ -84,10 +88,14 @@ public class PlayerMovement : MonoBehaviour
     public bool isFighting = false;
     // public bool isTargetPicked = false;
     public GameObject enemiesFolder;
-    public Transform currentTarget=null;
+    public Transform currentTarget = null;
     public float stopDistance;
     public bool autoNavigationEnabled = false;
-    
+    public GameObject speedBoostPrefab;
+    public TrailRenderer[] dashTrails;
+
+    private int currentMeleDamage = 0;
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -103,15 +111,20 @@ public class PlayerMovement : MonoBehaviour
 
         isoRight = new Vector3(1, 0, -1).normalized;
         isoUp = new Vector3(1, 0, 1).normalized;
-        health = GameManager.Instance.playerHealth; 
-        speed = GameManager.Instance.playerSpeed; 
-        playerAttack = GameManager.Instance.playerAttack; 
+        health = GameManager.Instance.playerHealth;
+        speed = GameManager.Instance.playerSpeed;
+        playerAttack = GameManager.Instance.playerAttack;
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
     }
 
     void Update()
     {
+        if (speed >= 8)
+        {
+            if(speedBoostPrefab != null)
+            speedBoostPrefab.SetActive(true);
+        }
         if (autoAttackEnabled)
         {
 
@@ -133,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject temp = null;
             if (GameUIHandler.Instance.autoAttackUI != null)
                 temp = GameUIHandler.Instance.autoAttackUI;
-            if(temp!=null)
+            if (temp != null)
                 temp.SetActive(false);
         }
         if (autoNavigationEnabled)
@@ -143,9 +156,9 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             GameObject temp = null;
-            if( GameUIHandler.Instance.autonavigationUI != null)
+            if (GameUIHandler.Instance.autonavigationUI != null)
                 temp = GameUIHandler.Instance.autonavigationUI;
-            if(temp!=null)
+            if (temp != null)
                 temp.SetActive(false);
         }
 
@@ -215,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
                 navDir.y = 0f;
                 isMoving = navDir.magnitude > 0.1f;
             }
-            if (autoNavigationEnabled) animator.SetBool("isRunning", true);
+            if (autoNavigationEnabled || autoAttackEnabled) animator.SetBool("isRunning", true);
             else animator.SetBool("isRunning", isMoving);
 
             bool hasSword = false;
@@ -233,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isSlashing", isCombat && hasSword);
             animator.SetBool("isCasting", isCombat && hasRod); // Added for Rod
         }
-       
+
         if (controller.isGrounded)
         {
             velocity.y = 0f;
@@ -255,16 +268,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         HandleActiveDash();
-        HandleShield(); 
+        HandleShield();
         if (navMeshAgent != null)
         {
-            if(autoNavigationEnabled)
+            if (autoNavigationEnabled)
                 navMeshAgent.nextPosition = transform.position;
         }
     }
     public void FightingMode()
     {
-          if (currentWeapon != null)
+        if (currentWeapon != null)
         {
             string weaponName = currentWeapon.gameObject.name;
             if (weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0)
@@ -285,21 +298,26 @@ public class PlayerMovement : MonoBehaviour
     {
         autoAttackEnabled = !autoAttackEnabled;
         isCombat = false;
-        autoNavigationEnabled = false; 
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.Warp(transform.position);
+        }
+
+        autoNavigationEnabled = false;
         currentTarget = null;
-        
+
     }
     public void EnableOrDisableAutoNavigation()
     {
         autoNavigationEnabled = !autoNavigationEnabled;
-         if (navMeshAgent != null)
+        if (navMeshAgent != null)
         {
             navMeshAgent.Warp(transform.position);
         }
 
         autoAttackEnabled = false;
         currentTarget = null;
-        
+
     }
     public Transform FindClosestEnemy()
     {
@@ -320,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
         isFighting = false;
         return closestEnemy;
     }
-    
+
     public void NavigateTowardsCurrentQuestNpc()
     {
         if (autoNavigationEnabled == false) return;
@@ -363,8 +381,25 @@ public class PlayerMovement : MonoBehaviour
         navMeshAgent.enabled = true;
         navMeshAgent.SetDestination(currentTarget.position);
 
-        Vector3 direction = (navMeshAgent.nextPosition - transform.position);
-        direction.y = 0f;
+        // Sync player position to NavMeshAgent
+        if (Vector3.Distance(transform.position, navMeshAgent.nextPosition) > 0.01f)
+        {
+            controller.enabled = false;
+            transform.position = navMeshAgent.nextPosition;
+            controller.enabled = true;
+        }
+
+        // Rotate towards movement direction
+        if (navMeshAgent.hasPath && navMeshAgent.desiredVelocity.sqrMagnitude > 0.01f)
+        {
+            Vector3 lookDir = navMeshAgent.desiredVelocity;
+            lookDir.y = 0f;
+            if (lookDir != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
 
         float distanceToEnemy = Vector3.Distance(transform.position, currentTarget.position);
 
@@ -373,16 +408,11 @@ public class PlayerMovement : MonoBehaviour
             isFighting = true;
             isCombat = true;
             FightingMode();
-            // Optionally: stop moving
             navMeshAgent.ResetPath();
         }
-        else if (isFighting == false)
+        else if (!isFighting)
         {
             isCombat = false;
-            if (direction.magnitude > 0.1f)
-            {
-                controller.Move(direction.normalized * speed * 2 * Time.deltaTime);
-            }
         }
     }
     private void PlayerDeathScene()
@@ -433,6 +463,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (health <= 0)
         {
+        QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
             if (gameUIHandler != null)
             {
                 isPlayerDead = true;
@@ -444,22 +475,8 @@ public class PlayerMovement : MonoBehaviour
             healthTickTimer += Time.deltaTime;
             if (healthTickTimer >= 0.1f)
             {
-                int damage = 1;
-                if (closestEnemyInRangePosition != Vector3.zero)
-                {
-                    Collider[] colliders = Physics.OverlapSphere(closestEnemyInRangePosition, 0.1f);
-                    foreach (Collider col in colliders)
-                    {
-                        if (col.CompareTag("mele"))
-                        {
-                            damage = 5;
-                            break;
-                        }
-                    }
-                }
-
                 healthBarAnimator.SetBool("isDamaged", true);
-                health -= damage;
+                health -= currentMeleDamage;
                 healthTickTimer = 0f;
                 UpdateHealthBar();
             }
@@ -474,10 +491,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (healthBarImage != null)
         {
-            float fill = Mathf.Clamp01(health / 100f); 
+            float fill = Mathf.Clamp01(health / 100f);
             healthBarImage.fillAmount = fill;
         }
-         if (healthBarImage2 != null)
+        if (healthBarImage2 != null)
         {
             float fill = Mathf.Clamp01(health / 100f);
             healthBarImage2.fillAmount = fill;
@@ -502,7 +519,7 @@ public class PlayerMovement : MonoBehaviour
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
-            if (combatTimer >= shootInterval/8)
+            if (combatTimer >= shootInterval / 8)
             {
                 combatTimer = 0f;
 
@@ -582,13 +599,13 @@ public class PlayerMovement : MonoBehaviour
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
-            if (combatTimer >= shootInterval/1.5f)
+            if (combatTimer >= shootInterval / 1.5f)
             {
                 combatTimer = 0f;
 
                 RotateTowardsEnemy();
                 Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
-            GameObject projectile = Instantiate(magicalProjectilePrefab, spawnPos, currentWeapon.transform.rotation);
+                GameObject projectile = Instantiate(magicalProjectilePrefab, spawnPos, currentWeapon.transform.rotation);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -689,7 +706,7 @@ public class PlayerMovement : MonoBehaviour
     public void CheckForItemsInRange()
     {
         float range = maxDistanceCheck;
-        bool foundInteractable = false; 
+        bool foundInteractable = false;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
@@ -725,7 +742,7 @@ public class PlayerMovement : MonoBehaviour
                     ShowAlert();
                 }
             }
-            
+
             if (collider.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
             {
                 foundInteractable = true;
@@ -763,7 +780,7 @@ public class PlayerMovement : MonoBehaviour
         currentWeapon = weaponCopy;
         Destroy(currentWeapon.GetComponent<SphereCollider>());
 
-        Destroy(collider.gameObject.transform.parent.gameObject); 
+        Destroy(collider.gameObject.transform.parent.gameObject);
         isCombat = !isCombat;
     }
     private void ShowAlert()
@@ -815,6 +832,12 @@ public class PlayerMovement : MonoBehaviour
             enemiesTouching = true;
             lastEnemyTouchTime = Time.time;
             closestEnemyInRangePosition = other.transform.position;
+
+            // Check for mele tag directly
+            if (other.CompareTag("mele"))
+            {
+                currentMeleDamage = 5;
+            }
         }
         // Healing logic
         if (other.CompareTag("Healing"))
@@ -827,8 +850,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("EnemyBullet"))
         {
             if (isShieldActive) return;
-            int bulletDamage = 5; // Default bullet damage
-            // You can set different damage based on bullet type if needed
+            int bulletDamage = 5; 
             if (other.name.ToLower().Contains("magic"))
                 bulletDamage = 5;
             else if (other.name.ToLower().Contains("arrow"))
@@ -836,15 +858,9 @@ public class PlayerMovement : MonoBehaviour
 
             health -= bulletDamage;
             UpdateHealthBar();
-            Destroy(other.gameObject); // Destroy bullet so it can't damage again
-
-            // Optional: play damage animation
+            Destroy(other.gameObject); 
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);
-            //  if (healthBarAnimator2 != null)
-                // healthBarAnimator2.SetBool("isDamaged", true);
-
-            // Optional: check for death immediately
             if (health <= 0 && gameUIHandler != null)
             {
                 isPlayerDead = true;
@@ -857,6 +873,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             enemiesTouching = false;
+            currentMeleDamage = 0;
         }
     }
     private void HandleShield()
@@ -895,10 +912,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isDashing && GameUIHandler.Instance.specialAction.action.triggered && dashCooldownTimer <= 0f)
         {
+            if (dashTrails != null)
+            {
+                foreach (var trail in dashTrails)
+                {
+                    if (trail != null)
+                    {
+                        trail.Clear();
+                        trail.emitting = true;
+                    }
+                }
+            }
             isDashing = true;
             dashTimer = dashDuration;
             dashDirection = moveDir.normalized != Vector3.zero ? moveDir.normalized : transform.forward;
-
             dashCooldownTimer = dashCooldown;
         }
 
@@ -909,6 +936,14 @@ public class PlayerMovement : MonoBehaviour
             if (dashTimer <= 0f)
             {
                 isDashing = false;
+                if (dashTrails != null)
+                {
+                    foreach (var trail in dashTrails)
+                    {
+                        if (trail != null)
+                            trail.emitting = false;
+                    }
+                }
             }
         }
     }
@@ -927,20 +962,65 @@ public class PlayerMovement : MonoBehaviour
             health += 150;
         }
     }
-     private void HandleSpeedPerk(PlayerPerks perk)
+    private void HandleSpeedPerk(PlayerPerks perk)
     {
-            if (perk.perkLevel == 1)
-                    {
+        if (perk.perkLevel == 1)
+        {
             speed += 2f;
-                    }
-                    else if (perk.perkLevel == 2)
-                    {
-                        speed += 4f;
-                    }
-                    else if (perk.perkLevel == 3)
-                    {
-                        speed += 6f;    
-                    }
-                
+        }
+        else if (perk.perkLevel == 2)
+        {
+            speed += 4f;
+        }
+        else if (perk.perkLevel == 3)
+        {
+            speed += 6f;
+        }
+
+    }
+     public void PlayWalkSound()
+    {
+        // Debug.Log("PlayWalkSound called!");
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (walkSound != null && audioSource != null)
+        {
+            if (audioSource.isPlaying && audioSource.clip == walkSound)
+                return;
+
+            audioSource.Stop();
+            audioSource.clip = walkSound;
+            audioSource.loop = true;
+            audioSource.pitch = Random.Range(0.95f, 1.05f); // Dodaj losowy pitch
+            audioSource.Play();
+        }
+    }
+
+    public void PlayAttackSound()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+        if (attackSound != null && audioSource != null)
+        {
+            audioSource.Stop(); // Dodaj to!
+            audioSource.clip = attackSound;
+            audioSource.loop = false;
+            audioSource.Play();
+        }
+    }
+
+    public void StopSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+    }
+    public void StopWalkSound()
+    {
+        if (audioSource != null && audioSource.isPlaying && audioSource.clip == walkSound)
+        {
+            audioSource.Stop();
+        }
     }
 }

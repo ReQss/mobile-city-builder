@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
+    public GameObject questAcceptPanel;
     public AudioSource dialogueSound;
     public Animator animator;
     public Animator choiceAnimator;
@@ -133,14 +134,19 @@ public class DialogueManager : MonoBehaviour
         EnableUIElements();
         // Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.isPlayerInteracting = false;
-        if(UIDialoguePanel != null)
-        UIDialoguePanel.SetActive(false);
+        if (UIDialoguePanel != null)
+            UIDialoguePanel.SetActive(false);
 
         // Load scene if flagged
         if (shouldLoadSceneAfterDialogue && !string.IsNullOrEmpty(sceneToLoadAfterDialogue))
         {
             shouldLoadSceneAfterDialogue = false;
             SceneManager.LoadScene(sceneToLoadAfterDialogue);
+        }
+        // display quest accept
+        if (questAcceptPanel != null)
+        {
+            questAcceptPanel.SetActive(true);
         }
     }
    

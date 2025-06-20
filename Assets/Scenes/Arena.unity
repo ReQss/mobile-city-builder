@@ -1863,6 +1863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fd56c288ab9b64a839fb20c04ef171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questAcceptPanel: {fileID: 1166484161457645573}
   dialogueSound: {fileID: 1980189947}
   animator: {fileID: 2156350597046066008}
   choiceAnimator: {fileID: 0}
@@ -2976,7 +2977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &330527895
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5152,6 +5153,10 @@ MonoBehaviour:
   musicChanging: 0
   autonavigationUI: {fileID: 0}
   autoAttackUI: {fileID: 0}
+  MoneyFactoryUpgradingPanel: {fileID: 0}
+  MoneyFactoryUpgradingPanelTimeLeft: {fileID: 0}
+  WellUpgradingPanel: {fileID: 0}
+  WellUpgradingPanelTimeLeft: {fileID: 0}
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -6188,7 +6193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &619937108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10645,6 +10650,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
+      propertyPath: speedBoostPrefab
+      value: 
+      objectReference: {fileID: 1127153658}
+    - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
       propertyPath: healthBarAnimator
       value: 
       objectReference: {fileID: 1127153656}
@@ -10738,7 +10748,8 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 1.69
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5724859447180128641, guid: b3120f032e629f043a3b77c29c826e77, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3092171860090559904, guid: b3120f032e629f043a3b77c29c826e77,
@@ -10773,6 +10784,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1127153658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1977763480602346123, guid: b3120f032e629f043a3b77c29c826e77,
+    type: 3}
+  m_PrefabInstance: {fileID: 1127153655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1134902015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17641,6 +17658,7 @@ MonoBehaviour:
     questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -17650,10 +17668,12 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   givenQuest:
     questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -17663,6 +17683,7 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   enemyGenerator: {fileID: 1937535595}
   currentQuestDescription: {fileID: 188741014120187132}
   gameUIHandler: {fileID: 508787344}
@@ -24287,6 +24308,7 @@ MonoBehaviour:
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 5
     currentAmount: 0
@@ -24296,9 +24318,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 10
     currentAmount: 0
@@ -24308,9 +24332,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 20
     currentAmount: 0
@@ -24320,9 +24346,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 5
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 40
     currentAmount: 0
@@ -24332,6 +24360,7 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 5
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   questIndex: 0
   npcCanvas: {fileID: 1419494472}
   questCanvas: {fileID: 385266451}
@@ -42159,6 +42188,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 832979104071625240, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.044
+      objectReference: {fileID: 0}
+    - target: {fileID: 832979104071625240, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.044
+      objectReference: {fileID: 0}
+    - target: {fileID: 832979104071625240, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.031
+      objectReference: {fileID: 0}
     - target: {fileID: 1440608147504408521, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
       propertyPath: m_Layer
@@ -42297,7 +42341,7 @@ PrefabInstance:
     - target: {fileID: 6317294663024094570, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.5646863
+      value: 2.72
       objectReference: {fileID: 0}
     - target: {fileID: 6317294663024094570, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
@@ -42352,7 +42396,7 @@ PrefabInstance:
     - target: {fileID: 6692448732760635344, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6855661601300944011, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
@@ -42369,6 +42413,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7361120031200498017, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2357affee2d7f6b418ccaaba45b89715, type: 2}
     - target: {fileID: 7416406754288639946, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
       propertyPath: m_Layer

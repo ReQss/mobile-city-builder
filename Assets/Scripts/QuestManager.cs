@@ -9,7 +9,8 @@ public enum QuestType
     CollectItems,
     TalkToNPC,
     KillBoss,
-    FinalQuest
+    FinalQuest,
+    Unfreeze
 }
 
 [System.Serializable]
@@ -18,6 +19,7 @@ public class Quest
     public string questName;
     public string questDescription;
     public bool isCompleted;
+    public bool questAccepted = false;
      public QuestType questType;
     public int targetAmount; 
     public int currentAmount;
@@ -28,7 +30,7 @@ public class Quest
     public int amountOfHeals = 0;
     public bool disableNpcAfterAcceptedQuest = false;
     
-    
+    public List <GameObject> enemiesToUnfreeze = new List<GameObject>();
 
     public Quest(string name, string description)
     {
@@ -111,6 +113,7 @@ public class QuestManager : MonoBehaviour
     public void StartQuest(Quest quest)
     {
         currentQuest = quest;
+        currentQuest.questAccepted = true;
         quests.Add(quest);
         UpdateQuestUI();
         givenQuest = null;
@@ -121,7 +124,7 @@ public class QuestManager : MonoBehaviour
         }
         else if (quest.questType == QuestType.CollectItems)
         {
-            
+
         }
         else if (quest.questType == QuestType.TalkToNPC)
         {
@@ -136,6 +139,18 @@ public class QuestManager : MonoBehaviour
             gameUIHandler.FinishActUI();
             Debug.Log("Act finished, final quest started");
             GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
+        }
+        else if (quest.questType == QuestType.Unfreeze)
+        {
+            GameUIHandler.Instance.PlayBattleMusic();
+            foreach (GameObject enemy in quest.enemiesToUnfreeze)
+            {
+                if (enemy != null)
+                {
+                    enemy.GetComponent<EnemyAI>().enabled = true;
+                    enemy.GetComponent<Animator>().enabled = true;
+                }
+            }
         }
         if (quest.disableNpcAfterAcceptedQuest && quest.refToThisNpc != null)
         {
@@ -194,12 +209,28 @@ public class QuestManager : MonoBehaviour
              GameUIHandler.Instance.PlayAmbientMusic();
                 }
                 break;
+            case QuestType.Unfreeze:
+                if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.health <= 0)
+                {
+                    StartCoroutine(UnfreezeQuestFinishAfterDelay());
+                }
+                break;
         
         }
 
         UpdateQuestUI();
     }
-
+    private IEnumerator UnfreezeQuestFinishAfterDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.health <= 0)
+        {
+            gameUIHandler.FinishActUI();
+            Debug.Log("Act finished, final quest started");
+            GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
+            // Player is dead, handle quest fail or respawn logic here
+        }
+    }
     public void SpawnHealsNearNPC(GameObject npc, int amountOfHeals)
     {
         if (healthPrefab == null || npc == null) return;

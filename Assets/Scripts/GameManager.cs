@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     public int playerAttack = 10;
     public int playerSpeed = 8;
     public int priceForStatistics=1000;
+   
     public static GameManager Instance { get; private set; }
     
     public IEnumerator UpgradingBuilding(Building building)
@@ -92,6 +93,16 @@ public class GameManager : MonoBehaviour
             Debug.Log("Already upgrading this building");
             yield break;
         }
+        // switch (building.nameOfBuilding)
+        // {
+        //     case "Mystical Well":
+        //         GameUIHandler.Instance.ActiveWellNotification();
+        //         break;
+        //     case "Blacksmith Forge":
+        //         GameUIHandler.Instance.ActiveBlackSmithNotification();
+        //         break;
+
+        // }
         long endTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + (int)building.TimeToUpgrade;
         currentUpgradedBuildings.Add(new CurrentUpgradedBuilding
         {

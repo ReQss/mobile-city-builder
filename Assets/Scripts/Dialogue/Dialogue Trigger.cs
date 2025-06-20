@@ -30,7 +30,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0))
+        if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0)&& (!QuestManager.Instance.currentQuest.questAccepted ||(QuestManager.Instance.currentQuest.questAccepted && QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0) ))
         {
             
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction);
@@ -116,7 +116,7 @@ public class DialogueTrigger : MonoBehaviour
     private void Update()
     {
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRadius && GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
+        if (distance <= detectionRadius && GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0))
         {
             TriggerDialogue();
         }
