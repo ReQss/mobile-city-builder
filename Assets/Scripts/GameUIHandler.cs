@@ -52,6 +52,7 @@ public class GameUIHandler : MonoBehaviour
      public GameObject MoneyFactoryUpgradingPanel;
      public TextMeshProUGUI MoneyFactoryUpgradingPanelTimeLeft;
     public GameObject WellUpgradingPanel;
+    public GameObject autoNavigationNofication;
     
      public TextMeshProUGUI WellUpgradingPanelTimeLeft;
     public void PlayBattleMusic()

@@ -222,7 +222,7 @@ public class QuestManager : MonoBehaviour
     }
     private IEnumerator UnfreezeQuestFinishAfterDelay()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(7f);
         if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.health <= 0)
         {
             gameUIHandler.FinishActUI();

@@ -91,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform currentTarget = null;
     public float stopDistance;
     public bool autoNavigationEnabled = false;
+    public bool attackEnabled = false;
     public GameObject speedBoostPrefab;
     public TrailRenderer[] dashTrails;
 
@@ -141,6 +142,18 @@ public class PlayerMovement : MonoBehaviour
                 RunTowardsTargetEnemy();
             }
         }
+        if (attackEnabled)
+        {
+            if (currentWeapon == null)
+            {
+                isCombat = false;
+            }
+            else if (closestEnemyInRangePosition != Vector3.zero)
+            {
+                isCombat = true;
+            }
+            else isCombat = false;
+        }
         else
         {
             GameObject temp = null;
@@ -166,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity = Vector3.zero;
             animator.SetBool("isDead", true);
-
+            if(QuestManager.Instance.currentQuest.questType != QuestType.Unfreeze)
             PlayerDeathScene();
             return; // Stop processing if the player is dead
         }
@@ -309,7 +322,12 @@ public class PlayerMovement : MonoBehaviour
     }
     public void EnableOrDisableAutoNavigation()
     {
+
         autoNavigationEnabled = !autoNavigationEnabled;
+        if (autoNavigationEnabled == false)
+        {
+            GameUIHandler.Instance.autoNavigationNofication.SetActive(false);
+        }
         if (navMeshAgent != null)
         {
             navMeshAgent.Warp(transform.position);
@@ -317,6 +335,15 @@ public class PlayerMovement : MonoBehaviour
 
         autoAttackEnabled = false;
         currentTarget = null;
+
+    }
+     public void EnableOrDisableAttack()
+    {
+        attackEnabled = !attackEnabled;
+        if (attackEnabled == false)
+        {
+            isCombat = false;
+        }
 
     }
     public Transform FindClosestEnemy()
@@ -361,9 +388,9 @@ public class PlayerMovement : MonoBehaviour
 
         float distanceToNPC = Vector3.Distance(transform.position, currentTarget.position);
 
-        if (distanceToNPC <= 2)
+        if (distanceToNPC <= 5)
         {
-            autoNavigationEnabled = false;
+            EnableOrDisableAutoNavigation();
             currentQuestNPC.GetComponent<DialogueTrigger>().TriggerDialogue();
             navMeshAgent.ResetPath();
         }
@@ -670,7 +697,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 enemyAI.EnemyCanvasLockOnIsEnabled = true;
             }
-
+            if (autoAttackEnabled)
+            {
+                isCombat = true;
+            }
+            
             LookAtClosestEnemy();
         }
         else
