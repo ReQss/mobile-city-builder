@@ -23595,6 +23595,7 @@ MonoBehaviour:
   MoneyFactoryUpgradingPanel: {fileID: 0}
   MoneyFactoryUpgradingPanelTimeLeft: {fileID: 0}
   WellUpgradingPanel: {fileID: 0}
+  autoNavigationNofication: {fileID: 8553182269710768881}
   WellUpgradingPanelTimeLeft: {fileID: 0}
 --- !u!4 &508787345
 Transform:
@@ -27560,6 +27561,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &638810260 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6759895637346785880, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8553182269710768880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &638878465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75725,6 +75732,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5778553249132334520, guid: 163fe340ff881b442a62b1c1fddffe38,
+        type: 3}
+      propertyPath: m_Radius
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8442721403842677490, guid: 163fe340ff881b442a62b1c1fddffe38, type: 3}
     - {fileID: 7569978678497243610, guid: 163fe340ff881b442a62b1c1fddffe38, type: 3}
@@ -100551,6 +100563,31 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 508787344}
+    - target: {fileID: 8674053420277451476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 666996285}
+    - target: {fileID: 8674053420277451476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 508787344}
+    - target: {fileID: 8674053420277451476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableOrDisableAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674053420277451476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DisableOrEnableElement
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674053420277451476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 638810260}
     - target: {fileID: 8774666277290062478, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
