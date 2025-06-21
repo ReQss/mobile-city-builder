@@ -192,14 +192,14 @@ public class GameManager : MonoBehaviour
         UpdateUpgradeTimers(); 
         FindUpgradedBuildingsAndUpdate();
 
-        if (isPlayerInteracting && Time.timeScale != 0)
-        {
-            Time.timeScale = 0;
-        }
-        else if (!isPlayerInteracting && Time.timeScale != 1)
-        {
-            Time.timeScale = 1;
-        }
+        // if (isPlayerInteracting && Time.timeScale != 0)
+        // {
+        //     Time.timeScale = 0;
+        // }
+        // else if (!isPlayerInteracting && Time.timeScale != 1)
+        // {
+        //     Time.timeScale = 1;
+        // }
     }
     private void Awake()
     {

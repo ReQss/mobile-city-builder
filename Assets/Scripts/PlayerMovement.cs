@@ -96,10 +96,12 @@ public class PlayerMovement : MonoBehaviour
     public TrailRenderer[] dashTrails;
 
     private int currentMeleDamage = 0;
+    public GameObject versusButton;
 
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        EnableOrDisableAttack();
         if (navMeshAgent != null)
         {
             navMeshAgent.updateRotation = false; // Optional: handle rotation manually
@@ -123,8 +125,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (speed >= 8)
         {
-            if(speedBoostPrefab != null)
-            speedBoostPrefab.SetActive(true);
+            if (speedBoostPrefab != null)
+                speedBoostPrefab.SetActive(true);
         }
         if (autoAttackEnabled)
         {
@@ -179,8 +181,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity = Vector3.zero;
             animator.SetBool("isDead", true);
-            if(QuestManager.Instance.currentQuest.questType != QuestType.Unfreeze)
-            PlayerDeathScene();
+            if (QuestManager.Instance.currentQuest.questType != QuestType.Unfreeze)
+                PlayerDeathScene();
             return; // Stop processing if the player is dead
         }
         // Read movement from InputAction
@@ -221,11 +223,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if ((GameUIHandler.Instance.playerAction != null && GameUIHandler.Instance.playerAction.action.triggered && currentWeapon != null)
-        || (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
-        {
-            isCombat = !isCombat;
-        }
+        // if ((GameUIHandler.Instance.playerAction != null && GameUIHandler.Instance.playerAction.action.triggered && currentWeapon != null)
+        // || (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
+        // {
+        //     isCombat = !isCombat;
+        // }
 
         ShowWeapon();
 
@@ -287,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
             if (autoNavigationEnabled)
                 navMeshAgent.nextPosition = transform.position;
         }
+        CheckForBullets();
     }
     public void FightingMode()
     {
@@ -337,13 +340,21 @@ public class PlayerMovement : MonoBehaviour
         currentTarget = null;
 
     }
-     public void EnableOrDisableAttack()
+    public void EnableOrDisableAttack()
     {
         attackEnabled = !attackEnabled;
+        if (attackEnabled && GameUIHandler.Instance.attackNotification != null)
+        {
+            GameUIHandler.Instance.attackNotification.SetActive(true);
+
+        }
         if (attackEnabled == false)
         {
             isCombat = false;
+             GameUIHandler.Instance.attackNotification.SetActive(false);
+           
         }
+        
 
     }
     public Transform FindClosestEnemy()
@@ -667,6 +678,25 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public void SpawnMagicBullet()
+    {
+        RotateTowardsEnemy();
+        // Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
+        GameObject projectile = Instantiate(magicalProjectilePrefab, this.transform.position, this.transform.rotation);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+                {
+                if (closestEnemyInRangePosition != Vector3.zero)
+                    {
+                    Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
+                    rb.linearVelocity = direction * projectileSpeed;
+                    }
+                    else
+                    {
+                        rb.linearVelocity = transform.forward * projectileSpeed;
+                    }
+                }
+    }
     public void CheckForEnemiesInRange()
     {
         float range = enemyRange;
@@ -701,7 +731,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isCombat = true;
             }
-            
+
             LookAtClosestEnemy();
         }
         else
@@ -721,6 +751,34 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+    public void CheckForBullets()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2.5f);
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
+            {
+                if (isDashing == true)
+                {
+                    StartCoroutine(SlowTimeForPerfectTiming());
+                }
+            }
+        }
+
+    }
+    private IEnumerator SlowTimeForPerfectTiming()
+    {
+        Debug.Log("perfect timing - slow start");
+    Time.timeScale = 0.2f;
+    Debug.Log("Time.timeScale set to: " + Time.timeScale);
+    versusButton.SetActive(true);
+    yield return new WaitForSecondsRealtime(1f);
+    
+    Debug.Log("perfect timing - slow end");
+    versusButton.SetActive(false);
+    Time.timeScale = 1f;
+    Debug.Log("Time.timeScale set to: " + Time.timeScale);
     }
     public void LookAtClosestEnemy()
     {
@@ -812,7 +870,7 @@ public class PlayerMovement : MonoBehaviour
         Destroy(currentWeapon.GetComponent<SphereCollider>());
 
         Destroy(collider.gameObject.transform.parent.gameObject);
-        isCombat = !isCombat;
+        // isCombat = !isCombat;
     }
     private void ShowAlert()
     {

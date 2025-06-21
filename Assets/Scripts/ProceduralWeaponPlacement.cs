@@ -128,8 +128,9 @@ public class ProceduralWeaponPlacement : MonoBehaviour
         float distance = Random.Range(2f, radius); // min distance from player
         Vector3 offset = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * distance;
         Vector3 randomPos = player.transform.position + offset;
-
-        GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
+        GameObject objectSpawned = null;
+        if (prefab != null)
+            objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
         objectSpawned.SetActive(true);
     }
     }

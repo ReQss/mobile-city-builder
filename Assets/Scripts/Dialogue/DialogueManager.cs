@@ -34,8 +34,9 @@ public class DialogueManager : MonoBehaviour
             this.sceneName = sceneName;
             specialAction = isSpecialAction;
         }
-        if(UIDialoguePanel != null)
-        UIDialoguePanel.SetActive(true);
+         Time.timeScale = 0;
+        if (UIDialoguePanel != null)
+            UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
         // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
@@ -148,6 +149,7 @@ public class DialogueManager : MonoBehaviour
         {
             questAcceptPanel.SetActive(true);
         }
+        Time.timeScale = 1;
     }
    
    

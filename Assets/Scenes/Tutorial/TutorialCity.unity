@@ -657,6 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fd56c288ab9b64a839fb20c04ef171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questAcceptPanel: {fileID: 0}
   dialogueSound: {fileID: 539204203}
   animator: {fileID: 1227597575}
   choiceAnimator: {fileID: 1227597575}
@@ -3781,24 +3782,25 @@ MonoBehaviour:
   wasWeaponBought: 0
   objectiveText: {fileID: 483338834}
   objectivesDescription:
-  - Awakening - Talk to Zareth
-  - Use buttons and check money factory and see what you can do
-  - Now after Ancient Mystical Well and use it
-  - Buy weapon in workshop
-  - Collect money from money factory
-  - Collect rewards from ancient box - move Elarion by clicking the ground
-  - Use Mystical Well to travel through time and space
+  - Przebudzenie - Porozmawiaj z twoim tajemniczym kompanem Zarethem
+  - "Sprawd\u017A Fabryk\u0119 Monet i zobacz, co mo\u017Cesz tam zrobi\u0107.  "
+  - "U\u017Cyj mitycznej studni"
+  - "Kup bro\u0144 w Warsztacie"
+  - "Zbierz pieni\u0105dze klikaj\u0105c w dymek przy fabryce monet"
+  - "Zbierz nagrody ze Staro\u017Cytnej Skrzyni, przesu\u0144 Elariona, klikaj\u0105c
+    na ziemi\u0119. Znajduje sie ona w lewym dolnym rogu."
+  - "U\u017Cyj mitycznej studni \u017Ceby przej\u015B\u0107 do podr\xF3\u017Cy"
   - Use Mystical Well to travel through time and space
   tutorialObjects:
-  - name: Talking to zareth
+  - name: Przebudzenie - Porozmawiaj z twoim tajemniczym kompanem Zarethem
     isCompleted: 0
-    description: Talk to Zareth
+    description: Przebudzenie - Porozmawiaj z twoim tajemniczym kompanem Zarethem
   - name: Ready to journey
     isCompleted: 0
-    description: Use Mystical Well to travel through time and space
+    description: "Sprawd\u017A mityczn\u0105 studnie"
   - name: Money factory
     isCompleted: 0
-    description: Check money factory and see what you can do
+    description: "Sprawd\u017A Fabryk\u0119 Monet i zobacz, co mo\u017Cesz tam zrobi\u0107.  "
   - name: Mystical Well
     isCompleted: 0
     description: Check mystical well
@@ -3813,7 +3815,8 @@ MonoBehaviour:
     description: Collect rewards from the box by clicking it
   - name: Ready to journey
     isCompleted: 0
-    description: Use Mystical Well to travel through time and space
+    description: "U\u017Cyj Mistycznej Studni, aby podr\xF3\u017Cowa\u0107 w czasie
+      i przestrzeni.  "
   currentObjectiveIndex: 1
   dialogueTrigger: {fileID: 1794650110}
   player: {fileID: 656470556}
@@ -7045,7 +7048,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Awakening - Talk to Zareth
+  m_text: 'Przebudzenie - Porozmawiaj z twoim tajemniczym kompanem Zarethem
 
 '
   m_isRightToLeft: 0
@@ -12913,7 +12916,7 @@ PrefabInstance:
     - target: {fileID: 5864809487084411601, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5864809487084411601, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -13425,6 +13428,12 @@ MonoBehaviour:
   musicChanging: 0
   autonavigationUI: {fileID: 0}
   autoAttackUI: {fileID: 0}
+  MoneyFactoryUpgradingPanel: {fileID: 0}
+  MoneyFactoryUpgradingPanelTimeLeft: {fileID: 0}
+  WellUpgradingPanel: {fileID: 0}
+  autoNavigationNofication: {fileID: 0}
+  attackNotification: {fileID: 0}
+  WellUpgradingPanelTimeLeft: {fileID: 0}
 --- !u!4 &1062980182
 Transform:
   m_ObjectHideFlags: 0
@@ -24127,31 +24136,30 @@ MonoBehaviour:
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - Greetings, traveler. I am Zareth, a guardian of the timeways and a humble servant
-      of the Eternal Realms
-    - You stand at the edge of eternity, where the past and future intertwine like
-      threads of a great tapestry.
-    - "This is the tutorial section \u2014 a place outside of time, created to prepare
-      you for the journey ahead"
-    - The game is divided into two parts - the city and epochs
-    - City plays a role of your base, upgrade your building and buy upgrades to get
-      stronger.
-    - Epochs are your adventures, from rescuing important characters to fight monsters
-      and enemies
-    - Now try to finish the tutorial and interact with the city.
+    - "Jestem Zareth, stra\u017Cnik \u015Bcie\u017Cek czasu i pokorny s\u0142uga
+      Wiecznych Krain."
+    - "To miejsce poza czasem, sekcja samouczka, zosta\u0142o stworzone, by przygotowa\u0107
+      ci\u0119 na czekaj\u0105c\u0105 ci\u0119 podr\xF3\u017C."
+    - "Gra podzielona jest na dwie g\u0142\xF3wne cz\u0119\u015Bci: Miasto i Epoki."
+    - "Miasto to twoja baza. Rozwijaj budynki, odblokowuj ulepszenia i ro\u015Bnij
+      w si\u0142\u0119."
+    - "Epoki to twoje przygody, w przygodach zbierasz cenne monety kt\xF3re pozwalaj\u0105
+      Ci ulepszy\u0107 twoj\u0105 posta\u0107 i ob\xF3z"
+    - "Spr\xF3buj uko\u0144czy\u0107 tutorial przed wyko\u0144czeniem na kolejn\u0105
+      przygode."
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - This is money factory
-    - You can upgrade it to get more money passive
+    - To jest twoja fabryka monet
+    - "To tutaj zaczyna si\u0119 twoje bogactwo pasywnie. Ulepszaj j\u0105, by z
+      czasem zdobywa\u0107 coraz wi\u0119cej z\u0142ota."
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - This is mystical well
-    - "Drop a token\u2026 and let time guide you"
-    - "From Ancient Egypt to the Roman Empire, each time jump is a new lesson \u2014
-      and a new danger"
-    - It allows you to time travel through different ancient eras.
+    - To jest Mistyczna Studnia.
+    - "Studnia pozwala ci przenosi\u0107 si\u0119 mi\u0119dzy staro\u017Cytnymi epokami
+      i przenosi w podr\xF3\u017Ce. Jest jedn\u0105 z wa\u017Cniejszych budowli w
+      obozie!"
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
@@ -24162,23 +24170,22 @@ MonoBehaviour:
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - 'You can collect your timed rewards here. '
+    - "Po ka\u017Cdej podr\xF3\u017Cy mo\u017Cesz odebra\u0107 tutaj swoje nagrody!"
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - Nice work out there! All the coins you earned have been stored safely. Just
-      head to the Treasury to claim them
-    - After completing stories or defeating enemies there is stored money you can
-      receive
+    - "Wszystkie zdobyte monety zosta\u0142y bezpiecznie przechowane.\nUdaj si\u0119
+      do Skarbca, aby je odebra\u0107."
+    - "Po uko\u0144czeniu przygody lub pokonaniu wrog\xF3w, nagrody trafiaj\u0105
+      do Skarbca i czekaj\u0105 na ciebie."
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - You are ready for your journey
-    - "That\u2019s it! You\u2019ve completed the City tutorial. You\u2019ve learned
-      the basics."
-    - Now go into mystical well and start your first adventure.
-    - Remember if the epochs is too tough for you - go back to the city and make
-      your character stronger.
+    - "Jeste\u015B got\xF3w na swoj\u0105 podr\xF3\u017C!"
+    - "Teraz wejd\u017A do Mistycznej Studni i rozpocznij swoj\u0105 pierwsz\u0105
+      przygod\u0119."
+    - "Pami\u0119taj je\u015Bli przygoda oka\u017Ce si\u0119 zbyt trudna, zawsze
+      mo\u017Cesz wr\xF3ci\u0107 do Miasta i wzmocni\u0107 swoj\u0105 posta\u0107."
   sceneName: 
   isSpecialAction: 0
   detectionRadius: 5
@@ -24188,6 +24195,7 @@ MonoBehaviour:
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24197,9 +24205,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24209,9 +24219,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24221,9 +24233,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24233,9 +24247,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24245,9 +24261,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24257,9 +24275,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24269,9 +24289,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24281,9 +24303,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24293,9 +24317,11 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   - questName: 
     questDescription: 
     isCompleted: 0
+    questAccepted: 0
     questType: 0
     targetAmount: 0
     currentAmount: 0
@@ -24305,6 +24331,7 @@ MonoBehaviour:
     refToThisNpc: {fileID: 0}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
+    enemiesToUnfreeze: []
   questIndex: 0
   npcCanvas: {fileID: 1563336196}
   questCanvas: {fileID: 1563336196}
@@ -30963,11 +30990,21 @@ PrefabInstance:
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
@@ -30977,7 +31014,27 @@ PrefabInstance:
       objectReference: {fileID: 1050328834}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 216763123}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1794650110}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
@@ -30987,8 +31044,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: TriggerDialogueCityTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TutorialScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30997,7 +31074,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748728266874833645, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4880860129399950107, guid: 9242848cebdb98946978451284e618a5,
@@ -31063,11 +31160,26 @@ PrefabInstance:
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
@@ -31077,7 +31189,37 @@ PrefabInstance:
       objectReference: {fileID: 1050328834}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 216763123}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1794650110}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 216763123}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
@@ -31087,8 +31229,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: TriggerDialogueCityTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: NextObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TutorialScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: TutorialScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31097,7 +31269,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5691420348897970629, guid: 9242848cebdb98946978451284e618a5,
@@ -31289,11 +31501,21 @@ PrefabInstance:
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
@@ -31303,7 +31525,27 @@ PrefabInstance:
       objectReference: {fileID: 1050328834}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 216763123}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1794650110}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
@@ -31313,8 +31555,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: TriggerDialogueCityTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TutorialScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31323,7 +31585,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095284314784014560, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -31955,7 +32237,7 @@ PrefabInstance:
     - target: {fileID: 755772943412858030, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 755772943412858030, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}

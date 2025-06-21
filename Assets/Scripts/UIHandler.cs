@@ -265,7 +265,7 @@ public class UIHandler : MonoBehaviour
         {
              if (GameManager.Instance == null)
         {
-             SceneManager.LoadScene("TutorialCity");
+             SceneManager.LoadScene("Statues");
         }
         else SceneManager.LoadScene(sceneName);
             Debug.Log("Ładowanie sceny: " + sceneName);

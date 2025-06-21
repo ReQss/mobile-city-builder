@@ -53,6 +53,7 @@ public class GameUIHandler : MonoBehaviour
      public TextMeshProUGUI MoneyFactoryUpgradingPanelTimeLeft;
     public GameObject WellUpgradingPanel;
     public GameObject autoNavigationNofication;
+    public GameObject attackNotification;
     
      public TextMeshProUGUI WellUpgradingPanelTimeLeft;
     public void PlayBattleMusic()
@@ -186,14 +187,6 @@ public class GameUIHandler : MonoBehaviour
             if (MapUI != null)
             {
                 MapUI.SetActive(!MapUI.activeSelf);
-            }
-            if (Time.timeScale != 0)
-            {
-                Time.timeScale = 0;
-            }
-            else
-            {
-                Time.timeScale = 1;
             }
         }
         // EnableNotification(notificationNPC, NotificationType.NPC);
