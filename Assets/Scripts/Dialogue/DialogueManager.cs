@@ -56,6 +56,8 @@ public class DialogueManager : MonoBehaviour
 
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(true);
+         Time.timeScale = 0;
+
         GameManager.Instance.isPlayerInteracting = true;
         // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();

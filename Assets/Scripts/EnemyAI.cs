@@ -235,7 +235,7 @@ private float areaHitboxDamageTimer = 0f;
     {
         if (other.CompareTag("Bullet"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 2;
+            int damageAmount = GameManager.Instance.playerAttack /2;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -260,6 +260,64 @@ private float areaHitboxDamageTimer = 0f;
         else if (other.CompareTag("Magic"))
         {
             int damageAmount = GameManager.Instance.playerAttack * 6;
+            TakeDamage(damageAmount);
+            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = damageAmount.ToString();
+            }
+
+            Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+            float knockbackForce = 2f;
+            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
+            }
+
+            Destroy(other.gameObject, 0.4f);
+            Destroy(damageDealt, 0.5f);
+
+            // Start DoT effect (cancel previous if running)
+            if (magicDotCoroutine != null)
+                StopCoroutine(magicDotCoroutine);
+            magicDotCoroutine = StartCoroutine(MagicDotEffect());
+        }
+        else if (other.CompareTag("Versus"))
+        {
+            int damageAmount = GameManager.Instance.playerAttack * 8;
+            TakeDamage(damageAmount);
+            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+
+            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+            if (tmp != null)
+            {
+                tmp.text = damageAmount.ToString();
+            }
+
+            Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+            float knockbackForce = 2f;
+            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+                rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
+            }
+
+            Destroy(other.gameObject, 0.4f);
+            Destroy(damageDealt, 0.5f);
+
+            // Start DoT effect (cancel previous if running)
+            if (magicDotCoroutine != null)
+                StopCoroutine(magicDotCoroutine);
+            magicDotCoroutine = StartCoroutine(MagicDotEffect());
+        }
+        else if (other.CompareTag("VersusBullet"))
+        {
+            int damageAmount = GameManager.Instance.playerAttack * 4;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 

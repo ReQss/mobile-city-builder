@@ -96,7 +96,12 @@ public class PlayerMovement : MonoBehaviour
     public TrailRenderer[] dashTrails;
 
     private int currentMeleDamage = 0;
+    [Header("Versus settings")]
     public GameObject versusButton;
+    public GameObject versusButtonMele;
+    public GameObject versusProjectile;
+    
+    public GameObject versusProjectile2;
 
     void Start()
     {
@@ -183,9 +188,8 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isDead", true);
             if (QuestManager.Instance.currentQuest.questType != QuestType.Unfreeze)
                 PlayerDeathScene();
-            return; // Stop processing if the player is dead
+            return; 
         }
-        // Read movement from InputAction
         Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
         moveDir = (isoRight * input.x + isoUp * input.y).normalized;
 
@@ -697,6 +701,42 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
     }
+     public void SpawnVersusMele()
+    {
+        RotateTowardsEnemy();
+        GameObject projectile = Instantiate(versusProjectile, this.transform.position, this.transform.rotation);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+                {
+                if (closestEnemyInRangePosition != Vector3.zero)
+                    {
+                    Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
+                    rb.linearVelocity = direction * projectileSpeed;
+                    }
+                    else
+                    {
+                        rb.linearVelocity = transform.forward * projectileSpeed;
+                    }
+                }
+    }
+     public void SpawnVersusBullet()
+    {
+        RotateTowardsEnemy();
+        GameObject projectile = Instantiate(versusProjectile2, this.transform.position, this.transform.rotation);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+                {
+                if (closestEnemyInRangePosition != Vector3.zero)
+                    {
+                    Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
+                    rb.linearVelocity = direction * projectileSpeed;
+                    }
+                    else
+                    {
+                        rb.linearVelocity = transform.forward * projectileSpeed;
+                    }
+                }
+    }
     public void CheckForEnemiesInRange()
     {
         float range = enemyRange;
@@ -764,6 +804,13 @@ public class PlayerMovement : MonoBehaviour
                     StartCoroutine(SlowTimeForPerfectTiming());
                 }
             }
+            else if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+            {
+                if (isDashing == true)
+                {
+                    StartCoroutine(SlowTimeForPerfectTimingMele());
+                }
+            }
         }
 
     }
@@ -779,6 +826,19 @@ public class PlayerMovement : MonoBehaviour
     versusButton.SetActive(false);
     Time.timeScale = 1f;
     Debug.Log("Time.timeScale set to: " + Time.timeScale);
+    }
+    private IEnumerator SlowTimeForPerfectTimingMele()
+    {
+        Debug.Log("perfect timing - slow start");
+        Time.timeScale = 0.2f;
+        Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        versusButtonMele.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        
+        Debug.Log("perfect timing - slow end");
+        versusButtonMele.SetActive(false);
+        Time.timeScale = 1f;
+        Debug.Log("Time.timeScale set to: " + Time.timeScale);
     }
     public void LookAtClosestEnemy()
     {
@@ -916,7 +976,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon") || other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             enemiesTouching = true;
             lastEnemyTouchTime = Time.time;
@@ -927,6 +987,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentMeleDamage = 5;
             }
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            enemiesTouching = true;
+            lastEnemyTouchTime = Time.time;
+            closestEnemyInRangePosition = other.transform.position;
+
         }
         // Healing logic
         if (other.CompareTag("Healing"))
