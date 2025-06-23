@@ -79,13 +79,65 @@ public class GameManager : MonoBehaviour
     
     public int energy = 20;
     public int playerCoinCount = 0;
-    public int playerHealth=100;
+    [Header("Player stats")]
+    public int playerHealth = 100;
     public int playerAttack = 10;
     public int playerSpeed = 8;
-    public int priceForStatistics=1000;
+    [Header("Player experience")]
+    public int playerLevel = 1;
+    public int playerExperienceToGetLevel = 1000;
+    public int playerCurrentExperience = 0;
+    public int pointsToSpend = 0;
+    
+    public int priceForStatistics = 1000;
+
+
+    
    
     public static GameManager Instance { get; private set; }
-    
+    public void AddExp(int exp)
+    {
+        playerCurrentExperience += exp;
+        if (playerCurrentExperience >= playerExperienceToGetLevel)
+        {
+            playerLevel++;
+            pointsToSpend += 1;
+            playerCurrentExperience = 0;
+            playerExperienceToGetLevel += 500;
+        }
+        
+    }
+    public bool UsePointForAttack()
+    {
+        if (pointsToSpend > 0)
+        {
+            playerAttack += 2;
+            pointsToSpend--;
+            return true;
+        }
+        return false;
+    }
+    public bool UsePointForHealth()
+    {
+        if (pointsToSpend > 0)
+        {
+            playerHealth += 10;
+            pointsToSpend--;
+            return true;
+
+        }
+        return false;
+    }
+    public bool UsePointForSpeed()
+    {
+        if (pointsToSpend-1 > 0)
+        {
+            playerSpeed += 1;
+            pointsToSpend -= 2;
+            return true;
+        }
+        return false;
+    }
     public IEnumerator UpgradingBuilding(Building building)
     {
         if (currentUpgradedBuildings.Find(x => x.buildingName == building.nameOfBuilding) != null)

@@ -43,6 +43,7 @@ public class EnemyAI : MonoBehaviour
     public bool isShoting = false;
     private float areaHitboxDamageTimer = 0f;
     public int damageAmount = 10;
+    public int expAmount = 100;
     public int Health
     {
         get { return health; }
@@ -61,6 +62,7 @@ public class EnemyAI : MonoBehaviour
                     }
                 }
                 Destroy(gameObject);
+                GameManager.Instance.AddExp(expAmount);
             }
         }
     }

@@ -56,6 +56,10 @@ public class GameUIHandler : MonoBehaviour
     public GameObject attackNotification;
     
      public TextMeshProUGUI WellUpgradingPanelTimeLeft;
+    [Header("Player level")]
+    public TextMeshProUGUI playerLevel;
+    public TextMeshProUGUI playerExp;
+    public TextMeshProUGUI playerPointsToSpend;
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;
@@ -65,6 +69,13 @@ public class GameUIHandler : MonoBehaviour
             musicSource.loop = true;
             musicSource.Play();
         }
+    }
+    public void SetLevelAndExp()
+    {
+        if (playerLevel == null || playerExp == null || playerPointsToSpend == null) return;
+        playerLevel.text = GameManager.Instance.playerLevel.ToString();
+        playerExp.text = (GameManager.Instance.playerExperienceToGetLevel - GameManager.Instance.playerCurrentExperience).ToString();
+        playerPointsToSpend.text = GameManager.Instance.pointsToSpend.ToString();
     }
     public void SetTimeLeftForUpgrading()
     {
@@ -174,7 +185,8 @@ public class GameUIHandler : MonoBehaviour
     
 
     void Update()
-    {
+    {   
+        SetLevelAndExp();
         
             SetTimeLeftForUpgrading();
          
@@ -494,10 +506,39 @@ public class GameUIHandler : MonoBehaviour
         }
        
     }
+    public void IncreasePlayerHealthByPoints()
+    {
+        bool result = GameManager.Instance.UsePointForHealth();
+        if (result)
+        {
+            PlayerMovement.playerMovementInstance.health = GameManager.Instance.playerHealth;
+            HandleStatistics();
+        }
+
+    }
+    public void IncreasePlayerAttackByPoints()
+    {
+        bool result = GameManager.Instance.UsePointForAttack();
+        if (result)
+        {
+            PlayerMovement.playerMovementInstance.playerAttack = GameManager.Instance.playerAttack;
+            HandleStatistics();
+        }
+    }
+    public void IncreasePlayerSpeedByPoints()
+    {
+        bool result = GameManager.Instance.UsePointForSpeed();
+        if (result)
+        {
+            PlayerMovement.playerMovementInstance.speed = GameManager.Instance.playerSpeed;
+            HandleStatistics();
+        }
+    }
 
     public void IncreasePlayerAttackUI(int amount)
     {
-        if(GameManager.Instance.coinsCollected >= GameManager.Instance.priceForStatistics){
+        if (GameManager.Instance.coinsCollected >= GameManager.Instance.priceForStatistics)
+        {
             GameManager.Instance.coinsCollected -= GameManager.Instance.priceForStatistics;
             GameManager.Instance.IncreasePlayerAttack(amount);
             PlayerMovement.playerMovementInstance.playerAttack += amount;
