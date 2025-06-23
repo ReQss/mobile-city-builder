@@ -41,7 +41,8 @@ public class EnemyAI : MonoBehaviour
 
     private Coroutine magicDotCoroutine; // Add this field to prevent overlapping DoTs
     public bool isShoting = false;
-private float areaHitboxDamageTimer = 0f;
+    private float areaHitboxDamageTimer = 0f;
+    public int damageAmount = 10;
     public int Health
     {
         get { return health; }

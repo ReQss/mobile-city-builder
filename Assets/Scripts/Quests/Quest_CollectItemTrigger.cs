@@ -51,7 +51,7 @@ public class Quest_CollectItemTrigger : MonoBehaviour
      public void TriggerDialogue()
     {
          
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[dialogueIndex],null, false);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[dialogueIndex],null, false,true);
         dialogueIndex++;
     }
 }

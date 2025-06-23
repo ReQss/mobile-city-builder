@@ -20,6 +20,7 @@ public class DialogueTrigger : MonoBehaviour
     public GameObject npcCanvas;
     public GameObject questCanvas;
     public Button specialButton;
+    public bool isQuest = true;
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class DialogueTrigger : MonoBehaviour
         if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0)&& (!QuestManager.Instance.currentQuest.questAccepted ||(QuestManager.Instance.currentQuest.questAccepted && QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0) ))
         {
             
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction,isQuest);
             QuestManager.Instance.givenQuest = quests[questIndex];
             questIndex++;
             StartQuestCanvas();
@@ -41,12 +42,24 @@ public class DialogueTrigger : MonoBehaviour
         else
             Debug.Log("Finish your quest first");
     }
+    public void TriggerDialogueNoQuests()
+    {
+        if (questIndex <= dialogue.Count)
+        {
+            FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction, false);
+            // QuestManager.Instance.givenQuest = quests[questIndex];
+            questIndex++;
+        }
+        // StartQuestCanvas();
+
+
+        }
     public void TriggerDialogueCity()
     {
-        
+
         FindObjectOfType<DialogueManager>().StartDialogueCity(dialogue[questIndex], sceneName, isSpecialAction);
         questIndex++;
-        
+
     }
     public void TriggerDialogueCityChangeScene(int currentIndex)
     {

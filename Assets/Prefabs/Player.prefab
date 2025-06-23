@@ -653,8 +653,14 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   stopDistance: 0
   autoNavigationEnabled: 0
+  attackEnabled: 0
   speedBoostPrefab: {fileID: 0}
   dashTrails: []
+  versusButton: {fileID: 0}
+  versusButtonMele: {fileID: 0}
+  versusProjectile: {fileID: 0}
+  versusProjectile2: {fileID: 0}
+  TutorialManager: {fileID: 0}
 --- !u!54 &5046523413160315925
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3402,6 +3408,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3088884676885658}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2fff0198cf015724e893d488bea85383,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7750077552153856485}
   m_SourcePrefab: {fileID: 100100000, guid: 2fff0198cf015724e893d488bea85383, type: 3}
 --- !u!4 &2813808986338952178 stripped
 Transform:
@@ -3455,6 +3465,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7750077552153856485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7205061287664740897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46fc22bf75a5d87499f89678e520ee9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootParticleSystem: {fileID: 0}
 --- !u!4 &7545312499006746779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2fff0198cf015724e893d488bea85383,

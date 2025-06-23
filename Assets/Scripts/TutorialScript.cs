@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,13 +13,16 @@ public class TutorialObject
 }
 public class TutorialScript : MonoBehaviour
 {
-    public static TutorialScript Instance { get; private set; } // Singleton instance
+    public static TutorialScript Instance { get; private set; } 
 
     public bool wasWellClicked = false;
     public bool wasFactoryClicked = false;
     public bool wasRewardsClicked = false;
     public bool wasWeaponBought = false;
+    public bool wasWeaponTaken = false;
+    public bool wasNavigationClicked;
     public TextMeshProUGUI objectiveText;
+    public GameObject objectiveDescriptionPanel;
     public List<string> objectivesDescription;
     public List<TutorialObject> tutorialObjects;
     public int currentObjectiveIndex = 0;
@@ -26,6 +30,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject player;
     
     public Button buttonToUnlock;
+    // public GameObject currentWeapon;
 
     void Awake()
     {
@@ -38,26 +43,54 @@ public class TutorialScript : MonoBehaviour
         // Optional: Uncomment if you want this to persist between scenes
         // DontDestroyOnLoad(this.gameObject);
     }
-
+    public void SetNavigationClicked()
+    {
+        wasNavigationClicked = true;
+        objectiveDescriptionPanel.SetActive(false);
+    }
+    public void GrabObjectQuest()
+    {
+        if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.currentWeapon != null)
+        {
+            Debug.Log("Weapon taken");
+            wasWeaponTaken = true;
+            NextObjective(1);
+            TriggerDialogue(1);
+            currentObjectiveIndex++; // Assuming the first objective is to grab the weapon
+        }
+    }
+    public void ResetTimeScale()
+    {
+        Time.timeScale = 1f;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Animator animator = player.GetComponent<Animator>();
-        if (animator != null)
+        if (player != null)
         {
-            animator.SetTrigger("getup");
-        }
-        else
-        {
-            Debug.LogError("Animator component not found on player GameObject.");
+            Animator animator = player.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("getup");
+            }
+            else
+            {
+                Debug.LogError("Animator component not found on player GameObject.");
+            }
         }
         // SetDescription();
-    }
+        }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(wasWeaponTaken== false )
+            GrabObjectQuest();
+    }
+    public void IncreaseObjectiveIndex(int index)
+    {
+        if(currentObjectiveIndex== index)
+        currentObjectiveIndex++;
     }
     public void SetDescription()
     {
@@ -76,9 +109,20 @@ public class TutorialScript : MonoBehaviour
             objectiveText.text = "Tutorial Completed!";
         }
     }
+    public void SetDescription2(String desc)
+    {
+           if (objectiveText == null)
+        {
+            Debug.LogError("Objective Text is not assigned in the TutorialScript.");
+            return;
+        }
+
+        objectiveText.text = desc;
+        
+    }
     public void TriggerNextDialogue()
     {
-        dialogueTrigger.TriggerDialogueCity();   
+        dialogueTrigger.TriggerDialogueCity();
     }
     public void NextObjective(int index)
     {
@@ -95,6 +139,15 @@ public class TutorialScript : MonoBehaviour
         {
             Debug.Log("All objectives completed.");
         }
+    }
+    public void TriggerDialogue(int index)
+    {
+        if (index != currentObjectiveIndex)
+        {
+            return;
+        }
+        Debug.Log("xd");
+        this.GetComponent<DialogueTrigger>().TriggerDialogueNoQuests();
     }
     public void SetWellClicked(bool value)
     {

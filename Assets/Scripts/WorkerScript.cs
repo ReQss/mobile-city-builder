@@ -25,6 +25,7 @@ public class WorkerScript : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.playerHealth = 100;
         GameManager.Instance.isUIOpen = false;
         // Set the initial target position to the current position
         targetPosition = transform.position;

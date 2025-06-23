@@ -102,9 +102,11 @@ public class PlayerMovement : MonoBehaviour
     public GameObject versusProjectile;
     
     public GameObject versusProjectile2;
+    public GameObject TutorialManager;
 
     void Start()
     {
+        // UpdateHealthBar();
         navMeshAgent = GetComponent<NavMeshAgent>();
         EnableOrDisableAttack();
         if (navMeshAgent != null)
@@ -518,7 +520,7 @@ public class PlayerMovement : MonoBehaviour
             if (healthTickTimer >= 0.1f)
             {
                 healthBarAnimator.SetBool("isDamaged", true);
-                health -= currentMeleDamage;
+                health -= currentMeleDamage/4;
                 healthTickTimer = 0f;
                 UpdateHealthBar();
             }
@@ -533,12 +535,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (healthBarImage != null)
         {
-            float fill = Mathf.Clamp01(health / 100f);
+            float fill = Mathf.Clamp01(health / (float)GameManager.Instance.playerHealth);
             healthBarImage.fillAmount = fill;
         }
         if (healthBarImage2 != null)
         {
-            float fill = Mathf.Clamp01(health / 100f);
+            float fill = Mathf.Clamp01(health / (float)GameManager.Instance.playerHealth);
             healthBarImage2.fillAmount = fill;
         }
     }
@@ -792,22 +794,35 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public Collider[] CollidersOfEnemies;
     public void CheckForBullets()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 2.5f);
+        // Debug.Log("Checking for bullets");
+        Collider[] colliders = null;
+        colliders = Physics.OverlapSphere(transform.position, 2.5f);
+        Debug.Log(transform.position);
+        CollidersOfEnemies = colliders;
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
                 if (isDashing == true)
                 {
+                    Debug.Log("dash");
                     StartCoroutine(SlowTimeForPerfectTiming());
                 }
             }
             else if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
             {
+                if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
+                {
+                    Time.timeScale = 0f;
+                    //  TutorialScript.Instance.GetComponent<DialogueTrigger>().TriggerDialogueNoQuests();
+                }
                 if (isDashing == true)
                 {
+                    Debug.Log("dash");
+
                     StartCoroutine(SlowTimeForPerfectTimingMele());
                 }
             }
@@ -829,16 +844,37 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator SlowTimeForPerfectTimingMele()
     {
+        if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
+        {
+
+            TutorialScript.Instance.SetDescription2("Teraz! Użyj dashowania żeby wykonać potężny atak kontrujący!");
+        }
         Debug.Log("perfect timing - slow start");
         Time.timeScale = 0.2f;
         Debug.Log("Time.timeScale set to: " + Time.timeScale);
         versusButtonMele.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
-        
+
         Debug.Log("perfect timing - slow end");
-        versusButtonMele.SetActive(false);
-        Time.timeScale = 1f;
-        Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            versusButtonMele.SetActive(false);
+
+            Time.timeScale = 1f;
+            Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        }
+       
+    }
+    public void RemoveVersus()
+    {
+         versusButtonMele.SetActive(false);
+
+            Time.timeScale = 1f;
+            Debug.Log("Time.timeScale set to: " + Time.timeScale);
     }
     public void LookAtClosestEnemy()
     {
@@ -985,7 +1021,11 @@ public class PlayerMovement : MonoBehaviour
             // Check for mele tag directly
             if (other.CompareTag("mele"))
             {
-                currentMeleDamage = 5;
+                var enemyAI = other. gameObject.transform.parent.GetComponent<EnemyAI>();
+                if (enemyAI != null)
+
+                    currentMeleDamage = enemyAI.damageAmount;
+                
             }
         }
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -1179,4 +1219,12 @@ public class PlayerMovement : MonoBehaviour
             audioSource.Stop();
         }
     }
+
+    void OnDrawGizmosSelected()
+{
+    // Ustaw kolor gizma
+    Gizmos.color = Color.red;
+    // Narysuj sferę w miejscu gracza o promieniu takim jak w OverlapSphere
+    Gizmos.DrawWireSphere(transform.position, 2.5f);
+}
 }

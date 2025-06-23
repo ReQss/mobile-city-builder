@@ -22,19 +22,21 @@ public class DialogueManager : MonoBehaviour
     public GameObject UIDialoguePanel;
     private bool shouldLoadSceneAfterDialogue = false;
     private string sceneToLoadAfterDialogue = null;
+    public bool isCurrentDialogueQuest = true;
     void Start()
     {
         sentences = new Queue<string>();
     }
 
-    public void StartDialogue(Dialogue dialogue, string sceneName, bool isSpecialAction)
+    public void StartDialogue(Dialogue dialogue, string sceneName, bool isSpecialAction, bool isQuest)
     {
         if (sceneName != null && isSpecialAction)
         {
             this.sceneName = sceneName;
             specialAction = isSpecialAction;
         }
-         Time.timeScale = 0;
+        isCurrentDialogueQuest = isQuest;
+        Time.timeScale = 0;
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
@@ -51,12 +53,13 @@ public class DialogueManager : MonoBehaviour
         }
         DisplayNextSentence();
     }
+    
     public void StartDialogueCity(Dialogue dialogue, string sceneName, bool isSpecialAction)
     {
 
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(true);
-         Time.timeScale = 0;
+        Time.timeScale = 0;
 
         GameManager.Instance.isPlayerInteracting = true;
         // Cursor.lockState = CursorLockMode.None;
@@ -71,7 +74,7 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
         DisplayNextSentence();
-      
+
     }
     public void StartDialogueCityChangeScene(Dialogue dialogue, string sceneName, bool isSpecialAction)
     {
@@ -147,10 +150,14 @@ public class DialogueManager : MonoBehaviour
             SceneManager.LoadScene(sceneToLoadAfterDialogue);
         }
         // display quest accept
-        if (questAcceptPanel != null)
+        if (isCurrentDialogueQuest == true)
         {
-            questAcceptPanel.SetActive(true);
+            if (questAcceptPanel != null)
+            {
+                questAcceptPanel.SetActive(true);
+            }
         }
+        isCurrentDialogueQuest = true;
         Time.timeScale = 1;
     }
    
