@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -803,17 +805,18 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public Collider[] collidersOfEnemies;
+    public List<Collider> colliders;
     public void CheckForBullets()
     {
         // Debug.Log("Checking for bullets");
-        Collider[] colliders = null;
+        // List<Collider> colliders = null;
         int mask = LayerMask.GetMask("EnemyWeapon", "EnemyBullet");
-        colliders = Physics.OverlapSphere(transform.position, 2.5f,mask);
-        Debug.Log(transform.position);
-        collidersOfEnemies = colliders;
+        List<Collider> colliders2 = Physics.OverlapSphere(transform.position, 2.5f, mask).ToList();
+        // Debug.Log(transform.position);
+        
         foreach (Collider collider in colliders)
         {
+            if (collider == null) continue;
             if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
                 if (isDashing == true)
@@ -837,30 +840,54 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        foreach (Collider collider in colliders2)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+            {
+                if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
+                {
+                    Time.timeScale = 0f;
+                    //  TutorialScript.Instance.GetComponent<DialogueTrigger>().TriggerDialogueNoQuests();
+                }
+                if (isDashing == true)
+                {
+                    Debug.Log("dash");
+
+                    StartCoroutine(SlowTimeForPerfectTimingMele());
+                }
+            }
+        }
 
     }
     private IEnumerator SlowTimeForPerfectTiming()
     {
+           if (TutorialScript.Instance == null && isVersus) yield break;
+        isVersus = true;
         Debug.Log("perfect timing - slow start");
-    Time.timeScale = 0.2f;
+        Time.timeScale = 0.2f;
         isInvincible = true;
-    Debug.Log("Time.timeScale set to: " + Time.timeScale);
-    versusButton.SetActive(true);
-    yield return new WaitForSecondsRealtime(1f);
-    
-    Debug.Log("perfect timing - slow end");
-    versusButton.SetActive(false);
-    Time.timeScale = 1f;
+        Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        versusButton.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+
+        Debug.Log("perfect timing - slow end");
+        versusButton.SetActive(false);
+        Time.timeScale = 1f;
         isInvincible = false;
-    Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        isVersus = false;
     }
+    private bool isVersus = false;
     private IEnumerator SlowTimeForPerfectTimingMele()
     {
+        if (TutorialScript.Instance == null && isVersus) yield break;
+        isVersus = true;
         if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
         {
 
             TutorialScript.Instance.SetDescription2("Teraz! Użyj dashowania żeby wykonać potężny atak kontrujący!");
         }
+
         Debug.Log("perfect timing - slow start");
         Time.timeScale = 0.2f;
         isInvincible = true;
@@ -882,7 +909,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Time.timeScale set to: " + Time.timeScale);
         }
         isInvincible = false;
-       
+        isVersus = false;
+
     }
     public void RemoveVersus()
     {
@@ -1029,6 +1057,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
+            Debug.Log("ddd");
+            if (colliders.Contains(other) == false)
+                colliders.Add(other);
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+        {
             enemiesTouching = true;
             lastEnemyTouchTime = Time.time;
             closestEnemyInRangePosition = other.transform.position;
@@ -1082,6 +1116,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if(colliders.Contains(other))
+        {
+            colliders.Remove(other);
+        }
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon") ||
         other.gameObject.layer == LayerMask.NameToLayer("Enemy")) // Add this line
         {
