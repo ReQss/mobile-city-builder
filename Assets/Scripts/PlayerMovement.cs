@@ -518,25 +518,25 @@ public class PlayerMovement : MonoBehaviour
             }
             return;
         }
-        if (enemiesTouching)
-        {
-            healthTickTimer += Time.deltaTime;
+        // if (enemiesTouching)
+        // {
+        //     healthTickTimer += Time.deltaTime;
             
-            if(healthTickTimer >= 0.1f)
-            {
-                healthBarAnimator.SetBool("isDamaged", true);
-                health -= currentMeleDamage / 4;
-                Debug.Log("Damage taken: " + currentMeleDamage);
-                Debug.Log("Health" + health);
-                healthTickTimer = 0f;
-                UpdateHealthBar();
-            }
-        }
-        else
-        {
-            healthTickTimer = 0f;
-            healthBarAnimator.SetBool("isDamaged", false);
-        }
+        //     if(healthTickTimer >= 0.1f)
+        //     {
+        //         healthBarAnimator.SetBool("isDamaged", true);
+        //         health -= currentMeleDamage / 4;
+        //         Debug.Log("Damage taken: " + currentMeleDamage);
+        //         Debug.Log("Health" + health);
+        //         healthTickTimer = 0f;
+        //         UpdateHealthBar();
+        //     }
+        // }
+        // else
+        // {
+        //     healthTickTimer = 0f;
+        //     healthBarAnimator.SetBool("isDamaged", false);
+        // }
     }
     private void UpdateHealthBar()
     {
@@ -1056,7 +1056,50 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+           if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+        {
+            closestEnemyInRangePosition = other.transform.position;
 
+            // Check for mele tag directly
+            if (other.CompareTag("mele"))
+            {
+                var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
+                if (enemyAI != null&& isInvincible == false)
+                {
+                  
+
+                    currentMeleDamage = enemyAI.damageAmount;
+                    health -= currentMeleDamage / 2;
+                     Debug.Log("Damage taken: " + currentMeleDamage);
+                 Debug.Log("Health" + health);
+                    UpdateHealthBar();
+                }
+                
+
+            }
+        }
+    }
+    // if (enemiesTouching)
+        // {
+        //     healthTickTimer += Time.deltaTime;
+            
+        //     if(healthTickTimer >= 0.1f)
+        //     {
+        //         healthBarAnimator.SetBool("isDamaged", true);
+        //         health -= currentMeleDamage / 4;
+        //         Debug.Log("Damage taken: " + currentMeleDamage);
+        //         Debug.Log("Health" + health);
+        //         healthTickTimer = 0f;
+        //         UpdateHealthBar();
+        //     }
+        // }
+        // else
+        // {
+        //     healthTickTimer = 0f;
+        //     healthBarAnimator.SetBool("isDamaged", false);
+        // }
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
@@ -1065,22 +1108,22 @@ public class PlayerMovement : MonoBehaviour
             if (colliders.Contains(other) == false)
                 colliders.Add(other);
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
-        {
-            enemiesTouching = true;
-            lastEnemyTouchTime = Time.time;
-            closestEnemyInRangePosition = other.transform.position;
+        // if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+        // {
+        //     enemiesTouching = true;
+        //     lastEnemyTouchTime = Time.time;
+        //     closestEnemyInRangePosition = other.transform.position;
 
-            // Check for mele tag directly
-            if (other.CompareTag("mele"))
-            {
-                var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
-                if (enemyAI != null)
+        //     // Check for mele tag directly
+        //     if (other.CompareTag("mele"))
+        //     {
+        //         var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
+        //         if (enemyAI != null)
 
-                    currentMeleDamage = enemyAI.damageAmount;
+        //             currentMeleDamage = enemyAI.damageAmount;
 
-            }
-        }
+        //     }
+        // }
         // if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         // {
         //     enemiesTouching = true;
@@ -1115,7 +1158,7 @@ public class PlayerMovement : MonoBehaviour
                 isPlayerDead = true;
             }
         }
-      
+
     }
 
     private void OnTriggerExit(Collider other)
