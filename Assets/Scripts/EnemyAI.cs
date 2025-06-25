@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 
+using UnityEngine.UI;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
@@ -28,6 +29,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject DamageDealtPrefabSmall;
     public GameObject DamageDealtPrefabMagic2;
     public Transform DamageSpawnPoint;
+    public Image healthBarImage;
     public int coinsAmount = 50;
     public bool isMele = false;
     public bool isRanged = false;
@@ -44,6 +46,8 @@ public class EnemyAI : MonoBehaviour
     private float areaHitboxDamageTimer = 0f;
     public int damageAmount = 10;
     public int expAmount = 100;
+    public int maxHealth;
+    
     public int Health
     {
         get { return health; }
@@ -66,9 +70,18 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-
+  private void UpdateHealthBar()
+    {
+        if (healthBarImage != null)
+        {
+            float fill = Mathf.Clamp01((float)health / maxHealth); // Cast to float!
+            healthBarImage.fillAmount = fill;
+        }
+       
+    }
     void Start()
     {
+        maxHealth = health;
         agent = GetComponent<NavMeshAgent>();
         SetNewPatrolTarget();
     }
@@ -82,6 +95,7 @@ public class EnemyAI : MonoBehaviour
         {
             EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
         }
+        UpdateHealthBar();
     }
     private void EnemyMovementLogicAndAnimations()
     {
@@ -105,16 +119,24 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= attackRange && isMele)
         {
+            
             // Stop moving and attack
             agent.isStopped = true;
             if (anim != null)
             {
                 anim.SetBool("isRunning", false);
                 anim.SetBool("isAttacking", true);
+                 Vector3 lookDirection = (player.position - transform.position).normalized;
+    lookDirection.y = 0; // Only rotate horizontally
+    if (lookDirection != Vector3.zero)
+        transform.rotation = Quaternion.LookRotation(lookDirection);
             }
+            
         }
         else if (distanceToPlayer <= chaseRange)
         {
+            // if(healthBarImage != null)
+            // GameUIHandler.Instance.PlayBossMusic();
             isChasing = true;
             playerWasInRange = true;
             lostPlayerTimer = 0f;
@@ -238,7 +260,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            int damageAmount = GameManager.Instance.playerAttack /2;
+            int damageAmount =(int)( (float)GameManager.Instance.playerAttack /1.3f);
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -262,7 +284,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("Magic"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 6;
+            int damageAmount = GameManager.Instance.playerAttack * 4;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -313,14 +335,14 @@ public class EnemyAI : MonoBehaviour
             Destroy(other.gameObject, 0.4f);
             Destroy(damageDealt, 0.5f);
 
-            // Start DoT effect (cancel previous if running)
-            if (magicDotCoroutine != null)
-                StopCoroutine(magicDotCoroutine);
-            magicDotCoroutine = StartCoroutine(MagicDotEffect());
+            // // Start DoT effect (cancel previous if running)
+            // if (magicDotCoroutine != null)
+            //     StopCoroutine(magicDotCoroutine);
+            // magicDotCoroutine = StartCoroutine(MagicDotEffect());
         }
         else if (other.CompareTag("VersusBullet"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 4;
+            int damageAmount = GameManager.Instance.playerAttack *6;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -342,14 +364,14 @@ public class EnemyAI : MonoBehaviour
             Destroy(other.gameObject, 0.4f);
             Destroy(damageDealt, 0.5f);
 
-            // Start DoT effect (cancel previous if running)
-            if (magicDotCoroutine != null)
-                StopCoroutine(magicDotCoroutine);
-            magicDotCoroutine = StartCoroutine(MagicDotEffect());
+            // // Start DoT effect (cancel previous if running)
+            // if (magicDotCoroutine != null)
+            //     StopCoroutine(magicDotCoroutine);
+            // magicDotCoroutine = StartCoroutine(MagicDotEffect());
         }
         else if (other.CompareTag("SwordHitbox"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 3;
+            int damageAmount = GameManager.Instance.playerAttack * 2;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 

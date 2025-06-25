@@ -2382,11 +2382,11 @@ MonoBehaviour:
   workerCount: 0
   energy: 80
   playerCoinCount: 70000
-  playerHealth: 700
+  playerHealth: 150
   playerAttack: 10
   playerSpeed: 5
   playerLevel: 1
-  playerExperienceToGetLevel: 1000
+  playerExperienceToGetLevel: 10
   playerCurrentExperience: 0
   pointsToSpend: 8
   priceForStatistics: 1000
@@ -3454,11 +3454,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelPanelPoints
       objectReference: {fileID: 0}
-    - target: {fileID: 537531429463003821, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 794245235989094306, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3634,11 +3629,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 77.5513
       objectReference: {fileID: 0}
-    - target: {fileID: 1383025130740083095, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1397278825624481212, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3648,31 +3638,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522269086095031580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522269086095031580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522269086095031580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522269086095031580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1522269086095031580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1709874769154387413, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -3684,16 +3649,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1879293986241225332, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1975812696283322328, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2031041320421235512, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3719,20 +3674,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2042098757992913986, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Text
+      value: "Misja si\u0119 nie powiod\u0142a\u2026"
+      objectReference: {fileID: 0}
     - target: {fileID: 2064382575617226944, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 508787344}
-    - target: {fileID: 2465340099230851631, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2538475364795492452, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2691637717310249850, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -3773,11 +3728,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3109205519618515083, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3143709616314947064, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -3854,11 +3804,6 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.7764706
       objectReference: {fileID: 0}
-    - target: {fileID: 4343597794943278930, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4452210078579219846, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3918,21 +3863,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 132
-      objectReference: {fileID: 0}
-    - target: {fileID: 4853900323920612345, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_text
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4853900323920612345, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4853900323920612345, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5030806297913566822, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -4015,30 +3945,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: DisableOrEnableElement
       objectReference: {fileID: 0}
-    - target: {fileID: 5570332997675211213, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6002725713572675412, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6086201638094442339, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_text
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6086201638094442339, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6086201638094442339, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6393080153362932331, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -4070,31 +3980,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 638691617}
-    - target: {fileID: 6872692322924354402, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6872692322924354402, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6872692322924354402, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6872692322924354402, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6872692322924354402, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7192287989456412368, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -4155,31 +4040,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 141934660}
-    - target: {fileID: 7840359049380183476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840359049380183476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840359049380183476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840359049380183476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840359049380183476, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7920487197257132207, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_Sprite
@@ -4209,21 +4069,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8334615483772711580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_text
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8334615483772711580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8334615483772711580, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8608804772813136378, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -4314,11 +4159,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030425517233883183, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5750,20 +5590,22 @@ MonoBehaviour:
   isInteractingWithNpc: 0
   isInteractingWithWeapon: 0
   ambientMusicClip: {fileID: 0}
-  battleMusicClip: {fileID: 0}
-  musicSource: {fileID: 0}
-  musicChanging: 0
+  battleMusicClip: {fileID: 8300000, guid: 5537f4a4c37ee6243ad20eae4e3cfad4, type: 3}
+  bossMusicClip: {fileID: 8300000, guid: 0f72d7bc3be70cf46aa7c962bd4428db, type: 3}
+  musicSource: {fileID: 330527895}
+  musicChanging: 1
   autonavigationUI: {fileID: 0}
   autoAttackUI: {fileID: 0}
   MoneyFactoryUpgradingPanel: {fileID: 0}
   MoneyFactoryUpgradingPanelTimeLeft: {fileID: 0}
   WellUpgradingPanel: {fileID: 0}
+  WellUpgradingPanelTimeLeft: {fileID: 0}
   autoNavigationNofication: {fileID: 381710778}
   attackNotification: {fileID: 673790123}
-  WellUpgradingPanelTimeLeft: {fileID: 0}
   playerLevel: {fileID: 381710779}
   playerExp: {fileID: 381710780}
   playerPointsToSpend: {fileID: 763819790}
+  levelUpVFX: {fileID: 8066746641217515306}
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -6800,7 +6642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &619937108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11351,6 +11193,16 @@ PrefabInstance:
       propertyPath: 'm_Cameras.Array.data[0]'
       value: 
       objectReference: {fileID: 1713371926}
+    - target: {fileID: 4237163527791404451, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4237163527815027047, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5089642062530276514, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
       propertyPath: m_DefaultControlScheme
@@ -11658,6 +11510,7 @@ Transform:
   - {fileID: 54862053}
   - {fileID: 1536458519}
   - {fileID: 648079061}
+  - {fileID: 1730070485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1179921431
@@ -18337,6 +18190,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   givenQuest:
     questName: 
     questDescription: 
@@ -18352,6 +18206,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   enemyGenerator: {fileID: 1937535595}
   currentQuestDescription: {fileID: 188741014120187132}
   gameUIHandler: {fileID: 508787344}
@@ -20934,6 +20789,111 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2384488552515130820, guid: 8022ebd68cb5b6948be983bf7aa7b94e,
     type: 3}
   m_PrefabInstance: {fileID: 1722586223}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1730070484
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1154765643}
+    m_Modifications:
+    - target: {fileID: 1995728935924795363, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: health
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995728935924795363, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 666996282}
+    - target: {fileID: 1995728935924795363, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: attackRange
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 53.73065
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00004
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 26.76971
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570715811725816296, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_Name
+      value: KnightEnemy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570715811725816296, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900167196779137249, guid: 8968560f242b6884dbebafe4f49a10f8,
+        type: 3}
+      propertyPath: m_Speed
+      value: 5.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8968560f242b6884dbebafe4f49a10f8, type: 3}
+--- !u!4 &1730070485 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3757587022313548626, guid: 8968560f242b6884dbebafe4f49a10f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1730070484}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1730070486 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4570715811725816296, guid: 8968560f242b6884dbebafe4f49a10f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1730070484}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1734397229
 PrefabInstance:
@@ -24992,6 +24952,7 @@ MonoBehaviour:
     amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
@@ -25003,23 +24964,26 @@ MonoBehaviour:
     goldReward: 2000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
-    amountOfHeals: 3
+    amountOfHeals: 5
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
     questAccepted: 0
     questType: 0
-    targetAmount: 20
+    targetAmount: 1
     currentAmount: 0
     itemToCollect: {fileID: 0}
     goldReward: 4000
     npc: {fileID: 2032720163}
     refToThisNpc: {fileID: 0}
-    amountOfHeals: 5
+    amountOfHeals: 3
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn:
+    - {fileID: 1730070486}
   - questName: Blood of Glory
     questDescription: "Zabij przeciwnik\xF3w"
     isCompleted: 0
@@ -25034,6 +24998,7 @@ MonoBehaviour:
     amountOfHeals: 5
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   questIndex: 0
   npcCanvas: {fileID: 1419494472}
   questCanvas: {fileID: 385266451}
@@ -42390,6 +42355,16 @@ PrefabInstance:
       objectReference: {fileID: 666996282}
     - target: {fileID: 5018271862797781172, guid: 8338a879082a5984e9eb9dbdc003587e,
         type: 3}
+      propertyPath: attackRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018271862797781172, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
+      propertyPath: patrolRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018271862797781172, guid: 8338a879082a5984e9eb9dbdc003587e,
+        type: 3}
       propertyPath: damageAmount
       value: 15
       objectReference: {fileID: 0}
@@ -49047,6 +49022,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8066746641217515306 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4237163527791404451, guid: b3120f032e629f043a3b77c29c826e77,
+    type: 3}
+  m_PrefabInstance: {fileID: 1127153655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8088899870922739286
 RectTransform:
   m_ObjectHideFlags: 0

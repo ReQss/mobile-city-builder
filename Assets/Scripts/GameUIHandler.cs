@@ -45,6 +45,7 @@ public class GameUIHandler : MonoBehaviour
     public bool isInteractingWithWeapon = false;
     public AudioClip ambientMusicClip;
     public AudioClip battleMusicClip;
+    public AudioClip bossMusicClip;
     public AudioSource musicSource;
     public bool musicChanging = false;
     public GameObject autonavigationUI;
@@ -52,14 +53,15 @@ public class GameUIHandler : MonoBehaviour
      public GameObject MoneyFactoryUpgradingPanel;
      public TextMeshProUGUI MoneyFactoryUpgradingPanelTimeLeft;
     public GameObject WellUpgradingPanel;
+     public TextMeshProUGUI WellUpgradingPanelTimeLeft;
     public GameObject autoNavigationNofication;
     public GameObject attackNotification;
     
-     public TextMeshProUGUI WellUpgradingPanelTimeLeft;
     [Header("Player level")]
     public TextMeshProUGUI playerLevel;
     public TextMeshProUGUI playerExp;
     public TextMeshProUGUI playerPointsToSpend;
+    public GameObject levelUpVFX;
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;
@@ -68,6 +70,28 @@ public class GameUIHandler : MonoBehaviour
             musicSource.clip = battleMusicClip;
             musicSource.loop = true;
             musicSource.Play();
+        }
+    }
+    public void PlayBossMusic()
+    {
+        if (musicChanging == false) return;
+        if (musicSource != null && bossMusicClip != null)
+        {
+            musicSource.clip = bossMusicClip;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
+    }
+    public void LevelUp()
+    {
+        if (levelUpVFX == null) return;
+        levelUpVFX.SetActive(true);
+        Animator animator = levelUpVFX.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.Play("levelupanim", -1, 0f); // "levelupanim" to nazwa stanu w Animatorze
+            if(SoundManager.Instance != null)
+                SoundManager.Instance.PlayLevelUp();
         }
     }
     public void SetLevelAndExp()
@@ -86,7 +110,7 @@ public class GameUIHandler : MonoBehaviour
         {
             foreach (CurrentUpgradedBuilding temp in GameManager.Instance.currentUpgradedBuildings)
             {
-                if (temp.buildingName == "Mystical Well")
+                if (temp.buildingName == "Mityczna studnia")
                 {
                     foundWell = true;
                     WellUpgradingPanel.SetActive(true);
@@ -95,7 +119,7 @@ public class GameUIHandler : MonoBehaviour
                         WellUpgradingPanelTimeLeft.text = temp.timeLeft.ToString();
                     }
                 }
-                if (temp.buildingName == "Money Factory")
+                if (temp.buildingName == "Fabryka monet")
                 {
                     foundFactory = true;
                     MoneyFactoryUpgradingPanel.SetActive(true);

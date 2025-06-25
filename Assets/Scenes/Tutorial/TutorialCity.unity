@@ -670,6 +670,7 @@ MonoBehaviour:
   sceneName: 
   haveChoice: 0
   UIDialoguePanel: {fileID: 449226817}
+  isCurrentDialogueQuest: 1
 --- !u!4 &40862165
 Transform:
   m_ObjectHideFlags: 0
@@ -3780,12 +3781,15 @@ MonoBehaviour:
   wasFactoryClicked: 0
   wasRewardsClicked: 0
   wasWeaponBought: 0
+  wasWeaponTaken: 0
+  wasNavigationClicked: 0
   objectiveText: {fileID: 483338834}
+  objectiveDescriptionPanel: {fileID: 0}
   objectivesDescription:
   - Przebudzenie - Porozmawiaj z twoim tajemniczym kompanem Zarethem
   - "Sprawd\u017A Fabryk\u0119 Monet i zobacz, co mo\u017Cesz tam zrobi\u0107.  "
   - "U\u017Cyj mitycznej studni"
-  - "Kup bro\u0144 w Warsztacie"
+  - "Kup bro\u0144 w Ku\u017Ani"
   - "Zbierz pieni\u0105dze klikaj\u0105c w dymek przy fabryce monet"
   - "Zbierz nagrody ze Staro\u017Cytnej Skrzyni, przesu\u0144 Elariona, klikaj\u0105c
     na ziemi\u0119. Znajduje sie ona w lewym dolnym rogu."
@@ -6512,6 +6516,10 @@ MonoBehaviour:
   playerHealth: 100
   playerAttack: 10
   playerSpeed: 6
+  playerLevel: 1
+  playerExperienceToGetLevel: 1000
+  playerCurrentExperience: 0
+  pointsToSpend: 0
   priceForStatistics: 1000
 --- !u!4 &412372281
 Transform:
@@ -12901,7 +12909,7 @@ PrefabInstance:
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_text
-      value: Blacksmith Forge
+      value: "Ku\u017Ania"
       objectReference: {fileID: 0}
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -13424,6 +13432,7 @@ MonoBehaviour:
   isInteractingWithWeapon: 0
   ambientMusicClip: {fileID: 0}
   battleMusicClip: {fileID: 0}
+  bossMusicClip: {fileID: 0}
   musicSource: {fileID: 0}
   musicChanging: 0
   autonavigationUI: {fileID: 0}
@@ -13431,9 +13440,13 @@ MonoBehaviour:
   MoneyFactoryUpgradingPanel: {fileID: 0}
   MoneyFactoryUpgradingPanelTimeLeft: {fileID: 0}
   WellUpgradingPanel: {fileID: 0}
+  WellUpgradingPanelTimeLeft: {fileID: 0}
   autoNavigationNofication: {fileID: 0}
   attackNotification: {fileID: 0}
-  WellUpgradingPanelTimeLeft: {fileID: 0}
+  playerLevel: {fileID: 0}
+  playerExp: {fileID: 0}
+  playerPointsToSpend: {fileID: 0}
+  levelUpVFX: {fileID: 0}
 --- !u!4 &1062980182
 Transform:
   m_ObjectHideFlags: 0
@@ -15438,6 +15451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 80d47e3cfaf14e54e9578ae288a76c5a,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 80d47e3cfaf14e54e9578ae288a76c5a,
+        type: 3}
       propertyPath: m_TagString
       value: Rewards
       objectReference: {fileID: 0}
@@ -16592,7 +16610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1436725134
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18116,6 +18134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuildingCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_text
+      value: Fabryka monet
       objectReference: {fileID: 0}
     - target: {fileID: 4447012890445071744, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -20555,6 +20578,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 216763123}
+        m_TargetAssemblyTypeName: TutorialScript, Assembly-CSharp
+        m_MethodName: SetCoinsCollected
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -24136,8 +24171,9 @@ MonoBehaviour:
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - "Jestem Zareth, stra\u017Cnik \u015Bcie\u017Cek czasu i pokorny s\u0142uga
-      Wiecznych Krain."
+    - "Witaj nowa duszo, jeste\u015B kolejnym sprowadzonym czempionem."
+    - "Czempionem sprowadzonym do uratowania epok kt\xF3re s\u0105 skazane na zag\u0142ade"
+    - "Jestem Zareth, stra\u017Cnik \u015Bcie\u017Cek czasu."
     - "To miejsce poza czasem, sekcja samouczka, zosta\u0142o stworzone, by przygotowa\u0107
       ci\u0119 na czekaj\u0105c\u0105 ci\u0119 podr\xF3\u017C."
     - "Gra podzielona jest na dwie g\u0142\xF3wne cz\u0119\u015Bci: Miasto i Epoki."
@@ -24163,10 +24199,9 @@ MonoBehaviour:
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
-    - This is blacksmith Forge
-    - Buy new weapons to clear every level more easier
-    - "Stronger weapons help you beat levels faster. Go ahead \u2014 pick something
-      sharp"
+    - "Tutaj znajduje si\u0119 ku\u017Ania w kt\xF3rej mo\u017Cesz wykuwa\u0107 przedmioty"
+    - "Kupuj nowe bronie \u017Ceby stawa\u0107 si\u0119 silniejszym"
+    - "Silniejsze bronie pozwol\u0105 Ci na szybsze przej\u015Bcie poziom\xF3w."
   - name: Zareth
     npcImage: {fileID: 0}
     sentences:
@@ -24206,6 +24241,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24220,6 +24256,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24234,6 +24271,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24248,6 +24286,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24262,6 +24301,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24276,6 +24316,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24290,6 +24331,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24304,6 +24346,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24318,6 +24361,7 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   - questName: 
     questDescription: 
     isCompleted: 0
@@ -24332,10 +24376,12 @@ MonoBehaviour:
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 0
     enemiesToUnfreeze: []
+    enemiesToSpawn: []
   questIndex: 0
   npcCanvas: {fileID: 1563336196}
   questCanvas: {fileID: 1563336196}
   specialButton: {fileID: 0}
+  isQuest: 1
 --- !u!114 &1794650111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25772,7 +25818,7 @@ MonoBehaviour:
   level: 1
   cost: 200
   TimeToUpgrade: 30
-  nameOfBuilding: Money Factory
+  nameOfBuilding: Fabryka monet
   descriptionOfBuilding: Collects money over time
   buildingLevel: {fileID: 1788231309}
   buildingName: {fileID: 928204951}
@@ -29495,6 +29541,7 @@ MonoBehaviour:
   npcCanvas: {fileID: 773468950}
   questCanvas: {fileID: 773468950}
   specialButton: {fileID: 0}
+  isQuest: 1
 --- !u!1001 &2131780211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30527,6 +30574,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4938953293576364912, guid: 9b60435b4c2ef514585c2a27f173ccc6,
+        type: 3}
+      propertyPath: m_text
+      value: Mityczna studnia
+      objectReference: {fileID: 0}
     - target: {fileID: 5717398700582024920, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30605,7 +30657,7 @@ PrefabInstance:
     - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
       propertyPath: nameOfBuilding
-      value: Mystical Well
+      value: Mityczna studnia
       objectReference: {fileID: 0}
     - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}

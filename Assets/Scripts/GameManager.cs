@@ -104,8 +104,13 @@ public class GameManager : MonoBehaviour
             pointsToSpend += 1;
             playerCurrentExperience = 0;
             playerExperienceToGetLevel += 500;
+            LevelUp();
         }
         
+    }
+    public void LevelUp()
+    {
+        GameUIHandler.Instance.LevelUp();
     }
     public bool UsePointForAttack()
     {

@@ -43,6 +43,7 @@ public class TutorialScript : MonoBehaviour
         // Optional: Uncomment if you want this to persist between scenes
         // DontDestroyOnLoad(this.gameObject);
     }
+    
     public void SetNavigationClicked()
     {
         wasNavigationClicked = true;
@@ -78,8 +79,17 @@ public class TutorialScript : MonoBehaviour
                 Debug.LogError("Animator component not found on player GameObject.");
             }
         }
+        GameManager.Instance.coinsCollected = 0;
         // SetDescription();
+    }
+    public void SetCoinsCollected(int index)
+    {
+        if (index != currentObjectiveIndex) return;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.coinsCollected = 100;
         }
+    }
 
     // Update is called once per frame
     void Update()

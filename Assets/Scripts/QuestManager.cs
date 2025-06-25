@@ -31,7 +31,7 @@ public class Quest
     public bool disableNpcAfterAcceptedQuest = false;
     
     public List <GameObject> enemiesToUnfreeze = new List<GameObject>();
-
+    public List<GameObject> enemiesToSpawn = new List<GameObject>(); 
     public Quest(string name, string description)
     {
         questName = name;
@@ -117,7 +117,12 @@ public class QuestManager : MonoBehaviour
         quests.Add(quest);
         UpdateQuestUI();
         givenQuest = null;
-        if (quest.questType == QuestType.KillEnemies)
+        if (quest.questType == QuestType.KillEnemies && quest.enemiesToSpawn.Count > 0)
+        {
+            enemyGenerator.SpawnEnemiesNumberNearbyPlayerList(quest.targetAmount, quest.enemiesToSpawn);
+            GameUIHandler.Instance.PlayBossMusic();
+        }
+        else if (quest.questType == QuestType.KillEnemies)
         {
             enemyGenerator.SpawnEnemiesNumberNearbyPlayer(quest.targetAmount);
             GameUIHandler.Instance.PlayBattleMusic();

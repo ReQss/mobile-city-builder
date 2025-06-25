@@ -103,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
     
     public GameObject versusProjectile2;
     public GameObject TutorialManager;
+    public bool isInvincible;
 
     void Start()
     {
@@ -499,6 +500,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void DamageHandling()
     {
+        if (isInvincible) return;
         if (isShieldActive)
         {
             healthBarAnimator.SetBool("isDamaged", false);
@@ -703,41 +705,48 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
     }
-     public void SpawnVersusMele()
+    public void SpawnVersusMele()
     {
+        versusButton.SetActive(false);
+        versusButtonMele.SetActive(false);
         RotateTowardsEnemy();
         GameObject projectile = Instantiate(versusProjectile, this.transform.position, this.transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            if (rb != null)
-                {
-                if (closestEnemyInRangePosition != Vector3.zero)
-                    {
-                    Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
-                    rb.linearVelocity = direction * projectileSpeed;
-                    }
-                    else
-                    {
-                        rb.linearVelocity = transform.forward * projectileSpeed;
-                    }
-                }
+        if (rb != null)
+        {
+            if (closestEnemyInRangePosition != Vector3.zero)
+            {
+                Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
+                rb.linearVelocity = direction * projectileSpeed;
+            }
+            else
+            {
+                rb.linearVelocity = transform.forward * projectileSpeed;
+            }
+        }
+        
     }
-     public void SpawnVersusBullet()
+    public void SpawnVersusBullet()
     {
+        
+        versusButton.SetActive(false);
+        versusButtonMele.SetActive(false);
         RotateTowardsEnemy();
         GameObject projectile = Instantiate(versusProjectile2, this.transform.position, this.transform.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            if (rb != null)
-                {
-                if (closestEnemyInRangePosition != Vector3.zero)
-                    {
-                    Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
-                    rb.linearVelocity = direction * projectileSpeed;
-                    }
-                    else
-                    {
-                        rb.linearVelocity = transform.forward * projectileSpeed;
-                    }
-                }
+        if (rb != null)
+        {
+            if (closestEnemyInRangePosition != Vector3.zero)
+            {
+                Vector3 direction = (closestEnemyInRangePosition - this.transform.position).normalized;
+                rb.linearVelocity = direction * projectileSpeed;
+            }
+            else
+            {
+                rb.linearVelocity = transform.forward * projectileSpeed;
+            }
+        }
+        
     }
     public void CheckForEnemiesInRange()
     {
@@ -794,14 +803,15 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public Collider[] CollidersOfEnemies;
+    public Collider[] collidersOfEnemies;
     public void CheckForBullets()
     {
         // Debug.Log("Checking for bullets");
         Collider[] colliders = null;
-        colliders = Physics.OverlapSphere(transform.position, 2.5f);
+        int mask = LayerMask.GetMask("EnemyWeapon", "EnemyBullet");
+        colliders = Physics.OverlapSphere(transform.position, 2.5f,mask);
         Debug.Log(transform.position);
-        CollidersOfEnemies = colliders;
+        collidersOfEnemies = colliders;
         foreach (Collider collider in colliders)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
@@ -833,6 +843,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("perfect timing - slow start");
     Time.timeScale = 0.2f;
+        isInvincible = true;
     Debug.Log("Time.timeScale set to: " + Time.timeScale);
     versusButton.SetActive(true);
     yield return new WaitForSecondsRealtime(1f);
@@ -840,6 +851,7 @@ public class PlayerMovement : MonoBehaviour
     Debug.Log("perfect timing - slow end");
     versusButton.SetActive(false);
     Time.timeScale = 1f;
+        isInvincible = false;
     Debug.Log("Time.timeScale set to: " + Time.timeScale);
     }
     private IEnumerator SlowTimeForPerfectTimingMele()
@@ -851,6 +863,7 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log("perfect timing - slow start");
         Time.timeScale = 0.2f;
+        isInvincible = true;
         Debug.Log("Time.timeScale set to: " + Time.timeScale);
         versusButtonMele.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
@@ -865,8 +878,10 @@ public class PlayerMovement : MonoBehaviour
             versusButtonMele.SetActive(false);
 
             Time.timeScale = 1f;
+
             Debug.Log("Time.timeScale set to: " + Time.timeScale);
         }
+        isInvincible = false;
        
     }
     public void RemoveVersus()
@@ -1012,7 +1027,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon") || other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
             enemiesTouching = true;
             lastEnemyTouchTime = Time.time;
@@ -1021,20 +1036,20 @@ public class PlayerMovement : MonoBehaviour
             // Check for mele tag directly
             if (other.CompareTag("mele"))
             {
-                var enemyAI = other. gameObject.transform.parent.GetComponent<EnemyAI>();
+                var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
                 if (enemyAI != null)
 
                     currentMeleDamage = enemyAI.damageAmount;
-                
+
             }
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            enemiesTouching = true;
-            lastEnemyTouchTime = Time.time;
-            closestEnemyInRangePosition = other.transform.position;
+        // if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        // {
+        //     enemiesTouching = true;
+        //     lastEnemyTouchTime = Time.time;
+        //     closestEnemyInRangePosition = other.transform.position;
 
-        }
+        // }
         // Healing logic
         if (other.CompareTag("Healing"))
         {
@@ -1046,7 +1061,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("EnemyBullet"))
         {
             if (isShieldActive) return;
-            int bulletDamage = 5; 
+            int bulletDamage = 5;
             if (other.name.ToLower().Contains("magic"))
                 bulletDamage = 5;
             else if (other.name.ToLower().Contains("arrow"))
@@ -1054,7 +1069,7 @@ public class PlayerMovement : MonoBehaviour
 
             health -= bulletDamage;
             UpdateHealthBar();
-            Destroy(other.gameObject); 
+            Destroy(other.gameObject);
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);
             if (health <= 0 && gameUIHandler != null)
@@ -1062,11 +1077,13 @@ public class PlayerMovement : MonoBehaviour
                 isPlayerDead = true;
             }
         }
+      
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon") ||
+        other.gameObject.layer == LayerMask.NameToLayer("Enemy")) // Add this line
         {
             enemiesTouching = false;
             currentMeleDamage = 0;

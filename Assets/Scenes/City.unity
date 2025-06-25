@@ -657,6 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fd56c288ab9b64a839fb20c04ef171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questAcceptPanel: {fileID: 0}
   dialogueSound: {fileID: 539204203}
   animator: {fileID: 1624671369}
   choiceAnimator: {fileID: 1624671369}
@@ -669,6 +670,7 @@ MonoBehaviour:
   sceneName: 
   haveChoice: 0
   UIDialoguePanel: {fileID: 449226817}
+  isCurrentDialogueQuest: 1
 --- !u!4 &40862165
 Transform:
   m_ObjectHideFlags: 0
@@ -1420,12 +1422,17 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Swift Steps 1
+      value: "Buty pr\u0119dko\u015Bci 1"
       objectReference: {fileID: 0}
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_fontSize
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_margin.x
+      value: -19.871613
       objectReference: {fileID: 0}
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -1460,22 +1467,22 @@ PrefabInstance:
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6249055815737852888, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -1520,7 +1527,7 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -1570,12 +1577,12 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 192.8838
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -1646,6 +1653,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
       objectReference: {fileID: 0}
     - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -4446,9 +4458,7 @@ PrefabInstance:
     - target: {fileID: 711049476829677154, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
-      value: 'Money Factory
-
-'
+      value: Fabryka monet
       objectReference: {fileID: 0}
     - target: {fileID: 728174856869569051, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -4807,6 +4817,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 07ccbe88c9fb0534682a401a0f684814,
         type: 3}
+    - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
+        type: 3}
+      propertyPath: m_text
+      value: "Ulepszaj swoj\u0105 fabryke monet i kupuj pracownik\xF3w \u017Ceby
+        zdobywa\u0107 pasywnie monety."
+      objectReference: {fileID: 0}
     - target: {fileID: 9194475963626020667, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_Name
@@ -6467,6 +6483,10 @@ MonoBehaviour:
   playerHealth: 100
   playerAttack: 10
   playerSpeed: 5
+  playerLevel: 1
+  playerExperienceToGetLevel: 1000
+  playerCurrentExperience: 0
+  pointsToSpend: 0
   priceForStatistics: 1000
 --- !u!4 &412372281
 Transform:
@@ -8332,7 +8352,7 @@ PrefabInstance:
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_text
-      value: Guardian's Den
+      value: "Le\u017Ce stra\u017Cnika"
       objectReference: {fileID: 0}
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -11905,7 +11925,7 @@ PrefabInstance:
     - target: {fileID: 711049476829677154, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
-      value: Mysterious Well
+      value: Mityczna studnia
       objectReference: {fileID: 0}
     - target: {fileID: 728174856869569051, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -12192,9 +12212,7 @@ PrefabInstance:
     - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
-      value: 'Use mystical well to travel trough epochs.
-
-'
+      value: "U\u017Cyj mistycznej studni, aby podr\xF3\u017Cowa\u0107 przez epoki."
       objectReference: {fileID: 0}
     - target: {fileID: 9194475963626020667, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -12287,7 +12305,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -13275,13 +13293,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 9128836558572779441, guid: d06595ac54dee624d97749107dd47a23,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1227987365}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5043416902229616016, guid: d06595ac54dee624d97749107dd47a23,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 301932628}
   m_SourcePrefab: {fileID: 100100000, guid: d06595ac54dee624d97749107dd47a23, type: 3}
+--- !u!4 &983830929 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9128836558572779441, guid: d06595ac54dee624d97749107dd47a23,
+    type: 3}
+  m_PrefabInstance: {fileID: 983830928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1013582744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13571,6 +13599,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuildingCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
+        type: 3}
+      propertyPath: m_text
+      value: "Ku\u017Ania"
       objectReference: {fileID: 0}
     - target: {fileID: 4838958147423854247, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -14098,6 +14131,7 @@ MonoBehaviour:
   isInteractingWithWeapon: 0
   ambientMusicClip: {fileID: 0}
   battleMusicClip: {fileID: 0}
+  bossMusicClip: {fileID: 0}
   musicSource: {fileID: 0}
   musicChanging: 0
   autonavigationUI: {fileID: 0}
@@ -14106,6 +14140,12 @@ MonoBehaviour:
   MoneyFactoryUpgradingPanelTimeLeft: {fileID: 527264950}
   WellUpgradingPanel: {fileID: 1971767795}
   WellUpgradingPanelTimeLeft: {fileID: 681931407}
+  autoNavigationNofication: {fileID: 0}
+  attackNotification: {fileID: 0}
+  playerLevel: {fileID: 0}
+  playerExp: {fileID: 0}
+  playerPointsToSpend: {fileID: 0}
+  levelUpVFX: {fileID: 0}
 --- !u!4 &1062980182
 Transform:
   m_ObjectHideFlags: 0
@@ -15234,7 +15274,7 @@ PrefabInstance:
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_text
-      value: Collect Rewards
+      value: Odbierz nagrody
       objectReference: {fileID: 0}
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -15254,7 +15294,7 @@ PrefabInstance:
     - target: {fileID: 151579475728256824, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4227858431
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 829986727227494904, guid: 95d5e74ef3bb65948b52725edd1d9cbc,
         type: 3}
@@ -16327,6 +16367,115 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217579581}
   m_CullTransparentMesh: 1
+--- !u!1001 &1227987364
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 983830929}
+    m_Modifications:
+    - target: {fileID: 1206498299248906754, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332548, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.06666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.06666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.06666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.10320823
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.051333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.029949984
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206498299807332555, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_Name
+      value: CFXR4 Sun
+      objectReference: {fileID: 0}
+    - target: {fileID: 3405899300174267242, guid: af6c1e3f046eecd4d81330aeb285600f,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 38.15168
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af6c1e3f046eecd4d81330aeb285600f, type: 3}
+--- !u!4 &1227987365 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1206498299807332550, guid: af6c1e3f046eecd4d81330aeb285600f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1227987364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1253824439
 GameObject:
   m_ObjectHideFlags: 0
@@ -17950,6 +18099,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 26
       objectReference: {fileID: 0}
+    - target: {fileID: 6551415235524589329, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
+        type: 3}
+      propertyPath: m_text
+      value: "Czy chcesz \nodebra\u0107 nagrody?"
+      objectReference: {fileID: 0}
     - target: {fileID: 6691943460200810439, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
         type: 3}
       propertyPath: m_TargetGraphic
@@ -18450,7 +18604,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21062,7 +21216,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Iron Constitution 3
+      value: "Niez\u0142omne cia\u0142o 3"
       objectReference: {fileID: 0}
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21107,22 +21261,22 @@ PrefabInstance:
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6249055815737852888, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21157,7 +21311,7 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21222,12 +21376,12 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2371.722
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21288,6 +21442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
       objectReference: {fileID: 0}
     - target: {fileID: 7527431654513050975, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -21520,9 +21679,7 @@ PrefabInstance:
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
       propertyPath: m_text
-      value: 'Perks
-
-'
+      value: "Wie\u017Ca"
       objectReference: {fileID: 0}
     - target: {fileID: 4221818777854751674, guid: 0f9e39ad856282b43a9c2430a8e01745,
         type: 3}
@@ -21862,7 +22019,7 @@ PrefabInstance:
     - target: {fileID: 711049476829677154, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
-      value: Wizard Tower
+      value: "Wie\u017Ca"
       objectReference: {fileID: 0}
     - target: {fileID: 755772943412858030, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
@@ -22132,8 +22289,9 @@ PrefabInstance:
     - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
         type: 3}
       propertyPath: m_text
-      value: Tower when you can buy perks for your character. They will increase
-        speed attack health or even give you special abilities.
+      value: "W wie\u017Cy mo\u017Cesz kupi\u0107 ulepszenia dla swojej postaci.
+        Zwi\u0119ksz\u0105 one szybko\u015B\u0107 ataku zdrowia lub nawet dadz\u0105
+        ci specjalne umiej\u0119tno\u015Bci."
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -22347,7 +22505,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -23083,7 +23241,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -23831,7 +23989,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -24207,15 +24365,28 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: 'Swift Steps 2
-
-'
+      value: "Buty pr\u0119dko\u015Bci 2"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 44.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 44.8
       objectReference: {fileID: 0}
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
+    - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 385.77
+      objectReference: {fileID: 0}
     - target: {fileID: 4428889843580945710, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -24239,22 +24410,22 @@ PrefabInstance:
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6249055815737852888, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -24304,7 +24475,7 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -24354,12 +24525,12 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 628.6514
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -24415,6 +24586,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
       objectReference: {fileID: 0}
     - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -24664,6 +24840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918016068334334126, guid: 77fb02aee9689424abf6a54346657a38,
+        type: 3}
+      propertyPath: m_text
+      value: Mityczna studnia ulepszana
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24931,7 +25112,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -26241,6 +26422,7 @@ MonoBehaviour:
   npcCanvas: {fileID: 1563336196}
   questCanvas: {fileID: 1563336196}
   specialButton: {fileID: 0}
+  isQuest: 1
 --- !u!114 &1794650111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26425,7 +26607,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Peasant
+      value: "Ch\u0142op"
       objectReference: {fileID: 0}
     - target: {fileID: 2097060037945139513, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27034,7 +27216,7 @@ PrefabInstance:
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_text
-      value: Iron Constitution 2
+      value: "Niez\u0142omne cia\u0142o 2"
       objectReference: {fileID: 0}
     - target: {fileID: 1878212897785073727, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27079,22 +27261,22 @@ PrefabInstance:
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6117941731949454391, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6249055815737852888, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27129,7 +27311,7 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27194,12 +27376,12 @@ PrefabInstance:
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1935.9542
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6683150022803034014, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27260,6 +27442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7334592299885453818, guid: 5abfcc609b5afb546a0b75cdec2df82b,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
       objectReference: {fileID: 0}
     - target: {fileID: 7527431654513050975, guid: 5abfcc609b5afb546a0b75cdec2df82b,
         type: 3}
@@ -27607,8 +27794,9 @@ MonoBehaviour:
   level: 1
   cost: 200
   TimeToUpgrade: 30
-  nameOfBuilding: Money Factory
-  descriptionOfBuilding: Collects money over time
+  nameOfBuilding: Fabryka monet
+  descriptionOfBuilding: "Ulepszaj swoj\u0105 fabryke monet i kupuj pracownik\xF3w
+    \u017Ceby zdobywa\u0107 pasywnie monety."
   buildingLevel: {fileID: 1788231309}
   buildingName: {fileID: 928204951}
   buildingDescription: {fileID: 288103609}
@@ -30229,6 +30417,7 @@ MonoBehaviour:
   npcCanvas: {fileID: 773468950}
   questCanvas: {fileID: 773468950}
   specialButton: {fileID: 0}
+  isQuest: 1
 --- !u!1001 &2118858633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30256,6 +30445,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846418196322766898, guid: 8b96395c8de01974da5beedd6b7873fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6428430278309010101, guid: 8b96395c8de01974da5beedd6b7873fc,
         type: 3}
@@ -30380,13 +30574,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1648783257}
     m_Modifications:
+    - target: {fileID: 151254431310210492, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 385.77
+      objectReference: {fileID: 0}
     - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_text
-      value: 'Swift Steps 3
-
-
-'
+      value: "Buty pr\u0119dko\u015Bci 3"
+      objectReference: {fileID: 0}
+    - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30578,22 +30784,22 @@ PrefabInstance:
     - target: {fileID: 2137980482320067494, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2137980482320067494, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2137980482320067494, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 48.702
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2137980482320067494, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2307758467846299893, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30618,22 +30824,22 @@ PrefabInstance:
     - target: {fileID: 2483047157937701291, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483047157937701291, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483047157937701291, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 48.702
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2483047157937701291, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2775866567006185891, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30700,9 +30906,7 @@ PrefabInstance:
     - target: {fileID: 4237309588259798711, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_text
-      value: 'Iron Constitution 1
-
-'
+      value: "Niez\u0142omne cia\u0142o 1"
       objectReference: {fileID: 0}
     - target: {fileID: 4237309588259798711, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30782,22 +30986,27 @@ PrefabInstance:
     - target: {fileID: 4880860129399950107, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4880860129399950107, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4880860129399950107, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1064.4191
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4880860129399950107, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4977751807269883762, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
       objectReference: {fileID: 0}
     - target: {fileID: 4977751807269883762, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30832,22 +31041,22 @@ PrefabInstance:
     - target: {fileID: 5468590902609141938, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5468590902609141938, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5468590902609141938, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5468590902609141938, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5690756808371953985, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30946,28 +31155,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8341383039814661326, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_text
+      value: SKLEP
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341383039814661326, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 8375140204142332607, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8375140204142332607, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8375140204142332607, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 137.40399
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8375140204142332607, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8530988763985833296, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -30994,6 +31208,11 @@ PrefabInstance:
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 2800000, guid: af501ccea416667408249ff276fb7af0, type: 3}
+    - target: {fileID: 8848070454102795647, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
+      objectReference: {fileID: 0}
     - target: {fileID: 8848070454102795647, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -31027,27 +31246,27 @@ PrefabInstance:
     - target: {fileID: 8883578502605049560, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8962835860333273366, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962835860333273366, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962835860333273366, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1500.1866
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8962835860333273366, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -307.99908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9049753450478716080, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31462,13 +31681,18 @@ PrefabInstance:
     - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
       propertyPath: nameOfBuilding
-      value: Mystical Well
+      value: Mityczna studnia
       objectReference: {fileID: 0}
     - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
       propertyPath: buildingDescription
       value: 
       objectReference: {fileID: 1079265657}
+    - target: {fileID: 6985156868359860916, guid: 9b60435b4c2ef514585c2a27f173ccc6,
+        type: 3}
+      propertyPath: descriptionOfBuilding
+      value: "U\u017Cyj mistycznej studni, aby podr\xF3\u017Cowa\u0107 przez epoki."
+      objectReference: {fileID: 0}
     - target: {fileID: 7105016095038159893, guid: 9b60435b4c2ef514585c2a27f173ccc6,
         type: 3}
       propertyPath: m_IsActive
@@ -31557,10 +31781,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1648783257}
     m_Modifications:
+    - target: {fileID: 151254431310210492, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -402
+      objectReference: {fileID: 0}
     - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_text
-      value: Crossbow
+      value: Kusza
       objectReference: {fileID: 0}
     - target: {fileID: 365879300812477626, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31812,12 +32041,15 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3663692406692619293, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -453
+      objectReference: {fileID: 0}
     - target: {fileID: 3878316739231995163, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_text
-      value: 'Sword
-
-'
+      value: Miecz
       objectReference: {fileID: 0}
     - target: {fileID: 3878316739231995163, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31832,7 +32064,7 @@ PrefabInstance:
     - target: {fileID: 4237309588259798711, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_text
-      value: Fire Rod
+      value: "Ogniste ber\u0142o"
       objectReference: {fileID: 0}
     - target: {fileID: 4237309588259798711, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
@@ -31939,6 +32171,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -307.99893
       objectReference: {fileID: 0}
+    - target: {fileID: 4977751807269883762, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
+      objectReference: {fileID: 0}
+    - target: {fileID: 5166898839371546747, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_radius
+      value: 456.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5312566146035418973, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_Color.b
@@ -31959,6 +32201,11 @@ PrefabInstance:
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 2800000, guid: e1a6c0884ca92784a81638c71c173260, type: 3}
+    - target: {fileID: 5335631950263248094, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
+      objectReference: {fileID: 0}
     - target: {fileID: 5468590902609141938, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -32122,6 +32369,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8341383039814661326, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
+      propertyPath: m_text
+      value: Sklep
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341383039814661326, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
@@ -32165,6 +32417,11 @@ PrefabInstance:
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 2800000, guid: 7ba9a59bb0f826e4d8f2dd823792521a, type: 3}
+    - target: {fileID: 8608018061583827418, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_radius
+      value: 401.8
+      objectReference: {fileID: 0}
     - target: {fileID: 8753686012325152508, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_Color.b
@@ -32185,6 +32442,11 @@ PrefabInstance:
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 2800000, guid: 0f029a5fc580a67489f3992dc3495281, type: 3}
+    - target: {fileID: 8848070454102795647, guid: 9242848cebdb98946978451284e618a5,
+        type: 3}
+      propertyPath: m_text
+      value: KUP
+      objectReference: {fileID: 0}
     - target: {fileID: 8873507145110528275, guid: 9242848cebdb98946978451284e618a5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -32489,6 +32751,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1648783257}
     m_Modifications:
+    - target: {fileID: 382333891880260974, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_radius
+      value: 1125.9
+      objectReference: {fileID: 0}
     - target: {fileID: 704761505966101619, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -32575,6 +32842,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2230067050179468810, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_text
+      value: "pracownicy pomog\u0105 ci zdobyc monety"
+      objectReference: {fileID: 0}
     - target: {fileID: 2329715338017794368, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
         type: 3}
       propertyPath: m_Name
@@ -32604,6 +32876,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -147.32806
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944945116631569238, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_text
+      value: Fabryka monet
       objectReference: {fileID: 0}
     - target: {fileID: 4733019468940743756, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
         type: 3}
@@ -32845,6 +33122,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621230214042076037, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7933355561100046017, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1111
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984474030060712579, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_text
+      value: "Ch\u0142op"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984474030060712579, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_margin.y
+      value: -41.416298
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984474030060712579, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -5.2835236
       objectReference: {fileID: 0}
     - target: {fileID: 8870629243737245549, guid: e13c5e9ab44cdfa48a9f71c9843541c7,
         type: 3}
@@ -33180,12 +33482,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8870694255253829035, guid: b78bae80e37c62c47a04470e5363548e,
-        type: 3}
-      propertyPath: m_text
-      value: In blacksmith forge you can buy helpful items that will help you fighting
-        your enemies.
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33299,7 +33595,7 @@ PrefabInstance:
     - target: {fileID: 6551415235524589329, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
         type: 3}
       propertyPath: m_text
-      value: Do you want to upgrade?
+      value: "Czy chcesz\n ulepszy\u0107?"
       objectReference: {fileID: 0}
     - target: {fileID: 6551415235524589329, guid: 333779a1b99ad8e428ba4a5912d1dfd3,
         type: 3}
@@ -33947,6 +34243,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8918016068334334126, guid: 77fb02aee9689424abf6a54346657a38,
+        type: 3}
+      propertyPath: m_text
+      value: Fabryka monet ulepszana
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
