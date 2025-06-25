@@ -811,21 +811,14 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("Checking for bullets");
         // List<Collider> colliders = null;
         int mask = LayerMask.GetMask("EnemyWeapon", "EnemyBullet");
-        List<Collider> colliders2 = Physics.OverlapSphere(transform.position, 2.5f, mask).ToList();
+        List<Collider> colliders2 = Physics.OverlapSphere(transform.position, 3f, mask).ToList();
         // Debug.Log(transform.position);
         
         foreach (Collider collider in colliders)
         {
             if (collider == null) continue;
-            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
-            {
-                if (isDashing == true)
-                {
-                    Debug.Log("dash");
-                    StartCoroutine(SlowTimeForPerfectTiming());
-                }
-            }
-            else if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+            
+            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
             {
                 if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
                 {
@@ -842,7 +835,15 @@ public class PlayerMovement : MonoBehaviour
         }
         foreach (Collider collider in colliders2)
         {
-            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+            if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
+            {
+                if (isDashing == true)
+                {
+                    Debug.Log("dash");
+                    StartCoroutine(SlowTimeForPerfectTiming());
+                }
+            }
+            else if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
             {
                 if (TutorialManager != null && TutorialScript.Instance.currentObjectiveIndex == 2)
                 {

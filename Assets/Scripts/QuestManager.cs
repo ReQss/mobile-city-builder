@@ -147,7 +147,8 @@ public class QuestManager : MonoBehaviour
         }
         else if (quest.questType == QuestType.Unfreeze)
         {
-            GameUIHandler.Instance.PlayBattleMusic();
+            SoundManager.Instance.PlayBossMusic();
+            // GameUIHandler.Instance.PlayBattleMusic();
             foreach (GameObject enemy in quest.enemiesToUnfreeze)
             {
                 if (enemy != null)

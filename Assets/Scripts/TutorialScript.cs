@@ -44,8 +44,12 @@ public class TutorialScript : MonoBehaviour
         // DontDestroyOnLoad(this.gameObject);
     }
     
-    public void SetNavigationClicked()
+    public void SetNavigationClicked(int index)
     {
+        if (index != currentObjectiveIndex)
+        {
+            return;
+        }
         wasNavigationClicked = true;
         objectiveDescriptionPanel.SetActive(false);
     }

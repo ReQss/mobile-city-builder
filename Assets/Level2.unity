@@ -84903,7 +84903,7 @@ MonoBehaviour:
       go\u2026 po cichu\u2026 m\xF3g\u0142by odmieni\u0107 losy naszej sprawy."
     - "Nie prosz\u0119 ci\u0119 o kradzie\u017C. Ale\u2026 je\u015Bli mia\u0142by\u015B
       to zrobi\u0107\u2026 upewnij si\u0119, \u017Ce nikt ci\u0119 nie widzi"
-  - name: Nicolaus Copernicus - bandits
+  - name: "Miko\u0142aj Kopernik"
     npcImage: {fileID: 0}
     sentences:
     - "Cienie si\u0119 wyd\u0142u\u017Caj\u0105. Inkwizycja staje si\u0119 coraz
@@ -84977,8 +84977,8 @@ MonoBehaviour:
     currentAmount: 0
     itemToCollect: {fileID: 0}
     goldReward: 800
-    npc: {fileID: 0}
-    refToThisNpc: {fileID: 0}
+    npc: {fileID: 1702820579}
+    refToThisNpc: {fileID: 1702820579}
     amountOfHeals: 0
     disableNpcAfterAcceptedQuest: 1
     enemiesToUnfreeze: []
@@ -88584,6 +88584,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1857316359
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 206559603568448994, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 49.67606
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.11382
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.75829
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450481650902738690, guid: 9412f503b92f3ce4e80ac569c07d2581,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9412f503b92f3ce4e80ac569c07d2581, type: 3}
 --- !u!4 &1861701897 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2546458677484459882, guid: 0eacec2a636e0ed4b9474046120a91cd,
@@ -98746,6 +98814,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 508787344}
+    - target: {fileID: 1377434520982590768, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1397278825624481212, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -98791,9 +98864,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -463.10568
       objectReference: {fileID: 0}
+    - target: {fileID: 1578840098000353260, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Text
+      value: Akt 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1709874769154387413, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869564795405391062, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869564795405391062, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1478005657, guid: e2a43c2304c7341458a45a40488478b9,
+        type: 3}
+    - target: {fileID: 1869564795405391062, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2031041320421235512, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
@@ -98820,6 +98914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042098757992913986, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Text
+      value: Misja sie nie powiodla
       objectReference: {fileID: 0}
     - target: {fileID: 2064382575617226944, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -98920,6 +99019,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: IncreasePlayerAttackByPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 4563286898850997161, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589467282038970438, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_text
+      value: Kontynuuj
       objectReference: {fileID: 0}
     - target: {fileID: 4712741169637228539, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -99031,6 +99140,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350939111361717175, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350939111361717175, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350939111361717175, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.13664329
       objectReference: {fileID: 0}
     - target: {fileID: 6393080153362932331, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -99161,6 +99285,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -556.5736
+      objectReference: {fileID: 0}
+    - target: {fileID: 7999576224264004558, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_Text
+      value: Pomogles kopernikowi zbiec
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542045510823053992, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_text
+      value: Czy chcesz zaakceptowac misje?
       objectReference: {fileID: 0}
     - target: {fileID: 8670103856182004436, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -99327,3 +99461,4 @@ SceneRoots:
   - {fileID: 613466465}
   - {fileID: 464729769}
   - {fileID: 1012893711}
+  - {fileID: 1857316359}
