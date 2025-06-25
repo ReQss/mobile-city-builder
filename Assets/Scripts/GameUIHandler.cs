@@ -174,7 +174,13 @@ public class GameUIHandler : MonoBehaviour
     void Start()
     {
 
-
+        if (TutorialScript.Instance == null)
+        {
+            if (GameManager.Instance.playerHealth > 600)
+            {
+                GameManager.Instance.playerHealth = 100;
+            }
+        }
         // Enable the input action if not already enabled
         if (GameUIHandler.Instance.moveAction != null && !GameUIHandler.Instance.moveAction.action.enabled)
         {

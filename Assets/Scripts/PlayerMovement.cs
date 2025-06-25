@@ -521,10 +521,13 @@ public class PlayerMovement : MonoBehaviour
         if (enemiesTouching)
         {
             healthTickTimer += Time.deltaTime;
-            if (healthTickTimer >= 0.1f)
+            
+            if(healthTickTimer >= 0.1f)
             {
                 healthBarAnimator.SetBool("isDamaged", true);
-                health -= currentMeleDamage/4;
+                health -= currentMeleDamage / 4;
+                Debug.Log("Damage taken: " + currentMeleDamage);
+                Debug.Log("Health" + health);
                 healthTickTimer = 0f;
                 UpdateHealthBar();
             }
@@ -1058,7 +1061,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
-            Debug.Log("ddd");
+            // Debug.Log("ddd");
             if (colliders.Contains(other) == false)
                 colliders.Add(other);
         }
