@@ -28,7 +28,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632647160699406453}
   m_LocalRotation: {x: 0.25869843, y: -0.029487073, z: 0.007901042, w: 0.96547574}
-  m_LocalPosition: {x: 0, y: 0, z: -22.111454}
+  m_LocalPosition: {x: 0, y: 0, z: -23.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 30, y: 45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4704437, y: 16.84}
+  m_AnchoredPosition: {x: 1.44, y: 15.25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!20 &6747462164640579767
@@ -74,7 +74,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -114,8 +114,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -662,7 +661,8 @@ MonoBehaviour:
   versusProjectile: {fileID: 0}
   versusProjectile2: {fileID: 0}
   TutorialManager: {fileID: 0}
-  CollidersOfEnemies: []
+  isInvincible: 0
+  colliders: []
 --- !u!54 &5046523413160315925
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3564,6 +3564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootParticleSystem: {fileID: 0}
+  isPlaying: 1
 --- !u!4 &7545312499006746779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2fff0198cf015724e893d488bea85383,

@@ -3,28 +3,38 @@ using UnityEngine.EventSystems;
 
 public class FloatingJoystickHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    public RectTransform handle; // Przypisz drążek joysticka w Inspectorze
-    public float handleRange = 50f; // Maksymalny zasięg drążka
+    public RectTransform handle; // Rączka joysticka
+    public float handleRange = 50f; // Maksymalny zasięg rączki
+    public RectTransform joystickPanel; // Cały joystick (ControlsMovement)
+    public RectTransform backgroundPanel; // MovementRangeBackground
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Po kliknięciu drążek wraca na środek
+        // Ustaw joystick w miejscu kliknięcia na tle
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            backgroundPanel,
+            eventData.position,
+            eventData.pressEventCamera,
+            out localPoint
+        );
+        joystickPanel.anchoredPosition = localPoint;
         handle.anchoredPosition = Vector2.zero;
-        OnDrag(eventData); // Od razu obsłuż drag, by joystick zareagował natychmiast
+        OnDrag(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            GetComponent<RectTransform>(),
+            joystickPanel,
             eventData.position,
             eventData.pressEventCamera,
             out localPoint
         );
         Vector2 offset = Vector2.ClampMagnitude(localPoint, handleRange);
         handle.anchoredPosition = offset;
-        // Tutaj możesz dodać logikę sterowania postacią na podstawie offset.normalized
+        // offset.normalized - kierunek ruchu
     }
 
     public void OnPointerUp(PointerEventData eventData)

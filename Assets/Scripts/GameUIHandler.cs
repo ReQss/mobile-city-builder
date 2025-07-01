@@ -62,6 +62,7 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI playerExp;
     public TextMeshProUGUI playerPointsToSpend;
     public GameObject levelUpVFX;
+    public Image dashButtonImage;
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;
@@ -71,6 +72,15 @@ public class GameUIHandler : MonoBehaviour
             musicSource.loop = true;
             musicSource.Play();
         }
+    }
+    public void ChangeButtonColorBasedOnTime(float time, float duration)
+    {
+        if (dashButtonImage == null) return;
+
+        float alpha = Mathf.Clamp01(1f-(time / duration)); 
+            Color color = dashButtonImage.color;
+            color.a = Mathf.Lerp(0.2f, 1f, alpha);
+            dashButtonImage.color = color;
     }
     public void PlayBossMusic()
     {

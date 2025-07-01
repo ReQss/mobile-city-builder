@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Dash Settings")]
     private bool isDashing = false;
     private float dashSpeed = 20f;
-    private float dashDuration = 0.15f;
+    public float dashDuration = 0.15f;
     private float dashCooldown = 1f;
     private float dashTimer = 0f;
     private float dashCooldownTimer = 0f;
@@ -1071,7 +1071,7 @@ public class PlayerMovement : MonoBehaviour
                   
 
                     currentMeleDamage = enemyAI.damageAmount;
-                    health -= currentMeleDamage / 2;
+                    health -= currentMeleDamage / 6;
                      Debug.Log("Damage taken: " + currentMeleDamage);
                  Debug.Log("Health" + health);
                     UpdateHealthBar();
@@ -1142,11 +1142,11 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("EnemyBullet"))
         {
             if (isShieldActive) return;
-            int bulletDamage = 5;
+            int bulletDamage = 2;
             if (other.name.ToLower().Contains("magic"))
-                bulletDamage = 5;
+                bulletDamage = 2;
             else if (other.name.ToLower().Contains("arrow"))
-                bulletDamage = 5;
+                bulletDamage = 2;
 
             health -= bulletDamage;
             UpdateHealthBar();
@@ -1206,8 +1206,10 @@ public class PlayerMovement : MonoBehaviour
     private void HandleDash()
     {
         if (dashCooldownTimer > 0f)
+        {
             dashCooldownTimer -= Time.deltaTime;
-
+            GameUIHandler.Instance.ChangeButtonColorBasedOnTime( dashCooldownTimer,dashDuration);
+        }
         if (!isDashing && GameUIHandler.Instance.specialAction.action.triggered && dashCooldownTimer <= 0f)
         {
             if (dashTrails != null)

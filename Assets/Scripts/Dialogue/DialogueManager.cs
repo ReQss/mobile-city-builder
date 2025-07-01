@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         sentences = new Queue<string>();
+        animator.gameObject.SetActive(true);
     }
 
     public void StartDialogue(Dialogue dialogue, string sceneName, bool isSpecialAction, bool isQuest)
