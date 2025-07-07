@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
     private bool shouldLoadSceneAfterDialogue = false;
     private string sceneToLoadAfterDialogue = null;
     public bool isCurrentDialogueQuest = true;
+    
     void Start()
     {
         sentences = new Queue<string>();
@@ -115,6 +116,7 @@ public class DialogueManager : MonoBehaviour
         if (sentences.Count == 0)
         {
             EndDialogue();
+
             return;
         }
         string sentence = sentences.Dequeue();
@@ -138,7 +140,7 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
-        EnableUIElements();
+        // EnableUIElements();
         // Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.isPlayerInteracting = false;
         if (UIDialoguePanel != null)
@@ -159,7 +161,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
         isCurrentDialogueQuest = true;
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
     }
    
    
@@ -174,9 +176,10 @@ public class DialogueManager : MonoBehaviour
     {
         foreach (GameObject gameObject in uiToDisable)
         {
-            if(gameObject != null)
-            gameObject.SetActive(false);
+            if (gameObject != null)
+                gameObject.SetActive(false);
         }
+        Time.timeScale = 0;
     }
     public void EnableUIElements()
     {
@@ -184,5 +187,6 @@ public class DialogueManager : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
+        Time.timeScale = 1;
     }
 }

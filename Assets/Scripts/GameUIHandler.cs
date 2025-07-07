@@ -227,8 +227,7 @@ public class GameUIHandler : MonoBehaviour
     void Update()
     {   
         SetLevelAndExp();
-        
-            SetTimeLeftForUpgrading();
+        SetTimeLeftForUpgrading();
          
         if (currentCoinsCollected != null)
         {

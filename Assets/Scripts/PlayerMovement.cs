@@ -40,7 +40,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject magicalProjectilePrefab;
 
     private float combatTimer = 0f;
-    public float shootInterval = 1f;
+    public float shootIntervals = 1f;
+    public float shootIntervalBow = 4f;
     public float projectileSpeed = 35f;
     public float divideMovementSpeedWhenShooting = 3f;
     public float maxDistanceCheck = 10f;
@@ -81,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isShieldActive = false;
     private float shieldDuration = 2f;
     private float shieldCooldown = 10f;
+    public int numberOfUsesForWeapon = 150;
     private float shieldTimer = 0f;
     private float shieldCooldownTimer = 0f;
     public Vector3 moveDir;
@@ -258,17 +260,20 @@ public class PlayerMovement : MonoBehaviour
             bool hasSword = false;
             bool hasCrossbow = false;
             bool hasRod = false;
+            bool hasBow = false;
             if (currentWeapon != null)
             {
                 string weaponName = currentWeapon.gameObject.name;
                 hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasBow = weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0;
             }
 
             animator.SetBool("isShooting", isCombat && hasCrossbow);
             animator.SetBool("isSlashing", isCombat && hasSword);
             animator.SetBool("isCasting", isCombat && hasRod); // Added for Rod
+            animator.SetBool("bowAttack", isCombat && hasBow); // Added for Bow
         }
 
         if (controller.isGrounded)
@@ -307,16 +312,23 @@ public class PlayerMovement : MonoBehaviour
             string weaponName = currentWeapon.gameObject.name;
             if (weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                SlashingFunction();
+                SlashingFunction(shootIntervals);
             }
             else if (weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ShootingFunction();
+                ShootingFunction(shootIntervals,numberOfUsesForWeapon);
             }
             else if (weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                MagicalRod();
+                MagicalRod(shootIntervals);
             }
+            else if (weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                ShootingFunction(shootIntervalBow,numberOfUsesForWeapon);
+
+                //Bow
+            }
+          
         }
     }
     public void EnableOrDisableAutoAttack()
@@ -564,7 +576,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void ShootingFunction()
+    public void ShootingFunction(float shootInterval, int numberOfUses)
     {
         if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
         {
@@ -594,9 +606,9 @@ public class PlayerMovement : MonoBehaviour
                 shotsFired++;
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.UpdateUsesCount(45 - shotsFired);
+                    gameUIHandler.UpdateUsesCount(numberOfUses - shotsFired);
                 }
-                if (shotsFired >= 45)
+                if (shotsFired >= numberOfUses)
                 {
 
                     if (gameUIHandler != null)
@@ -611,7 +623,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void SlashingFunction()
+    public void SlashingFunction(float shootInterval)
     {
         if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
         {
@@ -644,7 +656,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void MagicalRod()
+    public void MagicalRod(float shootInterval)
     {
         if (isCombat && currentWeapon != null && magicalProjectilePrefab != null)
         {
