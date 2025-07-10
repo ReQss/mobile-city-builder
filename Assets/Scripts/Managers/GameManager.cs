@@ -54,6 +54,9 @@ public class CurrentUpgradedBuilding
 }
 public class GameManager : MonoBehaviour
 {
+    
+    public bool realTimeUpdate = false;
+    public List<InventoryItem> unlockedItems = new List<InventoryItem>();
     [SerializeField]
     public List<CurrentUpgradedBuilding> currentUpgradedBuildings = new List<CurrentUpgradedBuilding>();
     public Building moneyFactory;

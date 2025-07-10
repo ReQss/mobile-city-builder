@@ -260,7 +260,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
-            int damageAmount =(int)( (float)GameManager.Instance.playerAttack /1.3f);
+            int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -284,7 +284,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("Magic"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 4;
+            int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 4;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -313,7 +313,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("Versus"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 8;
+            int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 8;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -342,7 +342,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("VersusBullet"))
         {
-            int damageAmount = GameManager.Instance.playerAttack *6;
+            int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack *6;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 
@@ -371,7 +371,7 @@ public class EnemyAI : MonoBehaviour
         }
         else if (other.CompareTag("SwordHitbox"))
         {
-            int damageAmount = GameManager.Instance.playerAttack * 2;
+            int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 2;
             TakeDamage(damageAmount);
             GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
 

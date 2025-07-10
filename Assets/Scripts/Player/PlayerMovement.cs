@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -108,16 +109,18 @@ public class PlayerMovement : MonoBehaviour
     public GameObject versusProjectile2;
     public GameObject TutorialManager;
     public bool isInvincible;
+    public TextMeshProUGUI healthValue;
+
 
     void Start()
     {
-        // UpdateHealthBar();
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         EnableOrDisableAttack();
         if (navMeshAgent != null)
         {
-            navMeshAgent.updateRotation = false; // Optional: handle rotation manually
-            navMeshAgent.updatePosition = false; // We'll sync position manually if needed
+            navMeshAgent.updateRotation = false;
+            navMeshAgent.updatePosition = false;
         }
         gameUIHandler = FindObjectOfType<GameUIHandler>();
         playerMovementInstance = this;
@@ -129,8 +132,34 @@ public class PlayerMovement : MonoBehaviour
         health = GameManager.Instance.playerHealth;
         speed = GameManager.Instance.playerSpeed;
         playerAttack = GameManager.Instance.playerAttack;
+        UpdateAdditionalBonuses();
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
+         UpdateHealthBar();
+        
+    }
+    public void UpdateAdditionalBonuses()
+    {
+        List<InventoryItem> unlockedItems = GameManager.Instance.unlockedItems;
+
+        int bonusHealth = 0;
+        int bonusAttack = 0;
+        int bonusAttackSpeed = 0;
+        int bonusMovementSpeed = 0;
+        foreach (var item in unlockedItems)
+        {
+            if (item.isEquipped)
+            {
+                bonusHealth += item.health;
+                bonusAttack += item.attack;
+                bonusAttackSpeed += item.attackSpeed;
+                bonusMovementSpeed += item.movementSpeed;
+            }
+        }
+
+        health = GameManager.Instance.playerHealth + bonusHealth;
+        playerAttack = GameManager.Instance.playerAttack + bonusAttack;
+        speed = GameManager.Instance.playerSpeed + bonusMovementSpeed;
     }
 
     void Update()
@@ -555,6 +584,7 @@ public class PlayerMovement : MonoBehaviour
         if (healthBarImage != null)
         {
             float fill = Mathf.Clamp01(health / (float)GameManager.Instance.playerHealth);
+            healthValue.text = health.ToString();
             healthBarImage.fillAmount = fill;
         }
         if (healthBarImage2 != null)

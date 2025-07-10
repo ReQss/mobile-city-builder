@@ -4,6 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class InventoryItem
 {
+    public EquipmentType equipmentType;
+    public bool isEquipped = false;
     public string itemName;
     public string itemDescription;
     public Sprite itemIcon;
@@ -29,25 +31,12 @@ public class InventoryItem
 //Bags_2
 public class InventorySystem : MonoBehaviour
 {
-    public bool realTimeUpdate = false;
     public GameObject inventoryItemDirectory;
     public List<GameObject> inventoryPrefabs;
     [SerializeField]
     public List<InventoryItem> playerInventoryParts;
-    public static InventorySystem Instance;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,7 +47,7 @@ public class InventorySystem : MonoBehaviour
      // Update is called once per frame
     void Update()
     {
-        if (realTimeUpdate)
+        if (GameManager.Instance.realTimeUpdate)
             {
                     PutOnItems();
             }
@@ -77,7 +66,7 @@ public class InventorySystem : MonoBehaviour
     }
     public void PutOnItems()
     {
-        List<InventoryItem> unlockedItems = EquipingSystem.Instance.unlockedItems;
+        List<InventoryItem> unlockedItems = GameManager.Instance.unlockedItems;
         if (unlockedItems == null) return;
         if (inventoryPrefabs.Count > 0)
         {
@@ -87,7 +76,7 @@ public class InventorySystem : MonoBehaviour
                 {
                     if (itemUnlocked.isUnlocked)
                     {
-                        if (item.name == itemUnlocked.itemName && unlockedItems.Exists(x => x.itemName == itemUnlocked.itemName && x.isUnlocked))
+                        if (item.name == itemUnlocked.itemName && unlockedItems.Exists(x => x.itemName == itemUnlocked.itemName && x.isEquipped))
                         {
                             WearObject(item, itemUnlocked.itemName, itemUnlocked.itemNameToDisable);
                         }
@@ -102,19 +91,7 @@ public class InventorySystem : MonoBehaviour
 
         }
     }
-    public void WearArmor(GameObject gameObject)
-    {
-        if (inventoryPrefabs.Count > 0)
-        {
-            if (gameObject.name == "Tunic")
-            {
-                GameObject findedItem = GetItemByName("Tunic");
-                GameObject findedItem2 = GetItemByName("Body_02");
-                findedItem.SetActive(true);
-                findedItem2.SetActive(false);
-            }
-        }
-    }
+    
     public void WearObject(GameObject gameObject, string itemName, string itemNameToDisable)
     {
          if (inventoryPrefabs.Count > 0)
@@ -153,32 +130,8 @@ public class InventorySystem : MonoBehaviour
             }
         }
     }
-    public void WearBoots(GameObject gameObject)
-    {
-        if (inventoryPrefabs.Count > 0)
-        {
-            if (gameObject.name == "Boots")
-            {
-                GameObject findedItem = GetItemByName("Boots");
-                GameObject findedItem2 = GetItemByName("Legs_Seperate");
-
-                findedItem.SetActive(true);
-                if (findedItem2 != null)
-                    findedItem2.SetActive(false);
-            }
-        }
-    }
-    public void WearGloves(GameObject gameObject)
-    {
-        if (inventoryPrefabs.Count > 0)
-        {
-            if (gameObject.name == "Gloves")
-            {
-                GameObject findedItem = GetItemByName("Gloves");
-                findedItem.SetActive(true);
-            }
-        }
-    }
+    
+    
     public GameObject GetItemByName(string itemName)
     {
         foreach (var item in inventoryPrefabs)
