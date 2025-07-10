@@ -251,7 +251,7 @@ public class UIHandler : MonoBehaviour
     {
         if (Application.CanStreamedLevelBeLoaded(sceneName))
         {
-            SceneManager.LoadScene(sceneName);
+            LevelManager.Instance.LoadScene(sceneName);
             Debug.Log("Ładowanie sceny: " + sceneName);
         }
         else
@@ -266,9 +266,9 @@ public class UIHandler : MonoBehaviour
         {
              if (loadTutorial  == true)
         {
-             SceneManager.LoadScene("Statues");
+             LevelManager.Instance.LoadScene("Statues");
         }
-        else SceneManager.LoadScene(sceneName);
+        else LevelManager.Instance.LoadScene(sceneName);
             Debug.Log("Ładowanie sceny: " + sceneName);
         }
         else
