@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool loadTutorial = false;
     public List<GameObject> uiBuildingObjects;
     [SerializeField]
     private TextMeshProUGUI coinCounter;
@@ -263,7 +264,7 @@ public class UIHandler : MonoBehaviour
        
         if (Application.CanStreamedLevelBeLoaded(sceneName))
         {
-             if (GameManager.Instance == null)
+             if (loadTutorial  == true)
         {
              SceneManager.LoadScene("Statues");
         }
