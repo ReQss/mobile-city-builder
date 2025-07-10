@@ -6,6 +6,7 @@ public class InventoryItem
 {
     public string itemName;
     public string itemDescription;
+    public Sprite itemIcon;
     public int health = 0;
     public int attack = 0;
     public int attackSpeed = 0;
@@ -29,11 +30,24 @@ public class InventoryItem
 public class InventorySystem : MonoBehaviour
 {
     public bool realTimeUpdate = false;
-    public List<InventoryItem> unlockedItems = new List<InventoryItem>();
     public GameObject inventoryItemDirectory;
     public List<GameObject> inventoryPrefabs;
     [SerializeField]
     public List<InventoryItem> playerInventoryParts;
+    public static InventorySystem Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,6 +77,8 @@ public class InventorySystem : MonoBehaviour
     }
     public void PutOnItems()
     {
+        List<InventoryItem> unlockedItems = EquipingSystem.Instance.unlockedItems;
+        if (unlockedItems == null) return;
         if (inventoryPrefabs.Count > 0)
         {
             foreach (GameObject item in inventoryPrefabs)
@@ -80,10 +96,10 @@ public class InventorySystem : MonoBehaviour
                     {
                         UnwearObject(item, itemUnlocked.itemName, itemUnlocked.itemNameToDisable);
                     }
-                    
+
                 }
             }
-            
+
         }
     }
     public void WearArmor(GameObject gameObject)
