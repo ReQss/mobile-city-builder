@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     
     public int priceForStatistics = 1000;
 
-
+    public GameObject startWeapon;
     
    
     public static GameManager Instance { get; private set; }

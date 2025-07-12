@@ -63,6 +63,7 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI playerPointsToSpend;
     public GameObject levelUpVFX;
     public Image dashButtonImage;
+    
     public void PlayBattleMusic()
     {
         if (musicChanging == false) return;

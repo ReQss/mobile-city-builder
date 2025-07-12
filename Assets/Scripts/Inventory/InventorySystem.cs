@@ -14,7 +14,8 @@ public class InventoryItem
     public int attackSpeed = 0;
     public int movementSpeed = 0;
     public bool isUnlocked = false;
-    public string itemNameToDisable=null;
+    public int cost = 0;
+    public string itemNameToDisable = null;
 }
 //Hair1
 //Legs_Seperate

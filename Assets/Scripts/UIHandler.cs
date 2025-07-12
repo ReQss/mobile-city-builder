@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    
+    public GameObject getRewardsAlert;
+    public TextMeshProUGUI getRewardsText;
     public bool loadTutorial = false;
     public List<GameObject> uiBuildingObjects;
     [SerializeField]
@@ -35,6 +38,9 @@ public class UIHandler : MonoBehaviour
     public List<GameObject> uiElements;
     public GameObject darkBackground;
     public GameObject uiTopPanel;
+    
+    public GameObject alertSuccess;
+    public GameObject alertFailure;
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -50,9 +56,9 @@ public class UIHandler : MonoBehaviour
                 {
                     return true; // If there's no animator, we assume the UI is open if the GameObject is active
                 }
-               
+
             }
-            
+
         }
         return false;
     }
@@ -339,12 +345,27 @@ public class UIHandler : MonoBehaviour
         }
         GameManager.Instance.isUIOpen = false;
     }
+    public void SuccessfulOperation()
+    {
+        OpenUIObject(alertSuccess);
+        StartCoroutine(CloseAlertAfterDelay(alertSuccess));
+    }
+    public void FailureOperation()
+    {
+        OpenUIObject(alertFailure);
+        StartCoroutine(CloseAlertAfterDelay(alertFailure));
+    }
+    private IEnumerator CloseAlertAfterDelay(GameObject gameObject)
+    {
+        yield return new WaitForSeconds(1.5f);
+        CloseUIObject(gameObject);
+    }
     public void OpenUIObject(GameObject gameObject)
     {
         gameObject.SetActive(true);
         Animator animator = gameObject.GetComponent<Animator>();
-        if(animator!=null)
-        animator.SetBool("IsOpen", true);
+        if (animator != null)
+            animator.SetBool("IsOpen", true);
         GameManager.Instance.isUIOpen = true;
     }
     public void OpenUIInteractiveObject(GameObject gameObject)
@@ -407,11 +428,13 @@ public class UIHandler : MonoBehaviour
         GameManager.Instance.coinsCollected = 0;
       
     }
-        public void BuyWeapon(int amount)
+    public void BuyWeapon(int amount)
     {
         if (amount > GameManager.Instance.playerCoinCount)
+        {
+            FailureOperation();
             return;
-
+        }
         GameManager.Instance.decreaseCoins(amount);
         IncreaseWeaponLevel();
 
@@ -420,6 +443,7 @@ public class UIHandler : MonoBehaviour
             TriggerScaleAnim(prefab);
             StartCoroutine(DisableUIElementAfterDelay(prefab, 0.3f));
         }
+        
     }
 
     private IEnumerator DisableUIElementAfterDelay(GameObject gameObject, float delay)
@@ -445,8 +469,10 @@ public class UIHandler : MonoBehaviour
     private void BuySpeedPerk(int amount, int targetLevel)
     {
         if (amount > GameManager.Instance.playerCoinCount)
+        {
+            FailureOperation();
             return;
-
+        }
         var perk = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
         if (perk != null && perk.perkLevel < targetLevel)
         {
@@ -471,10 +497,11 @@ public class UIHandler : MonoBehaviour
                 StartCoroutine(DisableUIElementAfterDelay(speed3Button, 0.3f));
             }
         }
-            else
-            {
-                Debug.LogWarning("Swift Steps perk not found or already at this level or higher.");
-            }
+        else
+        {
+            Debug.LogWarning("Swift Steps perk not found or already at this level or higher.");
+        }
+            SuccessfulOperation();
     }
       public void BuyIronConstitution1(int amount)
     {
@@ -494,7 +521,10 @@ public class UIHandler : MonoBehaviour
     private void BuyIronConstitutionPerk(int amount, int targetLevel)
     {
         if (amount > GameManager.Instance.playerCoinCount)
+        {
+            FailureOperation();
             return;
+        }
 
         var perk = GameManager.Instance.playerPerks.Find(p => p.perkName == "Iron Constitution");
         if (perk != null && perk.perkLevel < targetLevel)
@@ -524,6 +554,7 @@ public class UIHandler : MonoBehaviour
         {
             Debug.LogWarning("Iron Constitution perk not found or already at this level or higher.");
         }
+        SuccessfulOperation();
     }
     public void BuyWorker(int amount)
     {
@@ -598,6 +629,12 @@ public class UIHandler : MonoBehaviour
             
         }
     }
-  
+   public void GetRewards()
+    {
+
+        SetMoneyToCollect();
+        OpenUIObject(getRewardsAlert);
+        SetRewardsCost(getRewardsText);
+    }
 
 }

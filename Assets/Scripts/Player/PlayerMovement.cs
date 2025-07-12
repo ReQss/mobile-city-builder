@@ -136,7 +136,10 @@ public class PlayerMovement : MonoBehaviour
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
          UpdateHealthBar();
-        
+         if(GameManager.Instance.startWeapon != null)
+         {
+             SetWeapon(GameManager.Instance.startWeapon);
+         }
     }
     public void UpdateAdditionalBonuses()
     {
@@ -1004,15 +1007,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered)
                 {
-                    DestroyAndCopyWeapon(collider);
-                    GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
-                    if (gameUIHandler != null)
-                    {
-                        currentWeaponName = collider.gameObject.name;
-                        gameUIHandler.UpdateWeaponImage(currentWeaponName);
-                        gameUIHandler.UpdateUsesCount(5);
-                        shotsFired = 0;
-                    }
+                    SetWeapon(collider.gameObject);
                     ShowAlert();
                 }
             }
@@ -1040,7 +1035,19 @@ public class PlayerMovement : MonoBehaviour
             gameUIHandler.EnableNotification("", GameUIHandler.NotificationType.None);
         }
     }
-    public void DestroyAndCopyWeapon(Collider collider)
+    public void SetWeapon(GameObject weapon)
+    {
+         DestroyAndCopyWeapon(weapon);
+        GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
+        if (gameUIHandler != null)
+        {
+            currentWeaponName = weapon.gameObject.name;
+            gameUIHandler.UpdateWeaponImage(currentWeaponName);
+            gameUIHandler.UpdateUsesCount(5);
+            shotsFired = 0;
+        }
+    }
+    public void DestroyAndCopyWeapon(GameObject collider)
     {
         Quaternion originalRotation = collider.transform.localRotation;
         Vector3 originalScale = collider.transform.localScale;
@@ -1049,12 +1056,13 @@ public class PlayerMovement : MonoBehaviour
         weaponCopy.transform.SetParent(playerHandPos, true);
         weaponCopy.transform.localRotation = originalRotation;
         weaponCopy.transform.localScale = originalScale;
-
-        Destroy(currentWeapon);
+        if(currentWeapon!=null)
+            Destroy(currentWeapon);
         currentWeapon = weaponCopy;
-        Destroy(currentWeapon.GetComponent<SphereCollider>());
-
-        Destroy(collider.gameObject.transform.parent.gameObject);
+        if(currentWeapon != null)
+            Destroy(currentWeapon.GetComponent<SphereCollider>());
+        if (collider.gameObject.transform.parent != null)
+            Destroy(collider.gameObject.transform.parent.gameObject);
         // isCombat = !isCombat;
     }
     private void ShowAlert()
