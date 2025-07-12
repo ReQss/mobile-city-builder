@@ -33,6 +33,14 @@ public class Weapon
     public int attackBonus;
 }
 [System.Serializable]
+public class Weapons
+{
+    public bool isSwordEnabled;
+    public bool isBowEnabled;
+    public bool isCrossbowEnabled;
+    public bool isRodEnabled;
+}
+[System.Serializable]
 public class Armor
 {
     public int id;
@@ -54,7 +62,7 @@ public class CurrentUpgradedBuilding
 }
 public class GameManager : MonoBehaviour
 {
-    
+    public Weapons weapons;
     public bool realTimeUpdate = false;
     public List<InventoryItem> unlockedItems = new List<InventoryItem>();
     [SerializeField]

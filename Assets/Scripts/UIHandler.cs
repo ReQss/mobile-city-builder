@@ -139,24 +139,24 @@ public class UIHandler : MonoBehaviour
             return;
         }
 
-        if (GameManager.Instance.weaponLevel == 1)
+        if (GameManager.Instance.weapons.isBowEnabled)
         {
             if (weaponPrefab1 != null)
                 DisableUIElement(weaponPrefab1);
         }
-        else if (GameManager.Instance.weaponLevel == 2)
+        else if (GameManager.Instance.weapons.isCrossbowEnabled)
         {
-            if (weaponPrefab1 != null)
-                DisableUIElement(weaponPrefab1);
+            // if (weaponPrefab1 != null)
+            //     DisableUIElement(weaponPrefab1);
             if (weaponPrefab2 != null)
                 DisableUIElement(weaponPrefab2);
         }
-        else if (GameManager.Instance.weaponLevel == 3)
+        else if (GameManager.Instance.weapons.isRodEnabled)
         {
-            if (weaponPrefab1 != null)
-                DisableUIElement(weaponPrefab1);
-            if (weaponPrefab2 != null)
-                DisableUIElement(weaponPrefab2);
+            // if (weaponPrefab1 != null)
+            //     DisableUIElement(weaponPrefab1);
+            // if (weaponPrefab2 != null)
+            //     DisableUIElement(weaponPrefab2);
             if (weaponPrefab3 != null)
                 DisableUIElement(weaponPrefab3);
 
@@ -435,6 +435,19 @@ public class UIHandler : MonoBehaviour
             FailureOperation();
             return;
         }
+        switch (amount)
+        {
+            case 200:
+                GameManager.Instance.weapons.isBowEnabled = true;
+                break;
+            case 800:
+                GameManager.Instance.weapons.isCrossbowEnabled = true;
+                break;
+            case 2000:
+                GameManager.Instance.weapons.isRodEnabled = true;
+                break;
+        }
+       
         GameManager.Instance.decreaseCoins(amount);
         IncreaseWeaponLevel();
 

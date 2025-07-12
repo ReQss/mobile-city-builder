@@ -63,6 +63,30 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI playerPointsToSpend;
     public GameObject levelUpVFX;
     public Image dashButtonImage;
+    public List<GameObject> weaponChoosePanels;
+    public void EnableWeaponToChoose()
+    {
+        if (weaponChoosePanels == null)
+        {
+            return;
+        }
+        if (GameManager.Instance.weapons.isSwordEnabled)
+        {
+            weaponChoosePanels[0].SetActive(true);
+        }
+        if (GameManager.Instance.weapons.isBowEnabled)
+        {
+            weaponChoosePanels[1].SetActive(true);
+        }
+        if (GameManager.Instance.weapons.isCrossbowEnabled)
+        {
+            weaponChoosePanels[2].SetActive(true);
+        }
+        if (GameManager.Instance.weapons.isRodEnabled)
+        {
+            weaponChoosePanels[3].SetActive(true);
+        }
+    }
     
     public void PlayBattleMusic()
     {
@@ -222,6 +246,7 @@ public class GameUIHandler : MonoBehaviour
             GameUIHandler.Instance.cityInteractionAction.action.Enable();
         }
         LoadPerksToUI();
+        EnableWeaponToChoose();
     }
     
 
@@ -551,7 +576,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForHealth();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.health = GameManager.Instance.playerHealth;
+            PlayerMovement.playerMovementInstance.health += 1;
+            GameManager.Instance.playerHealth += 1;
             HandleStatistics();
         }
 
@@ -561,7 +587,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForAttack();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.playerAttack = GameManager.Instance.playerAttack;
+            PlayerMovement.playerMovementInstance.playerAttack += 1;
+            GameManager.Instance.playerAttack += 1;
             HandleStatistics();
         }
     }
@@ -570,7 +597,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForSpeed();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.speed = GameManager.Instance.playerSpeed;
+            PlayerMovement.playerMovementInstance.speed += 1;
+            GameManager.Instance.playerSpeed += 1;
             HandleStatistics();
         }
     }

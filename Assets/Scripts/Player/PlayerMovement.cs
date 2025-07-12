@@ -110,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject TutorialManager;
     public bool isInvincible;
     public TextMeshProUGUI healthValue;
+    public ProceduralWeaponPlacement proceduralWeaponPlacement;
 
 
     void Start()
@@ -136,10 +137,10 @@ public class PlayerMovement : MonoBehaviour
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
          UpdateHealthBar();
-         if(GameManager.Instance.startWeapon != null)
-         {
-             SetWeapon(GameManager.Instance.startWeapon);
-         }
+        // if (GameManager.Instance.startWeapon != null)
+        // {
+        //     SetWeapon(GameManager.Instance.startWeapon);
+        //  }
     }
     public void UpdateAdditionalBonuses()
     {
@@ -1037,7 +1038,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SetWeapon(GameObject weapon)
     {
-         DestroyAndCopyWeapon(weapon);
+
+        DestroyAndCopyWeapon(weapon);
         GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
         if (gameUIHandler != null)
         {
@@ -1046,6 +1048,10 @@ public class PlayerMovement : MonoBehaviour
             gameUIHandler.UpdateUsesCount(5);
             shotsFired = 0;
         }
+        proceduralWeaponPlacement.objectsToSpawn = null;
+        proceduralWeaponPlacement.objectsToSpawn = new List<GameObject>();
+        proceduralWeaponPlacement.objectsToSpawn.Add(weapon);
+        proceduralWeaponPlacement.SpawnObjects();
     }
     public void DestroyAndCopyWeapon(GameObject collider)
     {
