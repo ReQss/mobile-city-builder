@@ -373,7 +373,6 @@ public class UIHandler : MonoBehaviour
         gameObject.SetActive(true);
         Animator animator = gameObject.GetComponent<Animator>();
         animator.SetBool("IsOpen", true);
-        // GameManager.Instance.isUIOpen = true;
     }
 
 
