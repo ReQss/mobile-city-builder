@@ -136,11 +136,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateAdditionalBonuses();
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
-         UpdateHealthBar();
-        // if (GameManager.Instance.startWeapon != null)
-        // {
-        //     SetWeapon(GameManager.Instance.startWeapon);
-        //  }
+        UpdateHealthBar();
     }
     public void UpdateAdditionalBonuses()
     {
@@ -255,7 +251,6 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        // Add this block after the above, inside Update():
         if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
         {
             Vector3 navDir = navMeshAgent.nextPosition - transform.position;
@@ -266,12 +261,6 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
-
-        // if ((GameUIHandler.Instance.playerAction != null && GameUIHandler.Instance.playerAction.action.triggered && currentWeapon != null)
-        // || (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.triggered && currentWeapon != null))
-        // {
-        //     isCombat = !isCombat;
-        // }
 
         ShowWeapon();
 
@@ -1160,33 +1149,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
-            // Debug.Log("ddd");
             if (colliders.Contains(other) == false)
                 colliders.Add(other);
         }
-        // if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
-        // {
-        //     enemiesTouching = true;
-        //     lastEnemyTouchTime = Time.time;
-        //     closestEnemyInRangePosition = other.transform.position;
-
-        //     // Check for mele tag directly
-        //     if (other.CompareTag("mele"))
-        //     {
-        //         var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
-        //         if (enemyAI != null)
-
-        //             currentMeleDamage = enemyAI.damageAmount;
-
-        //     }
-        // }
-        // if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        // {
-        //     enemiesTouching = true;
-        //     lastEnemyTouchTime = Time.time;
-        //     closestEnemyInRangePosition = other.transform.position;
-
-        // }
         // Healing logic
         if (other.CompareTag("Healing"))
         {
@@ -1380,11 +1345,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
-{
-    // Ustaw kolor gizma
-    Gizmos.color = Color.red;
-    // Narysuj sferę w miejscu gracza o promieniu takim jak w OverlapSphere
-    Gizmos.DrawWireSphere(transform.position, 2.5f);
-}
+  
 }

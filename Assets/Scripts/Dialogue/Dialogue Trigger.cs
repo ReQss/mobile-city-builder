@@ -32,9 +32,8 @@ public class DialogueTrigger : MonoBehaviour
     public void TriggerDialogue()
     {
         if (quests.Count > 0 && quests.Count > questIndex && (QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0)&& (!QuestManager.Instance.currentQuest.questAccepted ||(QuestManager.Instance.currentQuest.questAccepted && QuestManager.Instance.currentQuest.isCompleted|| questIndex == 0) ))
-        {
-            
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction,isQuest);
+        { 
+            FindObjectOfType<DialogueManager>().StartDialogue(dialogue[questIndex], sceneName, isSpecialAction,isQuest);
             QuestManager.Instance.givenQuest = quests[questIndex];
             questIndex++;
             StartQuestCanvas();

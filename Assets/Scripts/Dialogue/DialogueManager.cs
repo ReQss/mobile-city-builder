@@ -42,7 +42,6 @@ public class DialogueManager : MonoBehaviour
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
-        // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
@@ -64,7 +63,6 @@ public class DialogueManager : MonoBehaviour
         Time.timeScale = 0;
 
         GameManager.Instance.isPlayerInteracting = true;
-        // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
@@ -83,7 +81,6 @@ public class DialogueManager : MonoBehaviour
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
-        // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
@@ -95,8 +92,6 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
         DisplayNextSentence();
-
-        // Set up scene change after dialogue ends
         if (sceneName != null)
         {
             shouldLoadSceneAfterDialogue = true;
@@ -107,7 +102,6 @@ public class DialogueManager : MonoBehaviour
     {
         specialAction = false;
         GameManager.Instance.isPlayerInteracting = true;
-        // Cursor.lockState = CursorLockMode.None;
         DisableUIElements();
         choiceAnimator.SetBool("IsOpen", true);
     }
@@ -140,19 +134,15 @@ public class DialogueManager : MonoBehaviour
     public void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
-        // EnableUIElements();
-        // Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.isPlayerInteracting = false;
         if (UIDialoguePanel != null)
             UIDialoguePanel.SetActive(false);
 
-        // Load scene if flagged
         if (shouldLoadSceneAfterDialogue && !string.IsNullOrEmpty(sceneToLoadAfterDialogue))
         {
             shouldLoadSceneAfterDialogue = false;
             SceneManager.LoadScene(sceneToLoadAfterDialogue);
         }
-        // display quest accept
         if (isCurrentDialogueQuest == true)
         {
             if (questAcceptPanel != null)
@@ -161,7 +151,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
         isCurrentDialogueQuest = true;
-        // Time.timeScale = 1;
+        
     }
    
    
@@ -169,7 +159,6 @@ public class DialogueManager : MonoBehaviour
     {
         choiceAnimator.SetBool("IsOpen", false);
         EnableUIElements();
-        // Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.isPlayerInteracting = false;
     }
     public void DisableUIElements()
