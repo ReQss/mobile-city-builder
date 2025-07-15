@@ -66,26 +66,20 @@ public class GameUIHandler : MonoBehaviour
     public List<GameObject> weaponChoosePanels;
     public void EnableWeaponToChoose()
     {
-        if (weaponChoosePanels == null)
-        {
+        if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
             return;
-        }
-        if (GameManager.Instance.weapons.isSwordEnabled)
-        {
+
+        if (GameManager.Instance.weapons.isSwordEnabled && weaponChoosePanels.Count > 0)
             weaponChoosePanels[0].SetActive(true);
-        }
-        if (GameManager.Instance.weapons.isBowEnabled)
-        {
+
+        if (GameManager.Instance.weapons.isBowEnabled && weaponChoosePanels.Count > 1)
             weaponChoosePanels[1].SetActive(true);
-        }
-        if (GameManager.Instance.weapons.isCrossbowEnabled)
-        {
+
+        if (GameManager.Instance.weapons.isCrossbowEnabled && weaponChoosePanels.Count > 2)
             weaponChoosePanels[2].SetActive(true);
-        }
-        if (GameManager.Instance.weapons.isRodEnabled)
-        {
+
+        if (GameManager.Instance.weapons.isRodEnabled && weaponChoosePanels.Count > 3)
             weaponChoosePanels[3].SetActive(true);
-        }
     }
     
     public void PlayBattleMusic()
