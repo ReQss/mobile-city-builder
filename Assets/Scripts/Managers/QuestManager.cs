@@ -42,6 +42,8 @@ public class Quest
     public void CompleteQuest()
     {
         isCompleted = true;
+        if(npc!=null)
+            npc.GetComponent<DialogueTrigger>().questIndex++;
         GameManager.Instance.coinsCollected += goldReward;
         if (npc != null)
         {
@@ -60,11 +62,11 @@ public class Quest
 }
 public class QuestManager : MonoBehaviour
 {
-    
+
     public int actIndex = 0;
-    public static QuestManager Instance { get; private set; } 
+    public static QuestManager Instance { get; private set; }
     public List<Quest> quests;
-    public int currentQuestIndex = 0; 
+    public int currentQuestIndex = 0;
     public Quest currentQuest;
     public Quest givenQuest;
     [SerializeField]
@@ -91,12 +93,12 @@ public class QuestManager : MonoBehaviour
     {
         if (currentQuest != null)
         {
-
+            QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
         }
     }
     IEnumerator SpawnEnemies()
     {
-    while (currentQuest != null && !currentQuest.isCompleted)
+        while (currentQuest != null && !currentQuest.isCompleted)
         {
             enemyGenerator.SpawnObjectsNumberNearbyPlayer(1);
             Debug.Log("Enemy spawned");
@@ -163,17 +165,17 @@ public class QuestManager : MonoBehaviour
             quest.refToThisNpc.SetActive(false);
         }
     }
-       public Quest GetCurrentQuest()
+    public Quest GetCurrentQuest()
     {
         return currentQuest;
     }
-      public void UpdateQuestUI()
+    public void UpdateQuestUI()
     {
         if (currentQuestDescription != null)
         {
             if (currentQuest != null)
             {
-                if(currentQuest.isCompleted)
+                if (currentQuest.isCompleted)
                 {
                     currentQuestDescription.text = "Powróć do miejsca zadania";
                 }
@@ -182,7 +184,7 @@ public class QuestManager : MonoBehaviour
                     currentQuestDescription.text = currentQuest.questDescription;
                 }
             }
-            
+
         }
     }
     public void CheckQuestProgress(Quest quest)
@@ -203,16 +205,16 @@ public class QuestManager : MonoBehaviour
                 if (quest.currentAmount >= quest.targetAmount)
                 {
                     quest.CompleteQuest();
-                   
-                    
+
+
                 }
                 break;
             case QuestType.TalkToNPC:
                 if (quest.currentAmount >= 1)
                 {
                     quest.CompleteQuest();
-                    
-             GameUIHandler.Instance.PlayAmbientMusic();
+
+                    GameUIHandler.Instance.PlayAmbientMusic();
                 }
                 break;
             case QuestType.Unfreeze:
@@ -221,7 +223,7 @@ public class QuestManager : MonoBehaviour
                     StartCoroutine(UnfreezeQuestFinishAfterDelay());
                 }
                 break;
-        
+
         }
 
         UpdateQuestUI();
@@ -253,4 +255,5 @@ public class QuestManager : MonoBehaviour
             Instantiate(healthPrefab, spawnPos, Quaternion.identity);
         }
     }
+    
 }
