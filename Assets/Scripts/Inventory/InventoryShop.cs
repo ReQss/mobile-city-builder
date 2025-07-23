@@ -48,7 +48,6 @@ public class InventoryShop : MonoBehaviour
             GameManager.Instance.playerCoinCount -= foundItem.cost;
             foundItem.isUnlocked = true;
 
-            // Wyłącz panel powiązany z kupionym przedmiotem
             if (itemPanelsDictionary.TryGetValue(itemName, out GameObject panel))
             {
                 panel.SetActive(false);

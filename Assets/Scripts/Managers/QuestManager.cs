@@ -144,7 +144,6 @@ public class QuestManager : MonoBehaviour
         else if (quest.questType == QuestType.FinalQuest)
         {
             gameUIHandler.FinishActUI();
-            Debug.Log("Act finished, final quest started");
             GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
         }
         else if (quest.questType == QuestType.Unfreeze)

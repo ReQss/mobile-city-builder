@@ -1334,7 +1334,7 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 4779722c450651d4e8883e25a7ed2c0a, type: 3}
   attackSound: {fileID: 8300000, guid: 39d162f1c74341647a76b3c127665128, type: 3}
   screamSound: {fileID: 0}
-  chaseRange: 100
+  chaseRange: 15
   patrolRange: 5
   attackRange: 3.5
   patrolWaitTime: 2
@@ -1343,9 +1343,11 @@ MonoBehaviour:
   health: 150
   DamageDealtPrefab: {fileID: 5315537711970309577, guid: 2d873b078635599499552502ab5f9147,
     type: 3}
+  DamageDealtPrefabSmall: {fileID: 0}
   DamageDealtPrefabMagic2: {fileID: 5315537711970309577, guid: 9390fcad4fe390a408e82061dc03f1d5,
     type: 3}
   DamageSpawnPoint: {fileID: 5491367962434395178}
+  healthBarImage: {fileID: 0}
   coinsAmount: 75
   isMele: 0
   isRanged: 1
@@ -1356,6 +1358,9 @@ MonoBehaviour:
   rangedAttackCooldown: 2
   enemyBulletFolder: {fileID: 0}
   isShoting: 0
+  damageAmount: 10
+  expAmount: 100
+  maxHealth: 0
 --- !u!195 &3471720775948747504
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class ProceduralWeaponPlacement : MonoBehaviour
 
     void Start()
     {
-        // SpawnObjects();
+        SpawnObjects();
     }
 
     // Update is called once per frame

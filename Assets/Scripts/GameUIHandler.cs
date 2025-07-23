@@ -64,6 +64,8 @@ public class GameUIHandler : MonoBehaviour
     public GameObject levelUpVFX;
     public Image dashButtonImage;
     public List<GameObject> weaponChoosePanels;
+    public GameObject obtainRewardPanel;
+    public Image obtainRewardItemImage;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -194,7 +196,13 @@ public class GameUIHandler : MonoBehaviour
             musicSource.Play();
         }
     }
-
+    public void ChangeRewardItemImage(Sprite newSprite)
+    {
+        if (obtainRewardItemImage != null)
+        {
+            obtainRewardItemImage.sprite = newSprite;
+        }
+    }
     void Awake()
     {
         Instance = this;
@@ -202,6 +210,17 @@ public class GameUIHandler : MonoBehaviour
 
     void Start()
     {
+        if(obtainRewardPanel == null)
+        obtainRewardPanel = GameObject.Find("ObtainReward");
+        if (obtainRewardPanel != null)
+        {
+            Transform rewardItemImageTransform = obtainRewardPanel.transform.Find("RewardItemImage");
+            if (rewardItemImageTransform != null)
+            {
+                obtainRewardItemImage = rewardItemImageTransform != null ? rewardItemImageTransform.GetComponent<Image>() : null;
+            }
+            
+        }
 
         if (TutorialScript.Instance == null)
         {

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -18,12 +20,13 @@ public class DungeonGenerator : MonoBehaviour
         public Vector2Int maxPosition;
 
         public bool obligatory;
+        public int spawnChance = 100;
 
         public int ProbabilityOfSpawning(int x, int y)
         {
             // 0 - cannot spawn 1 - can spawn 2 - HAS to spawn
 
-            if (x>= minPosition.x && x<=maxPosition.x && y >= minPosition.y && y <= maxPosition.y)
+            if (x >= minPosition.x && x <= maxPosition.x && y >= minPosition.y && y <= maxPosition.y)
             {
                 return obligatory ? 2 : 1;
             }
@@ -44,6 +47,12 @@ public class DungeonGenerator : MonoBehaviour
     void Start()
     {
         MazeGenerator();
+         NavMeshSurface surface = GetComponent<NavMeshSurface>();
+        if (surface != null)
+        {
+            surface.BuildNavMesh();
+        }
+
     }
 
     void GenerateDungeon()
@@ -63,21 +72,46 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         int p = rooms[k].ProbabilityOfSpawning(i, j);
 
-                        if(p == 2)
+                        if (p == 2)
                         {
                             randomRoom = k;
                             break;
-                        } else if (p == 1)
+                        }
+                        else if (p == 1)
                         {
                             availableRooms.Add(k);
                         }
+                        // else if (p == 1)
+                        // {
+                        //     // Dodaj losowanie na podstawie spawnChance
+                        //     if (Random.Range(0, 100) < rooms[k].spawnChance)
+                        //     {
+                        //         availableRooms.Add(k);
+                        //     }
+                        // }
                     }
 
                     if(randomRoom == -1)
                     {
                         if (availableRooms.Count > 0)
                         {
-                            randomRoom = availableRooms[Random.Range(0, availableRooms.Count)];
+                            // Losowanie z wagami spawnChance
+                            int totalWeight = 0;
+                            foreach (int idx in availableRooms)
+                            {
+                                totalWeight += rooms[idx].spawnChance;
+                            }
+                            int rand = Random.Range(0, totalWeight);
+                            int cumulative = 0;
+                            foreach (int idx in availableRooms)
+                            {
+                                cumulative += rooms[idx].spawnChance;
+                                if (rand < cumulative)
+                                {
+                                    randomRoom = idx;
+                                    break;
+                                }
+                            }
                         }
                         else
                         {
@@ -95,6 +129,7 @@ public class DungeonGenerator : MonoBehaviour
         }
 
     }
+    
 
     void MazeGenerator()
     {

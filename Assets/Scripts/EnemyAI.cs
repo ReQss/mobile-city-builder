@@ -84,6 +84,10 @@ public class EnemyAI : MonoBehaviour
         maxHealth = health;
         agent = GetComponent<NavMeshAgent>();
         SetNewPatrolTarget();
+        if (player == null)
+        {
+            player = GameObject.Find("Player").transform;
+        }
     }
 
     void Update()
