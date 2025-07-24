@@ -111,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isInvincible;
     public TextMeshProUGUI healthValue;
     public ProceduralWeaponPlacement proceduralWeaponPlacement;
+    public int playerBulletsCount = 1000;
 
 
     void Start()
@@ -662,9 +663,9 @@ public class PlayerMovement : MonoBehaviour
                 shotsFired++;
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.UpdateUsesCount(10 - shotsFired);
+                    gameUIHandler.UpdateUsesCount(numberOfUsesForWeapon - shotsFired);
                 }
-                if (shotsFired >= 10)
+                if (shotsFired >= numberOfUsesForWeapon)
                 {
 
                     if (gameUIHandler != null)
@@ -709,9 +710,9 @@ public class PlayerMovement : MonoBehaviour
                 shotsFired++;
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.UpdateUsesCount(10 - shotsFired);
+                    gameUIHandler.UpdateUsesCount(numberOfUsesForWeapon - shotsFired);
                 }
-                if (shotsFired >= 10)
+                if (shotsFired >= numberOfUsesForWeapon)
                 {
 
                     if (gameUIHandler != null)
@@ -1037,10 +1038,10 @@ public class PlayerMovement : MonoBehaviour
             gameUIHandler.UpdateUsesCount(5);
             shotsFired = 0;
         }
-        proceduralWeaponPlacement.objectsToSpawn = null;
-        proceduralWeaponPlacement.objectsToSpawn = new List<GameObject>();
-        proceduralWeaponPlacement.objectsToSpawn.Add(weapon);
-        proceduralWeaponPlacement.SpawnObjects();
+        // proceduralWeaponPlacement.objectsToSpawn = null;
+        // proceduralWeaponPlacement.objectsToSpawn = new List<GameObject>();
+        // proceduralWeaponPlacement.objectsToSpawn.Add(weapon);
+        // proceduralWeaponPlacement.SpawnObjects();
     }
     public void DestroyAndCopyWeapon(GameObject collider)
     {

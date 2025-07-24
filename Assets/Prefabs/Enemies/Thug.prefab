@@ -67,7 +67,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 28
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1a7f2fcf74d9f9542b20b670b5362d16, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &5208846889816181385
@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7250315201998780417
 RectTransform:
   m_ObjectHideFlags: 0
@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 9013821174148865708}
   - component: {fileID: 5069592885348091697}
   - component: {fileID: 5649549155590545560}
-  m_Layer: 9
+  m_Layer: 17
   m_Name: Cube
   m_TagString: mele
   m_Icon: {fileID: 0}
@@ -1023,7 +1023,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.57
+      value: 28.595165
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
@@ -1033,7 +1033,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.9
+      value: 2.72
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
@@ -1079,6 +1079,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1852576806548013000, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
@@ -1235,8 +1240,8 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: fd3e8e0948468e241a4a708f13c7f96f, type: 3}
   screamSound: {fileID: 8300000, guid: 62785e67d69fd3f4c84f96cda52ba63f, type: 3}
   chaseRange: 15
-  patrolRange: 5
-  attackRange: 2
+  patrolRange: 7
+  attackRange: 4
   patrolWaitTime: 2
   EnemyCanvasLockOnIsEnabled: 0
   EnemyCanvasLockOn: {fileID: 6560927320855199520}
