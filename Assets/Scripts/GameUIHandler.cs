@@ -65,7 +65,9 @@ public class GameUIHandler : MonoBehaviour
     public Image dashButtonImage;
     public List<GameObject> weaponChoosePanels;
     public GameObject obtainRewardPanel;
+    [Header("Reward obtained")]
     public Image obtainRewardItemImage;
+    public TextMeshProUGUI obtainRewardItemText;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -201,6 +203,13 @@ public class GameUIHandler : MonoBehaviour
         if (obtainRewardItemImage != null)
         {
             obtainRewardItemImage.sprite = newSprite;
+        }
+    }
+    public void ChangeRewardItemText(String newText)
+    {
+        if (obtainRewardItemText != null)
+        {
+            obtainRewardItemText.text = newText;
         }
     }
     void Awake()

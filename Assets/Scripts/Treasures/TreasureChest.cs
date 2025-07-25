@@ -55,6 +55,10 @@ public class TreasureChest : MonoBehaviour
     public int GetRandomExp()
     {
         int maxExp = GameManager.Instance.playerExperienceToGetLevel;
+        if (maxExp <= 100)
+        {
+            maxExp = 2000;
+        }
         int randomExp = Random.Range(maxExp / 2, maxExp * 2);
         return randomExp;
     }
@@ -88,25 +92,30 @@ public class TreasureChest : MonoBehaviour
             case RewardType.Gold:
                 GameManager.Instance.coinsCollected += coinReward;
                 GameUIHandler.Instance.ChangeRewardItemImage(itemSprites[0]);
+                GameUIHandler.Instance.ChangeRewardItemText(coinReward.ToString() + " monet");
                 break;
             case RewardType.Exp:
                 GameManager.Instance.AddExp(expReward);
-
                 GameUIHandler.Instance.ChangeRewardItemImage(itemSprites[1]);
+                GameUIHandler.Instance.ChangeRewardItemText(expReward.ToString() + " exp");
                 break;
             case RewardType.Statistics:
                 GameManager.Instance.playerHealth += healthBonus;
                 if (healthBonus != 0)
                 {
                     GameUIHandler.Instance.ChangeRewardItemImage(itemSprites[2]);
+                    GameUIHandler.Instance.ChangeRewardItemText(healthBonus.ToString() + " health bonus");
                 }
                 GameManager.Instance.playerAttack += attackBonus;
                 if (attackBonus != 0)
                 {
                     GameUIHandler.Instance.ChangeRewardItemImage(itemSprites[3]);
+                    GameUIHandler.Instance.ChangeRewardItemText(attackBonus.ToString() + " attack bonus");
                 }
                 break;
             case RewardType.Item:
+            
+                GameUIHandler.Instance.ChangeRewardItemText("You got an item!");
                 // GameManager.Instance.AddItem(itemReward);
                 break;
         }

@@ -213,15 +213,17 @@ public class EnemyAI : MonoBehaviour
                     anim.SetBool("isAttacking", false);
                 }
 
-                if (Vector3.Distance(transform.position, patrolTarget) <= 0.5f)
+                if (Vector3.Distance(transform.position, patrolTarget) <= 0.1f)
                 {
+                    SetNewPatrolTarget();
+                    
+                }
                     patrolTimer += Time.deltaTime;
                     if (patrolTimer >= patrolWaitTime)
                     {
                         SetNewPatrolTarget();
                         patrolTimer = 0f;
                     }
-                }
                 else
                 {
                     agent.SetDestination(patrolTarget);

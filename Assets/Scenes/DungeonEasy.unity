@@ -3579,7 +3579,7 @@ MonoBehaviour:
   - room: {fileID: 7681763370866645276, guid: a010100e23195024fa7ea6e2063f76cb, type: 3}
     minPosition: {x: 2, y: 2}
     maxPosition: {x: 4, y: 4}
-    obligatory: 0
+    obligatory: 1
     spawnChance: 50
   offset: {x: 38, y: 38}
 --- !u!114 &317954430
@@ -6091,6 +6091,7 @@ PrefabInstance:
     - {fileID: 1709874769154387413, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
     - {fileID: 1377434520982590768, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
     - {fileID: 7052045272706876227, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
+    - {fileID: 9163912975104364086, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 807051050601849643, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
         type: 3}
@@ -7503,6 +7504,7 @@ MonoBehaviour:
   - {fileID: 1217453490}
   obtainRewardPanel: {fileID: 565488469}
   obtainRewardItemImage: {fileID: 1314498300}
+  obtainRewardItemText: {fileID: 849945422}
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -13398,6 +13400,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 435.3312
       objectReference: {fileID: 0}
+    - target: {fileID: 9163912975104364086, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6355716540812070516, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
     m_RemovedGameObjects:
@@ -13438,6 +13445,18 @@ PrefabInstance:
       addedObject: {fileID: 1458303296}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72cde5e9df24b2c4ab1314dbd6d6898c, type: 3}
+--- !u!114 &849945422 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1901694588892712230, guid: 72cde5e9df24b2c4ab1314dbd6d6898c,
+    type: 3}
+  m_PrefabInstance: {fileID: 849945421}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &854133352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15621,8 +15640,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6747462164640579767, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747462164640579767, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
       propertyPath: orthographic size
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747462164640579767, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747462164640579767, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747462164640579767, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7205061287664740897, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
