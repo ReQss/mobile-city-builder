@@ -107,6 +107,15 @@ public class GameManager : MonoBehaviour
     
    
     public static GameManager Instance { get; private set; }
+// copy new item stats to old item stats
+    public void CopyNewItemStats(InventoryItem newItem)
+    {
+        if (newItem == null) return;
+        InventoryItem item = unlockedItems.Find(item => item.equipmentType == newItem.equipmentType);
+        if (item == null) return;
+        Debug.Log("Copying stats from new item to existing item: " + newItem.itemName + " to " + item.itemName);
+        item.CopyFrom(newItem);
+    }
     public void AddExp(int exp)
     {
         playerCurrentExperience += exp;
@@ -118,7 +127,7 @@ public class GameManager : MonoBehaviour
             playerExperienceToGetLevel += 500;
             LevelUp();
         }
-        
+
     }
     public void LevelUp()
     {

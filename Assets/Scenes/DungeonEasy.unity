@@ -2788,12 +2788,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapons:
-    isSwordEnabled: 0
+    isSwordEnabled: 1
     isBowEnabled: 0
     isCrossbowEnabled: 0
     isRodEnabled: 0
   realTimeUpdate: 0
-  unlockedItems: []
+  unlockedItems:
+  - equipmentType: 1
+    isEquipped: 0
+    itemName: Tunic
+    itemDescription: 
+    itemIcon: {fileID: 327965450, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
+    health: 100
+    attack: 0
+    attackSpeed: 0
+    movementSpeed: 0
+    isUnlocked: 0
+    cost: 8000
+    itemNameToDisable: 
+  - equipmentType: 2
+    isEquipped: 0
+    itemName: Gloves
+    itemDescription: 
+    itemIcon: {fileID: 1361973207, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
+    health: 50
+    attack: 10
+    attackSpeed: 0
+    movementSpeed: 0
+    isUnlocked: 0
+    cost: 5000
+    itemNameToDisable: 
+  - equipmentType: 3
+    isEquipped: 0
+    itemName: Helmet
+    itemDescription: 
+    itemIcon: {fileID: 1651511428, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
+    health: 100
+    attack: 0
+    attackSpeed: 0
+    movementSpeed: 0
+    isUnlocked: 0
+    cost: 4000
+    itemNameToDisable: 
+  - equipmentType: 0
+    isEquipped: 0
+    itemName: Boots
+    itemDescription: 
+    itemIcon: {fileID: -355661540, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
+    health: 50
+    attack: 0
+    attackSpeed: 0
+    movementSpeed: 1
+    isUnlocked: 0
+    cost: 0
+    itemNameToDisable: 
+  - equipmentType: 4
+    isEquipped: 0
+    itemName: Pants
+    itemDescription: 
+    itemIcon: {fileID: 21300000, guid: 42cd3c95f202d6349862fbe41cf79b6a, type: 3}
+    health: 50
+    attack: 10
+    attackSpeed: 0
+    movementSpeed: 1
+    isUnlocked: 0
+    cost: 6000
+    itemNameToDisable: shorts
   currentUpgradedBuildings: []
   moneyFactory: {fileID: 0}
   moneyFactoryLevel: 1
@@ -2859,16 +2919,17 @@ MonoBehaviour:
   weaponLevel: 0
   workerCount: 0
   energy: 80
-  playerCoinCount: 70000
-  playerHealth: 150
+  playerCoinCount: 20000
+  playerHealth: 100
   playerAttack: 10
   playerSpeed: 5
   playerLevel: 1
-  playerExperienceToGetLevel: 10
+  playerExperienceToGetLevel: 1000
   playerCurrentExperience: 0
-  pointsToSpend: 8
+  pointsToSpend: 0
   priceForStatistics: 1000
-  startWeapon: {fileID: 0}
+  startWeapon: {fileID: 4269364708897539207, guid: 9eb7a3644f797e849a94020a61820d0e,
+    type: 3}
 --- !u!4 &231748237
 Transform:
   m_ObjectHideFlags: 0
@@ -19894,7 +19955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1409286013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19910,9 +19971,9 @@ RectTransform:
   - {fileID: 708448659}
   m_Father: {fileID: 1050658234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 301.5889, y: -132.2029}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 136.1985, y: 173.9955}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1409286014

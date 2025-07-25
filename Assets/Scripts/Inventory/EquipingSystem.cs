@@ -3,19 +3,24 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum EquipmentType
 {
-    Hair,
-    Legs,
-    Pants,
-    Torso,
+
+
     Boots,
     Tunic,
-    Body,
-    Shorts,
+
     Gloves,
     Helmet,
-    Head,
-    Bags1,
-    Bags2
+
+    Pants,
+    // Head,
+    // Bags1,
+    // Bags2,
+    // Hair,
+    // Legs,
+
+    // Torso,
+     // Body,
+    // Shorts,
 }
 [System.Serializable]
 public class EquipmentSlot

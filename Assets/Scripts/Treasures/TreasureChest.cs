@@ -18,7 +18,7 @@ public class TreasureChest : MonoBehaviour
     public int healthBonus = 0;
     public int attackBonus = 0;
     [Header("Item rewards")]
-    public GameObject itemReward;
+    public InventoryItem itemReward = null;
     public bool isRewardCollected = false;
     [SerializeField]
     public List<Sprite> itemSprites;
@@ -28,7 +28,7 @@ public class TreasureChest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rewardType = Random.Range(0, 4) switch
+        rewardType = Random.Range(3, 4) switch
         {
             0 => RewardType.Gold,
             1 => RewardType.Exp,
@@ -47,7 +47,7 @@ public class TreasureChest : MonoBehaviour
                 RandomStatistics();
                 break;
             case RewardType.Item:
-                // itemReward = GameManager.Instance.GetRandomItem();
+                itemReward = GetRandomItem();
                 break;
         }
     }
@@ -66,6 +66,31 @@ public class TreasureChest : MonoBehaviour
     {
         int gold = Random.Range(500, 2000);
         return gold;
+    }
+    public InventoryItem GetRandomItem()
+    {
+        EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
+        InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
+        if (itemOriginal == null)
+        {
+            Debug.LogWarning("Brak odblokowanego przedmiotu typu: " + randomType);
+            return null;
+        }
+        InventoryItem newItem = new InventoryItem(
+            randomType,
+            false,
+            randomType.ToString(),
+            "Great item found at treasure chest from dungeon",
+            itemOriginal.itemIcon,//itemicon
+            Random.Range(itemOriginal.health, itemOriginal.health + 30),
+            Random.Range(itemOriginal.attack, itemOriginal.attack + 10),
+            Random.Range(itemOriginal.attackSpeed, itemOriginal.attackSpeed + 1),
+            Random.Range(itemOriginal.movementSpeed, itemOriginal.movementSpeed + 2),
+            true
+            ,itemOriginal.cost,
+            itemOriginal.itemNameToDisable
+        );
+        return newItem;
     }
     public void RandomStatistics()
     {
@@ -116,6 +141,9 @@ public class TreasureChest : MonoBehaviour
             case RewardType.Item:
             
                 GameUIHandler.Instance.ChangeRewardItemText("You got an item!");
+                GameUIHandler.Instance.ChangeRewardItemImage(itemReward.itemIcon);
+                GameUIHandler.Instance.ChangeRewardItemText(itemReward.itemName);
+                GameManager.Instance.CopyNewItemStats(itemReward);
                 // GameManager.Instance.AddItem(itemReward);
                 break;
         }

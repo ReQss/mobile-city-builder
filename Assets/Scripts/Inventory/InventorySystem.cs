@@ -16,20 +16,70 @@ public class InventoryItem
     public bool isUnlocked = false;
     public int cost = 0;
     public string itemNameToDisable = null;
+    
+    public InventoryItem() { }
+    public InventoryItem(
+       EquipmentType equipmentType,
+       bool isEquipped,
+       string itemName,
+       string itemDescription,
+       Sprite itemIcon,
+       int health,
+       int attack,
+       int attackSpeed,
+       int movementSpeed,
+       bool isUnlocked,
+       int cost,
+       string itemNameToDisable
+   )
+    {
+        this.equipmentType = equipmentType;
+        this.isEquipped = isEquipped;
+        this.itemName = itemName;
+        this.itemDescription = itemDescription;
+        this.itemIcon = itemIcon;
+        this.health = health;
+        this.attack = attack;
+        this.attackSpeed = attackSpeed;
+        this.movementSpeed = movementSpeed;
+        this.isUnlocked = isUnlocked;
+        this.cost = cost;
+        this.itemNameToDisable = itemNameToDisable;
+    }
+
+
+    public InventoryItem(InventoryItem other)
+    {
+        itemName = other.itemName;
+        equipmentType = other.equipmentType;
+        isEquipped = other.isEquipped;
+        itemDescription = other.itemDescription;
+        itemIcon = other.itemIcon;
+        health = other.health;
+        attack = other.attack;
+        attackSpeed = other.attackSpeed;
+        movementSpeed = other.movementSpeed;
+        isUnlocked = other.isUnlocked;
+        cost = other.cost;
+        itemNameToDisable = other.itemNameToDisable;
+    }
+        public void CopyFrom(InventoryItem other)
+    {
+        this.equipmentType = other.equipmentType;
+        this.isEquipped = other.isEquipped;
+        this.itemName = other.itemName;
+        this.itemDescription = other.itemDescription;
+        if(other.itemIcon)
+        this.itemIcon = other.itemIcon;
+        this.health = other.health;
+        this.attack = other.attack;
+        this.attackSpeed = other.attackSpeed;
+        this.movementSpeed = other.movementSpeed;
+        this.isUnlocked = other.isUnlocked;
+        this.cost = other.cost;
+        this.itemNameToDisable = other.itemNameToDisable;
+    }
 }
-//Hair1
-//Legs_Seperate
-//Pants
-//Torso
-//Boots
-//Tunic
-//Body_02
-//shorts
-//Gloves
-//Helmet
-//Head
-//Bags_1
-//Bags_2
 public class InventorySystem : MonoBehaviour
 {
     public GameObject inventoryItemDirectory;
@@ -37,23 +87,21 @@ public class InventorySystem : MonoBehaviour
     [SerializeField]
     public List<InventoryItem> playerInventoryParts;
 
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         LoadItems();
         PutOnItems();
-        
+
     }
-     // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.realTimeUpdate)
-            {
-                    PutOnItems();
-            }
+        {
+            PutOnItems();
+        }
     }
-    
+
     public void LoadItems()
     {
         inventoryPrefabs = new List<GameObject>();
@@ -92,10 +140,10 @@ public class InventorySystem : MonoBehaviour
 
         }
     }
-    
+
     public void WearObject(GameObject gameObject, string itemName, string itemNameToDisable)
     {
-         if (inventoryPrefabs.Count > 0)
+        if (inventoryPrefabs.Count > 0)
         {
             if (gameObject.name == itemName)
             {
@@ -112,9 +160,9 @@ public class InventorySystem : MonoBehaviour
             }
         }
     }
-     public void UnwearObject(GameObject gameObject, string itemName, string itemNameToDisable)
+    public void UnwearObject(GameObject gameObject, string itemName, string itemNameToDisable)
     {
-          if (inventoryPrefabs.Count > 0)
+        if (inventoryPrefabs.Count > 0)
         {
             if (gameObject.name == itemName)
             {
@@ -131,8 +179,8 @@ public class InventorySystem : MonoBehaviour
             }
         }
     }
-    
-    
+
+
     public GameObject GetItemByName(string itemName)
     {
         foreach (var item in inventoryPrefabs)
@@ -144,5 +192,6 @@ public class InventorySystem : MonoBehaviour
         }
         return null;
     }
+    
    
 }
