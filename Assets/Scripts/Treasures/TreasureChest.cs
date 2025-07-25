@@ -28,7 +28,7 @@ public class TreasureChest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rewardType = Random.Range(3, 4) switch
+        rewardType = Random.Range(0, 4) switch
         {
             0 => RewardType.Gold,
             1 => RewardType.Exp,
