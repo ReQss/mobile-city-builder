@@ -68,6 +68,8 @@ public class GameUIHandler : MonoBehaviour
     [Header("Reward obtained")]
     public Image obtainRewardItemImage;
     public TextMeshProUGUI obtainRewardItemText;
+    public GameObject chooseLevelStatisticsPanel;
+    public GameObject touchCanvasJoystick;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -115,6 +117,14 @@ public class GameUIHandler : MonoBehaviour
             musicSource.Play();
         }
     }
+    
+    public void ShowLevelUpChoosePanel()
+    {
+        if (chooseLevelStatisticsPanel == null) return;
+        if (touchCanvasJoystick == null) return;
+        touchCanvasJoystick.SetActive(false);
+        chooseLevelStatisticsPanel.SetActive(true);
+    }
     public void LevelUp()
     {
         if (levelUpVFX == null) return;
@@ -122,8 +132,8 @@ public class GameUIHandler : MonoBehaviour
         Animator animator = levelUpVFX.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.Play("levelupanim", -1, 0f); // "levelupanim" to nazwa stanu w Animatorze
-            if(SoundManager.Instance != null)
+            animator.Play("levelupanim", -1, 0f); 
+            if (SoundManager.Instance != null)
                 SoundManager.Instance.PlayLevelUp();
         }
     }
@@ -598,20 +608,23 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForHealth();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.health += 1;
-            GameManager.Instance.playerHealth += 1;
+            PlayerMovement.playerMovementInstance.health += 10;
             HandleStatistics();
         }
-
+        if (touchCanvasJoystick != null) {
+            touchCanvasJoystick.SetActive(true);
+        }
     }
     public void IncreasePlayerAttackByPoints()
     {
         bool result = GameManager.Instance.UsePointForAttack();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.playerAttack += 1;
-            GameManager.Instance.playerAttack += 1;
+            PlayerMovement.playerMovementInstance.playerAttack += 2;
             HandleStatistics();
+        }
+        if (touchCanvasJoystick != null) {
+            touchCanvasJoystick.SetActive(true);
         }
     }
     public void IncreasePlayerSpeedByPoints()
@@ -620,8 +633,10 @@ public class GameUIHandler : MonoBehaviour
         if (result)
         {
             PlayerMovement.playerMovementInstance.speed += 1;
-            GameManager.Instance.playerSpeed += 1;
             HandleStatistics();
+        }
+        if (touchCanvasJoystick != null) {
+            touchCanvasJoystick.SetActive(true);
         }
     }
 

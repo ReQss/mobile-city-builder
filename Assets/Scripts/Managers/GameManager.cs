@@ -132,6 +132,8 @@ public class GameManager : MonoBehaviour
     public void LevelUp()
     {
         GameUIHandler.Instance.LevelUp();
+        
+        GameUIHandler.Instance.ShowLevelUpChoosePanel();
     }
     public bool UsePointForAttack()
     {
@@ -156,10 +158,10 @@ public class GameManager : MonoBehaviour
     }
     public bool UsePointForSpeed()
     {
-        if (pointsToSpend-1 > 0)
+        if (pointsToSpend > 0)
         {
             playerSpeed += 1;
-            pointsToSpend -= 2;
+            pointsToSpend -= 1;
             return true;
         }
         return false;
