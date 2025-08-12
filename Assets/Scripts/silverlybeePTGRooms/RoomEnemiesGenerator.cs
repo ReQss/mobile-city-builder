@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class RoomEnemiesGenerator : MonoBehaviour
 {
@@ -8,19 +9,16 @@ public class RoomEnemiesGenerator : MonoBehaviour
     public float spawnRange = 20f;
     public Vector3 center = Vector3.zero;
     public Transform centerTransform;
-    public Transform parentFolder; 
+    public Transform parentFolder;
+    private bool isSpawningEnemies = false;
 
 
-    void Start()
+
+    public async Task SpawnObjectsNumber(int count)
     {
-       SpawnObjectsNumber(spawnCount);
-    }
-
-    // Update is called once per frame
-
- 
-    public void SpawnObjectsNumber(int count)
-    {
+        if (isSpawningEnemies)
+            return;
+        isSpawningEnemies = true;
         Vector3 spawnCenter = centerTransform != null ? centerTransform.position : center;
 
         if (objectsToSpawn == null || objectsToSpawn.Count == 0)
@@ -34,9 +32,10 @@ public class RoomEnemiesGenerator : MonoBehaviour
                 0f,
                 Random.Range(-spawnRange, spawnRange)
             );
-            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); // Set parent
+            GameObject objectSpawned = Instantiate(prefab, randomPos, Quaternion.identity, parentFolder); 
             objectSpawned.SetActive(true);
         }
+        await Task.CompletedTask;
     }
     
  

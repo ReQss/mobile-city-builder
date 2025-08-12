@@ -42,27 +42,42 @@ public class LevelManager : MonoBehaviour
             LoadSceneNoLoader(sceneName);
             return;
         }
+
+        EnableLoaderCanvas();
         target = 0f;
         progressBar.fillAmount = 0f;
         var scene = SceneManager.LoadSceneAsync(sceneName);
         scene.allowSceneActivation = false;
-        Sprite randomSprite = RandomSpriteGenerate();
-        if(randomSprite!=null)
-            loaderCanvas.GetComponent<Image>().sprite = randomSprite;
-        loaderCanvas.SetActive(true);
-        do
+
+        while (scene.progress < 0.9f)
         {
-            await Task.Delay(100);
-            target = scene.progress;
-        } while (scene.progress < 0.9f);
-        await Task.Delay(1000);
+            target = Mathf.Clamp01(scene.progress / 0.9f);
+            await Task.Yield();
+        }
+
+        float timer = 0f;
+        while (progressBar.fillAmount < 1f)
+        {
+            timer += Time.deltaTime;
+            target = 1f;
+            await Task.Yield();
+        }
+
+        await Task.Delay(300); 
         scene.allowSceneActivation = true;
 
         await Task.Yield();
         loaderCanvas.SetActive(false);
     }
+    public void EnableLoaderCanvas()
+    {
+        Sprite randomSprite = RandomSpriteGenerate();
+        if(randomSprite!=null)
+            loaderCanvas.GetComponent<Image>().sprite = randomSprite;
+        loaderCanvas.SetActive(true);
+    }
     public async void LoadSceneNoLoader(string sceneName)
-    { 
+    {
         if (Application.CanStreamedLevelBeLoaded(sceneName))
         {
             SceneManager.LoadScene(sceneName);

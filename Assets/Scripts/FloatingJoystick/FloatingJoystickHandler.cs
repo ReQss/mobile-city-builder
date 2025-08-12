@@ -14,10 +14,11 @@ public class FloatingJoystickHandler : MonoBehaviour
 
     private Finger MovementFinger;
     private Vector2 MovementAmount;
+    public bool isJoystickEnabled = true; 
 
     private void OnEnable()
     {
-        EnhancedTouchSupport.Enable(); 
+        EnhancedTouchSupport.Enable();
         ETouch.Touch.onFingerDown += HandleFingerDown;
         ETouch.Touch.onFingerUp += HandleLoseFinger;
         ETouch.Touch.onFingerMove += HandleFingerMove;
@@ -28,11 +29,12 @@ public class FloatingJoystickHandler : MonoBehaviour
         ETouch.Touch.onFingerDown -= HandleFingerDown;
         ETouch.Touch.onFingerUp -= HandleLoseFinger;
         ETouch.Touch.onFingerMove -= HandleFingerMove;
-        EnhancedTouchSupport.Disable(); 
+        EnhancedTouchSupport.Disable();
     }
 
     private void HandleFingerMove(Finger MovedFinger)
     {
+        if (!isJoystickEnabled) return;
         if (MovedFinger == MovementFinger)
         {
             Vector2 knobPosition;
@@ -58,8 +60,17 @@ public class FloatingJoystickHandler : MonoBehaviour
             MovementAmount = knobPosition / maxMovement;
         }
     }
-
-    private void HandleLoseFinger(Finger LostFinger)
+    public void UnlockJoystick()
+    {
+        isJoystickEnabled = true;
+        HandleLoseFinger(MovementFinger);
+    }
+    public void LockJoystick()
+    {
+        isJoystickEnabled = false;
+        HandleLoseFinger(MovementFinger);
+    }
+    public void HandleLoseFinger(Finger LostFinger)
     {
         if (LostFinger == MovementFinger)
         {
@@ -72,7 +83,8 @@ public class FloatingJoystickHandler : MonoBehaviour
 
     private void HandleFingerDown(Finger TouchedFinger)
     {
-        if (MovementFinger == null 
+            if (!isJoystickEnabled) return;
+        if (MovementFinger == null
     && TouchedFinger.screenPosition.x <= Screen.width / 2f
     && TouchedFinger.screenPosition.y <= Screen.height / 1.4f)
         {
@@ -102,6 +114,7 @@ public class FloatingJoystickHandler : MonoBehaviour
 
         return StartPosition;
     }
+    
 
     
 }

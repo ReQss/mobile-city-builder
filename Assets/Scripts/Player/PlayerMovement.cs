@@ -866,7 +866,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (isDashing == true)
                 {
-                    Debug.Log("dash");
 
                     StartCoroutine(SlowTimeForPerfectTimingMele());
                 }
@@ -878,7 +877,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (isDashing == true)
                 {
-                    Debug.Log("dash");
                     StartCoroutine(SlowTimeForPerfectTiming());
                 }
             }
@@ -891,7 +889,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 if (isDashing == true)
                 {
-                    Debug.Log("dash");
 
                     StartCoroutine(SlowTimeForPerfectTimingMele());
                 }
@@ -1038,10 +1035,6 @@ public class PlayerMovement : MonoBehaviour
             gameUIHandler.UpdateUsesCount(5);
             shotsFired = 0;
         }
-        // proceduralWeaponPlacement.objectsToSpawn = null;
-        // proceduralWeaponPlacement.objectsToSpawn = new List<GameObject>();
-        // proceduralWeaponPlacement.objectsToSpawn.Add(weapon);
-        // proceduralWeaponPlacement.SpawnObjects();
     }
     public void DestroyAndCopyWeapon(GameObject collider)
     {

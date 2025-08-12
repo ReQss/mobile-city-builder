@@ -209,35 +209,35 @@ public class UIHandler : MonoBehaviour
             if (rewardsPrefab != null)
                 rewardsPrefab.SetActive(false);
         }
-        if (IsUIOpen())
-        {
-            GameManager.Instance.isUIOpen = true;
-            if (darkBackground != null)
-            {
-                darkBackground.SetActive(true);
-            }
-            if (uiTopPanel != null)
-            {
-                uiTopPanel.SetActive(false);
-            }
-        }
-        else
-        {
-            if (GameManager.Instance == null)
-            {
-                Debug.LogWarning("GameManager.Instance is null in Update!");
-                return;
-            }
-            GameManager.Instance.isUIOpen = false;
-            if (darkBackground != null)
-            {
-                darkBackground.SetActive(false);
-            }
-            if (uiTopPanel != null)
-            {
-                uiTopPanel.SetActive(true);
-            }
-        }
+        // if (IsUIOpen())
+        // {
+        //     GameManager.Instance.isUIOpen = true;
+        //     if (darkBackground != null)
+        //     {
+        //         darkBackground.SetActive(true);
+        //     }
+        //     if (uiTopPanel != null)
+        //     {
+        //         uiTopPanel.SetActive(false);
+        //     }
+        // }
+        // else
+        // {
+        //     if (GameManager.Instance == null)
+        //     {
+        //         Debug.LogWarning("GameManager.Instance is null in Update!");
+        //         return;
+        //     }
+        //     GameManager.Instance.isUIOpen = false;
+        //     if (darkBackground != null)
+        //     {
+        //         darkBackground.SetActive(false);
+        //     }
+        //     if (uiTopPanel != null)
+        //     {
+        //         uiTopPanel.SetActive(true);
+        //     }
+        // }
      
     }
     private IEnumerator UpdateCoinCount(float time)

@@ -70,6 +70,7 @@ public class GameUIHandler : MonoBehaviour
     public TextMeshProUGUI obtainRewardItemText;
     public GameObject chooseLevelStatisticsPanel;
     public GameObject touchCanvasJoystick;
+    public FloatingJoystickHandler touchCanvasJoystickPanel;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -117,13 +118,13 @@ public class GameUIHandler : MonoBehaviour
             musicSource.Play();
         }
     }
-    
     public void ShowLevelUpChoosePanel()
     {
         if (chooseLevelStatisticsPanel == null) return;
-        if (touchCanvasJoystick == null) return;
-        touchCanvasJoystick.SetActive(false);
+        // if (touchCanvasJoystick == null) return;
+        // touchCanvasJoystick.SetActive(false);
         chooseLevelStatisticsPanel.SetActive(true);
+        touchCanvasJoystickPanel.LockJoystick();
     }
     public void LevelUp()
     {
