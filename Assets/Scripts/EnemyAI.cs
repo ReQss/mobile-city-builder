@@ -324,7 +324,7 @@ public class EnemyAI : MonoBehaviour
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 8;
             TakeDamage(damageAmount);
             // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealtMagic();
             damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
             damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
@@ -350,7 +350,7 @@ public class EnemyAI : MonoBehaviour
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack *6;
             TakeDamage(damageAmount);
             // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealtMagic();
             damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
             damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();

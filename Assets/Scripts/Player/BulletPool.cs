@@ -21,12 +21,15 @@ public class BulletPool : MonoBehaviour
     public GameObject damageDealtPrefab;
     public int damageDealtPoolSize = 15;
     private Queue<GameObject> damageDealtPool = new Queue<GameObject>();
+    public GameObject damageDealtMagicPrefab;
+    public int damageDealtMagicPoolSize = 15;
+    private Queue<GameObject> damageDealtMagicPool = new Queue<GameObject>();
+
     [Header("Enemy Bullet Pool")]
     public GameObject enemyBulletPrefab;
     public int enemyBulletPoolSize = 20;
     private Queue<GameObject> enemyBulletPool = new Queue<GameObject>();
 
-    
 
 
     void Awake()
@@ -70,6 +73,27 @@ public class BulletPool : MonoBehaviour
             enemyBullet.SetActive(false);
             enemyBulletPool.Enqueue(enemyBullet);
         }
+        for (int i = 0; i < damageDealtMagicPoolSize; i++)
+        {
+            GameObject damageDealtMagic = Instantiate(damageDealtMagicPrefab, this.transform);
+            damageDealtMagic.SetActive(false);
+            damageDealtMagicPool.Enqueue(damageDealtMagic);
+        }
+    }
+    public GameObject GetDamageDealtMagic()
+    {
+        GameObject damageDealtMagic;
+        if (damageDealtMagicPool.Count > 0)
+        {
+            damageDealtMagic = damageDealtMagicPool.Dequeue();
+            damageDealtMagic.SetActive(true);
+        }
+        else
+        {
+            damageDealtMagic = Instantiate(damageDealtMagicPrefab, this.transform);
+        }
+        StartCoroutine(ReturnDamageDealtAfterDelay(damageDealtMagic, 0.5f));
+        return damageDealtMagic;
     }
     public GameObject GetEnemyBullet()
     {
