@@ -36,9 +36,15 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isCombat = false;
     public GameObject currentWeapon;
-    public GameObject shootingProjectilePrefab;
+    [Header("Shooting Projectiles")]
+    // public GameObject shootingProjectilePrefab;
+    
+    // public GameObject magicalProjectilePrefab;
+
+
+
+
     public GameObject accelerationArrowPrefab;
-    public GameObject magicalProjectilePrefab;
 
     private float combatTimer = 0f;
     public float shootIntervals = 1f;
@@ -104,9 +110,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Versus settings")]
     public GameObject versusButton;
     public GameObject versusButtonMele;
-    public GameObject versusProjectile;
+    // public GameObject versusProjectile;
     
-    public GameObject versusProjectile2;
+    // public GameObject versusProjectile2;
     public GameObject TutorialManager;
     public bool isInvincible;
     public TextMeshProUGUI healthValue;
@@ -602,7 +608,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ShootingFunction(float shootInterval, int numberOfUses)
     {
-        if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
+        if (isCombat && currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
@@ -611,8 +617,11 @@ public class PlayerMovement : MonoBehaviour
                 combatTimer = 0f;
 
                 RotateTowardsEnemy();
-                GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
-
+                // GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
+                // GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
+                GameObject projectile = BulletPool.Instance.GetBullet();
+                projectile.transform.position = currentWeapon.transform.position;
+                projectile.transform.rotation = currentWeapon.transform.rotation;
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -649,7 +658,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SlashingFunction(float shootInterval)
     {
-        if (isCombat && currentWeapon != null && shootingProjectilePrefab != null)
+        if (isCombat && currentWeapon != null )
         {
             stopDistance = 4f;
             combatTimer += Time.deltaTime;
@@ -682,7 +691,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void MagicalRod(float shootInterval)
     {
-        if (isCombat && currentWeapon != null && magicalProjectilePrefab != null)
+        if (isCombat && currentWeapon != null && BulletPool.Instance.magicalProjectilePrefab != null)
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
@@ -692,7 +701,9 @@ public class PlayerMovement : MonoBehaviour
 
                 RotateTowardsEnemy();
                 Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
-                GameObject projectile = Instantiate(magicalProjectilePrefab, spawnPos, currentWeapon.transform.rotation);
+                GameObject projectile = BulletPool.Instance.GetMagicalBullet();
+                projectile.transform.position = spawnPos;
+                projectile.transform.rotation = currentWeapon.transform.rotation;
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
@@ -731,7 +742,11 @@ public class PlayerMovement : MonoBehaviour
     {
         RotateTowardsEnemy();
         // Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
-        GameObject projectile = Instantiate(magicalProjectilePrefab, this.transform.position, this.transform.rotation);
+        if(BulletPool.Instance.magicalProjectilePrefab == null) return;
+
+        GameObject projectile = BulletPool.Instance.GetMagicalBullet();
+        gameObject.transform.position = this.transform.position;
+        gameObject.transform.rotation = this.transform.rotation;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
             if (rb != null)
                 {
@@ -751,7 +766,10 @@ public class PlayerMovement : MonoBehaviour
         versusButton.SetActive(false);
         versusButtonMele.SetActive(false);
         RotateTowardsEnemy();
-        GameObject projectile = Instantiate(versusProjectile, this.transform.position, this.transform.rotation);
+        // GameObject projectile = Instantiate(versusProjectile, this.transform.position, this.transform.rotation);
+        GameObject projectile = BulletPool.Instance.GetVersusProjectile1();
+        projectile.transform.position = this.transform.position;
+        projectile.transform.rotation = this.transform.rotation;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -773,7 +791,10 @@ public class PlayerMovement : MonoBehaviour
         versusButton.SetActive(false);
         versusButtonMele.SetActive(false);
         RotateTowardsEnemy();
-        GameObject projectile = Instantiate(versusProjectile2, this.transform.position, this.transform.rotation);
+        // GameObject projectile = Instantiate(versusProjectile2, this.transform.position, this.transform.rotation);
+        GameObject projectile = BulletPool.Instance.GetVersusProjectile2();
+        projectile.transform.position = this.transform.position;
+        projectile.transform.rotation = this.transform.rotation;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -1165,7 +1186,8 @@ public class PlayerMovement : MonoBehaviour
 
             health -= bulletDamage;
             UpdateHealthBar();
-            Destroy(other.gameObject);
+            BulletPool.Instance.ReturnEnemyBullet(other.gameObject); 
+            // Destroy(other.gameObject);
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);
             if (health <= 0 && gameUIHandler != null)

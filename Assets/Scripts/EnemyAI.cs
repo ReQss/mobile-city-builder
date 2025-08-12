@@ -25,7 +25,7 @@ public class EnemyAI : MonoBehaviour
     public bool EnemyCanvasLockOnIsEnabled = false;
     public GameObject EnemyCanvasLockOn;
     public int health = 100;
-    public GameObject DamageDealtPrefab;
+    // public GameObject DamageDealtPrefab;
     public GameObject DamageDealtPrefabSmall;
     public GameObject DamageDealtPrefabMagic2;
     public Transform DamageSpawnPoint;
@@ -34,7 +34,7 @@ public class EnemyAI : MonoBehaviour
     public bool isMele = false;
     public bool isRanged = false;
 
-    public GameObject bulletPrefab; // Assign in inspector
+    // public GameObject bulletPrefab; // Assign in inspector
     public Transform bulletSpawnPoint; // Assign in inspector
     public float bulletSpeed = 15f;
     public float rangedAttackCooldown = 2f;
@@ -268,8 +268,9 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack;
             TakeDamage(damageAmount);
-            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+             GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
@@ -284,16 +285,17 @@ public class EnemyAI : MonoBehaviour
                 rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
-
-            Destroy(other.gameObject, 0.1f);
-            Destroy(damageDealt, 0.5f);
+            BulletPool.Instance.ReturnBullet(other.gameObject);
+            // Destroy(damageDealt, 0.5f);
         }
         else if (other.CompareTag("Magic"))
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 4;
             TakeDamage(damageAmount);
-            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
@@ -309,8 +311,8 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject, 0.4f);
-            Destroy(damageDealt, 0.5f);
+            BulletPool.Instance.ReturnMagicalBullet(other.gameObject);
+            // Destroy(damageDealt, 0.5f);
 
             // Start DoT effect (cancel previous if running)
             if (magicDotCoroutine != null)
@@ -321,8 +323,10 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 8;
             TakeDamage(damageAmount);
-            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
@@ -338,20 +342,17 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject, 0.4f);
-            Destroy(damageDealt, 0.5f);
+            BulletPool.Instance.ReturnVersusProjectile1(other.gameObject);
 
-            // // Start DoT effect (cancel previous if running)
-            // if (magicDotCoroutine != null)
-            //     StopCoroutine(magicDotCoroutine);
-            // magicDotCoroutine = StartCoroutine(MagicDotEffect());
         }
         else if (other.CompareTag("VersusBullet"))
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack *6;
             TakeDamage(damageAmount);
-            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
@@ -367,8 +368,8 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
 
-            Destroy(other.gameObject, 0.4f);
-            Destroy(damageDealt, 0.5f);
+            BulletPool.Instance.ReturnVersusProjectile2(other.gameObject);
+            // Destroy(damageDealt, 0.5f);
 
             // // Start DoT effect (cancel previous if running)
             // if (magicDotCoroutine != null)
@@ -379,15 +380,17 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 2;
             TakeDamage(damageAmount);
-            GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+            // GameObject damageDealt = Instantiate(DamageDealtPrefab, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
                 tmp.text = damageAmount.ToString();
             }
 
-            Destroy(damageDealt, 0.5f);
+            // Destroy(damageDealt, 0.5f);
 
             // Debug.Log("Enemy hit by sword!");
         }
@@ -401,15 +404,16 @@ public class EnemyAI : MonoBehaviour
             {
                 int damageAmount = 1;
                 TakeDamage(damageAmount);
-                GameObject damageDealt = Instantiate(DamageDealtPrefabSmall, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
-
+                // GameObject damageDealt = Instantiate(DamageDealtPrefabSmall, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+                GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+                damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+                damageDealt.transform.rotation = Quaternion.identity;
                 var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
                 if (tmp != null)
                 {
                     tmp.text = damageAmount.ToString();
                 }
 
-                Destroy(damageDealt, 0.5f);
 
                 areaHitboxDamageTimer = 0f;
             }
@@ -435,7 +439,10 @@ public class EnemyAI : MonoBehaviour
         {
             TakeDamage(tickDamage);
 
-            GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
+            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
+            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+            damageDealt.transform.rotation = Quaternion.identity;
             var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
             if (tmp != null)
             {
@@ -451,7 +458,7 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 25f, ForceMode.Impulse);
             }
 
-            Destroy(damageDealt, 0.5f);
+            // Destroy(damageDealt, 0.5f);
 
             yield return new WaitForSeconds(tickInterval);
         }
@@ -461,26 +468,21 @@ public class EnemyAI : MonoBehaviour
     // Add this method to the class
     public void ShootAtPlayer()
     {
-        if (bulletPrefab != null && bulletSpawnPoint != null && player != null)
+        if (BulletPool.Instance.enemyBulletPrefab != null && bulletSpawnPoint != null && player != null)
         {
-            Transform parentFolder = null;
-            if (enemyBulletFolder != null)
-            {
-                parentFolder = enemyBulletFolder.transform;
-            }
 
             Vector3 dir = (player.position - bulletSpawnPoint.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(dir);
             GameObject bullet = null;
-            if (parentFolder != null)
-                bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation, parentFolder);
-            else bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, lookRotation);
+           
+            bullet = BulletPool.Instance.GetEnemyBullet();
+            bullet.transform.position = bulletSpawnPoint.position;
+            bullet.transform.rotation = lookRotation;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.linearVelocity = dir * bulletSpeed;
             }
-            Destroy(bullet, 3f);
         }
     }
 
