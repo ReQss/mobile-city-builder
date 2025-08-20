@@ -71,6 +71,8 @@ public class GameUIHandler : MonoBehaviour
     public GameObject chooseLevelStatisticsPanel;
     public GameObject touchCanvasJoystick;
     public FloatingJoystickHandler touchCanvasJoystickPanel;
+    [SerializeField]
+    private TextMeshProUGUI playerLevelText;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -133,9 +135,18 @@ public class GameUIHandler : MonoBehaviour
         Animator animator = levelUpVFX.GetComponent<Animator>();
         if (animator != null)
         {
-            animator.Play("levelupanim", -1, 0f); 
+            animator.Play("levelupanim", -1, 0f);
             if (SoundManager.Instance != null)
                 SoundManager.Instance.PlayLevelUp();
+        }
+        UpdateLevelText();
+        
+    }
+    private void UpdateLevelText()
+    {
+        if (playerLevelText != null)
+        {
+            playerLevelText.text = GameManager.Instance.playerLevel.ToString();
         }
     }
     public void SetLevelAndExp()
@@ -230,8 +241,9 @@ public class GameUIHandler : MonoBehaviour
 
     void Start()
     {
-        if(obtainRewardPanel == null)
-        obtainRewardPanel = GameObject.Find("ObtainReward");
+        UpdateLevelText();
+        if (obtainRewardPanel == null)
+            obtainRewardPanel = GameObject.Find("ObtainReward");
         if (obtainRewardPanel != null)
         {
             Transform rewardItemImageTransform = obtainRewardPanel.transform.Find("RewardItemImage");

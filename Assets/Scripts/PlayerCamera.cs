@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public Transform target; // Assign your player transform in the inspector
+    public Transform target;
 
     private Camera cam;
     private Vector3 initialOffset;
@@ -10,12 +10,13 @@ public class PlayerCamera : MonoBehaviour
 
     void Awake()
     {
+        transform.position += transform.forward * 2f;
+
         cam = GetComponent<Camera>();
         if (cam != null)
         {
-            cam.orthographic = true; // Ensure camera is orthographic
+            cam.orthographic = true;
         }
-        // Store the initial offset and rotation from the inspector
         if (target != null)
         {
             initialOffset = transform.position - target.position;
@@ -27,7 +28,6 @@ public class PlayerCamera : MonoBehaviour
     {
         if (target == null) return;
 
-        // Keep the camera at the same offset and rotation as set in the inspector
         transform.position = target.position + initialOffset;
         transform.rotation = initialRotation;
     }
