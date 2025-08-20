@@ -23,8 +23,8 @@ public class RoomEnemiesGenerator : MonoBehaviour
 
         if (objectsToSpawn == null || objectsToSpawn.Count == 0)
             return;
-
-        for (int i = 0; i < count; i++)
+        int playerLevelExtraEnemies = GameManager.Instance.playerLevel / 4;
+        for (int i = 0; i < count + playerLevelExtraEnemies; i++)
         {
             GameObject prefab = objectsToSpawn[Random.Range(0, objectsToSpawn.Count)];
             Vector3 randomPos = spawnCenter + new Vector3(
