@@ -35,11 +35,8 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     private bool isCombat = false;
-    public GameObject currentWeapon;
+    public PlayerWeapon playerWeapon;
     [Header("Shooting Projectiles")]
-    // public GameObject shootingProjectilePrefab;
-    
-    // public GameObject magicalProjectilePrefab;
 
 
 
@@ -57,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
     public float enemyRange = 15f;
     public bool notificationEnabled = false;
     private GameUIHandler gameUIHandler;
-    public string currentWeaponName;
     public int shotsFired = 0;
     [Header("Player Stats")]
     public int health = 100;
@@ -122,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-
+        playerWeapon = new PlayerWeapon();
         navMeshAgent = GetComponent<NavMeshAgent>();
         EnableOrDisableAttack();
         if (navMeshAgent != null)
@@ -194,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (attackEnabled)
         {
-            if (currentWeapon == null)
+            if (playerWeapon.currentWeapon == null)
             {
                 isCombat = false;
             }
@@ -290,9 +286,9 @@ public class PlayerMovement : MonoBehaviour
             bool hasCrossbow = false;
             bool hasRod = false;
             bool hasBow = false;
-            if (currentWeapon != null)
+            if (playerWeapon.currentWeapon != null)
             {
-                string weaponName = currentWeapon.gameObject.name;
+                string weaponName = playerWeapon.currentWeapon.gameObject.name;
                 hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
@@ -336,9 +332,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void FightingMode()
     {
-        if (currentWeapon != null)
+        if (playerWeapon.currentWeapon != null)
         {
-            string weaponName = currentWeapon.gameObject.name;
+            string weaponName = playerWeapon.currentWeapon.gameObject.name;
             if (weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 SlashingFunction(shootIntervals);
@@ -559,25 +555,7 @@ public class PlayerMovement : MonoBehaviour
             }
             return;
         }
-        // if (enemiesTouching)
-        // {
-        //     healthTickTimer += Time.deltaTime;
-            
-        //     if(healthTickTimer >= 0.1f)
-        //     {
-        //         healthBarAnimator.SetBool("isDamaged", true);
-        //         health -= currentMeleDamage / 4;
-        //         Debug.Log("Damage taken: " + currentMeleDamage);
-        //         Debug.Log("Health" + health);
-        //         healthTickTimer = 0f;
-        //         UpdateHealthBar();
-        //     }
-        // }
-        // else
-        // {
-        //     healthTickTimer = 0f;
-        //     healthBarAnimator.SetBool("isDamaged", false);
-        // }
+
     }
     private void UpdateHealthBar()
     {
@@ -608,7 +586,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ShootingFunction(float shootInterval, int numberOfUses)
     {
-        if (isCombat && currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
+        if (isCombat && playerWeapon.currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
@@ -617,17 +595,15 @@ public class PlayerMovement : MonoBehaviour
                 combatTimer = 0f;
 
                 RotateTowardsEnemy();
-                // GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
-                // GameObject projectile = Instantiate(shootingProjectilePrefab, currentWeapon.transform.position, currentWeapon.transform.rotation);
                 GameObject projectile = BulletPool.Instance.GetBullet();
-                projectile.transform.position = currentWeapon.transform.position;
-                projectile.transform.rotation = currentWeapon.transform.rotation;
+                projectile.transform.position = playerWeapon.currentWeapon.transform.position;
+                projectile.transform.rotation = playerWeapon.currentWeapon.transform.rotation;
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
                     if (closestEnemyInRangePosition != Vector3.zero)
                     {
-                        Vector3 direction = (closestEnemyInRangePosition - currentWeapon.transform.position).normalized;
+                        Vector3 direction = (closestEnemyInRangePosition - playerWeapon.currentWeapon.transform.position).normalized;
                         rb.linearVelocity = direction * projectileSpeed;
                     }
                     else
@@ -648,8 +624,8 @@ public class PlayerMovement : MonoBehaviour
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
                     }
-                    Destroy(currentWeapon);
-                    currentWeapon = null;
+                    Destroy(playerWeapon.currentWeapon);
+                    playerWeapon.currentWeapon = null;
                     ChangeCombat();
                     shotsFired = 0;
                 }
@@ -658,7 +634,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SlashingFunction(float shootInterval)
     {
-        if (isCombat && currentWeapon != null )
+        if (isCombat && playerWeapon.currentWeapon != null )
         {
             stopDistance = 4f;
             combatTimer += Time.deltaTime;
@@ -681,8 +657,8 @@ public class PlayerMovement : MonoBehaviour
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
                     }
-                    Destroy(currentWeapon);
-                    currentWeapon = null;
+                    Destroy(playerWeapon.currentWeapon);
+                    playerWeapon.currentWeapon = null;
                     ChangeCombat();
                     shotsFired = 0;
                 }
@@ -691,7 +667,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void MagicalRod(float shootInterval)
     {
-        if (isCombat && currentWeapon != null && BulletPool.Instance.magicalProjectilePrefab != null)
+        if (isCombat && playerWeapon.currentWeapon != null && BulletPool.Instance.magicalProjectilePrefab != null)
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
@@ -700,16 +676,16 @@ public class PlayerMovement : MonoBehaviour
                 combatTimer = 0f;
 
                 RotateTowardsEnemy();
-                Vector3 spawnPos = currentWeapon.transform.position + Vector3.up * 1f;
+                Vector3 spawnPos = playerWeapon.currentWeapon.transform.position + Vector3.up * 1f;
                 GameObject projectile = BulletPool.Instance.GetMagicalBullet();
                 projectile.transform.position = spawnPos;
-                projectile.transform.rotation = currentWeapon.transform.rotation;
+                projectile.transform.rotation = playerWeapon.currentWeapon.transform.rotation;
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
                     if (closestEnemyInRangePosition != Vector3.zero)
                     {
-                        Vector3 direction = (closestEnemyInRangePosition - currentWeapon.transform.position).normalized;
+                        Vector3 direction = (closestEnemyInRangePosition - playerWeapon.currentWeapon.transform.position).normalized;
                         rb.linearVelocity = direction * projectileSpeed;
                     }
                     else
@@ -730,8 +706,8 @@ public class PlayerMovement : MonoBehaviour
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
                     }
-                    Destroy(currentWeapon);
-                    currentWeapon = null;
+                    Destroy(playerWeapon.currentWeapon);
+                    playerWeapon.currentWeapon = null;
                     ChangeCombat();
                     shotsFired = 0;
                 }
@@ -1051,8 +1027,8 @@ public class PlayerMovement : MonoBehaviour
         GameUIHandler gameUIHandler = FindObjectOfType<GameUIHandler>();
         if (gameUIHandler != null)
         {
-            currentWeaponName = weapon.gameObject.name;
-            gameUIHandler.UpdateWeaponImage(currentWeaponName);
+            playerWeapon.currentWeaponName = weapon.gameObject.name;
+            gameUIHandler.UpdateWeaponImage(playerWeapon.currentWeaponName);
             gameUIHandler.UpdateUsesCount(5);
             shotsFired = 0;
         }
@@ -1062,15 +1038,19 @@ public class PlayerMovement : MonoBehaviour
         Quaternion originalRotation = collider.transform.localRotation;
         Vector3 originalScale = collider.transform.localScale;
         GameObject weaponCopy = Instantiate(collider.gameObject, playerHandPos.position, playerHandPos.rotation);
-
         weaponCopy.transform.SetParent(playerHandPos, true);
         weaponCopy.transform.localRotation = originalRotation;
         weaponCopy.transform.localScale = originalScale;
-        if(currentWeapon!=null)
-            Destroy(currentWeapon);
-        currentWeapon = weaponCopy;
-        if(currentWeapon != null)
-            Destroy(currentWeapon.GetComponent<SphereCollider>());
+        if(playerWeapon.currentWeapon!=null)
+            Destroy(playerWeapon.currentWeapon);
+        PlayerWeapon playerWeaponTemp = collider.GetComponent<PlayerWeapon>();
+        if (playerWeaponTemp != null)
+        {
+            playerWeapon = playerWeaponTemp;
+        }
+        playerWeapon.currentWeapon = weaponCopy;
+        if(playerWeapon.currentWeapon != null)
+            Destroy(playerWeapon.currentWeapon.GetComponent<SphereCollider>());
         if (collider.gameObject.transform.parent != null)
             Destroy(collider.gameObject.transform.parent.gameObject);
         // isCombat = !isCombat;
@@ -1095,9 +1075,9 @@ public class PlayerMovement : MonoBehaviour
     private void ChangeCombat()
     {
         isCombat = !isCombat;
-        if (currentWeapon != null)
+        if (playerWeapon.currentWeapon != null)
         {
-            currentWeapon.SetActive(isCombat);
+            playerWeapon.currentWeapon.SetActive(isCombat);
         }
         if (accelerationArrowPrefab != null)
         {
@@ -1107,9 +1087,9 @@ public class PlayerMovement : MonoBehaviour
     private void ShowWeapon()
     {
 
-        if (currentWeapon != null)
+        if (playerWeapon.currentWeapon != null)
         {
-            currentWeapon.SetActive(isCombat);
+            playerWeapon.currentWeapon.SetActive(isCombat);
             if (accelerationArrowPrefab != null)
             {
                 accelerationArrowPrefab.SetActive(isCombat);
@@ -1132,8 +1112,6 @@ public class PlayerMovement : MonoBehaviour
 
                     currentMeleDamage = enemyAI.damageAmount;
                     health -= currentMeleDamage / 6;
-                     Debug.Log("Damage taken: " + currentMeleDamage);
-                 Debug.Log("Health" + health);
                     UpdateHealthBar();
                 }
                 
@@ -1141,25 +1119,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    // if (enemiesTouching)
-        // {
-        //     healthTickTimer += Time.deltaTime;
-            
-        //     if(healthTickTimer >= 0.1f)
-        //     {
-        //         healthBarAnimator.SetBool("isDamaged", true);
-        //         health -= currentMeleDamage / 4;
-        //         Debug.Log("Damage taken: " + currentMeleDamage);
-        //         Debug.Log("Health" + health);
-        //         healthTickTimer = 0f;
-        //         UpdateHealthBar();
-        //     }
-        // }
-        // else
-        // {
-        //     healthTickTimer = 0f;
-        //     healthBarAnimator.SetBool("isDamaged", false);
-        // }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))

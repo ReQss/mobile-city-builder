@@ -55,7 +55,7 @@ public class TutorialScript : MonoBehaviour
     }
     public void GrabObjectQuest()
     {
-        if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.currentWeapon != null)
+        if (PlayerMovement.playerMovementInstance != null && PlayerMovement.playerMovementInstance.playerWeapon.currentWeapon != null)
         {
             Debug.Log("Weapon taken");
             wasWeaponTaken = true;

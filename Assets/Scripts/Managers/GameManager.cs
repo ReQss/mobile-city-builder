@@ -24,14 +24,7 @@ public class Player
     public int health;
     public int attack;
 }
-[System.Serializable]
-public class Weapon
-{
-    public int id;
-    public string name;
-    public string description;
-    public int attackBonus;
-}
+
 [System.Serializable]
 public class Weapons
 {
