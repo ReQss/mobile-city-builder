@@ -41,6 +41,7 @@ public class UIHandler : MonoBehaviour
     
     public GameObject alertSuccess;
     public GameObject alertFailure;
+    public GameObject continueButton;
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -73,11 +74,20 @@ public class UIHandler : MonoBehaviour
         DisableWorkersThatAreUnlocked();
 
         DisablePerkUIElement();
+        DisableContinueButton();
+    }
+    public void DisableContinueButton()
+    {
+        if (continueButton == null) return;
+        if (GameManager.Instance == null || GameManager.Instance.selectedClass == null)
+        {
+            continueButton.SetActive(false);
+        }
     }
     private void DisablePerkUIElement()
     {
         if (GameManager.Instance == null || GameManager.Instance.playerPerks == null) return;
-          var swiftSteps = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
+        var swiftSteps = GameManager.Instance.playerPerks.Find(p => p.perkName == "Swift Steps");
         if (swiftSteps != null)
         {
             if (swiftSteps.perkLevel >= 1 && speed1Button != null)

@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     public int priceForStatistics = 1000;
 
     public GameObject startWeapon;
+    public CharacterClass selectedClass;
     
    
     public static GameManager Instance { get; private set; }
@@ -108,6 +109,28 @@ public class GameManager : MonoBehaviour
         if (item == null) return;
         Debug.Log("Copying stats from new item to existing item: " + newItem.itemName + " to " + item.itemName);
         item.CopyFrom(newItem);
+    }
+    public void StartNewGame(CharacterClass selectedClass)
+    {
+        RemoveAllItems();
+        playerHealth = selectedClass.health;
+        playerAttack = selectedClass.attack;
+        playerSpeed = selectedClass.speed;
+        coinsCollected = 0;
+        playerLevel = 1;
+        playerCurrentExperience = 0;
+        pointsToSpend = 0;
+        playerExperienceToGetLevel = 1000;
+        this.selectedClass = selectedClass;
+        CopyNewItemStats(selectedClass.bonusItem);
+    }
+    public void RemoveAllItems()
+    {
+        foreach (InventoryItem item in unlockedItems)
+        {
+            item.isUnlocked = false;
+            item.isEquipped = false;
+        }
     }
     public void AddExp(int exp)
     {
