@@ -59,6 +59,7 @@ public class EnemyAI : MonoBehaviour
             if (health <= 0)
             {
                 GameManager.Instance.coinsCollected += coinsAmount;
+                DungeonRewardsInfo.Instance.goldCollected += coinsAmount;
                 if (QuestManager.Instance.currentQuest != null)
                 {
                     if (QuestManager.Instance.currentQuest.questType == QuestType.KillEnemies)
@@ -69,6 +70,7 @@ public class EnemyAI : MonoBehaviour
                 }
                 Destroy(gameObject);
                 GameManager.Instance.AddExp(expAmount);
+                DungeonRewardsInfo.Instance.experienceCollected += expAmount;
             }
         }
     }
@@ -166,7 +168,6 @@ public class EnemyAI : MonoBehaviour
 
                 if (rangedAttackTimer <= 0f)
                 {
-                    // ShootAtPlayer(); // Call from animation event instead
                     rangedAttackTimer = rangedAttackCooldown;
                 }
                 if (anim != null)
@@ -241,7 +242,6 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        // ApplySlow(2f, 1f);
     }
 
 
@@ -285,13 +285,11 @@ public class EnemyAI : MonoBehaviour
                 rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
             }
             BulletPool.Instance.ReturnBullet(other.gameObject);
-            // Destroy(damageDealt, 0.5f);
         }
         else if (other.CompareTag("Magic"))
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 4;
             TakeDamage(damageAmount);
-            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
             GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
             damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
             damageDealt.transform.rotation = Quaternion.identity;
@@ -311,10 +309,6 @@ public class EnemyAI : MonoBehaviour
             }
 
             BulletPool.Instance.ReturnMagicalBullet(other.gameObject);
-            
-            // if (magicDotCoroutine != null)
-            //     StopCoroutine(magicDotCoroutine);
-            // magicDotCoroutine = StartCoroutine(MagicDotEffect());
         }
         else if (other.CompareTag("Versus"))
         {
@@ -345,7 +339,6 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack * 6;
             TakeDamage(damageAmount);
-            // GameObject damageDealt = Instantiate(DamageDealtPrefabMagic2, new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z), Quaternion.identity);
             GameObject damageDealt = BulletPool.Instance.GetDamageDealtMagic();
             damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
             damageDealt.transform.rotation = Quaternion.identity;
@@ -468,7 +461,6 @@ public class EnemyAI : MonoBehaviour
     }
     
 
-    // Add this method to the class
     public void ShootAtPlayer()
     {
         if (BulletPool.Instance.enemyBulletPrefab != null && bulletSpawnPoint != null && player != null)

@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1579f9dffe360e45a1ac40b6a17fddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRewardsAlert: {fileID: 0}
+  getRewardsText: {fileID: 0}
   loadTutorial: 0
   uiBuildingObjects: []
   coinCounter: {fileID: 0}
@@ -408,6 +410,8 @@ MonoBehaviour:
   uiElements: []
   darkBackground: {fileID: 0}
   uiTopPanel: {fileID: 0}
+  alertSuccess: {fileID: 0}
+  alertFailure: {fileID: 0}
 --- !u!4 &499195251
 Transform:
   m_ObjectHideFlags: 0
@@ -765,7 +769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sklep
+  m_text: Statystyki
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a7f2fcf74d9f9542b20b670b5362d16, type: 2}
   m_sharedMaterial: {fileID: -8039087252555376328, guid: 1a7f2fcf74d9f9542b20b670b5362d16,
@@ -1207,7 +1211,7 @@ GameObject:
   - component: {fileID: 1170806347}
   - component: {fileID: 1170806346}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Statistics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1276,7 +1280,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1170806347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 499195250}
+        m_TargetAssemblyTypeName: UIHandler, Assembly-CSharp
+        m_MethodName: LoadLevelByName
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Statistics
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1170806347
 MonoBehaviour:
   m_ObjectHideFlags: 0

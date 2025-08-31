@@ -81,7 +81,7 @@ public class TreasureChest : MonoBehaviour
             false,
             randomType.ToString(),
             "Great item found at treasure chest from dungeon",
-            itemOriginal.itemIcon,//itemicon
+            itemOriginal.itemIcon,
             Random.Range(itemOriginal.health, itemOriginal.health + 30),
             Random.Range(itemOriginal.attack, itemOriginal.attack + 10),
             Random.Range(itemOriginal.attackSpeed, itemOriginal.attackSpeed + 1),
@@ -144,7 +144,7 @@ public class TreasureChest : MonoBehaviour
                 GameUIHandler.Instance.ChangeRewardItemImage(itemReward.itemIcon);
                 GameUIHandler.Instance.ChangeRewardItemText(itemReward.itemName);
                 GameManager.Instance.CopyNewItemStats(itemReward);
-                // GameManager.Instance.AddItem(itemReward);
+                DungeonRewardsInfo.Instance.AddItemImage(itemReward.itemIcon);
                 break;
         }
         isRewardCollected = true;
