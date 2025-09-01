@@ -49,14 +49,11 @@ public class Quest
         {
             npc.GetComponent<DialogueTrigger>().ChangeCanvas();
 
-            // Spawn heals nearby NPC in random position
             if (QuestManager.Instance != null)
             {
                 if (amountOfHeals > 0)
                     QuestManager.Instance.SpawnHealsNearNPC(npc, amountOfHeals);
             }
-            // npc = null;
-            //  npc = refToThisNpc;
         }
     }
 }
@@ -143,6 +140,7 @@ public class QuestManager : MonoBehaviour
         }
         else if (quest.questType == QuestType.FinalQuest)
         {
+            // quest konczacy dungeon konczy poziom
             gameUIHandler.FinishActUI();
             GameManager.Instance.UpdateQuestFinishedIndex(actIndex);
         }

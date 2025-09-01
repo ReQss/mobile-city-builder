@@ -481,9 +481,12 @@ public class GameUIHandler : MonoBehaviour
         {
 
             GameManager.Instance.isPlayerInteracting = true;
-            finishActUI.SetActive(true);
+            
             DungeonRewardsInfo.Instance.UpdateRewardsStatsText();
             DungeonRewardsInfo.Instance.UpdateRewardsItemsImages();
+            // roll key reward
+            DungeonRewardsInfo.Instance.GetRandomRewardKey();
+            finishActUI.SetActive(true);
             darkBackground.SetActive(true);
         }
     }

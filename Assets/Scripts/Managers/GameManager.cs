@@ -51,10 +51,18 @@ public class CurrentUpgradedBuilding
     public int timeToUpgrade;
     public int cost;
     public int timeLeft;
-    public long upgradeEndTimestamp; 
+    public long upgradeEndTimestamp;
+}
+[System.Serializable]
+public class KeyItem
+{
+    public KeyType keyType;
+    public int quantity;
 }
 public class GameManager : MonoBehaviour
 {
+    [Header("Key inventory")]
+    public List<KeyItem> keys = new List<KeyItem>();
     public Weapons weapons;
     public bool realTimeUpdate = false;
     public List<InventoryItem> unlockedItems = new List<InventoryItem>();
@@ -382,44 +390,56 @@ public class GameManager : MonoBehaviour
 
         // AddPerks();
     }
+    public void AddKey(KeyType keyType, int quantity)
+    {
+        KeyItem keyItem = keys.Find(k => k.keyType == keyType);
+        if (keyItem != null)
+        {
+            keyItem.quantity += quantity;
+        }
+        else 
+        {
+            keys.Add(new KeyItem { keyType = keyType, quantity = quantity });
+        }
+    }
     public void AddPerks()
     {
-          playerPerks.Add(new PlayerPerks
-    {
-        perkName = "Windwalker's Step",
-        perkDescription = "Harness the ancient winds to dash swiftly across the land, leaving only a whisper in your wake.",
-        perkLevel = 1,
-        perkMaxLevel = 3,
-        perkIsActive = true
-    });
+        playerPerks.Add(new PlayerPerks
+        {
+            perkName = "Windwalker's Step",
+            perkDescription = "Harness the ancient winds to dash swiftly across the land, leaving only a whisper in your wake.",
+            perkLevel = 1,
+            perkMaxLevel = 3,
+            perkIsActive = true
+        });
 
 
-    playerPerks.Add(new PlayerPerks
-    {
-        perkName = "Swift Steps",
-        perkDescription = "Increases your movement speed, letting you zip around the city faster.",
-        perkLevel = 1,
-        perkMaxLevel = 3,
-        perkIsActive = true
-    });
+        playerPerks.Add(new PlayerPerks
+        {
+            perkName = "Swift Steps",
+            perkDescription = "Increases your movement speed, letting you zip around the city faster.",
+            perkLevel = 1,
+            perkMaxLevel = 3,
+            perkIsActive = true
+        });
 
-    playerPerks.Add(new PlayerPerks
-    {
-        perkName = "Iron Constitution",
-        perkDescription = "Boosts your maximum health, making you tougher against all odds.",
-        perkLevel = 1,
-        perkMaxLevel = 3,
-        perkIsActive = true
-    });
+        playerPerks.Add(new PlayerPerks
+        {
+            perkName = "Iron Constitution",
+            perkDescription = "Boosts your maximum health, making you tougher against all odds.",
+            perkLevel = 1,
+            perkMaxLevel = 3,
+            perkIsActive = true
+        });
 
-    playerPerks.Add(new PlayerPerks
-    {
-        perkName = "Mighty Strikes",
-        perkDescription = "Enhances your attack power, allowing you to deal more damage.",
-        perkLevel = 1,
-        perkMaxLevel = 3,
-        perkIsActive = false
-    });
+        playerPerks.Add(new PlayerPerks
+        {
+            perkName = "Mighty Strikes",
+            perkDescription = "Enhances your attack power, allowing you to deal more damage.",
+            perkLevel = 1,
+            perkMaxLevel = 3,
+            perkIsActive = false
+        });
     }
     private IEnumerator RestoreEnergyOverTime(int amount, float time)
     {
