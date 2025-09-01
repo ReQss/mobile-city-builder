@@ -156,7 +156,8 @@ public class GameManager : MonoBehaviour
     public void LevelUp()
     {
         GameUIHandler.Instance.LevelUp();
-        DungeonRewardsInfo.Instance.levelCollected += 1;
+        if(DungeonRewardsInfo.Instance != null)
+            DungeonRewardsInfo.Instance.levelCollected += 1;
         
         GameUIHandler.Instance.ShowLevelUpChoosePanel();
     }

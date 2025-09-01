@@ -25,6 +25,7 @@ public class LotteryCityScript : MonoBehaviour
     private KeyItem bronzeKey;
     private KeyItem silverKey;
     private KeyItem goldKey;
+    public EquipingSystem equipingSystem;
     void Start()
     {
         InitKeyCount();
@@ -57,7 +58,7 @@ public class LotteryCityScript : MonoBehaviour
         UpdateKeyImage();
         UpdateKeyCount();
     }
-    
+
     public void UpdateKeyImage()
     {
         switch (lotteryType)
@@ -94,23 +95,17 @@ public class LotteryCityScript : MonoBehaviour
         if (bronzeKey == null || bronzeKey.quantity <= 0)
             return;
         levelAnimator.SetTrigger("UseLever");
-        bronzeKey.quantity--; 
+        bronzeKey.quantity--;
         UpdateKeyCount();
         int rollExpOrGold = Random.Range(0, 2); // 0 - exp, 1 - gold
         switch (rollExpOrGold)
         {
             case 0:
-                int expAmount = Random.Range(0, GameManager.Instance.playerExperienceToGetLevel); // losowa ilosc expa
-                GameManager.Instance.playerCurrentExperience += expAmount;
-                itemText.text = expAmount.ToString();
-                itemImageSlot.sprite = bronzeSprites[0];
+                ReceiveRandomExp();
                 //  dodac wyswietlanie statystyk po zdobyciu poziomu w miescie
                 break;
             case 1:
-                int goldAmount = Random.Range(20, 101); // losowa ilosc golda
-                itemText.text = goldAmount.ToString();
-                itemImageSlot.sprite = bronzeSprites[1];
-                GameManager.Instance.coinsCollected += goldAmount;
+                ReceiveRandomGold();
                 break;
         }
     }
@@ -120,29 +115,85 @@ public class LotteryCityScript : MonoBehaviour
         if (silverKey == null || silverKey.quantity <= 0)
             return;
         levelAnimator.SetTrigger("UseLever");
-        silverKey.quantity--; // Zmiana w GameManager, bo to referencja
+        silverKey.quantity--;
         UpdateKeyCount();
-        int rollExpOrGold = Random.Range(0, 2); // 0 - exp, 1 - gold
-        switch (rollExpOrGold)
+
+        // 0-0.4 gold, 0.4-0.8 exp, 0.8-1 item
+        float roll = Random.value;
+        if (roll < 0.4f)
         {
-            case 0:
-                int expAmount = Random.Range(GameManager.Instance.playerExperienceToGetLevel / 2, GameManager.Instance.playerExperienceToGetLevel); // losowa ilosc expa
-                GameManager.Instance.playerCurrentExperience += expAmount;
-                itemText.text = expAmount.ToString();
-                itemImageSlot.sprite = bronzeSprites[0];
-                //  dodac wyswietlanie statystyk po zdobyciu poziomu w miescie
-                break;
-            case 1:
-                int goldAmount = Random.Range(100, 301); // losowa ilosc golda
-                itemText.text = goldAmount.ToString();
-                itemImageSlot.sprite = bronzeSprites[1];
-                GameManager.Instance.coinsCollected += goldAmount;
-                break;
+            ReceiveRandomGold();
         }
+        else if (roll < 0.85f)
+        {
+            ReceiveRandomExp();
+            // dodac wyswietlanie statystyk po zdobyciu poziomu w miescie
+        }
+        else
+        {
+            ReceiveRandomItem();
+        }
+    }
+    public InventoryItem GetRandomItem(EquipmentType randomType)
+    {
+        // EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
+        InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
+        if (itemOriginal == null)
+        {
+            Debug.LogWarning("Brak odblokowanego przedmiotu typu: " + randomType);
+            return null;
+        }
+        InventoryItem newItem = new InventoryItem(
+            randomType,
+            false,
+            randomType.ToString(),
+            "Great item found at treasure chest from dungeon",
+            itemOriginal.itemIcon,
+            Random.Range(itemOriginal.health, itemOriginal.health + 15),
+            Random.Range(itemOriginal.attack, itemOriginal.attack + 4),
+            Random.Range(itemOriginal.attackSpeed, itemOriginal.attackSpeed + 1),
+            itemOriginal.movementSpeed,
+            true
+            , itemOriginal.cost,
+            itemOriginal.itemNameToDisable
+        );
+        return newItem;
     }
     // item
     public void GoldLottery()
     {
+        if (goldKey == null || goldKey.quantity <= 0)
+            return;
+        levelAnimator.SetTrigger("UseLever");
+        goldKey.quantity--;
+        UpdateKeyCount();
+        ReceiveRandomItem();
 
+
+    }
+    public void ReceiveRandomExp()
+    {
+        int expAmount = Random.Range(GameManager.Instance.playerExperienceToGetLevel / 2, GameManager.Instance.playerExperienceToGetLevel);
+        GameManager.Instance.AddExp(expAmount);
+        itemText.text = expAmount.ToString();
+        itemImageSlot.sprite = bronzeSprites[0];
+    }
+    public void ReceiveRandomGold()
+    {
+        int goldAmount = Random.Range(100, 301);
+        itemText.text = goldAmount.ToString();
+        itemImageSlot.sprite = bronzeSprites[1];
+        GameManager.Instance.coinsCollected += goldAmount;
+    }
+    public void ReceiveRandomItem()
+    {
+        EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
+        InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
+        itemImageSlot.sprite = itemOriginal.itemIcon;
+        itemText.text = itemOriginal.itemName;
+        InventoryItem itemReward = GetRandomItem(randomType);
+        GameManager.Instance.CopyNewItemStats(itemReward);
+        equipingSystem.LoadObtainedItemsIntoInventory();
+        equipingSystem.PutOnAlreadyEquippedItems();
     }
 }

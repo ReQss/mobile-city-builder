@@ -126,7 +126,8 @@ public class GameUIHandler : MonoBehaviour
         // if (touchCanvasJoystick == null) return;
         // touchCanvasJoystick.SetActive(false);
         chooseLevelStatisticsPanel.SetActive(true);
-        touchCanvasJoystickPanel.LockJoystick();
+        if(touchCanvasJoystickPanel != null)
+            touchCanvasJoystickPanel.LockJoystick();
     }
     public void LevelUp()
     {
@@ -626,7 +627,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForHealth();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.health += 10;
+            if(PlayerMovement.playerMovementInstance != null)
+                PlayerMovement.playerMovementInstance.health += 10;
             HandleStatistics();
         }
         if (touchCanvasJoystick != null) {
@@ -638,7 +640,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForAttack();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.playerAttack += 2;
+            if(PlayerMovement.playerMovementInstance != null)
+                PlayerMovement.playerMovementInstance.playerAttack += 2;
             HandleStatistics();
         }
         if (touchCanvasJoystick != null) {
@@ -650,7 +653,8 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForSpeed();
         if (result)
         {
-            PlayerMovement.playerMovementInstance.speed += 1;
+            if(PlayerMovement.playerMovementInstance != null)
+                PlayerMovement.playerMovementInstance.speed += 1;
             HandleStatistics();
         }
         if (touchCanvasJoystick != null) {
