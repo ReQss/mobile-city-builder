@@ -114,6 +114,9 @@ public class PlayerMovement : MonoBehaviour
     public TextMeshProUGUI healthValue;
     public ProceduralWeaponPlacement proceduralWeaponPlacement;
     public int playerBulletsCount = 1000;
+    [Header("Resurrection stats")]
+    public Resurrection resurrectionManager;
+    public bool isMovementLocked = false;
 
 
     void Start()
@@ -167,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(isMovementLocked)
+            return; 
         if (speed >= 8)
         {
             if (speedBoostPrefab != null)
@@ -548,14 +553,42 @@ public class PlayerMovement : MonoBehaviour
 
         if (health <= 0)
         {
-        QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
-            if (gameUIHandler != null)
+            if (resurrectionManager.resurrectionCount > 0)
             {
-                isPlayerDead = true;
+                resurrectionManager.OpenResurrectionUI();
+                resurrectionManager.InitResurrection();
             }
-            return;
+            else
+            {
+                QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
+                if (gameUIHandler != null)
+                {
+                    isPlayerDead = true;
+                }
+                return;
+            }
         }
 
+    }
+    public void TakeDamage(int damageAmount)
+    {
+        if(health <= 0 || isInvincible  ) return;
+        if (health - damageAmount < 0)
+        {
+            health = 0;
+        }
+        else health -= damageAmount;
+
+        UpdateHealthBar();
+    }
+    public void HealPlayer(int healAmount)
+    {
+        if (healAmount >= health + GameManager.Instance.playerHealth)
+        {
+            health = GameManager.Instance.playerHealth;
+        }
+        else health += healAmount;
+        UpdateHealthBar();
     }
     private void UpdateHealthBar()
     {
@@ -1150,7 +1183,7 @@ public class PlayerMovement : MonoBehaviour
             // Destroy(other.gameObject);
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);
-            if (health <= 0 && gameUIHandler != null)
+            if (health <= 0 && gameUIHandler != null && resurrectionManager.resurrectionCount <= 0)
             {
                 isPlayerDead = true;
             }
