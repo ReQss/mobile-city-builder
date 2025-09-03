@@ -87,7 +87,7 @@ public class TreasureChest : MonoBehaviour
             Random.Range(itemOriginal.attackSpeed, itemOriginal.attackSpeed + 1),
             Random.Range(itemOriginal.movementSpeed, itemOriginal.movementSpeed + 2),
             true
-            ,itemOriginal.cost,
+            , itemOriginal.cost,
             itemOriginal.itemNameToDisable
         );
         return newItem;
@@ -139,7 +139,7 @@ public class TreasureChest : MonoBehaviour
                 }
                 break;
             case RewardType.Item:
-            
+
                 GameUIHandler.Instance.ChangeRewardItemText("You got an item!");
                 GameUIHandler.Instance.ChangeRewardItemImage(itemReward.itemIcon);
                 GameUIHandler.Instance.ChangeRewardItemText(itemReward.itemName);
@@ -169,8 +169,9 @@ public class TreasureChest : MonoBehaviour
         {
             if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.WasPressedThisFrame())
             {
-                CollectReward();
-                GameUIHandler.Instance.EnableOrDisableUI(GameUIHandler.Instance.obtainRewardPanel);
+                AnimationFramesClick.Instance.OpenTargetUI();
+                AnimationFramesClick.Instance.InitFrames(CollectReward);
+
                 Debug.Log("Reward collected");
             }
         }

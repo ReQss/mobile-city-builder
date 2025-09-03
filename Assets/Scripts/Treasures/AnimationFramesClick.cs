@@ -1,44 +1,46 @@
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEngine;
 
-public class Resurrection : MonoBehaviour
+public class AnimationFramesClick : MonoBehaviour
 {
-    public Animator uiSkullAnimator;
+    public Animator targetAnimator;
     public string animationName = "YourAnimation"; 
     private int currentFrame = 0;
-    private int totalFrames = 11;
+    private int totalFrames = 10;
     public float autoReverseInterval = 0.2f;
     private bool isAutoReversing = false;
     private Coroutine reverseCoroutine;
-    public GameObject resurrectionPanel;
-    private bool isResurrecting = false;
-    public TextMeshProUGUI resurrectionCountText;
-    public int resurrectionCount = 0;
+    public GameObject targetPanel;
+    private bool isEnabled = false;
+    public Action collectRewardAction;
+    public static AnimationFramesClick Instance { get; private set; }
 
     void Start()
     {
-        resurrectionCountText.text = resurrectionCount.ToString();
-        uiSkullAnimator.speed = 0;
+        Instance = this;
+        targetAnimator.speed = 0;
         SetFrame(currentFrame);
     }
-    public void InitResurrection()
+    public void InitFrames(Action collectReward)
     {
+        collectRewardAction = collectReward;
         isAutoReversing = false;
         currentFrame = 0;
         SetFrame(currentFrame);
         StartAutoReverse();
         PlayerMovement.playerMovementInstance.isMovementLocked = true;
     }
-    public void OpenResurrectionUI()
+    public void OpenTargetUI()
     {
-        resurrectionPanel.SetActive(true);
+        targetPanel.SetActive(true);
     }
-    public async Task CloseResurrectionUI()
+    public async Task CloseTargetUI()
     {
         await Task.Delay(500); 
-        resurrectionPanel.SetActive(false);
+        targetPanel.SetActive(false);
     }
     public void NextFrame()
     {
@@ -50,20 +52,17 @@ public class Resurrection : MonoBehaviour
         SetFrame(currentFrame);
         if (currentFrame >= totalFrames - 1)
         {
-            _ = CloseResurrectionUI();
-            _= ResurrectPlayer();
+            _ = CloseTargetUI();
+            _= GetReward();
         }
     }
-    public async Task ResurrectPlayer()
+    public async Task GetReward()
     {
-        if (isResurrecting) return;
-        isResurrecting = true;
-        resurrectionCount -= 1;
-        resurrectionCountText.text = resurrectionCount.ToString();
-        await Task.Delay(200);
-        PlayerMovement.playerMovementInstance.HealPlayer(GameManager.Instance.playerHealth);
+        collectRewardAction?.Invoke();
+        
+        GameUIHandler.Instance.EnableOrDisableUI(GameUIHandler.Instance.obtainRewardPanel);
         PlayerMovement.playerMovementInstance.isMovementLocked = false;
-        isResurrecting = false;
+        await Task.Delay(100);
     }
     public void StartAutoReverse()
     {
@@ -110,13 +109,13 @@ public class Resurrection : MonoBehaviour
         }
 
         float normalizedTime = (float)frame / (float)(totalFrames - 1);
-        uiSkullAnimator.Play(animationName, 0, normalizedTime);
-        uiSkullAnimator.Update(0f);
+        targetAnimator.Play(animationName, 0, normalizedTime);
+        targetAnimator.Update(0f);
     }
 
     private AnimationClip GetAnimationClip(string name)
     {
-        foreach (AnimationClip clip in uiSkullAnimator.runtimeAnimatorController.animationClips)
+        foreach (AnimationClip clip in targetAnimator.runtimeAnimatorController.animationClips)
         {
             if (clip.name == name)
                 return clip;

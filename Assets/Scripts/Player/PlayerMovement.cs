@@ -1144,7 +1144,9 @@ public class PlayerMovement : MonoBehaviour
                   
 
                     currentMeleDamage = enemyAI.damageAmount;
-                    health -= currentMeleDamage / 6;
+                    
+                    // health -= currentMeleDamage / 6;
+                    TakeDamage(currentMeleDamage / 6);
                     UpdateHealthBar();
                 }
                 
@@ -1176,8 +1178,8 @@ public class PlayerMovement : MonoBehaviour
                 bulletDamage = 2;
             else if (other.name.ToLower().Contains("arrow"))
                 bulletDamage = 2;
-
-            health -= bulletDamage;
+            TakeDamage(bulletDamage);
+            // health -= bulletDamage;
             UpdateHealthBar();
             BulletPool.Instance.ReturnEnemyBullet(other.gameObject); 
             // Destroy(other.gameObject);
