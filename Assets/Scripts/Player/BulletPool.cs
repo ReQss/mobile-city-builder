@@ -7,7 +7,7 @@ public class BulletPool : MonoBehaviour
     public static BulletPool Instance { get; private set; }
     public GameObject bulletProjectilePrefab;
     public GameObject magicalProjectilePrefab;
-    
+
     public int poolSize = 10;
     private Queue<GameObject> bulletProjectilePool = new Queue<GameObject>();
     private Queue<GameObject> magicalProjectilePool = new Queue<GameObject>();
@@ -92,7 +92,7 @@ public class BulletPool : MonoBehaviour
         {
             damageDealtMagic = Instantiate(damageDealtMagicPrefab, this.transform);
         }
-        StartCoroutine(ReturnDamageDealtAfterDelay(damageDealtMagic, 0.5f));
+        StartCoroutine(ReturnDamageDealtMagicAfterDelay(damageDealtMagic, 0.5f));
         return damageDealtMagic;
     }
     public GameObject GetEnemyBullet()
@@ -241,10 +241,19 @@ public class BulletPool : MonoBehaviour
         yield return new WaitForSeconds(delay);
         ReturnDamageDealt(damageDealt);
     }
-
+    private IEnumerator ReturnDamageDealtMagicAfterDelay(GameObject damageDealt, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ReturnDamageDealtMagic(damageDealt);
+    }
     public void ReturnDamageDealt(GameObject damageDealt)
     {
         damageDealt.SetActive(false);
         damageDealtPool.Enqueue(damageDealt);
+    }
+    public void ReturnDamageDealtMagic(GameObject damageDealtMagic)
+    {
+        damageDealtMagic.SetActive(false);
+        damageDealtMagicPool.Enqueue(damageDealtMagic);
     }
 }

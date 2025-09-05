@@ -2482,6 +2482,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d0f82e2e6e75641bc35944088d8e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightLevel: 0
+  lightPreset:
+    postExposure: 0.5
+    contrast: 10
   keys:
   - keyType: 0
     quantity: 0
@@ -4298,7 +4302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &347014550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4314,9 +4318,9 @@ RectTransform:
   - {fileID: 273219887}
   m_Father: {fileID: 1050658234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 374.68814, y: -132.2029}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 136.1985, y: 173.9955}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &347014551
@@ -9846,6 +9850,7 @@ MonoBehaviour:
   alertSuccess: {fileID: 0}
   alertFailure: {fileID: 0}
   continueButton: {fileID: 0}
+  buttonToTriggetOnStart: []
 --- !u!4 &638691618
 Transform:
   m_ObjectHideFlags: 0
