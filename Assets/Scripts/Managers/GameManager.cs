@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -68,6 +70,9 @@ public class PlayerPowers
 }
 public class GameManager : MonoBehaviour
 {
+    [Header("Settings")]
+    public LightLevel lightLevel;
+    public ColorAdjustmentsPreset lightPreset;
     [Header("Key inventory")]
     public List<KeyItem> keys = new List<KeyItem>();
     public Weapons weapons;
@@ -125,6 +130,33 @@ public class GameManager : MonoBehaviour
         Debug.Log("Copying stats from new item to existing item: " + newItem.itemName + " to " + item.itemName);
         item.CopyFrom(newItem);
     }
+    public void InitLightSettigns()
+{
+    GameObject globalVolumeObj = GameObject.Find("Global Volume");
+    if (globalVolumeObj == null)
+    {
+        Debug.LogWarning("Global Volume object not found!");
+        return;
+    }
+
+    Volume globalVolume = globalVolumeObj.GetComponent<Volume>();
+    if (globalVolume == null)
+    {
+        Debug.LogWarning("Volume component not found on Global Volume!");
+        return;
+    }
+
+    ColorAdjustments colorAdjustments;
+    if (globalVolume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
+    {
+        colorAdjustments.postExposure.value = lightPreset.postExposure;
+        colorAdjustments.contrast.value = lightPreset.contrast;
+    }
+    else
+    {
+        Debug.LogWarning("ColorAdjustments not found in Global Volume profile!");
+    }
+}
     public void StartNewGame(CharacterClass selectedClass)
     {
         playerPowers.undead = false;
@@ -141,7 +173,7 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
-        
+
         RemoveAllItems();
         playerHealth = selectedClass.health;
         playerAttack = selectedClass.attack;
@@ -152,8 +184,8 @@ public class GameManager : MonoBehaviour
         pointsToSpend = 0;
         playerExperienceToGetLevel = 1000;
         this.selectedClass = selectedClass;
-        if(selectedClass.bonusItem.equipmentType != EquipmentType.None)
-        CopyNewItemStats(selectedClass.bonusItem);
+        if (selectedClass.bonusItem.equipmentType != EquipmentType.None)
+            CopyNewItemStats(selectedClass.bonusItem);
     }
     public void RemoveAllItems()
     {

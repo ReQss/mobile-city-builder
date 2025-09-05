@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -42,6 +43,7 @@ public class UIHandler : MonoBehaviour
     public GameObject alertSuccess;
     public GameObject alertFailure;
     public GameObject continueButton;
+    public List<Button> buttonToTriggetOnStart;
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -75,6 +77,25 @@ public class UIHandler : MonoBehaviour
 
         DisablePerkUIElement();
         DisableContinueButton();
+        EnableOrDisableInteractionButtons();
+    }
+    public void EnableOrDisableInteractionButtons()
+    {
+        if( buttonToTriggetOnStart == null) return;
+        if (GameManager.Instance == null)
+        {
+            foreach (Button button in buttonToTriggetOnStart)
+            {
+                button.interactable = false;
+            }
+        }
+        else
+        {
+            foreach (Button button in buttonToTriggetOnStart)
+            {
+                button.interactable = true;
+            }
+        }
     }
     public void DisableContinueButton()
     {

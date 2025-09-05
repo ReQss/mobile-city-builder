@@ -1,11 +1,32 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+[System.Serializable]
+public enum LightLevel
+{
+    Light,
+    Normal,
+    Dark
+}
+
+[System.Serializable]
+public class ColorAdjustmentsPreset
+{
+    public float postExposure=0.5f;
+    public float contrast = 10f;
+}
 
 public class Options : MonoBehaviour
 {
- public enum QualityLevel { Low, Medium, High }
+    public ColorAdjustmentsPreset lightPreset;
+    public ColorAdjustmentsPreset normalPreset;
+    public ColorAdjustmentsPreset darkPreset;
 
+
+    public enum QualityLevel { Low, Medium, High }
+    public LightLevel lightLevel;
+
+    
     public void SetQuality(string qualityName)
     {
         QualityLevel quality;
@@ -17,6 +38,12 @@ public class Options : MonoBehaviour
         {
             Debug.LogWarning("Nieznany poziom jakości: " + qualityName);
         }
+    }
+
+    public void SetLight(int level)
+    {
+        lightLevel = (LightLevel)level;
+        SetLightLevel((LightLevel)level);
     }
 
     private void ApplyQualitySettings(QualityLevel quality)
@@ -40,6 +67,23 @@ public class Options : MonoBehaviour
         }
 
         Debug.Log("Ustawiono jakość: " + quality.ToString());
+    }
+
+    public void SetLightLevel(LightLevel level)
+    {
+       GameManager.Instance.lightLevel = level;
+        switch (level)
+        {
+            case LightLevel.Light:
+                GameManager.Instance.lightPreset = lightPreset;
+                break;
+            case LightLevel.Normal:
+                GameManager.Instance.lightPreset = normalPreset;
+                break;
+            case LightLevel.Dark:
+                GameManager.Instance.lightPreset = darkPreset;
+                break;
+        }
     }
 
     private void SetRenderScale(float scale)

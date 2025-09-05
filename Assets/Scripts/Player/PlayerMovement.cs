@@ -143,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
         HandleActivePerks();
         GameUIHandler.Instance.HandleStatistics();
         UpdateHealthBar();
+        GameManager.Instance.InitLightSettigns();
     }
     public void UpdateAdditionalBonuses()
     {

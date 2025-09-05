@@ -362,6 +362,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d0f82e2e6e75641bc35944088d8e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightLevel: 0
+  lightPreset:
+    postExposure: 0.5
+    contrast: 10
   keys: []
   weapons:
     isSwordEnabled: 1
@@ -913,6 +917,7 @@ MonoBehaviour:
   alertSuccess: {fileID: 0}
   alertFailure: {fileID: 0}
   continueButton: {fileID: 0}
+  buttonToTriggetOnStart: []
 --- !u!4 &499195251
 Transform:
   m_ObjectHideFlags: 0
@@ -1244,7 +1249,7 @@ MonoBehaviour:
     classIcon: {fileID: 0}
     health: 400
     attack: 40
-    speed: 12
+    speed: 8
     bonusItem:
       equipmentType: 1
       isEquipped: 1
