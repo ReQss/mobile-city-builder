@@ -174,7 +174,7 @@ public class QuestManager : MonoBehaviour
             {
                 if (currentQuest.isCompleted)
                 {
-                    currentQuestDescription.text = "Powróć do miejsca zadania";
+                    currentQuestDescription.text = "Pokonaj dungeon";
                 }
                 else
                 {
