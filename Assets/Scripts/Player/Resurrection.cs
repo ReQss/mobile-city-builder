@@ -18,11 +18,11 @@ public class Resurrection : MonoBehaviour
     public int resurrectionCount = 0;
     public void UndeadPower()
     { 
-        resurrectionCount = +2;
+        resurrectionCount += 2;
     }
     void Start()
     {
-        if(GameManager.Instance.playerPowers.undead)
+        if (GameManager.Instance.playerPowers.undead)
             UndeadPower();
         resurrectionCountText.text = resurrectionCount.ToString();
         uiSkullAnimator.speed = 0;
