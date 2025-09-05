@@ -12,6 +12,7 @@ public enum EquipmentType
     Helmet,
 
     Pants,
+    None
     // Head,
     // Bags1,
     // Bags2,
@@ -19,7 +20,7 @@ public enum EquipmentType
     // Legs,
 
     // Torso,
-     // Body,
+    // Body,
     // Shorts,
 }
 [System.Serializable]

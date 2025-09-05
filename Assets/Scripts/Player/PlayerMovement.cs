@@ -1206,8 +1206,10 @@ public class PlayerMovement : MonoBehaviour
             currentMeleDamage = 0;
         }
     }
+    
     private void HandleShield()
     {
+        if (GameManager.Instance.playerPowers.shield == false) return;
         // Cooldown timer
         if (shieldCooldownTimer > 0f)
             shieldCooldownTimer -= Time.deltaTime;

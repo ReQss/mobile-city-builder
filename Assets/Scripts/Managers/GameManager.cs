@@ -59,6 +59,13 @@ public class KeyItem
     public KeyType keyType;
     public int quantity;
 }
+public class PlayerPowers
+{
+    
+    [Header("Powers")]
+    public bool undead; // gives 2 respawns in dung
+    public bool shield; // shield can be activated every 5 s to neglected damage
+}
 public class GameManager : MonoBehaviour
 {
     [Header("Key inventory")]
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject startWeapon;
     public CharacterClass selectedClass;
-    
+    public PlayerPowers playerPowers = new PlayerPowers();
    
     public static GameManager Instance { get; private set; }
 // copy new item stats to old item stats
@@ -120,6 +127,21 @@ public class GameManager : MonoBehaviour
     }
     public void StartNewGame(CharacterClass selectedClass)
     {
+        playerPowers.undead = false;
+        playerPowers.shield = false;
+        foreach (CharacterPower cp in selectedClass.characterPower)
+        {
+            switch (cp.powerType)
+            {
+                case PowerType.Undead:
+                    playerPowers.undead = true;
+                    break;
+                case PowerType.Shield:
+                    playerPowers.shield = true;
+                    break;
+            }
+        }
+        
         RemoveAllItems();
         playerHealth = selectedClass.health;
         playerAttack = selectedClass.attack;
@@ -130,6 +152,7 @@ public class GameManager : MonoBehaviour
         pointsToSpend = 0;
         playerExperienceToGetLevel = 1000;
         this.selectedClass = selectedClass;
+        if(selectedClass.bonusItem.equipmentType != EquipmentType.None)
         CopyNewItemStats(selectedClass.bonusItem);
     }
     public void RemoveAllItems()

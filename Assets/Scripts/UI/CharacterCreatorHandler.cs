@@ -5,6 +5,20 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 [System.Serializable]
+public enum PowerType
+{
+    None,
+    Undead,
+    Shield
+}
+[System.Serializable]
+public class CharacterPower
+{
+    public PowerType powerType;
+    public Sprite powerSprite;
+    public bool isUnlocked;
+}
+[System.Serializable]
 public class CharacterClass
 {
     public string className;
@@ -13,7 +27,10 @@ public class CharacterClass
     public int health;
     public int attack;
     public int speed;
+    [SerializeField]
     public InventoryItem bonusItem;
+    
+    public List<CharacterPower> characterPower = new List<CharacterPower>();
 }
 public class CharacterCreatorHandler : MonoBehaviour
 {
@@ -23,8 +40,10 @@ public class CharacterCreatorHandler : MonoBehaviour
     public TextMeshProUGUI classNameText;
     public TextMeshProUGUI classDescriptionText;
     public Image bonusItem;
+    public Image powerIcon;
     private int currentClassIndex = 0;
     public CharacterClass selectedClass;
+    public Sprite spriteNone;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,6 +60,10 @@ public class CharacterCreatorHandler : MonoBehaviour
         statsTextsList[1].text = characterClass.attack.ToString();
         statsTextsList[2].text = characterClass.speed.ToString();
         bonusItem.sprite = characterClass.bonusItem.itemIcon;
+        if (characterClass.characterPower.Count == 0)
+            powerIcon.sprite = spriteNone;
+        else
+            powerIcon.sprite = characterClass.characterPower[0].powerSprite;
     }
     public void SelectNextClass()
     {

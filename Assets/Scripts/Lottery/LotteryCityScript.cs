@@ -187,8 +187,9 @@ public class LotteryCityScript : MonoBehaviour
     }
     public void ReceiveRandomItem()
     {
-        EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
+        EquipmentType randomType = (EquipmentType)Random.Range(0, (int)EquipmentType.None);
         InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
+        
         itemImageSlot.sprite = itemOriginal.itemIcon;
         itemText.text = itemOriginal.itemName;
         InventoryItem itemReward = GetRandomItem(randomType);
