@@ -32,6 +32,10 @@ public class FloatingJoystickHandler : MonoBehaviour
         ETouch.Touch.onFingerUp += HandleLoseFinger;
         ETouch.Touch.onFingerMove += HandleFingerMove;
     }
+    public Vector2 GetMovementAmount()
+    {
+        return MovementAmount;
+    }
 
     private void OnDisable()
     {

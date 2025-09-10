@@ -10,6 +10,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    
     public GameObject dashEffectParticles;
     public AudioClip walkSound;
     public AudioClip attackSound;
@@ -88,8 +89,12 @@ public class PlayerMovement : MonoBehaviour
     public int numberOfUsesForWeapon = 150;
     private float shieldTimer = 0f;
     private float shieldCooldownTimer = 0f;
+    [SerializeField]
+    private float playerMovementSpeed;
     public Vector3 moveDir;
     public Vector3 attackDir;
+    [SerializeField]
+    private FloatingJoystickHandler floatingJoystickHandler;
     private bool attackDirActive;
     [Header("Navigation")]
     private NavMeshAgent navMeshAgent;
@@ -239,11 +244,14 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
         Vector2 attackInput = GameUIHandler.Instance.moveAttakAction.action.ReadValue<Vector2>();
-        moveDir = (isoRight * input.x + isoUp * input.y).normalized;
+        // moveDir = (isoRight * input.x + isoUp * input.y).normalized;
         attackDir = (isoRight * attackInput.x + isoUp * attackInput.y).normalized;
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
+        Vector2 joystickMove = floatingJoystickHandler.GetMovementAmount();
+        float moveSpeed = speed * joystickMove.magnitude * playerMovementSpeed; // speed to Twój max speed
 
-        controller.Move(moveDir * currentSpeed * Time.deltaTime);
+        Vector3 moveDir = (isoRight * joystickMove.x + isoUp * joystickMove.y).normalized;
+        // controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         // ROTATION
         if (autoNavigationEnabled && currentTarget != null && navMeshAgent != null)
@@ -324,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
         }
 
-        controller.Move((moveDir * currentSpeed + velocity) * Time.deltaTime);
+        controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
 
