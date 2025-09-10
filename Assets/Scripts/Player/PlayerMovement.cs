@@ -89,6 +89,8 @@ public class PlayerMovement : MonoBehaviour
     private float shieldTimer = 0f;
     private float shieldCooldownTimer = 0f;
     public Vector3 moveDir;
+    public Vector3 attackDir;
+    private bool attackDirActive;
     [Header("Navigation")]
     private NavMeshAgent navMeshAgent;
     public bool autoAttackEnabled = false;
@@ -117,13 +119,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Resurrection stats")]
     public Resurrection resurrectionManager;
     public bool isMovementLocked = false;
-
+    public List <GameObject> weaponsPrefabs = new List<GameObject>();
 
     void Start()
     {
         playerWeapon = new PlayerWeapon();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        EnableOrDisableAttack();
+        // EnableOrDisableAttack();
         if (navMeshAgent != null)
         {
             navMeshAgent.updateRotation = false;
@@ -233,11 +235,12 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isDead", true);
             if (QuestManager.Instance.currentQuest.questType != QuestType.Unfreeze)
                 PlayerDeathScene();
-            return; 
+            return;
         }
         Vector2 input = GameUIHandler.Instance.moveAction.action.ReadValue<Vector2>();
+        Vector2 attackInput = GameUIHandler.Instance.moveAttakAction.action.ReadValue<Vector2>();
         moveDir = (isoRight * input.x + isoUp * input.y).normalized;
-
+        attackDir = (isoRight * attackInput.x + isoUp * attackInput.y).normalized;
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
 
         controller.Move(moveDir * currentSpeed * Time.deltaTime);
@@ -253,13 +256,25 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
+        // rotation when attack joystick
+        else if (attackDir != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(attackDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            FightingMode();
+        }
+
         else if (moveDir != Vector3.zero && (!autoAttackEnabled || currentTarget == null))
         {
             // Rotate towards input direction when not auto-attacking
             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
-
+        if(attackDir != Vector3.zero)
+            attackDirActive = true;
+        else
+            attackDirActive = false;
         if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
         {
             Vector3 navDir = navMeshAgent.nextPosition - transform.position;
@@ -270,7 +285,6 @@ public class PlayerMovement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
-
         ShowWeapon();
 
         CheckForEnemiesInRange();
@@ -288,23 +302,17 @@ public class PlayerMovement : MonoBehaviour
             if (autoNavigationEnabled || autoAttackEnabled) animator.SetBool("isRunning", true);
             else animator.SetBool("isRunning", isMoving);
 
-            bool hasSword = false;
-            bool hasCrossbow = false;
-            bool hasRod = false;
-            bool hasBow = false;
-            if (playerWeapon.currentWeapon != null)
-            {
-                string weaponName = playerWeapon.currentWeapon.gameObject.name;
-                hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
-                hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
-                hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
-                hasBow = weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0;
-            }
 
-            animator.SetBool("isShooting", isCombat && hasCrossbow);
-            animator.SetBool("isSlashing", isCombat && hasSword);
-            animator.SetBool("isCasting", isCombat && hasRod); // Added for Rod
-            animator.SetBool("bowAttack", isCombat && hasBow); // Added for Bow
+            if (attackDirActive)
+            {
+                AttackAnimationsHandling();
+            }
+            else if (isCombat)
+            {
+                AttackAnimationsHandling();
+            }
+            else DisableAttackAnimations();
+            
         }
 
         if (controller.isGrounded)
@@ -336,6 +344,62 @@ public class PlayerMovement : MonoBehaviour
         }
         CheckForBullets();
     }
+    public void AttackAnimationsHandling()
+    {
+        
+        bool hasSword = false;
+        bool hasCrossbow = false;
+        bool hasRod = false;
+        bool hasBow = false;
+        
+
+
+         if (playerWeapon.currentWeapon != null)
+            {
+                string weaponName = playerWeapon.currentWeapon.gameObject.name;
+                hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasBow = weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+        // EnableWeaponPrefab(hasSword, hasCrossbow, hasRod, hasBow);
+        animator.SetBool("isShooting", hasCrossbow);
+        animator.SetBool("isSlashing", hasSword);
+        animator.SetBool("isCasting", hasRod); // Added for Rod
+        animator.SetBool("bowAttack", hasBow); // Added for Bow
+    }
+    public void EnableWeaponPrefab(bool hasSword, bool hasCrossbow, bool hasRod, bool hasBow)
+    {
+        if (hasSword)
+        {
+            weaponsPrefabs[0].SetActive(true);
+            
+        }
+        else weaponsPrefabs[0].SetActive(false);
+        if (hasCrossbow)
+        {
+            weaponsPrefabs[1].SetActive(true);
+        }
+        else weaponsPrefabs[1].SetActive(false);
+        if (hasRod)
+        {
+            weaponsPrefabs[2].SetActive(true);
+        }
+        else weaponsPrefabs[2].SetActive(false);
+        if (hasBow)
+        {
+            weaponsPrefabs[3].SetActive(true);
+        }
+        else weaponsPrefabs[3].SetActive(false);
+        
+    }
+    public void DisableAttackAnimations()
+    {
+        animator.SetBool("isShooting", false);
+        animator.SetBool("isSlashing", false);
+        animator.SetBool("isCasting", false);
+        animator.SetBool("bowAttack", false);
+    }
     public void FightingMode()
     {
         if (playerWeapon.currentWeapon != null)
@@ -347,7 +411,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ShootingFunction(shootIntervals,numberOfUsesForWeapon);
+                ShootingFunction(shootIntervals, numberOfUsesForWeapon);
             }
             else if (weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
@@ -355,11 +419,11 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ShootingFunction(shootIntervalBow,numberOfUsesForWeapon);
+                ShootingFunction(shootIntervalBow, numberOfUsesForWeapon);
 
                 //Bow
             }
-          
+
         }
     }
     public void EnableOrDisableAutoAttack()
@@ -620,22 +684,22 @@ public class PlayerMovement : MonoBehaviour
     }
     public void ShootingFunction(float shootInterval, int numberOfUses)
     {
-        if (isCombat && playerWeapon.currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
+        if ((isCombat || attackDirActive) && playerWeapon.currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
         {
             stopDistance = 10f;
             combatTimer += Time.deltaTime;
             if (combatTimer >= shootInterval / 8)
             {
                 combatTimer = 0f;
-
-                RotateTowardsEnemy();
+                if(isCombat)
+                    RotateTowardsEnemy();
                 GameObject projectile = BulletPool.Instance.GetBullet();
                 projectile.transform.position = playerWeapon.currentWeapon.transform.position;
                 projectile.transform.rotation = playerWeapon.currentWeapon.transform.rotation;
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    if (closestEnemyInRangePosition != Vector3.zero)
+                    if (closestEnemyInRangePosition != Vector3.zero && !attackDirActive)
                     {
                         Vector3 direction = (closestEnemyInRangePosition - playerWeapon.currentWeapon.transform.position).normalized;
                         rb.linearVelocity = direction * projectileSpeed;
@@ -668,7 +732,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SlashingFunction(float shootInterval)
     {
-        if (isCombat && playerWeapon.currentWeapon != null )
+        if ((isCombat || attackDirActive) && playerWeapon.currentWeapon != null )
         {
             stopDistance = 4f;
             combatTimer += Time.deltaTime;
@@ -676,7 +740,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
-                RotateTowardsEnemy();
+                if(isCombat)
+                    RotateTowardsEnemy();
 
 
                 shotsFired++;
@@ -1123,10 +1188,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (playerWeapon.currentWeapon != null)
         {
-            playerWeapon.currentWeapon.SetActive(isCombat);
+            
+            playerWeapon.currentWeapon.SetActive(isCombat || attackDirActive);
             if (accelerationArrowPrefab != null)
             {
-                accelerationArrowPrefab.SetActive(isCombat);
+                accelerationArrowPrefab.SetActive(isCombat|| attackDirActive);
             }
         }
     }

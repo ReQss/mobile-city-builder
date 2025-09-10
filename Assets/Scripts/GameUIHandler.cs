@@ -23,6 +23,7 @@ public class GameUIHandler : MonoBehaviour
     public GameObject darkBackground;
     public GameObject MapUI;
     [Header("Input Actions")]
+    public InputActionReference moveAttakAction;
     public InputActionReference moveAction;
     public InputActionReference interactionAction;
     public InputActionReference playerAction;
@@ -69,8 +70,12 @@ public class GameUIHandler : MonoBehaviour
     public Image obtainRewardItemImage;
     public TextMeshProUGUI obtainRewardItemText;
     public GameObject chooseLevelStatisticsPanel;
+    [Header("Joysticks")]
     public GameObject touchCanvasJoystick;
     public FloatingJoystickHandler touchCanvasJoystickPanel;
+    public GameObject touchCanvasJoystickAttack;
+    public FloatingJoystickHandler touchCanvasJoystickAttackPanel;
+
     [SerializeField]
     private TextMeshProUGUI playerLevelText;
     public void EnableWeaponToChoose()
@@ -266,6 +271,10 @@ public class GameUIHandler : MonoBehaviour
         if (GameUIHandler.Instance.moveAction != null && !GameUIHandler.Instance.moveAction.action.enabled)
         {
             GameUIHandler.Instance.moveAction.action.Enable();
+        }
+        if(GameUIHandler.Instance.moveAttakAction != null && !GameUIHandler.Instance.moveAttakAction.action.enabled)
+        {
+            GameUIHandler.Instance.moveAttakAction.action.Enable();
         }
         if (GameUIHandler.Instance.interactionAction != null && !GameUIHandler.Instance.interactionAction.action.enabled)
         {

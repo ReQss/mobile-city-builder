@@ -12,6 +12,15 @@ public class FloatingJoystickHandler : MonoBehaviour
     [SerializeField]
     private NavMeshAgent Player;
 
+    [SerializeField, Range(0f, 1f)]
+    private float minX = 0f;
+    [SerializeField, Range(0f, 1f)]
+    private float maxX = 0.5f;
+    [SerializeField, Range(0f, 1f)]
+    private float minY = 0f;
+    [SerializeField, Range(0f, 1f)]
+    private float maxY = 0.71f;
+
     private Finger MovementFinger;
     private Vector2 MovementAmount;
     public bool isJoystickEnabled = true; 
@@ -83,10 +92,14 @@ public class FloatingJoystickHandler : MonoBehaviour
 
     private void HandleFingerDown(Finger TouchedFinger)
     {
-            if (!isJoystickEnabled) return;
+        if (!isJoystickEnabled) return;
+
+        float x = TouchedFinger.screenPosition.x / Screen.width;
+        float y = TouchedFinger.screenPosition.y / Screen.height;
+
         if (MovementFinger == null
-    && TouchedFinger.screenPosition.x <= Screen.width / 2f
-    && TouchedFinger.screenPosition.y <= Screen.height / 1.4f)
+            && x >= minX && x <= maxX
+            && y >= minY && y <= maxY)
         {
             MovementFinger = TouchedFinger;
             MovementAmount = Vector2.zero;
