@@ -16,6 +16,7 @@ public class LotteryCityScript : MonoBehaviour
     public Animator levelAnimator;
     [Header("Item slot ")]
     public Image itemImageSlot;
+    public List<TextMeshProUGUI> itemStatsText = new List<TextMeshProUGUI>();
     public TextMeshProUGUI itemText;
     public TextMeshProUGUI keyCountText;
     public Image keyImageSlot;
@@ -191,6 +192,9 @@ public class LotteryCityScript : MonoBehaviour
         InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
         
         itemImageSlot.sprite = itemOriginal.itemIcon;
+        itemStatsText[0].text = itemOriginal.health.ToString();
+        itemStatsText[1].text = itemOriginal.attack.ToString();
+        itemStatsText[2].text = itemOriginal.attackSpeed.ToString();
         itemText.text = itemOriginal.itemName;
         InventoryItem itemReward = GetRandomItem(randomType);
         GameManager.Instance.CopyNewItemStats(itemReward);

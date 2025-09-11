@@ -337,7 +337,6 @@ public class PlayerMovement : MonoBehaviour
         // }
 
         controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
-        Debug.Log(transform.position);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
 
@@ -636,6 +635,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 resurrectionManager.OpenResurrectionUI();
                 resurrectionManager.InitResurrection();
+                isInvincible = false;
+                blockDamage = false;
             }
             else
             {
@@ -659,6 +660,26 @@ public class PlayerMovement : MonoBehaviour
         else health -= damageAmount;
 
         UpdateHealthBar();
+    }
+    private bool blockDamage = false;
+    public async Task TakeDamageAsync(int damageAmount)
+    {
+        if (blockDamage == true) return;
+        blockDamage = true;
+        if (health <= 0 || isInvincible) 
+        {
+            blockDamage = false;
+            return;
+        }
+        if (health - damageAmount < 0)
+        {
+            health = 0;
+        }
+        else health -= damageAmount;
+
+        UpdateHealthBar();
+        await Task.Delay(100);
+        blockDamage = false;
     }
     public void HealPlayer(int healAmount)
     {
@@ -973,12 +994,9 @@ public class PlayerMovement : MonoBehaviour
     public List<Collider> colliders;
     public void CheckForBullets()
     {
-        // Debug.Log("Checking for bullets");
-        // List<Collider> colliders = null;
         int mask = LayerMask.GetMask("EnemyWeapon", "EnemyBullet");
         List<Collider> colliders2 = Physics.OverlapSphere(transform.position, 3f, mask).ToList();
-        // Debug.Log(transform.position);
-        
+        // COUNTERATTACK
         foreach (Collider collider in colliders)
         {
             if (collider == null) continue;
@@ -997,6 +1015,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        // COUNTERATTACK 2
         foreach (Collider collider in colliders2)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
@@ -1226,30 +1245,52 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private async void OnTriggerEnter(Collider other)
     {
-           if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
             closestEnemyInRangePosition = other.transform.position;
-
-            // Check for mele tag directly
             if (other.CompareTag("mele"))
             {
                 var enemyAI = other.gameObject.transform.parent.GetComponent<EnemyAI>();
-                if (enemyAI != null&& isInvincible == false)
+                if (enemyAI != null && isInvincible == false)
                 {
-                  
-
-                    currentMeleDamage = enemyAI.damageAmount;
-                    
-                    // health -= currentMeleDamage / 6;
-                    TakeDamage(currentMeleDamage / 6);
-                    UpdateHealthBar();
+                    TakeDamage(enemyAI.damageAmount);
+                    if(enemyAI.hasKnockbackEffect)
+                        _ = KnockbackEffect(other.transform.position);
                 }
-                
-
             }
         }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (other.CompareTag("EnemyChaser"))
+            {
+                EnemyAI tempEnemy = other.GetComponent<EnemyAI>();
+                _ = TakeDamageAsync(tempEnemy.damageAmount);
+                await Task.Yield();
+                if(tempEnemy.hasKnockbackEffect)
+                    _ = KnockbackEffect(other.transform.position);
+            }
+        }
+    }
+    public async Task KnockbackEffect(Vector3 sourcePosition, float knockbackDistance = 10f, float knockbackDuration = 0.2f)
+    {
+        if (isMovementLocked) return;
+        isInvincible = true;
+        isMovementLocked = true;
+
+        Vector3 knockbackDir = (transform.position - sourcePosition).normalized;
+        knockbackDir.y = 0f; 
+
+        float elapsed = 0f;
+        while (elapsed < knockbackDuration)
+        {
+            controller.Move(knockbackDir * (knockbackDistance / knockbackDuration) * Time.deltaTime);
+            elapsed += Time.deltaTime;
+            await Task.Yield();
+        }
+        isInvincible = false;
+        isMovementLocked = false;
     }
 
     private void OnTriggerStay(Collider other)
@@ -1262,7 +1303,7 @@ public class PlayerMovement : MonoBehaviour
         // Healing logic
         if (other.CompareTag("Healing"))
         {
-            health = Mathf.Min(health + 25, 300); // Heal by 25, max 300
+            health = Mathf.Min(health + 25, 300); 
             UpdateHealthBar();
             Destroy(other.gameObject);
         }
@@ -1278,7 +1319,7 @@ public class PlayerMovement : MonoBehaviour
             TakeDamage(bulletDamage);
             // health -= bulletDamage;
             UpdateHealthBar();
-            BulletPool.Instance.ReturnEnemyBullet(other.gameObject); 
+            BulletPool.Instance.ReturnEnemyBullet(other.gameObject);
             // Destroy(other.gameObject);
             if (healthBarAnimator != null)
                 healthBarAnimator.SetBool("isDamaged", true);

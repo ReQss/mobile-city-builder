@@ -49,6 +49,10 @@ public class EnemyAI : MonoBehaviour
     public int expAmount = 100;
     public int maxHealth;
     private bool isMovementLocked = false;
+    public bool hasKnockbackEffect = false;
+    public bool explodeAfterDeath = false;
+    [SerializeField]
+    private GameObject explosionEffectPrefab;
     
     public int Health
     {
@@ -68,7 +72,11 @@ public class EnemyAI : MonoBehaviour
                         QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
                     }
                 }
-                Destroy(gameObject);
+                if (explodeAfterDeath)
+                {
+                    _= Explode();
+                }
+                else Destroy(gameObject);
                 GameManager.Instance.AddExp(expAmount);
                 DungeonRewardsInfo.Instance.experienceCollected += expAmount;
             }
@@ -82,6 +90,15 @@ public class EnemyAI : MonoBehaviour
                 healthBarImage.fillAmount = fill;
             }
         
+    }
+    public async Task Explode()
+    {
+        agent.isStopped = true;
+        isMovementLocked = true;
+        await Task.Delay(1000);
+        Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        await Task.Delay(1500); 
+        Destroy(gameObject);
     }
     void Start()
     {
@@ -129,12 +146,14 @@ public class EnemyAI : MonoBehaviour
         {
             
             agent.isStopped = true;
+            if(explodeAfterDeath)
+                _ = Explode();
             if (anim != null)
             {
                 anim.SetBool("isRunning", false);
                 anim.SetBool("isAttacking", true);
                 Vector3 lookDirection = (player.position - transform.position).normalized;
-                lookDirection.y = 0; 
+                lookDirection.y = 0;
                 if (lookDirection != Vector3.zero)
                     transform.rotation = Quaternion.LookRotation(lookDirection);
             }
