@@ -4320,7 +4320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &347014550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4336,9 +4336,9 @@ RectTransform:
   - {fileID: 273219887}
   m_Father: {fileID: 1050658234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 447.78738, y: -132.2029}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 136.1985, y: 173.9955}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &347014551
@@ -8714,7 +8714,7 @@ MonoBehaviour:
     type: 3}
   magicalProjectilePrefab: {fileID: 2201519091578685389, guid: a651a0024b316e844acd73ccb8fb662e,
     type: 3}
-  poolSize: 10
+  poolSize: 40
   versusProjectilePrefab1: {fileID: 2201519091578685389, guid: 4a8b72410adfdeb428d9efcde6535c20,
     type: 3}
   versusProjectilePrefab2: {fileID: 2201519091578685389, guid: 0206e991c69d7dd4abb2169ab6edbe30,
@@ -15447,9 +15447,19 @@ PrefabInstance:
       objectReference: {fileID: 684230239}
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
+      propertyPath: bulletSpawnPos
+      value: 
+      objectReference: {fileID: 2081614626}
+    - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
       propertyPath: healthBarImage
       value: 
       objectReference: {fileID: 1127153657}
+    - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: shootIntervals
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
       propertyPath: healthBarImage2
@@ -15459,6 +15469,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxDistanceCheck
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      propertyPath: shootIntervalBow
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
@@ -15495,7 +15510,7 @@ PrefabInstance:
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
       propertyPath: playerMovementSpeed
-      value: 0.5
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 1642131911415982578, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
@@ -15832,6 +15847,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 8721810728435333045, guid: b3120f032e629f043a3b77c29c826e77, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5112337019121014641, guid: b3120f032e629f043a3b77c29c826e77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2081614626}
     - targetCorrespondingSourceObject: {fileID: 7545312499006746779, guid: b3120f032e629f043a3b77c29c826e77,
         type: 3}
       insertIndex: 0
@@ -29478,6 +29497,37 @@ Transform:
   m_Children:
   - {fileID: 343814539}
   m_Father: {fileID: 650534445}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2081614625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2081614626}
+  m_Layer: 10
+  m_Name: BulletSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2081614626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081614625}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.25, z: 1.3000001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 666996282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2090557187 stripped
 Transform:

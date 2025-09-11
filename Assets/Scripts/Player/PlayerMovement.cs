@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -125,9 +126,12 @@ public class PlayerMovement : MonoBehaviour
     public Resurrection resurrectionManager;
     public bool isMovementLocked = false;
     public List <GameObject> weaponsPrefabs = new List<GameObject>();
-
+    private bool isShooting=false;
+    public Transform bulletSpawnPos;
+    public float bulletSpawnYPos;
     void Start()
     {
+        bulletSpawnYPos = bulletSpawnPos.position.y;
         playerWeapon = new PlayerWeapon();
         navMeshAgent = GetComponent<NavMeshAgent>();
         // EnableOrDisableAttack();
@@ -251,7 +255,6 @@ public class PlayerMovement : MonoBehaviour
         float moveSpeed = speed * joystickMove.magnitude * playerMovementSpeed; // speed to Twój max speed
 
         Vector3 moveDir = (isoRight * joystickMove.x + isoUp * joystickMove.y).normalized;
-        // controller.Move(moveDir * currentSpeed * Time.deltaTime);
 
         // ROTATION
         if (autoNavigationEnabled && currentTarget != null && navMeshAgent != null)
@@ -296,7 +299,8 @@ public class PlayerMovement : MonoBehaviour
         ShowWeapon();
 
         CheckForEnemiesInRange();
-        FightingMode();
+        if(attackEnabled)
+            FightingMode();
         if (animator != null)
         {
             bool isMoving = moveDir.magnitude > 0.1f;
@@ -323,16 +327,17 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        if (controller.isGrounded)
-        {
-            velocity.y = 0f;
-        }
-        else
-        {
-            velocity.y += gravity * Time.deltaTime;
-        }
+        // if (controller.isGrounded)
+        // {
+        //     velocity.y = 0f;
+        // }
+        // else
+        // {
+        //     velocity.y += gravity * Time.deltaTime;
+        // }
 
         controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
+        Debug.Log(transform.position);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
 
@@ -370,6 +375,7 @@ public class PlayerMovement : MonoBehaviour
                 hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasBow = weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0;
             }
+        
         // EnableWeaponPrefab(hasSword, hasCrossbow, hasRod, hasBow);
         animator.SetBool("isShooting", hasCrossbow);
         animator.SetBool("isSlashing", hasSword);
@@ -419,7 +425,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ShootingFunction(shootIntervals, numberOfUsesForWeapon);
+                _= ShootingFunction(shootIntervals, numberOfUsesForWeapon,3);
             }
             else if (weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
@@ -427,7 +433,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                ShootingFunction(shootIntervalBow, numberOfUsesForWeapon);
+                _= ShootingFunction(shootIntervalBow, numberOfUsesForWeapon,1);
 
                 //Bow
             }
@@ -690,42 +696,26 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    public void ShootingFunction(float shootInterval, int numberOfUses)
+    
+     public async Task ShootingFunction(float shootInterval, int numberOfUses, int numberOfBullets)
     {
         if ((isCombat || attackDirActive) && playerWeapon.currentWeapon != null && BulletPool.Instance.bulletProjectilePrefab != null)
         {
             stopDistance = 10f;
-            combatTimer += Time.deltaTime;
-            if (combatTimer >= shootInterval / 8)
-            {
-                combatTimer = 0f;
+            
+                if (isShooting) return;
+                isShooting = true;
                 if(isCombat)
                     RotateTowardsEnemy();
-                GameObject projectile = BulletPool.Instance.GetBullet();
-                projectile.transform.position = playerWeapon.currentWeapon.transform.position;
-                projectile.transform.rotation = playerWeapon.currentWeapon.transform.rotation;
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    if (closestEnemyInRangePosition != Vector3.zero && !attackDirActive)
-                    {
-                        Vector3 direction = (closestEnemyInRangePosition - playerWeapon.currentWeapon.transform.position).normalized;
-                        rb.linearVelocity = direction * projectileSpeed;
-                    }
-                    else
-                    {
-                        rb.linearVelocity = transform.forward * projectileSpeed;
-                    }
-                }
+                _ = InstantiateMultipleBullets(numberOfBullets);
 
                 shotsFired++;
                 if (gameUIHandler != null)
                 {
-                    gameUIHandler.UpdateUsesCount(numberOfUses - shotsFired);
+                    gameUIHandler.UpdateUsesCount(numberOfUses - shotsFired * numberOfBullets);
                 }
                 if (shotsFired >= numberOfUses)
                 {
-
                     if (gameUIHandler != null)
                     {
                         gameUIHandler.UpdateWeaponImage("Nothing");
@@ -735,12 +725,44 @@ public class PlayerMovement : MonoBehaviour
                     ChangeCombat();
                     shotsFired = 0;
                 }
-            }
+            await Task.Delay((int)(shootInterval * 100f));
+            isShooting = false;
         }
     }
+    private bool shootBullets = false;
+    public async Task InstantiateMultipleBullets(int numberOfBullets)
+    {
+        if (shootBullets == true) return;
+        shootBullets = true;
+        float angleStep = 15f; // Kąt między pociskami
+        float startingAngle = -angleStep * (numberOfBullets - 1) / 2; // Początkowy kąt
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            float currentAngle = startingAngle + angleStep * i;
+            Debug.Log(currentAngle);
+            InstantiateAngleBullet(currentAngle);
+        }
+        await Task.Yield();
+        shootBullets = false;
+    }
+    public void InstantiateAngleBullet(float angle)
+{
+    GameObject projectile = BulletPool.Instance.GetBullet();
+
+    Rigidbody rb = projectile.GetComponent<Rigidbody>();
+    projectile.transform.position = new Vector3(
+        bulletSpawnPos.position.x,
+        bulletSpawnYPos,
+        bulletSpawnPos.position.z
+    );
+    Vector3 leftDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
+    projectile.transform.rotation = Quaternion.LookRotation(leftDirection, Vector3.up); // Ustaw rotację na kierunek lotu
+    rb.linearVelocity = leftDirection * projectileSpeed;
+    Debug.Log(leftDirection);
+}
     public void SlashingFunction(float shootInterval)
     {
-        if ((isCombat || attackDirActive) && playerWeapon.currentWeapon != null )
+        if ((isCombat || attackDirActive) && playerWeapon.currentWeapon != null)
         {
             stopDistance = 4f;
             combatTimer += Time.deltaTime;
@@ -748,7 +770,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 combatTimer = 0f;
 
-                if(isCombat)
+                if (isCombat)
                     RotateTowardsEnemy();
 
 
