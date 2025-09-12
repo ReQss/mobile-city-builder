@@ -1921,8 +1921,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawn:
-  - {fileID: 8156621464017713482, guid: 1ab27d1b22d3fe740995c9657dc5b1fb, type: 3}
-  - {fileID: 8156621464017713482, guid: 2f07e407ddfecfc4cb088de5aef6f3b3, type: 3}
+  - prefab: {fileID: 8156621464017713482, guid: 1ab27d1b22d3fe740995c9657dc5b1fb,
+      type: 3}
+    spawnChance: 70
+  - prefab: {fileID: 5545260354421767917, guid: df1d0850d4e10d64985a7881720310e0,
+      type: 3}
+    spawnChance: 30
+  - prefab: {fileID: 8156621464017713482, guid: 2f07e407ddfecfc4cb088de5aef6f3b3,
+      type: 3}
+    spawnChance: 40
   spawnCount: 5
   spawnRange: 3
   center: {x: 0, y: 0, z: 0}

@@ -92,6 +92,9 @@ public class PlayerMovement : MonoBehaviour
     private float shieldCooldownTimer = 0f;
     [SerializeField]
     private float playerMovementSpeed;
+    private float originalPlayerMovementSpeed;
+    
+    private float playerMovementSpeedSlowed;
     public Vector3 moveDir;
     public Vector3 attackDir;
     [SerializeField]
@@ -131,6 +134,8 @@ public class PlayerMovement : MonoBehaviour
     public float bulletSpawnYPos;
     void Start()
     {
+        originalPlayerMovementSpeed = playerMovementSpeed; 
+        playerMovementSpeedSlowed = playerMovementSpeed / 5;
         bulletSpawnYPos = bulletSpawnPos.position.y;
         playerWeapon = new PlayerWeapon();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -631,28 +636,37 @@ public class PlayerMovement : MonoBehaviour
 
         if (health <= 0)
         {
-            if (resurrectionManager.resurrectionCount > 0)
-            {
-                resurrectionManager.OpenResurrectionUI();
-                resurrectionManager.InitResurrection();
-                isInvincible = false;
-                blockDamage = false;
-            }
-            else
-            {
-                QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
-                if (gameUIHandler != null)
-                {
-                    isPlayerDead = true;
-                }
-                return;
-            }
+            _ = DeathOrRevive();
         }
 
     }
+    private bool blockDeathOrRevive = false;
+    public async Task DeathOrRevive()
+    {
+        if (blockDeathOrRevive == true) return;
+        blockDeathOrRevive = true;
+        if (resurrectionManager.resurrectionCount > 0)
+        {
+            resurrectionManager.OpenResurrectionUI();
+            resurrectionManager.InitResurrection();
+            isInvincible = false;
+            blockDamage = false;
+        }
+        else
+        {
+            QuestManager.Instance.CheckQuestProgress(QuestManager.Instance.currentQuest);
+            if (gameUIHandler != null)
+            {
+                isPlayerDead = true;
+            }
+            return;
+        }
+        await Task.Delay(100);
+        blockDeathOrRevive = false;
+    }
     public void TakeDamage(int damageAmount)
     {
-        if(health <= 0 || isInvincible  ) return;
+        if (health <= 0 || isInvincible) return;
         if (health - damageAmount < 0)
         {
             health = 0;
@@ -1303,7 +1317,7 @@ public class PlayerMovement : MonoBehaviour
         // Healing logic
         if (other.CompareTag("Healing"))
         {
-            health = Mathf.Min(health + 25, 300); 
+            health = Mathf.Min(health + 25, 300);
             UpdateHealthBar();
             Destroy(other.gameObject);
         }
@@ -1328,12 +1342,43 @@ public class PlayerMovement : MonoBehaviour
                 isPlayerDead = true;
             }
         }
+        if (other.CompareTag("EnemyWeb"))
+        {
+            if (isShieldActive) return;
+            TakeDamage(1);
+            UpdateHealthBar();
+            BulletPool.Instance.ReturnSpiderWeb(other.gameObject);
+            if (health <= 0 && gameUIHandler != null && resurrectionManager.resurrectionCount <= 0)
+            {
+                isPlayerDead = true;
+            }
+            else if(!freeTimeFromWeb && !isSlowed)
+            {
+                GameUIHandler.Instance.webFramesClick.InitFrames(null);
+            }
+        }
+    }
+    public bool freeTimeFromWeb = false;
+  
 
+    private bool isSlowed = false;
+    public async Task SlowPlayer()
+    {
+        if (isSlowed) return;
+        isMovementLocked = false;
+        isSlowed = true;
+        playerMovementSpeed = playerMovementSpeedSlowed;
+        await Task.Delay(1500);
+        playerMovementSpeed = originalPlayerMovementSpeed;
+        isSlowed = false;
+        freeTimeFromWeb = true;
+        await Task.Delay(4000);
+        freeTimeFromWeb = false;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(colliders.Contains(other))
+        if (colliders.Contains(other))
         {
             colliders.Remove(other);
         }

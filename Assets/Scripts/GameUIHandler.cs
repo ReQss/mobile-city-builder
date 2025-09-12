@@ -78,6 +78,8 @@ public class GameUIHandler : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI playerLevelText;
+    [SerializeField]
+    public AnimationFramesClick webFramesClick;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)

@@ -30,7 +30,10 @@ public class BulletPool : MonoBehaviour
     public int enemyBulletPoolSize = 20;
     private Queue<GameObject> enemyBulletPool = new Queue<GameObject>();
 
-
+    [Header("Spider Web Pool")]
+    public GameObject spiderWebPrefab;
+    public int spiderWebPoolSize = 10;
+    private Queue<GameObject> spiderWebPool = new Queue<GameObject>();
 
     void Awake()
     {
@@ -38,6 +41,13 @@ public class BulletPool : MonoBehaviour
     }
     void Start()
     {
+        for(int i = 0; i < spiderWebPoolSize; i++)
+        {
+            GameObject web = Instantiate(spiderWebPrefab, this.transform);
+            web.SetActive(false);
+            spiderWebPool.Enqueue(web);
+        }
+
         for (int i = 0; i < poolSize; i++)
         {
             GameObject bullet = Instantiate(bulletProjectilePrefab, this.transform);
@@ -94,6 +104,31 @@ public class BulletPool : MonoBehaviour
         }
         StartCoroutine(ReturnDamageDealtMagicAfterDelay(damageDealtMagic, 0.5f));
         return damageDealtMagic;
+    }
+    public GameObject GetSpiderWeb()
+    {
+        GameObject web;
+        if (spiderWebPool.Count > 0)
+        {
+            web = spiderWebPool.Dequeue();
+            web.SetActive(true);
+        }
+        else
+        {
+            web = Instantiate(spiderWebPrefab, this.transform);
+        }
+        StartCoroutine(ReturnSpiderWebAfterDelay(web, 10f));
+        return web;
+    }
+    public void ReturnSpiderWeb(GameObject web)
+    {
+        web.SetActive(false);
+        spiderWebPool.Enqueue(web);
+    }
+    private IEnumerator ReturnSpiderWebAfterDelay(GameObject web, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ReturnSpiderWeb(web);
     }
     public GameObject GetEnemyBullet()
     {

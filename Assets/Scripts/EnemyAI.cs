@@ -53,6 +53,7 @@ public class EnemyAI : MonoBehaviour
     public bool explodeAfterDeath = false;
     [SerializeField]
     private GameObject explosionEffectPrefab;
+    private bool blockMovement = false;
     
     public int Health
     {
@@ -74,22 +75,36 @@ public class EnemyAI : MonoBehaviour
                 }
                 if (explodeAfterDeath)
                 {
-                    _= Explode();
+                    _ = Explode();
                 }
-                else Destroy(gameObject);
-                GameManager.Instance.AddExp(expAmount);
-                DungeonRewardsInfo.Instance.experienceCollected += expAmount;
+                else
+                {
+                    _ = EnemyDeath();
+                }
             }
         }
     }
+    private async Task EnemyDeath()
+    {
+        blockMovement = true;
+        GetComponent<Animator>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
+         var agent = GetComponent<NavMeshAgent>();
+        if (agent) agent.enabled = false;
+        
+        GameManager.Instance.AddExp(expAmount);
+        DungeonRewardsInfo.Instance.experienceCollected += expAmount;
+        await Task.Delay(3000);
+        Destroy(gameObject);
+    }
     private void UpdateHealthBar()
     {
-            if (healthBarImage != null)
-            {
-                float fill = Mathf.Clamp01((float)health / maxHealth); 
-                healthBarImage.fillAmount = fill;
-            }
-        
+        if (healthBarImage != null)
+        {
+            float fill = Mathf.Clamp01((float)health / maxHealth);
+            healthBarImage.fillAmount = fill;
+        }
+
     }
     public async Task Explode()
     {
@@ -101,6 +116,9 @@ public class EnemyAI : MonoBehaviour
         await Task.Delay(2000);
 
         Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        
+        GameManager.Instance.AddExp(expAmount);
+        DungeonRewardsInfo.Instance.experienceCollected += expAmount;
         await Task.Delay(1500); 
         Destroy(gameObject);
     }
@@ -117,9 +135,10 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-
-        EnemyMovementLogicAndAnimations();
-
+        if (!blockMovement)
+        {
+            EnemyMovementLogicAndAnimations();
+        }
         if (EnemyCanvasLockOn != null)
         {
             EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
@@ -417,6 +436,7 @@ public class EnemyAI : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < knockbackDuration)
         {
+            if (blockMovement) break;
             agent.Move(knockbackDir * (knockbackDistance / knockbackDuration) * Time.deltaTime);
             elapsed += Time.deltaTime;
             await Task.Yield();
@@ -493,14 +513,35 @@ public class EnemyAI : MonoBehaviour
 
     public void ShootAtPlayer()
     {
+        
         if (BulletPool.Instance.enemyBulletPrefab != null && bulletSpawnPoint != null && player != null)
         {
 
             Vector3 dir = (player.position - bulletSpawnPoint.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(dir);
             GameObject bullet = null;
-           
+
             bullet = BulletPool.Instance.GetEnemyBullet();
+            bullet.transform.position = bulletSpawnPoint.position;
+            bullet.transform.rotation = lookRotation;
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = dir * bulletSpeed;
+            }
+        }
+    }
+    public void ShootWebAtPlayer()
+    {
+                
+        if (BulletPool.Instance.spiderWebPrefab != null && bulletSpawnPoint != null && player != null)
+        {
+
+            Vector3 dir = (player.position - bulletSpawnPoint.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            GameObject bullet = null;
+
+            bullet = BulletPool.Instance.GetSpiderWeb();
             bullet.transform.position = bulletSpawnPoint.position;
             bullet.transform.rotation = lookRotation;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();

@@ -9,7 +9,7 @@ public class AnimationFramesClick : MonoBehaviour
     public Animator targetAnimator;
     public string animationName = "YourAnimation"; 
     private int currentFrame = 0;
-    private int totalFrames = 10;
+    public int totalFrames = 10;
     public float autoReverseInterval = 0.2f;
     private bool isAutoReversing = false;
     private Coroutine reverseCoroutine;
@@ -17,6 +17,9 @@ public class AnimationFramesClick : MonoBehaviour
     private bool isEnabled = false;
     public Action collectRewardAction;
     public static AnimationFramesClick Instance { get; private set; }
+    public bool isRewardFrames = false;
+    private bool isOpened = false;
+    public bool isWebFrames = false;
 
     void Start()
     {
@@ -26,7 +29,11 @@ public class AnimationFramesClick : MonoBehaviour
     }
     public void InitFrames(Action collectReward)
     {
-        collectRewardAction = collectReward;
+        if (isOpened) return;
+        isOpened = true;
+        OpenTargetUI();
+        if (collectReward != null)
+            collectRewardAction = collectReward;
         isAutoReversing = false;
         currentFrame = 0;
         SetFrame(currentFrame);
@@ -39,8 +46,17 @@ public class AnimationFramesClick : MonoBehaviour
     }
     public async Task CloseTargetUI()
     {
-        await Task.Delay(500); 
+        await Task.Delay(500);
         targetPanel.SetActive(false);
+        isOpened = false;
+        if (isWebFrames)
+        {
+            
+            // await PlayerMovement.playerMovementInstance.FreeTimeFromWeb();
+            await PlayerMovement.playerMovementInstance.SlowPlayer();
+        }
+
+        PlayerMovement.playerMovementInstance.isMovementLocked = false;
     }
     public void NextFrame()
     {
@@ -53,7 +69,8 @@ public class AnimationFramesClick : MonoBehaviour
         if (currentFrame >= totalFrames - 1)
         {
             _ = CloseTargetUI();
-            _= GetReward();
+            if (isRewardFrames)
+                _ = GetReward();
         }
     }
     public async Task GetReward()
