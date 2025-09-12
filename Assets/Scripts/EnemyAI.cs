@@ -95,7 +95,11 @@ public class EnemyAI : MonoBehaviour
     {
         agent.isStopped = true;
         isMovementLocked = true;
-        await Task.Delay(1000);
+        
+        Animator anim = GetComponentInChildren<Animator>();
+        anim.SetBool("explosion", true);
+        await Task.Delay(2000);
+
         Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         await Task.Delay(1500); 
         Destroy(gameObject);
