@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 [System.Serializable]
@@ -21,8 +22,8 @@ public class CharacterPower
 [System.Serializable]
 public class CharacterClass
 {
-    public string className;
-    public string classDescription;
+    public LocalizedString className;
+    public LocalizedString classDescription;
     public Sprite classIcon;
     public int health;
     public int attack;
@@ -54,8 +55,16 @@ public class CharacterCreatorHandler : MonoBehaviour
     }
     public void UpdateSelectedClass(CharacterClass characterClass)
     {
-        classNameText.text = characterClass.className;
-        classDescriptionText.text = characterClass.classDescription;
+        // classNameText.text = characterClass.className;
+        // classDescriptionText.text = characterClass.classDescription;
+        characterClass.className.StringChanged += (value) =>
+        {
+            classNameText.text = value;
+        };
+        characterClass.classDescription.StringChanged += (value) =>
+        {
+            classDescriptionText.text = value;
+        };
         statsTextsList[0].text = characterClass.health.ToString();
         statsTextsList[1].text = characterClass.attack.ToString();
         statsTextsList[2].text = characterClass.speed.ToString();

@@ -511,8 +511,24 @@ MonoBehaviour:
   startWeapon: {fileID: 4269364708897539207, guid: 9eb7a3644f797e849a94020a61820d0e,
     type: 3}
   selectedClass:
-    className: 
-    classDescription: 
+    className:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 0
     attack: 0
@@ -531,6 +547,9 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &137221043
 Transform:
   m_ObjectHideFlags: 0
@@ -736,6 +755,7 @@ GameObject:
   - component: {fileID: 339463117}
   - component: {fileID: 339463119}
   - component: {fileID: 339463118}
+  - component: {fileID: 339463120}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -862,6 +882,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339463116}
   m_CullTransparentMesh: 1
+--- !u!114 &339463120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339463116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+    m_TableEntryReference:
+      m_KeyId: 3487067283456
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 339463118}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &499195249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,12 +1174,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterClasses:
-  - className: Knight
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 3620727169024
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 5003354316800
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 100
     attack: 16
@@ -1138,12 +1210,24 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower: []
-  - className: Cleric
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 3691803844608
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 5112381054976
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 140
     attack: 12
@@ -1165,12 +1249,24 @@ MonoBehaviour:
     - powerType: 2
       powerSprite: {fileID: 21300000, guid: 979e0d50677fe0e48b59d42f3adf5236, type: 3}
       isUnlocked: 1
-  - className: Tank
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 3750578626560
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4783878971392
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 200
     attack: 10
@@ -1189,12 +1285,24 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower: []
-  - className: Undead
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4202892369920
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4945175126016
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 100
     attack: 14
@@ -1216,12 +1324,24 @@ MonoBehaviour:
     - powerType: 1
       powerSprite: {fileID: 21300000, guid: e18e9d9db0903934e8dc557dadefe13e, type: 3}
       isUnlocked: 1
-  - className: Kamikaze
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4044276375552
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4874626932736
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 1
     attack: 80
@@ -1240,12 +1360,24 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower: []
-  - className: King of Alabama
-    classDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting
-      industry. Lorem Ipsum has been the industry''s standard dummy text ever since
-      the 1500s, when an unknown printer took a galley of type and scrambled it to
-      make a type specimen book. It has survived not only five centuries, but also
-      the leap into electronic typesetting, remaining essentially unchanged. '
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 7336779849728
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 7486822686720
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 400
     attack: 40
@@ -1279,8 +1411,24 @@ MonoBehaviour:
   bonusItem: {fileID: 1693284940}
   powerIcon: {fileID: 1015876304}
   selectedClass:
-    className: 
-    classDescription: 
+    className:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
     classIcon: {fileID: 0}
     health: 0
     attack: 0
@@ -1300,6 +1448,9 @@ MonoBehaviour:
       itemNameToDisable: 
     characterPower: []
   spriteNone: {fileID: 21300000, guid: 22dd2f34d35524040967dbf4a4fddc41, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &812398619
 Transform:
   m_ObjectHideFlags: 0
@@ -1794,6 +1945,7 @@ GameObject:
   - component: {fileID: 1165620994}
   - component: {fileID: 1165620996}
   - component: {fileID: 1165620995}
+  - component: {fileID: 1165620997}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1920,6 +2072,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165620993}
   m_CullTransparentMesh: 1
+--- !u!114 &1165620997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165620993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+    m_TableEntryReference:
+      m_KeyId: 3450178379776
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1165620995}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1244914258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,6 +2401,7 @@ GameObject:
   - component: {fileID: 1453958872}
   - component: {fileID: 1453958874}
   - component: {fileID: 1453958873}
+  - component: {fileID: 1453958875}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2335,6 +2528,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453958871}
   m_CullTransparentMesh: 1
+--- !u!114 &1453958875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453958871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+    m_TableEntryReference:
+      m_KeyId: 3346193195008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1453958873}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1484957839
 GameObject:
   m_ObjectHideFlags: 0
