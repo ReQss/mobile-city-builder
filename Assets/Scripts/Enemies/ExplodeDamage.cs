@@ -18,8 +18,17 @@ public class ExplodeDamage : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
-            playerMovement.TakeDamage(20); 
-            _= playerMovement.KnockbackEffect(transform.position, 5, 0.3f);
+            playerMovement.TakeDamage(20);
+            _ = playerMovement.KnockbackEffect(transform.position, 5, 0.3f);
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            EnemyAI enemyAI = other.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                enemyAI.TakeDamage(300);
+                _ = enemyAI.KnockbackEffect(transform);
+            }
         }
     }
 }

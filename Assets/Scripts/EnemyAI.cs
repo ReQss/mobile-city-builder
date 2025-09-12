@@ -265,9 +265,32 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
+
+        
     }
 
+    public void SpawnDamageDealt(GameObject bullet)
+    {
+        GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
 
+        damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
+        damageDealt.transform.rotation = Quaternion.identity;
+        var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
+        if (tmp != null)
+        {
+            tmp.text = damageAmount.ToString();
+        }
+        Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
+        float knockbackForce = 2f;
+        Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
+            rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
+        }
+        
+        BulletPool.Instance.ReturnBullet(bullet);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -275,7 +298,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (PlayerMovement.playerMovementInstance.playerWeapon.knockbackEffect)
             {
-                _ = KnockbackEffect(other);
+                _ = KnockbackEffect(other.transform);
             }
             if (PlayerMovement.playerMovementInstance.playerWeapon.igniteEffect)
             {
@@ -290,24 +313,8 @@ public class EnemyAI : MonoBehaviour
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack;
             TakeDamage(damageAmount);
-            GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
-            damageDealt.transform.position = new Vector3(DamageSpawnPoint.position.x, 3.2f, DamageSpawnPoint.position.z);
-            damageDealt.transform.rotation = Quaternion.identity;
-            var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
-            if (tmp != null)
-            {
-                tmp.text = damageAmount.ToString();
-            }
-
-            Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
-            float knockbackForce = 2f;
-            Rigidbody rb = damageDealt.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddForce(randomDir * knockbackForce, ForceMode.Impulse);
-                rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.Impulse);
-            }
-            BulletPool.Instance.ReturnBullet(other.gameObject);
+            SpawnDamageDealt(other.gameObject);
+            
         }
         else if (other.CompareTag("Magic"))
         {
@@ -396,14 +403,14 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-    private async Task KnockbackEffect(Collider other)
+    public async Task KnockbackEffect(Transform objectPosition)
     {
         if (isMovementLocked) return;
         isMovementLocked = true;
 
         if (agent == null || player == null) return;
 
-        Vector3 knockbackDir = (transform.position - player.position).normalized;
+        Vector3 knockbackDir = (transform.position - objectPosition.position).normalized;
         float knockbackDistance = 2f; 
         float knockbackDuration = 0.2f;
 
