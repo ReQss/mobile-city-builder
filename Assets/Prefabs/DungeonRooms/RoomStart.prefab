@@ -1828,6 +1828,7 @@ GameObject:
   - component: {fileID: 5307645093389238367}
   - component: {fileID: 6815031008643425598}
   - component: {fileID: 8667797204696791169}
+  - component: {fileID: 3740289852201228905}
   m_Layer: 0
   m_Name: RoomStart
   m_TagString: Untagged
@@ -1908,6 +1909,28 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e1c9023a9c7c2dc4587d966fdf067aa6, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &3740289852201228905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681763370866645276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ab3883602db17458d88f44d4157625, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectsToSpawn:
+  - name: Archer
+    prefab: {fileID: 6732950166976661915, guid: afb4576c10526a246a8bc65fdb43cf31,
+      type: 3}
+    spawnChance: 60
+  spawnCount: 8
+  spawnRange: 3
+  center: {x: 0, y: 0, z: 0}
+  centerTransform: {fileID: 0}
+  parentFolder: {fileID: 0}
 --- !u!1 &7724068002322567781
 GameObject:
   m_ObjectHideFlags: 0

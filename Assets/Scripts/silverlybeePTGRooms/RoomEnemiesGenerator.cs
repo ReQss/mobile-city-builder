@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.AI;
 
 [System.Serializable]
 public class SpawnableObject
 {
+    public string name;
     public GameObject prefab;
     [Range(0f, 1f)]
     public float spawnChance = 1f; // 1 = 100%, 0.5 = 50%
@@ -61,8 +63,45 @@ public class RoomEnemiesGenerator : MonoBehaviour
                 0f,
                 Random.Range(-spawnRange, spawnRange)
             );
-            GameObject objectSpawned = Instantiate(candidate.prefab, randomPos, Quaternion.identity, parentFolder); 
+            // randomPos.y = Mathf.Max(1.0f, Terrain.activeTerrain != null ? Terrain.activeTerrain.SampleHeight(randomPos) : randomPos.y);
+
+            GameObject objectSpawned = null;
+            switch (candidate.name)
+            {
+                case "BossKnight":
+                    objectSpawned = EnemyPool.Instance.GetBossKnightEnemy();
+                    break;
+                case "BossWidow":
+                    objectSpawned = EnemyPool.Instance.GetBossWidowEnemy();
+                    break;
+                case "Archer":
+                    objectSpawned = EnemyPool.Instance.GetArcherEnemy();
+                    break;
+                case "Thug":
+                    objectSpawned = EnemyPool.Instance.GetThugEnemy();
+                    break;
+                case "BlackWidow":
+                    objectSpawned = EnemyPool.Instance.GetBlackWidowEnemy();
+                    break;
+                case "RedWidow":
+                    objectSpawned = EnemyPool.Instance.GetRedWidowEnemy();
+                    break;
+                case "GrayWidow":
+                    objectSpawned = EnemyPool.Instance.GetGrayWidowEnemy();
+                    break;
+                default:
+                    objectSpawned = Instantiate(candidate.prefab, randomPos, Quaternion.identity, parentFolder);
+                    break;
+            }
+
+            if (objectSpawned == null)
+                continue;
+
+            objectSpawned.transform.position = randomPos;
+            objectSpawned.transform.rotation = Quaternion.identity;
+            objectSpawned.transform.SetParent(parentFolder);
             objectSpawned.SetActive(true);
+            objectSpawned.GetComponent<NavMeshAgent>().enabled = true;
             spawned++;
         }
 

@@ -95,7 +95,7 @@ public class EnemyAI : MonoBehaviour
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;
         await Task.Delay(3000);
-        Destroy(gameObject);
+        ReturnToPool();
     }
     private void UpdateHealthBar()
     {
@@ -119,8 +119,61 @@ public class EnemyAI : MonoBehaviour
         
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;
-        await Task.Delay(1500); 
-        Destroy(gameObject);
+        await Task.Delay(1500);
+
+        ReturnToPool();
+    }
+        private void ReturnToPool()
+    {
+        switch (gameObject.name.Replace("(Clone)", "").Trim())
+        {
+            case "ArcherEnemy":
+                EnemyPool.Instance.ReturnArcherEnemy(gameObject);
+                break;
+            case "ThugEnemy":
+                EnemyPool.Instance.ReturnThugEnemy(gameObject);
+                break;
+            case "BossKnightEnemy":
+                EnemyPool.Instance.ReturnBossKnightEnemy(gameObject);
+                break;
+            case "BlackWidowEnemy":
+                EnemyPool.Instance.ReturnBlackWidowEnemy(gameObject);
+                break;
+            case "RedWidowEnemy":
+                EnemyPool.Instance.ReturnRedWidowEnemy(gameObject);
+                break;
+            case "GrayWidowEnemy":
+                EnemyPool.Instance.ReturnGrayWidowEnemy(gameObject);
+                break;
+            case "BossWidowEnemy":
+                EnemyPool.Instance.ReturnBossWidowEnemy(gameObject);
+                break;
+            default:
+                Destroy(gameObject);
+                break;
+        }
+    }
+    public void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        transform.position = spawnPosition;
+        transform.rotation = spawnRotation;
+
+        health = maxHealth;
+        blockMovement = false;
+        isMovementLocked = false;
+
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = false;
+        }
+        // var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        // if (agent != null)
+        // {
+        //     agent.enabled = true;
+        // }
     }
     void Start()
     {
@@ -135,6 +188,8 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+         if (blockMovement || agent == null || !agent.enabled)
+        return;
         if (!blockMovement)
         {
             EnemyMovementLogicAndAnimations();
@@ -145,9 +200,11 @@ public class EnemyAI : MonoBehaviour
         }
         UpdateHealthBar();
     }
+    
     private void EnemyMovementLogicAndAnimations()
     {
-        if (isMovementLocked) return;
+        if (isMovementLocked || agent == null || !agent.enabled) return;
+
         Animator anim = GetComponentInChildren<Animator>();
         if (player == null)
             return;
@@ -167,9 +224,9 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= attackRange && isMele)
         {
-            
+
             agent.isStopped = true;
-            if(explodeAfterDeath)
+            if (explodeAfterDeath)
                 _ = Explode();
             if (anim != null)
             {
@@ -180,7 +237,7 @@ public class EnemyAI : MonoBehaviour
                 if (lookDirection != Vector3.zero)
                     transform.rotation = Quaternion.LookRotation(lookDirection);
             }
-            
+
         }
         else if (distanceToPlayer <= chaseRange)
         {
@@ -220,7 +277,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            agent.isStopped = false; 
+            agent.isStopped = false;
             if (isChasing && playerWasInRange)
             {
                 lostPlayerTimer += Time.deltaTime;
@@ -258,14 +315,14 @@ public class EnemyAI : MonoBehaviour
                 if (Vector3.Distance(transform.position, patrolTarget) <= 0.1f)
                 {
                     SetNewPatrolTarget();
-                    
+
                 }
-                    patrolTimer += Time.deltaTime;
-                    if (patrolTimer >= patrolWaitTime)
-                    {
-                        SetNewPatrolTarget();
-                        patrolTimer = 0f;
-                    }
+                patrolTimer += Time.deltaTime;
+                if (patrolTimer >= patrolWaitTime)
+                {
+                    SetNewPatrolTarget();
+                    patrolTimer = 0f;
+                }
                 else
                 {
                     agent.SetDestination(patrolTarget);
