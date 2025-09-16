@@ -169,8 +169,8 @@ public class TreasureChest : MonoBehaviour
         {
             if (GameUIHandler.Instance.interactionAction != null && GameUIHandler.Instance.interactionAction.action.WasPressedThisFrame())
             {
-                AnimationFramesClick.Instance.OpenTargetUI();
-                AnimationFramesClick.Instance.InitFrames(CollectReward);
+                GameUIHandler.Instance.rewardFramesClick.OpenTargetUI();
+                GameUIHandler.Instance.rewardFramesClick.InitFrames(CollectReward);
 
                 Debug.Log("Reward collected");
             }

@@ -661,7 +661,7 @@ public class PlayerMovement : MonoBehaviour
             }
             return;
         }
-        await Task.Delay(100);
+        await Task.Delay(500);
         blockDeathOrRevive = false;
     }
     public void TakeDamage(int damageAmount)
@@ -1344,6 +1344,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (other.CompareTag("EnemyWeb"))
         {
+            if (blockDeathOrRevive) return;
             if (isShieldActive) return;
             TakeDamage(1);
             UpdateHealthBar();
@@ -1352,11 +1353,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 isPlayerDead = true;
             }
-            else if(!freeTimeFromWeb && !isSlowed)
+            else if (!freeTimeFromWeb && !isSlowed)
             {
                 GameUIHandler.Instance.webFramesClick.InitFrames(null);
             }
         }
+        
     }
     public bool freeTimeFromWeb = false;
   

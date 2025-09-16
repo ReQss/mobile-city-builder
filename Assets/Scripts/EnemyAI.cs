@@ -285,10 +285,9 @@ public class EnemyAI : MonoBehaviour
     {
         Health -= damage;
 
-        
     }
 
-    public void SpawnDamageDealt(GameObject bullet)
+    public void SpawnDamageDealt(GameObject bullet, int damageDealtAmount)
     {
         GameObject damageDealt = BulletPool.Instance.GetDamageDealt();
 
@@ -297,7 +296,7 @@ public class EnemyAI : MonoBehaviour
         var tmp = damageDealt.GetComponent<TMPro.TextMeshPro>();
         if (tmp != null)
         {
-            tmp.text = damageAmount.ToString();
+            tmp.text = damageDealtAmount.ToString();
         }
         Vector3 randomDir = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0.5f)).normalized;
         float knockbackForce = 2f;
@@ -313,27 +312,14 @@ public class EnemyAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwordHitbox") || other.CompareTag("Bullet") || other.CompareTag("Magic"))
-        {
-            if (PlayerMovement.playerMovementInstance.playerWeapon.knockbackEffect)
-            {
-                _ = KnockbackEffect(other.transform);
-            }
-            if (PlayerMovement.playerMovementInstance.playerWeapon.igniteEffect)
-            {
-                if (magicDotCoroutine != null)
-                    StopCoroutine(magicDotCoroutine);
-                magicDotCoroutine = StartCoroutine(MagicDotEffect());
-            }
-        }
-        
-       
+
+
         if (other.CompareTag("Bullet"))
         {
             int damageAmount = (int)PlayerMovement.playerMovementInstance.playerAttack;
             TakeDamage(damageAmount);
-            SpawnDamageDealt(other.gameObject);
-            
+            SpawnDamageDealt(other.gameObject,damageAmount);
+
         }
         else if (other.CompareTag("Magic"))
         {
@@ -421,9 +407,24 @@ public class EnemyAI : MonoBehaviour
                 tmp.text = damageAmount.ToString();
             }
         }
+        if (other.CompareTag("SwordHitbox") || other.CompareTag("Bullet") || other.CompareTag("Magic"))
+        {
+            if (PlayerMovement.playerMovementInstance.playerWeapon.knockbackEffect)
+            {
+                _ = KnockbackEffect(other.transform);
+            }
+            if (PlayerMovement.playerMovementInstance.playerWeapon.igniteEffect)
+            {
+                if (magicDotCoroutine != null)
+                    StopCoroutine(magicDotCoroutine);
+                magicDotCoroutine = StartCoroutine(MagicDotEffect());
+            }
+        }
+        
     }
     public async Task KnockbackEffect(Transform objectPosition)
     {
+        if(health<=0) return;
         if (isMovementLocked) return;
         isMovementLocked = true;
 

@@ -16,14 +16,14 @@ public class AnimationFramesClick : MonoBehaviour
     public GameObject targetPanel;
     private bool isEnabled = false;
     public Action collectRewardAction;
-    public static AnimationFramesClick Instance { get; private set; }
+    // public static AnimationFramesClick Instance { get; private set; }
     public bool isRewardFrames = false;
     private bool isOpened = false;
     public bool isWebFrames = false;
 
     void Start()
     {
-        Instance = this;
+        // Instance = this;
         targetAnimator.speed = 0;
         SetFrame(currentFrame);
     }

@@ -34,7 +34,6 @@ public class RoomEnemiesGenerator : MonoBehaviour
         int tries = 0;
         int maxTries = (count + playerLevelExtraEnemies) * 10;
 
-        // Przygotuj sumę szans
         float totalChance = 0f;
         foreach (var obj in objectsToSpawn)
             totalChance += obj.spawnChance;
@@ -42,7 +41,6 @@ public class RoomEnemiesGenerator : MonoBehaviour
         while (spawned < count + playerLevelExtraEnemies && tries < maxTries)
         {
             tries++;
-            // Losuj typ przeciwnika z wagą
             float rand = Random.value * totalChance;
             float cumulative = 0f;
             SpawnableObject candidate = null;
@@ -68,7 +66,6 @@ public class RoomEnemiesGenerator : MonoBehaviour
             spawned++;
         }
 
-        // Jeśli nie udało się stworzyć żadnego przeciwnika, stwórz pierwszego z listy
         if (spawned == 0 && objectsToSpawn.Count > 0)
         {
             Vector3 randomPos = spawnCenter + new Vector3(

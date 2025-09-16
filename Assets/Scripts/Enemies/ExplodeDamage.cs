@@ -21,7 +21,7 @@ public class ExplodeDamage : MonoBehaviour
             playerMovement.TakeDamage(20);
             _ = playerMovement.KnockbackEffect(transform.position, 5, 0.3f);
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")&& !other.CompareTag("Boss"))
         {
             EnemyAI enemyAI = other.GetComponent<EnemyAI>();
             if (enemyAI != null)
