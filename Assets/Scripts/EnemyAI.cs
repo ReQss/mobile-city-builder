@@ -88,10 +88,12 @@ public class EnemyAI : MonoBehaviour
     {
         blockMovement = true;
         
-        //  var agent = GetComponent<NavMeshAgent>();
-        // if (agent) agent.enabled = false;
         GetComponent<Animator>().enabled = false;
+        
+         var agent = GetComponent<NavMeshAgent>();
+        if (agent) agent.enabled = false;
         GetComponent<CapsuleCollider>().enabled = false;
+
 
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;
@@ -172,8 +174,6 @@ public class EnemyAI : MonoBehaviour
         //     rb.isKinematic = false;
         // }
         
-        GetComponent<Animator>().enabled = true;
-        GetComponent<CapsuleCollider>().enabled = true;
         // var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         // if (agent != null)
         // {
@@ -184,7 +184,8 @@ public class EnemyAI : MonoBehaviour
     {
         maxHealth = health;
         agent = GetComponent<NavMeshAgent>();
-        SetNewPatrolTarget();
+        if(agent.enabled == true)
+            SetNewPatrolTarget();
         if (player == null)
         {
             player = GameObject.Find("Player").transform;
@@ -340,7 +341,8 @@ public class EnemyAI : MonoBehaviour
         Vector3 randomDirection = Random.insideUnitSphere * patrolRange;
         randomDirection.y = 0;
         patrolTarget = transform.position + randomDirection;
-        agent.SetDestination(patrolTarget);
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+            agent.SetDestination(patrolTarget);
     }
 
     public void TakeDamage(int damage)
