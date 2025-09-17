@@ -87,16 +87,18 @@ public class EnemyAI : MonoBehaviour
     private async Task EnemyDeath()
     {
         blockMovement = true;
+        
+        //  var agent = GetComponent<NavMeshAgent>();
+        // if (agent) agent.enabled = false;
         GetComponent<Animator>().enabled = false;
         GetComponent<CapsuleCollider>().enabled = false;
-         var agent = GetComponent<NavMeshAgent>();
-        if (agent) agent.enabled = false;
-        
+
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;
         await Task.Delay(3000);
         ReturnToPool();
     }
+    
     private void UpdateHealthBar()
     {
         if (healthBarImage != null)
@@ -162,13 +164,16 @@ public class EnemyAI : MonoBehaviour
         blockMovement = false;
         isMovementLocked = false;
 
-        var rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = false;
-        }
+        // var rb = GetComponent<Rigidbody>();
+        // if (rb != null)
+        // {
+        //     rb.linearVelocity = Vector3.zero;
+        //     rb.angularVelocity = Vector3.zero;
+        //     rb.isKinematic = false;
+        // }
+        
+        GetComponent<Animator>().enabled = true;
+        GetComponent<CapsuleCollider>().enabled = true;
         // var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         // if (agent != null)
         // {
@@ -479,7 +484,30 @@ public class EnemyAI : MonoBehaviour
         }
         
     }
-    public async Task KnockbackEffect(Transform objectPosition)
+    private async Task KnockbackEffect(Transform objectPosition)
+    {
+        if(health<=0) return;
+        if (isMovementLocked) return;
+        isMovementLocked = true;
+
+        if (agent == null || player == null) return;
+
+        Vector3 knockbackDir = (transform.position - objectPosition.position).normalized;
+        float knockbackDistance = 2f; 
+        float knockbackDuration = 0.2f;
+
+        float elapsed = 0f;
+        while (elapsed < knockbackDuration)
+        {
+            if (blockMovement) break;
+            agent.Move(knockbackDir * (knockbackDistance / knockbackDuration) * Time.deltaTime);
+            elapsed += Time.deltaTime;
+            await Task.Yield();
+        }
+
+        isMovementLocked = false;
+    }
+    public async Task KnockbackEffectPublic(Transform objectPosition)
     {
         if(health<=0) return;
         if (isMovementLocked) return;

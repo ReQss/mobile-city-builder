@@ -27,7 +27,7 @@ public class ExplodeDamage : MonoBehaviour
             if (enemyAI != null)
             {
                 enemyAI.TakeDamage(300);
-                _ = enemyAI.KnockbackEffect(transform);
+                _ = enemyAI.KnockbackEffectPublic(transform);
             }
         }
     }
