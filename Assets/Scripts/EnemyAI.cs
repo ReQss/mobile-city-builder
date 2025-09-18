@@ -54,6 +54,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField]
     private GameObject explosionEffectPrefab;
     private bool blockMovement = false;
+    public GameObject slashPrefab;
+    public void SlashAnimation()
+    {
+        if (slashPrefab == null) return;
+        slashPrefab.SetActive(true);
+        slashPrefab.GetComponent<ParticleSystem>().Stop();
+        slashPrefab.GetComponent<ParticleSystem>().Play();
+    }
     
     public int Health
     {
@@ -93,7 +101,7 @@ public class EnemyAI : MonoBehaviour
          var agent = GetComponent<NavMeshAgent>();
         if (agent) agent.enabled = false;
         GetComponent<CapsuleCollider>().enabled = false;
-
+        // GetComponent<BoxCollider>().enabled = false;
 
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;

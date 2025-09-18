@@ -63,6 +63,8 @@ public class EnemyPool : MonoBehaviour
     {
         EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
         enemyAI.GetComponent<CapsuleCollider>().enabled = true;
+
+        // GetComponent<BoxCollider>().enabled = true;
         enemyAI.GetComponent<Animator>().enabled = true;
         enemyAI.GetComponent<NavMeshAgent>().enabled = true;
         enemyAI.health = enemyAI.maxHealth;
