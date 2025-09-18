@@ -212,7 +212,7 @@ public class EnemyAI : MonoBehaviour
         {
             EnemyCanvasLockOn.SetActive(EnemyCanvasLockOnIsEnabled);
         }
-        UpdateHealthBar();
+        // UpdateHealthBar();
     }
     
     private void EnemyMovementLogicAndAnimations()
@@ -355,8 +355,10 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Health -= damage;
-
+        if (health - damage < 0) Health = damage;
+        else
+            Health -= damage;
+        UpdateHealthBar();
     }
 
     public void SpawnDamageDealt(GameObject bullet, int damageDealtAmount)
@@ -479,6 +481,7 @@ public class EnemyAI : MonoBehaviour
                 tmp.text = damageAmount.ToString();
             }
         }
+        // knockback
         if (other.CompareTag("SwordHitbox") || other.CompareTag("Bullet") || other.CompareTag("Magic"))
         {
             if (PlayerMovement.playerMovementInstance.playerWeapon.knockbackEffect)

@@ -14,6 +14,8 @@ public class SpawnExplosions : MonoBehaviour
     {
         while (true)
         {
+
+            if (gameObject.activeSelf == false) return;
             await Explode(3); // liczba wybuchów
             await Task.Delay(5000); // 5 sekund
         }
@@ -29,6 +31,7 @@ public class SpawnExplosions : MonoBehaviour
     {
         if(PlayerMovement.playerMovementInstance == null) return;
         if (lookExplosion) return;
+        // if (gameObject.activeSelf == false) return;
         lookExplosion = true;
         List<GameObject> explosionAreas = new List<GameObject>();
         List<Vector3> spawnPositions = new List<Vector3>();
