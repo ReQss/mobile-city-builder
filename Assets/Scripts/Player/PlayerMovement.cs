@@ -187,8 +187,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if(isMovementLocked)
-            return; 
+        if (isMovementLocked)
+        {
+            var rb = GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            return;
+        }
+        else
+        {
+            var rb = GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.None;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+        }
         if (speed >= 8)
         {
             if (speedBoostPrefab != null)
@@ -340,8 +350,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
-
-        controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
+        if(isMovementLocked == false)
+            controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
         CheckForItemsInRange();
         NPC.anyNPCDetectsPlayer = false;
 
@@ -1306,6 +1316,7 @@ public class PlayerMovement : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < knockbackDuration)
         {
+            // if(isMovementLocked == false)
             controller.Move(knockbackDir * (knockbackDistance / knockbackDuration) * Time.deltaTime);
             elapsed += Time.deltaTime;
             await Task.Yield();
@@ -1352,6 +1363,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (other.CompareTag("EnemyWeb"))
         {
+            if(resurrectionManager.resurrectionInProgress) return;
             if (blockDeathOrRevive) return;
             if (isShieldActive) return;
             TakeDamage(1);
@@ -1460,7 +1472,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (isDashing)
         {
-            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+            if(isMovementLocked == false)
+                controller.Move(dashDirection * dashSpeed * Time.deltaTime);
             dashTimer -= Time.deltaTime;
             if (dashTimer <= 0f)
             {
