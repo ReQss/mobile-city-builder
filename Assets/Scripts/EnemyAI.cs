@@ -162,7 +162,7 @@ public class EnemyAI : MonoBehaviour
         transform.position = spawnPosition;
         transform.rotation = spawnRotation;
 
-        health = maxHealth;
+        // health = maxHealth;
         blockMovement = false;
         isMovementLocked = false;
 

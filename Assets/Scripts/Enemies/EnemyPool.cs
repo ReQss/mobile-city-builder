@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyPool : MonoBehaviour
 {
@@ -58,13 +59,21 @@ public class EnemyPool : MonoBehaviour
     public GameObject GetRedWidowEnemy() => GetEnemyFromPool(redWidowPrefab, redWidowPool);
     public GameObject GetGrayWidowEnemy() => GetEnemyFromPool(grayWidowPrefab, grayWidowPool);
     public GameObject GetBossWidowEnemy() => GetEnemyFromPool(bossWidowPrefab, bossWidowPool);
-
+    public void ResetEnemyComponents(GameObject enemy)
+    {
+        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+        enemyAI.GetComponent<CapsuleCollider>().enabled = true;
+        enemyAI.GetComponent<Animator>().enabled = true;
+        enemyAI.GetComponent<NavMeshAgent>().enabled = true;
+        enemyAI.health = enemyAI.maxHealth;
+    }
     private GameObject GetEnemyFromPool(GameObject prefab, Queue<GameObject> pool)
     {
         GameObject enemy;
         if (pool.Count > 0)
         {
             enemy = pool.Dequeue();
+            ResetEnemyComponents(enemy);
             // enemy.SetActive(true);
         }
         else
