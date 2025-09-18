@@ -112,9 +112,45 @@ public class RoomEnemiesGenerator : MonoBehaviour
                 0f,
                 Random.Range(-spawnRange, spawnRange)
             );
-            GameObject objectSpawned = Instantiate(objectsToSpawn[0].prefab, randomPos, Quaternion.identity, parentFolder); 
-            objectSpawned.SetActive(true);
-            spawned = 1;
+            GameObject objectSpawned = null;
+            var candidate = objectsToSpawn[0];
+            switch (candidate.name)
+            {
+                case "BossKnight":
+                    objectSpawned = EnemyPool.Instance.GetBossKnightEnemy();
+                    break;
+                case "BossWidow":
+                    objectSpawned = EnemyPool.Instance.GetBossWidowEnemy();
+                    break;
+                case "Archer":
+                    objectSpawned = EnemyPool.Instance.GetArcherEnemy();
+                    break;
+                case "Thug":
+                    objectSpawned = EnemyPool.Instance.GetThugEnemy();
+                    break;
+                case "BlackWidow":
+                    objectSpawned = EnemyPool.Instance.GetBlackWidowEnemy();
+                    break;
+                case "RedWidow":
+                    objectSpawned = EnemyPool.Instance.GetRedWidowEnemy();
+                    break;
+                case "GrayWidow":
+                    objectSpawned = EnemyPool.Instance.GetGrayWidowEnemy();
+                    break;
+                default:
+                    objectSpawned = Instantiate(candidate.prefab, randomPos, Quaternion.identity, parentFolder);
+                    break;
+            }
+            if (objectSpawned != null)
+            {
+                objectSpawned.transform.position = randomPos;
+                objectSpawned.transform.rotation = Quaternion.identity;
+                objectSpawned.transform.SetParent(parentFolder);
+                objectSpawned.SetActive(true);
+                var agent = objectSpawned.GetComponent<NavMeshAgent>();
+                if (agent != null) agent.enabled = true;
+                spawned = 1;
+            }
         }
 
         await Task.CompletedTask;
