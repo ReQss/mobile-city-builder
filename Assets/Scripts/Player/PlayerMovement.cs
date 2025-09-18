@@ -332,14 +332,14 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        // if (controller.isGrounded)
-        // {
-        //     velocity.y = 0f;
-        // }
-        // else
-        // {
-        //     velocity.y += gravity * Time.deltaTime;
-        // }
+        if (controller.isGrounded)
+        {
+            velocity.y = 0f;
+        }
+        else
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
 
         controller.Move((moveDir *moveSpeed* currentSpeed + velocity) * Time.deltaTime);
         CheckForItemsInRange();
@@ -636,6 +636,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (health <= 0)
         {
+            
+                if (resurrectionManager.resurrectionInProgress) return;
             _ = DeathOrRevive();
         }
 
@@ -666,6 +668,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void TakeDamage(int damageAmount)
     {
+        if (blockDeathOrRevive) return;
+        
+                if (resurrectionManager.resurrectionInProgress) return;
         if (health <= 0 || isInvincible) return;
         if (health - damageAmount < 0)
         {
@@ -678,6 +683,8 @@ public class PlayerMovement : MonoBehaviour
     private bool blockDamage = false;
     public async Task TakeDamageAsync(int damageAmount)
     {
+        
+                if (resurrectionManager.resurrectionInProgress) return;
         if (blockDamage == true) return;
         blockDamage = true;
         if (health <= 0 || isInvincible) 
@@ -1339,6 +1346,7 @@ public class PlayerMovement : MonoBehaviour
                 healthBarAnimator.SetBool("isDamaged", true);
             if (health <= 0 && gameUIHandler != null && resurrectionManager.resurrectionCount <= 0)
             {
+                if (resurrectionManager.resurrectionInProgress) return;
                 isPlayerDead = true;
             }
         }
@@ -1351,6 +1359,8 @@ public class PlayerMovement : MonoBehaviour
             BulletPool.Instance.ReturnSpiderWeb(other.gameObject);
             if (health <= 0 && gameUIHandler != null && resurrectionManager.resurrectionCount <= 0)
             {
+                
+                if (resurrectionManager.resurrectionInProgress) return;
                 isPlayerDead = true;
             }
             else if (!freeTimeFromWeb && !isSlowed)

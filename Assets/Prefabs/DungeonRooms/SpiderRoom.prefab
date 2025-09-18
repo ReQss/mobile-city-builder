@@ -1149,6 +1149,7 @@ GameObject:
   - component: {fileID: 2148111947283841996}
   - component: {fileID: 7693292423606982606}
   - component: {fileID: 3377799436767842947}
+  - component: {fileID: 9126000974226416269}
   m_Layer: 18
   m_Name: Quad
   m_TagString: Untagged
@@ -1246,6 +1247,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &9126000974226416269
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5936605334774684123}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.0000002, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0.05}
 --- !u!1 &5998342579732234825
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,13 +1943,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawn:
-  - prefab: {fileID: 8156621464017713482, guid: 1ab27d1b22d3fe740995c9657dc5b1fb,
+  - name: 
+    prefab: {fileID: 8156621464017713482, guid: 1ab27d1b22d3fe740995c9657dc5b1fb,
       type: 3}
     spawnChance: 70
-  - prefab: {fileID: 5545260354421767917, guid: df1d0850d4e10d64985a7881720310e0,
+  - name: 
+    prefab: {fileID: 5545260354421767917, guid: df1d0850d4e10d64985a7881720310e0,
       type: 3}
     spawnChance: 30
-  - prefab: {fileID: 8156621464017713482, guid: 2f07e407ddfecfc4cb088de5aef6f3b3,
+  - name: 
+    prefab: {fileID: 8156621464017713482, guid: 2f07e407ddfecfc4cb088de5aef6f3b3,
       type: 3}
     spawnChance: 40
   spawnCount: 5

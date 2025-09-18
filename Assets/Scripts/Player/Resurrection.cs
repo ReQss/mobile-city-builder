@@ -16,8 +16,9 @@ public class Resurrection : MonoBehaviour
     private bool isResurrecting = false;
     public TextMeshProUGUI resurrectionCountText;
     public int resurrectionCount = 0;
+    public bool resurrectionInProgress = false;
     public void UndeadPower()
-    { 
+    {
         resurrectionCount += 2;
     }
     void Start()
@@ -35,15 +36,21 @@ public class Resurrection : MonoBehaviour
         SetFrame(currentFrame);
         StartAutoReverse();
         PlayerMovement.playerMovementInstance.isMovementLocked = true;
+        PlayerMovement.playerMovementInstance.GetComponent<CharacterController>().enabled = false;
     }
     public void OpenResurrectionUI()
     {
+        resurrectionInProgress = true;
         resurrectionPanel.SetActive(true);
     }
     public async Task CloseResurrectionUI()
     {
-        await Task.Delay(500); 
+        await Task.Delay(500);
         resurrectionPanel.SetActive(false);
+
+        PlayerMovement.playerMovementInstance.GetComponent<CharacterController>().enabled = true;
+        
+        resurrectionInProgress = false;
     }
     public void NextFrame()
     {
