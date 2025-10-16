@@ -72,8 +72,18 @@ public class PlayerPowers
 public class UnlockedContent
 {
     public bool magicShopUnlocked = false;
+    public bool magicShopActivated = false;
+
     public bool armorShopUnlocked = false;
+    public bool armorShopActivated = false;
+
     public bool weaponShopUnlocked = false;
+    public bool weaponShopActivated = false;
+
+    public bool lotteryActivated = false;
+    public bool moneyFactoryActivated = false;
+
+
     public bool mapUnlocked = false;
     public bool healthUnlocked = false;
     public bool attackUnlocked = false;

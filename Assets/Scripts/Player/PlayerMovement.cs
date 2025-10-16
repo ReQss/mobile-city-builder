@@ -132,8 +132,14 @@ public class PlayerMovement : MonoBehaviour
     private bool isShooting=false;
     public Transform bulletSpawnPos;
     public float bulletSpawnYPos;
+    public void FirstGameActivation()
+    {
+        GameManager.Instance.unlockedContent.moneyFactoryActivated = true;
+        GameManager.Instance.unlockedContent.lotteryActivated = true;
+    }
     void Start()
     {
+        FirstGameActivation();
         originalPlayerMovementSpeed = playerMovementSpeed; 
         playerMovementSpeedSlowed = playerMovementSpeed / 5;
         bulletSpawnYPos = bulletSpawnPos.position.y;

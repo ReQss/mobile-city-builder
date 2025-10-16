@@ -355,7 +355,7 @@ public class EnemyAI : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (health - damage < 0) Health = damage;
+        if (health - damage < 0) Health = 0;
         else
             Health -= damage;
         UpdateHealthBar();

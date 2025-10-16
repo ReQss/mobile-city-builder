@@ -27,6 +27,9 @@ public class LotteryCityScript : MonoBehaviour
     private KeyItem silverKey;
     private KeyItem goldKey;
     public EquipingSystem equipingSystem;
+    public TextMeshProUGUI bronzeKeyCountText;
+    public TextMeshProUGUI silverKeyCountText;
+    public TextMeshProUGUI goldKeyCountText;
     void Start()
     {
         InitKeyCount();
@@ -37,6 +40,16 @@ public class LotteryCityScript : MonoBehaviour
         silverKey = GameManager.Instance.keys.Find(k => k.keyType == KeyType.Silver);
         goldKey = GameManager.Instance.keys.Find(k => k.keyType == KeyType.Gold);
         UpdateKeyCount();
+        UpdateKeyCountPanel();   
+    }
+    public void UpdateKeyCountPanel()
+    {
+        if (bronzeKeyCountText != null)
+            bronzeKeyCountText.text = bronzeKey != null ? bronzeKey.quantity.ToString() : "0";
+        if (silverKeyCountText != null)
+            silverKeyCountText.text = silverKey != null ? silverKey.quantity.ToString() : "0";
+        if (goldKeyCountText != null)
+            goldKeyCountText.text = goldKey != null ? goldKey.quantity.ToString() : "0";
     }
     public void UseLever()
     {
@@ -53,6 +66,7 @@ public class LotteryCityScript : MonoBehaviour
                 break;
         }
     }
+   
     public void SetLotteryType(int lotteryType)
     {
         this.lotteryType = (LotteryType)lotteryType;
@@ -109,6 +123,7 @@ public class LotteryCityScript : MonoBehaviour
                 ReceiveRandomGold();
                 break;
         }
+        UpdateKeyCountPanel();
     }
     // wiecej expa lub golda mala szansa na item
     public void SilverLottery()
@@ -134,6 +149,8 @@ public class LotteryCityScript : MonoBehaviour
         {
             ReceiveRandomItem();
         }
+        
+        UpdateKeyCountPanel();
     }
     public InventoryItem GetRandomItem(EquipmentType randomType)
     {
@@ -170,6 +187,7 @@ public class LotteryCityScript : MonoBehaviour
         UpdateKeyCount();
         ReceiveRandomItem();
 
+        UpdateKeyCountPanel();
 
     }
     public void ReceiveRandomExp()
