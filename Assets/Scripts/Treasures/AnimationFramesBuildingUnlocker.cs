@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class AnimationFramesClick : MonoBehaviour
+public class AnimationFramesBuildingUnlocker : MonoBehaviour
 {
     public Animator targetAnimator;
     public string animationName = "YourAnimation"; 
@@ -38,7 +38,8 @@ public class AnimationFramesClick : MonoBehaviour
         currentFrame = 0;
         SetFrame(currentFrame);
         StartAutoReverse();
-        PlayerMovement.playerMovementInstance.isMovementLocked = true;
+        if(PlayerMovement.playerMovementInstance!=null)
+            PlayerMovement.playerMovementInstance.isMovementLocked = true;
     }
     public void OpenTargetUI()
     {
@@ -58,7 +59,7 @@ public class AnimationFramesClick : MonoBehaviour
 
         PlayerMovement.playerMovementInstance.isMovementLocked = false;
     }
-    public void NextFrame()
+    public void NextFrame(int index)
     {
         if(currentFrame >= totalFrames - 1) return;
         currentFrame++;
@@ -69,8 +70,7 @@ public class AnimationFramesClick : MonoBehaviour
         if (currentFrame >= totalFrames - 1)
         {
             _ = CloseTargetUI();
-            if (isRewardFrames)
-                _ = GetReward();
+            UnlockBuilding();
         }
     }
     public async Task GetReward()
@@ -80,7 +80,10 @@ public class AnimationFramesClick : MonoBehaviour
         PlayerMovement.playerMovementInstance.isMovementLocked = false;
         await Task.Delay(100);
     }
-    
+    public void UnlockBuilding()
+    {
+        BuildingUnlocker.Instance.buildings[BuildingUnlocker.Instance.index].UnlockBuilding();
+    }
     public void StartAutoReverse()
     {
         if (!isAutoReversing)

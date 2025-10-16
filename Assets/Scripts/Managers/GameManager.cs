@@ -63,19 +63,57 @@ public class KeyItem
 }
 public class PlayerPowers
 {
-    
+
     [Header("Powers")]
     public bool undead; // gives 2 respawns in dung
     public bool shield; // shield can be activated every 5 s to neglected damage
 }
+[System.Serializable]
+public class UnlockedContent
+{
+    public bool magicShopUnlocked = false;
+    public bool armorShopUnlocked = false;
+    public bool weaponShopUnlocked = false;
+    public bool mapUnlocked = false;
+    public bool healthUnlocked = false;
+    public bool attackUnlocked = false;
+    public bool speedUnlocked = false;
+    public bool shieldUnlocked = false;
+    public bool resurrectionUnlocked = false;
+    public bool counterUnlocked = false;
+    public bool dashUnlocked = false;
+}
+
+
 public class GameManager : MonoBehaviour
 {
+    public void UnlockContent(string name)
+    {
+        var unlockActions = new Dictionary<string, Action>
+        {
+            { "magicShop", () => unlockedContent.magicShopUnlocked = true },
+            { "armorShop", () => unlockedContent.armorShopUnlocked = true },
+            { "weaponShop", () => unlockedContent.weaponShopUnlocked = true },
+            { "map", () => unlockedContent.mapUnlocked = true },
+            { "health", () => unlockedContent.healthUnlocked = true },
+            { "attack", () => unlockedContent.attackUnlocked = true },
+            { "speed", () => unlockedContent.speedUnlocked = true },
+            { "shield", () => unlockedContent.shieldUnlocked = true },
+            { "resurrection", () => unlockedContent.resurrectionUnlocked = true },
+            { "counter", () => unlockedContent.counterUnlocked = true },
+            { "dash", () => unlockedContent.dashUnlocked = true }
+        };
+
+        if (unlockActions.TryGetValue(name, out var action))
+            action();
+    }
     [Header("Settings")]
     public LightLevel lightLevel;
     public ColorAdjustmentsPreset lightPreset;
     [Header("Key inventory")]
     public List<KeyItem> keys = new List<KeyItem>();
     public Weapons weapons;
+    public UnlockedContent unlockedContent = new UnlockedContent();
     public bool realTimeUpdate = false;
     public List<InventoryItem> unlockedItems = new List<InventoryItem>();
     [SerializeField]
@@ -110,6 +148,7 @@ public class GameManager : MonoBehaviour
     public int playerSpeed = 8;
     [Header("Player experience")]
     public int playerLevel = 1;
+    public int playerLevelPoints = 0;
     public int playerExperienceToGetLevel = 1000;
     public int playerCurrentExperience = 0;
     public int pointsToSpend = 0;
@@ -211,6 +250,7 @@ public class GameManager : MonoBehaviour
     public void LevelUp()
     {
         GameUIHandler.Instance.LevelUp();
+        playerLevelPoints += 1;
         if(DungeonRewardsInfo.Instance != null)
             DungeonRewardsInfo.Instance.levelCollected += 1;
         
