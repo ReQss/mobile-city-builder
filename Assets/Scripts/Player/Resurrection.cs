@@ -25,6 +25,8 @@ public class Resurrection : MonoBehaviour
     {
         if (GameManager.Instance.playerPowers.undead)
             UndeadPower();
+        if(GameManager.Instance.unlockedContent.resurrectionUnlocked == true)
+            resurrectionCount += 1;
         resurrectionCountText.text = resurrectionCount.ToString();
         uiSkullAnimator.speed = 0;
         SetFrame(currentFrame);

@@ -105,9 +105,21 @@ public class GameManager : MonoBehaviour
             { "armorShop", () => unlockedContent.armorShopUnlocked = true },
             { "weaponShop", () => unlockedContent.weaponShopUnlocked = true },
             { "map", () => unlockedContent.mapUnlocked = true },
-            { "health", () => unlockedContent.healthUnlocked = true },
-            { "attack", () => unlockedContent.attackUnlocked = true },
-            { "speed", () => unlockedContent.speedUnlocked = true },
+            { "health", () =>
+            {
+                unlockedContent.healthUnlocked = true;
+                playerHealth += 100;
+            } },
+            { "attack", () =>
+            {
+                unlockedContent.attackUnlocked = true;
+                playerAttack += 10;
+            } },
+            { "speed", () =>
+            {
+                unlockedContent.speedUnlocked = true; 
+                playerSpeed += 1;
+            } },
             { "shield", () => unlockedContent.shieldUnlocked = true },
             { "resurrection", () => unlockedContent.resurrectionUnlocked = true },
             { "counter", () => unlockedContent.counterUnlocked = true },
@@ -400,9 +412,8 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        UpdateUpgradeTimers(); 
+        UpdateUpgradeTimers();
         FindUpgradedBuildingsAndUpdate();
-
         // if (isPlayerInteracting && Time.timeScale != 0)
         // {
         //     Time.timeScale = 0;

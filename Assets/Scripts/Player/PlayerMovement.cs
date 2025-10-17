@@ -693,7 +693,9 @@ public class PlayerMovement : MonoBehaviour
             health = 0;
         }
         else health -= damageAmount;
-
+        #if UNITY_ANDROID || UNITY_IOS
+                Handheld.Vibrate();
+        #endif
         UpdateHealthBar();
     }
     private bool blockDamage = false;
@@ -1029,8 +1031,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     public List<Collider> colliders;
+    // counteratak
     public void CheckForBullets()
     {
+        if(GameManager.Instance.unlockedContent.counterUnlocked == false) return;
         int mask = LayerMask.GetMask("EnemyWeapon", "EnemyBullet");
         List<Collider> colliders2 = Physics.OverlapSphere(transform.position, 3f, mask).ToList();
         // COUNTERATTACK
@@ -1422,7 +1426,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void HandleShield()
     {
-        if (GameManager.Instance.playerPowers.shield == false) return;
+        if (GameManager.Instance.playerPowers.shield == false && !GameManager.Instance.unlockedContent.shieldUnlocked) return;
         // Cooldown timer
         if (shieldCooldownTimer > 0f)
             shieldCooldownTimer -= Time.deltaTime;
@@ -1452,6 +1456,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void HandleDash()
     {
+        if(GameManager.Instance.unlockedContent.dashUnlocked == false) return;
         if (dashCooldownTimer > 0f)
         {
             dashCooldownTimer -= Time.deltaTime;

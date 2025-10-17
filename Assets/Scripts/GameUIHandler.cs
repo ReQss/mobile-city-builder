@@ -82,6 +82,10 @@ public class GameUIHandler : MonoBehaviour
     public AnimationFramesClick webFramesClick;
     [SerializeField]
     public AnimationFramesClick rewardFramesClick;
+    public GameObject miniMapPanel;
+    public GameObject specialActionPanel;
+    public GameObject specialAction2Panel;
+    public GameObject levelUpInfoPanel;
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -248,9 +252,33 @@ public class GameUIHandler : MonoBehaviour
     {
         Instance = this;
     }
-
+    public void EnableMapIfUnlocked()
+    {
+        if (GameManager.Instance.unlockedContent.mapUnlocked == true)
+        {
+            if (miniMapPanel != null)
+            {
+                miniMapPanel.SetActive(true);
+            }
+        }
+        if (GameManager.Instance.unlockedContent.dashUnlocked == true)
+        {
+            if (specialActionPanel != null)
+            {
+                specialActionPanel.SetActive(true);
+            }
+        }
+        if (GameManager.Instance.unlockedContent.counterUnlocked)
+        {
+            if (specialAction2Panel != null)
+            {
+                specialAction2Panel.SetActive(true);
+            }
+        }
+    }
     void Start()
     {
+        EnableMapIfUnlocked();
         UpdateLevelText();
         if (obtainRewardPanel == null)
             obtainRewardPanel = GameObject.Find("ObtainReward");
@@ -313,7 +341,17 @@ public class GameUIHandler : MonoBehaviour
     {   
         SetLevelAndExp();
         SetTimeLeftForUpgrading();
-         
+        if (GameManager.Instance != null && levelUpInfoPanel != null)
+        {
+            if (GameManager.Instance.playerLevelPoints > 0)
+            {
+                levelUpInfoPanel.SetActive(true);
+            }
+            else
+            {
+                levelUpInfoPanel.SetActive(false);
+            }
+        }
         if (currentCoinsCollected != null)
         {
             currentCoinsCollected.text = GameManager.Instance.coinsCollected.ToString();

@@ -28,6 +28,12 @@ public class SkillTree : MonoBehaviour
     public int currentPoints;
     public TextMeshProUGUI currentPointsText;
     int findedSectionIndex = 0;
+    public Animator alertFailAnimator;
+    public void ShowFailAlert()
+    {
+        if (alertFailAnimator == null) return;
+        alertFailAnimator.SetTrigger("triggerAnimator");
+    }
     public Ability FindAbilityByName(string name)
     {
         int i = 0;
@@ -51,7 +57,11 @@ public class SkillTree : MonoBehaviour
     {
         Ability ability = FindAbilityByName(abilityName);
         if (ability == null) return;
-        if (currentPoints < ability.abilityCost) return;
+        if (currentPoints < ability.abilityCost)
+        {
+            ShowFailAlert();
+            return;
+        }
         if (ability.isAvailable == false) return;
         if(ability.isUnlocked) return;
         currentPoints -= ability.abilityCost;
@@ -123,9 +133,5 @@ public class SkillTree : MonoBehaviour
             
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }

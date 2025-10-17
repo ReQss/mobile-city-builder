@@ -68,6 +68,7 @@ public class AnimationFramesClick : MonoBehaviour
         SetFrame(currentFrame);
         if (currentFrame >= totalFrames - 1)
         {
+            Debug.Log("closing panel");
             _ = CloseTargetUI();
             if (isRewardFrames)
                 _ = GetReward();
@@ -77,6 +78,7 @@ public class AnimationFramesClick : MonoBehaviour
     {
         collectRewardAction?.Invoke();
         GameUIHandler.Instance.EnableOrDisableUI(GameUIHandler.Instance.obtainRewardPanel);
+        Debug.Log("Reward Collected"); 
         PlayerMovement.playerMovementInstance.isMovementLocked = false;
         await Task.Delay(100);
     }
