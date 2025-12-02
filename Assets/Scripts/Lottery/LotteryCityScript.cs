@@ -154,6 +154,7 @@ public class LotteryCityScript : MonoBehaviour
     }
     public InventoryItem GetRandomItem(EquipmentType randomType)
     {
+        int itemQuality = Random.Range(0, 3); 
         // EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
         InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
         if (itemOriginal == null)
@@ -175,6 +176,9 @@ public class LotteryCityScript : MonoBehaviour
             , itemOriginal.cost,
             itemOriginal.itemNameToDisable
         );
+        newItem.attack *= itemQuality+1;
+        newItem.health *= itemQuality+1;
+        newItem.equipmentQuality = (EquipmentQuality)itemQuality;
         return newItem;
     }
     // item

@@ -139,8 +139,14 @@ public class GameUIHandler : MonoBehaviour
         // if (touchCanvasJoystick == null) return;
         // touchCanvasJoystick.SetActive(false);
         chooseLevelStatisticsPanel.SetActive(true);
-        if(touchCanvasJoystickPanel != null)
+        if (touchCanvasJoystickPanel != null)
             touchCanvasJoystickPanel.LockJoystick();
+        SlowPause();
+    }
+    public void SlowPause()
+    {
+        PlayerMovement.playerMovementInstance.isMovementLocked = true;
+        Time.timeScale = 0.1f;
     }
     public void LevelUp()
     {
@@ -678,13 +684,26 @@ public class GameUIHandler : MonoBehaviour
         bool result = GameManager.Instance.UsePointForHealth();
         if (result)
         {
-            if(PlayerMovement.playerMovementInstance != null)
+            if (PlayerMovement.playerMovementInstance != null)
                 PlayerMovement.playerMovementInstance.health += 10;
+                PlayerMovement.playerMovementInstance.maxHealth += 10;
             HandleStatistics();
         }
-        if (touchCanvasJoystick != null) {
+        if (touchCanvasJoystick != null)
+        {
             touchCanvasJoystick.SetActive(true);
         }
+        UnpauseGame();
+    }
+    public void PauseGame()
+    {
+        PlayerMovement.playerMovementInstance.isMovementLocked = true;
+        Time.timeScale = 0f;
+    }
+    public void UnpauseGame()
+    {
+        PlayerMovement.playerMovementInstance.isMovementLocked = false;
+        Time.timeScale = 1f;
     }
     public void IncreasePlayerAttackByPoints()
     {
@@ -695,9 +714,12 @@ public class GameUIHandler : MonoBehaviour
                 PlayerMovement.playerMovementInstance.playerAttack += 2;
             HandleStatistics();
         }
-        if (touchCanvasJoystick != null) {
+        if (touchCanvasJoystick != null)
+        {
             touchCanvasJoystick.SetActive(true);
         }
+        
+        UnpauseGame();
     }
     public void IncreasePlayerSpeedByPoints()
     {
@@ -708,9 +730,12 @@ public class GameUIHandler : MonoBehaviour
                 PlayerMovement.playerMovementInstance.speed += 1;
             HandleStatistics();
         }
-        if (touchCanvasJoystick != null) {
+        if (touchCanvasJoystick != null)
+        {
             touchCanvasJoystick.SetActive(true);
         }
+        
+        UnpauseGame();
     }
 
     public void IncreasePlayerAttackUI(int amount)

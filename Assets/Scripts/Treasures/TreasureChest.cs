@@ -69,6 +69,7 @@ public class TreasureChest : MonoBehaviour
     }
     public InventoryItem GetRandomItem()
     {
+        int itemQuality = Random.Range(1, 4); // 1 - common, 2 - uncommon, 3 - rare
         EquipmentType randomType = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
         InventoryItem itemOriginal = GameManager.Instance.unlockedItems.Find(item => item.equipmentType == randomType);
         if (itemOriginal == null)
@@ -90,6 +91,9 @@ public class TreasureChest : MonoBehaviour
             , itemOriginal.cost,
             itemOriginal.itemNameToDisable
         );
+        newItem.attack *= itemQuality;
+        newItem.health *= itemQuality;
+        newItem.equipmentQuality = (EquipmentQuality)itemQuality;
         return newItem;
     }
     public void RandomStatistics()

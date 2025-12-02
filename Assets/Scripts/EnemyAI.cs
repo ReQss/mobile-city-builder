@@ -95,18 +95,30 @@ public class EnemyAI : MonoBehaviour
     private async Task EnemyDeath()
     {
         blockMovement = true;
-        
+
         GetComponent<Animator>().enabled = false;
-        
-         var agent = GetComponent<NavMeshAgent>();
+
+        var agent = GetComponent<NavMeshAgent>();
         if (agent) agent.enabled = false;
         GetComponent<CapsuleCollider>().enabled = false;
         // GetComponent<BoxCollider>().enabled = false;
 
         GameManager.Instance.AddExp(expAmount);
         DungeonRewardsInfo.Instance.experienceCollected += expAmount;
+
+        GiveLoot();
+        
         await Task.Delay(3000);
         ReturnToPool();
+    }
+    public void GiveLoot(){
+        GameObject randomItem = GameItemsPool.Instance.GetRandomItem();
+        if (randomItem != null)
+        {
+            randomItem.transform.SetParent(null); // Unparent to world space
+            randomItem.transform.position = transform.position;
+            randomItem.transform.rotation = Quaternion.identity;
+        }
     }
     
     private void UpdateHealthBar()

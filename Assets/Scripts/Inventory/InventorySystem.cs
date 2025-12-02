@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryItem
 {
     public EquipmentType equipmentType;
+    public EquipmentQuality equipmentQuality;
     public bool isEquipped = false;
     public string itemName;
     public string itemDescription;
@@ -78,6 +79,7 @@ public class InventoryItem
         this.isUnlocked = other.isUnlocked;
         this.cost = other.cost;
         this.itemNameToDisable = other.itemNameToDisable;
+        this.equipmentQuality = other.equipmentQuality;
     }
 }
 public class InventorySystem : MonoBehaviour

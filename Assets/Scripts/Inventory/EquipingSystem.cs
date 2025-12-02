@@ -23,6 +23,12 @@ public enum EquipmentType
     // Body,
     // Shorts,
 }
+public enum EquipmentQuality
+{
+    Common,
+    Uncommon,
+    Rare
+}
 [System.Serializable]
 public class EquipmentSlot
 {
@@ -69,6 +75,26 @@ public class EquipingSystem : MonoBehaviour
                         Debug.Log($"Equipping already equipped item: {item.itemName} to slot: {equipmentSlot.equipmentType}");
                         equipmentSlot.slotImage.sprite = item.itemIcon;
                         equipmentSlot.slotImage.gameObject.SetActive(true);
+                        Image slotImage = equipmentSlot.slotImage.transform.GetChild(0).GetComponent<Image>();
+                        if (slotImage != null)
+                        {
+                            switch (item.equipmentQuality)
+                            {
+                                case EquipmentQuality.Common:
+                                    slotImage.color = Color.white;
+                                    break;
+                                case EquipmentQuality.Uncommon:
+                                    slotImage.color = new Color(173f / 255f, 255f / 255f, 47f / 255f);
+                                    break;
+                                case EquipmentQuality.Rare:
+                                    slotImage.color = new Color(255f / 255f, 235f / 255f, 4f / 255f);
+                                    break;
+                                default:
+                                    slotImage.color = Color.white;
+                                    break;
+                            }
+                            ;
+                        }
                         break;
                     }
                 }
@@ -76,9 +102,13 @@ public class EquipingSystem : MonoBehaviour
                 foreach (var invSlotImage in inventorySlots)
                 {
                     var invSlot = invSlotImage.GetComponent<InventorySlot>();
+                   
                     if (invSlot != null && invSlot.inventoryItem == item)
                     {
                         invSlot.RemoveItemFromSlot();
+                        Image slotImage = invSlot.transform.parent.GetComponent<Image>();
+                        slotImage.color = Color.white;
+                        
                         break;
                     }
                 }
@@ -98,6 +128,25 @@ public class EquipingSystem : MonoBehaviour
                 InventoryItem item = unlockedItems[j];
                 if (item.isUnlocked && item.itemIcon != null && !assignedItems.Contains(item))
                 {
+                    Image slotImage = inventorySlots[i].transform.parent.GetComponent<Image>();
+                    if(slotImage != null)
+                    {
+                        switch (item.equipmentQuality)
+                        {
+                            case EquipmentQuality.Common:
+                                slotImage.color = Color.white;
+                                break;
+                            case EquipmentQuality.Uncommon:
+                                slotImage.color =new Color(173f / 255f, 255f / 255f, 47f / 255f);
+                                break;
+                            case EquipmentQuality.Rare:
+                                slotImage.color =  new Color(255f / 255f, 235f / 255f, 4f / 255f); 
+                                break;
+                            default:
+                                slotImage.color = Color.white;
+                                break;
+                        };
+                    }
                     inventorySlots[i].gameObject.GetComponent<InventorySlot>().inventoryItem = item;
                     inventorySlots[i].gameObject.SetActive(true);
                     inventorySlots[i].sprite = item.itemIcon;

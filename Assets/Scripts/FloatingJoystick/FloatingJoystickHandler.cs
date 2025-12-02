@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UI;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class FloatingJoystickHandler : MonoBehaviour
@@ -24,6 +25,13 @@ public class FloatingJoystickHandler : MonoBehaviour
     private Finger MovementFinger;
     private Vector2 MovementAmount;
     public bool isJoystickEnabled = true; 
+    private Vector2 initialJoystickPosition;
+    public Image joystickImage;
+
+    void Start()
+    {
+        initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
+    }
 
     private void OnEnable()
     {
@@ -89,7 +97,15 @@ public class FloatingJoystickHandler : MonoBehaviour
         {
             MovementFinger = null;
             Joystick.Knob.anchoredPosition = Vector2.zero;
-            Joystick.gameObject.SetActive(false);
+            Joystick.RectTransform.anchoredPosition = initialJoystickPosition;
+            // Joystick.gameObject.SetActive(false);
+            initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
+            if (joystickImage != null)
+            {
+                Color c = joystickImage.color;
+                c.a = 0.5f; 
+                joystickImage.color = c;
+            }
             MovementAmount = Vector2.zero;
         }
     }
@@ -108,6 +124,13 @@ public class FloatingJoystickHandler : MonoBehaviour
             MovementFinger = TouchedFinger;
             MovementAmount = Vector2.zero;
             Joystick.gameObject.SetActive(true);
+            initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
+            if (joystickImage != null)
+            {
+                Color c = joystickImage.color;
+                c.a = 1f;
+                joystickImage.color = c;
+            }
             Joystick.RectTransform.sizeDelta = JoystickSize;
             Joystick.RectTransform.anchoredPosition = ClampStartPosition(TouchedFinger.screenPosition);
         }

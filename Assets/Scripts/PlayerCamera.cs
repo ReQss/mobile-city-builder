@@ -6,7 +6,8 @@ public class PlayerCamera : MonoBehaviour
 
     private Camera cam;
     private Vector3 initialOffset;
-    private Quaternion initialRotation;
+    // public Quaternion initialRotation;
+    public Quaternion aditionalOffsetRotation;
 
     void Awake()
     {
@@ -21,7 +22,7 @@ public class PlayerCamera : MonoBehaviour
         {
             initialOffset = transform.position - target.position;
         }
-        initialRotation = transform.rotation;
+        // initialRotation = transform.rotation;
     }
 
     void LateUpdate()
@@ -29,6 +30,6 @@ public class PlayerCamera : MonoBehaviour
         if (target == null) return;
 
         transform.position = target.position + initialOffset;
-        transform.rotation = initialRotation;
+        transform.rotation = aditionalOffsetRotation;
     }
 }

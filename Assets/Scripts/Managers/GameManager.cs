@@ -222,6 +222,17 @@ public class GameManager : MonoBehaviour
     {
         playerPowers.undead = false;
         playerPowers.shield = false;
+        unlockedContent.armorShopActivated = false;
+        unlockedContent.magicShopActivated = false;
+        unlockedContent.weaponShopActivated = false;
+        unlockedContent.mapUnlocked = false;
+        unlockedContent.healthUnlocked = false;
+        unlockedContent.attackUnlocked = false;
+        unlockedContent.speedUnlocked = false;
+        unlockedContent.shieldUnlocked = false;
+        unlockedContent.resurrectionUnlocked = false;
+        unlockedContent.counterUnlocked = false;
+        unlockedContent.dashUnlocked = false;
         foreach (CharacterPower cp in selectedClass.characterPower)
         {
             switch (cp.powerType)
@@ -241,6 +252,7 @@ public class GameManager : MonoBehaviour
         playerSpeed = selectedClass.speed;
         coinsCollected = 0;
         playerLevel = 1;
+        playerLevelPoints = 0;
         playerCurrentExperience = 0;
         pointsToSpend = 0;
         playerExperienceToGetLevel = 1000;
@@ -275,8 +287,9 @@ public class GameManager : MonoBehaviour
         playerLevelPoints += 1;
         if(DungeonRewardsInfo.Instance != null)
             DungeonRewardsInfo.Instance.levelCollected += 1;
-        
+
         GameUIHandler.Instance.ShowLevelUpChoosePanel();
+        
     }
     public bool UsePointForAttack()
     {

@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     
+    public Camera playerCamera;
     public GameObject dashEffectParticles;
     public AudioClip walkSound;
     public AudioClip attackSound;
@@ -132,6 +133,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isShooting=false;
     public Transform bulletSpawnPos;
     public float bulletSpawnYPos;
+    public int maxHealth = 0;
     public void FirstGameActivation()
     {
         GameManager.Instance.unlockedContent.moneyFactoryActivated = true;
@@ -166,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
         GameUIHandler.Instance.HandleStatistics();
         UpdateHealthBar();
         GameManager.Instance.InitLightSettigns();
+        maxHealth = health;
     }
     public void UpdateAdditionalBonuses()
     {
@@ -333,9 +336,11 @@ public class PlayerMovement : MonoBehaviour
                 isMoving = navDir.magnitude > 0.1f;
             }
             if (autoNavigationEnabled || autoAttackEnabled) animator.SetBool("isRunning", true);
-            else animator.SetBool("isRunning", isMoving);
-
-
+            else{ 
+                animator.SetBool("isRunning", isMoving);
+                playerCamera.GetComponent<Animator>().SetBool("running", isMoving);
+    
+            }
             if (attackDirActive)
             {
                 AttackAnimationsHandling();
@@ -722,9 +727,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void HealPlayer(int healAmount)
     {
-        if (healAmount >= health + GameManager.Instance.playerHealth)
+        if (healAmount + health >=  maxHealth)
         {
-            health = GameManager.Instance.playerHealth;
+            health = maxHealth;
         }
         else health += healAmount;
         UpdateHealthBar();

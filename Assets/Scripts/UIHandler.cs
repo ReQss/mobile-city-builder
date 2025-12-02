@@ -394,7 +394,7 @@ public class UIHandler : MonoBehaviour
     public void OpenUIObject(GameObject gameObject)
     {
         gameObject.SetActive(true);
-        Animator animator = gameObject.GetComponent<Animator>();
+        Animator animator = gameObject.GetComponent<Animator>() ? gameObject.GetComponent<Animator>() : null;
         if (animator != null)
             animator.SetBool("IsOpen", true);
         GameManager.Instance.isUIOpen = true;
