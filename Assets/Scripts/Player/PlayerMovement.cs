@@ -134,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform bulletSpawnPos;
     public float bulletSpawnYPos;
     public int maxHealth = 0;
+    public Animator vignetteDamageAnimator;
     public void FirstGameActivation()
     {
         GameManager.Instance.unlockedContent.moneyFactoryActivated = true;
@@ -702,6 +703,7 @@ public class PlayerMovement : MonoBehaviour
                 Handheld.Vibrate();
         #endif
         UpdateHealthBar();
+        vignetteDamageAnimator.SetTrigger("damage");
     }
     private bool blockDamage = false;
     public async Task TakeDamageAsync(int damageAmount)
@@ -722,6 +724,8 @@ public class PlayerMovement : MonoBehaviour
         else health -= damageAmount;
 
         UpdateHealthBar();
+        
+        vignetteDamageAnimator.SetTrigger("damage");
         await Task.Delay(100);
         blockDamage = false;
     }
