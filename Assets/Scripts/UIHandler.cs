@@ -44,6 +44,7 @@ public class UIHandler : MonoBehaviour
     public GameObject alertFailure;
     public GameObject continueButton;
     public List<Button> buttonToTriggetOnStart;
+    public Vector2Int dungeonSizeSmall = new Vector2Int(3,3);
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -65,6 +66,27 @@ public class UIHandler : MonoBehaviour
         }
         return false;
     }
+    public void SetDungeonSizeSmall()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetDungeonSize(dungeonSizeSmall,1);
+        }
+    }
+     public void SetDungeonSizeMedium()
+    {
+        if (GameManager.Instance != null)
+        {
+        GameManager.Instance.SetDungeonSize(dungeonSizeSmall + new Vector2Int(1,1),2);
+        }
+    }
+        public void SetDungeonSizeLarge()
+        {
+            if (GameManager.Instance != null)
+            {
+            GameManager.Instance.SetDungeonSize(dungeonSizeSmall + new Vector2Int(2,2),3);
+            }
+        }
 
     void Start()
     {

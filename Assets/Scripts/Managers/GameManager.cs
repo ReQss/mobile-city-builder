@@ -179,9 +179,21 @@ public class GameManager : MonoBehaviour
 
     public GameObject startWeapon;
     public CharacterClass selectedClass;
+    private Vector2Int selectedDungeonSize;
+    public int selectedNumberOfTreasureChests = 1;
+
     public PlayerPowers playerPowers = new PlayerPowers();
    
     public static GameManager Instance { get; private set; }
+    public void SetDungeonSize(Vector2Int size, int numberOfTreasureChests)
+    {
+        selectedDungeonSize = size;
+        selectedNumberOfTreasureChests = numberOfTreasureChests;
+    }
+    public Vector2Int GetDungeonSize()
+    {
+        return selectedDungeonSize;
+    }
 // copy new item stats to old item stats
     public void CopyNewItemStats(InventoryItem newItem)
     {

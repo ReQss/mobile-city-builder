@@ -41,94 +41,137 @@ public class DungeonGenerator : MonoBehaviour
     public Rule[] rooms;
     public Vector2 offset;
 
-    List<Cell> board;
+    public int numberOfTreasureChests = 1;
+    [Header("Special rooms")]
+    public GameObject lastRoomPrefab;
+    public GameObject treasureRoomPrefab;
 
+
+    List<Cell> board;
+    public static DungeonGenerator Instance { get; private set; }
+
+
+    void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject); 
+                return;
+            }
+            Instance = this;
+        }
     // Start is called before the first frame update
     void Start()
     {
+        if(GameManager.Instance != null)
+        {
+            if (GameManager.Instance.GetDungeonSize()!= Vector2Int.zero)
+            {
+                this.size = GameManager.Instance.GetDungeonSize();
+            }
+        }
+        if(GameManager.Instance != null)
+        {
+            this.numberOfTreasureChests = GameManager.Instance.selectedNumberOfTreasureChests;
+        }
         MazeGenerator();
          NavMeshSurface surface = GetComponent<NavMeshSurface>();
         if (surface != null)
         {
             surface.BuildNavMesh();
         }
-
+        
     }
 
     void GenerateDungeon()
     {
-
-        for (int i = 0; i < size.x; i++)
+    int numberOfTreasureChestsSpawned=0;
+    for (int i = 0; i < size.x; i++)
+    {
+        for (int j = 0; j < size.y; j++)
         {
-            for (int j = 0; j < size.y; j++)
+            int index = i + j * size.x;
+            Cell currentCell = board[index];
+
+            if (!currentCell.visited)
+                continue;
+
+            GameObject roomToSpawn = null;
+
+            // 🔥 OSTATNI POKÓJ
+            if (index == board.Count - 1 && lastRoomPrefab != null)
             {
-                Cell currentCell = board[(i + j * size.x)];
-                if (currentCell.visited)
-                {
-                    int randomRoom = -1;
-                    List<int> availableRooms = new List<int>();
-
-                    for (int k = 0; k < rooms.Length; k++)
-                    {
-                        int p = rooms[k].ProbabilityOfSpawning(i, j);
-
-                        if (p == 2)
-                        {
-                            randomRoom = k;
-                            break;
-                        }
-                        else if (p == 1)
-                        {
-                            availableRooms.Add(k);
-                        }
-                        // else if (p == 1)
-                        // {
-                        //     // Dodaj losowanie na podstawie spawnChance
-                        //     if (Random.Range(0, 100) < rooms[k].spawnChance)
-                        //     {
-                        //         availableRooms.Add(k);
-                        //     }
-                        // }
-                    }
-
-                    if(randomRoom == -1)
-                    {
-                        if (availableRooms.Count > 0)
-                        {
-                            // Losowanie z wagami spawnChance
-                            int totalWeight = 0;
-                            foreach (int idx in availableRooms)
-                            {
-                                totalWeight += rooms[idx].spawnChance;
-                            }
-                            int rand = Random.Range(0, totalWeight);
-                            int cumulative = 0;
-                            foreach (int idx in availableRooms)
-                            {
-                                cumulative += rooms[idx].spawnChance;
-                                if (rand < cumulative)
-                                {
-                                    randomRoom = idx;
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            randomRoom = 0;
-                        }
-                    }
-
-
-                    var newRoom = Instantiate(rooms[randomRoom].room, new Vector3(i * offset.x, 0, -j * offset.y), Quaternion.identity, transform).GetComponent<RoomBehaviour>();
-                    newRoom.UpdateRoom(currentCell.status);
-                    newRoom.name += " " + i + "-" + j;
-
-                }
+                roomToSpawn = lastRoomPrefab;
             }
-        }
+            //  PRZEDOSTATNI POKÓJ
+            else if (((i == size.x - 1 && j == size.y-2 )||((i == size.x-2 && j == size.y-1 )))&&treasureRoomPrefab != null && numberOfTreasureChestsSpawned==0)
+            {
+                roomToSpawn = treasureRoomPrefab;
+                numberOfTreasureChestsSpawned++;
+            }
+            else
+            {
+                int randomRoom = -1;
+                List<int> availableRooms = new List<int>();
 
+                for (int k = 0; k < rooms.Length; k++)
+                {
+                    int p = rooms[k].ProbabilityOfSpawning(i, j);
+
+                    if (p == 2)
+                    {
+                        randomRoom = k;
+                        break;
+                    }
+                    else if (p == 1)
+                    {
+                        availableRooms.Add(k);
+                    }
+                }
+
+                if (randomRoom == -1)
+                {
+                    if (availableRooms.Count > 0)
+                    {
+                        int totalWeight = 0;
+                        foreach (int idx in availableRooms)
+                            totalWeight += rooms[idx].spawnChance;
+
+                        int rand = Random.Range(0, totalWeight);
+                        int cumulative = 0;
+
+                        foreach (int idx in availableRooms)
+                        {
+                            cumulative += rooms[idx].spawnChance;
+                            if (rand < cumulative)
+                            {
+                                randomRoom = idx;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        randomRoom = 0;
+                    }
+                }
+
+                roomToSpawn = rooms[randomRoom].room;
+            }
+
+            var newRoom = Instantiate(
+                roomToSpawn,
+                new Vector3(i * offset.x, 0, -j * offset.y),
+                Quaternion.identity,
+                transform
+            ).GetComponent<RoomBehaviour>();
+
+            newRoom.UpdateRoom(currentCell.status);
+            newRoom.name += $" {i}-{j}";
+        }
     }
+}
+
     
 
     void MazeGenerator()
