@@ -34,16 +34,19 @@ public class InventorySlot : MonoBehaviour
                             switch (item.equipmentQuality)
                             {
                                 case EquipmentQuality.Common:
-                                    slotImage.color = Color.white;
+                                    slotImage.color = new Color32(255, 255, 255, 165);
                                     break;
+
                                 case EquipmentQuality.Uncommon:
-                                    slotImage.color = new Color(173f / 255f, 255f / 255f, 47f / 255f);
+                                    slotImage.color = new Color32(173, 255, 47, 165);
                                     break;
+
                                 case EquipmentQuality.Rare:
-                                    slotImage.color = new Color(255f / 255f, 235f / 255f, 4f / 255f);
+                                    slotImage.color = new Color32(255, 235, 4, 165);
                                     break;
+
                                 default:
-                                    slotImage.color = Color.white;
+                                    slotImage.color = new Color32(255, 255, 255, 165);
                                     break;
                             }
                             ;
@@ -52,10 +55,12 @@ public class InventorySlot : MonoBehaviour
                 break;
             }
         }
+        
     }
     public void RemoveItemFromSlot()
     {
         // inventoryItem = null;
+        Debug.Log("Removing item from inventory slot: " + inventoryItem.itemName);
         inventoryItem.isEquipped = true;
         this.gameObject.GetComponent<Image>().sprite = null;
         this.gameObject.transform.parent.GetComponent<Image>().color = Color.white;

@@ -81,16 +81,19 @@ public class EquipingSystem : MonoBehaviour
                             switch (item.equipmentQuality)
                             {
                                 case EquipmentQuality.Common:
-                                    slotImage.color = Color.white;
+                                    slotImage.color = new Color32(255, 255, 255, 165);
                                     break;
+
                                 case EquipmentQuality.Uncommon:
-                                    slotImage.color = new Color(173f / 255f, 255f / 255f, 47f / 255f);
+                                    slotImage.color = new Color32(173, 255, 47, 165);
                                     break;
+
                                 case EquipmentQuality.Rare:
-                                    slotImage.color = new Color(255f / 255f, 235f / 255f, 4f / 255f);
+                                    slotImage.color = new Color32(255, 235, 4, 165);
                                     break;
+
                                 default:
-                                    slotImage.color = Color.white;
+                                    slotImage.color = new Color32(255, 255, 255, 165);
                                     break;
                             }
                             ;
@@ -133,18 +136,21 @@ public class EquipingSystem : MonoBehaviour
                     {
                         switch (item.equipmentQuality)
                         {
-                            case EquipmentQuality.Common:
-                                slotImage.color = Color.white;
-                                break;
-                            case EquipmentQuality.Uncommon:
-                                slotImage.color =new Color(173f / 255f, 255f / 255f, 47f / 255f);
-                                break;
-                            case EquipmentQuality.Rare:
-                                slotImage.color =  new Color(255f / 255f, 235f / 255f, 4f / 255f); 
-                                break;
-                            default:
-                                slotImage.color = Color.white;
-                                break;
+                                case EquipmentQuality.Common:
+                                    slotImage.color = new Color32(255, 255, 255, 165);
+                                    break;
+
+                                case EquipmentQuality.Uncommon:
+                                    slotImage.color = new Color32(173, 255, 47, 165);
+                                    break;
+
+                                case EquipmentQuality.Rare:
+                                    slotImage.color = new Color32(255, 235, 4, 165);
+                                    break;
+
+                                default:
+                                    slotImage.color = new Color32(255, 255, 255, 165);
+                                    break;
                         };
                     }
                     inventorySlots[i].gameObject.GetComponent<InventorySlot>().inventoryItem = item;

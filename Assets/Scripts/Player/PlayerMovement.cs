@@ -1344,7 +1344,7 @@ public class PlayerMovement : MonoBehaviour
         isMovementLocked = false;
     }
 
-    private void OnTriggerStay(Collider other)
+    private async Task OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyWeapon"))
         {
@@ -1356,6 +1356,9 @@ public class PlayerMovement : MonoBehaviour
         {
             health = Mathf.Min(health + 25, 300);
             UpdateHealthBar();
+            PlayerEffectsUI.Instance.ActiveEffect(EffectType.Healing);
+            await Task.Delay(500);
+            PlayerEffectsUI.Instance.DeactiveEffect(EffectType.Healing);
             Destroy(other.gameObject);
         }
         // Damage from enemy bullets
@@ -1396,7 +1399,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (!freeTimeFromWeb && !isSlowed)
             {
-                GameUIHandler.Instance.webFramesClick.InitFrames(null);
+
+                await SlowPlayer();
+                // GameUIHandler.Instance.webFramesClick.InitFrames(null);
             }
         }
         
@@ -1404,18 +1409,20 @@ public class PlayerMovement : MonoBehaviour
     public bool freeTimeFromWeb = false;
   
 
-    private bool isSlowed = false;
+    public bool isSlowed = false;
     public async Task SlowPlayer()
     {
         if (isSlowed) return;
-        isMovementLocked = false;
+        // isMovementLocked = false;
         isSlowed = true;
         playerMovementSpeed = playerMovementSpeedSlowed;
-        await Task.Delay(1500);
+        PlayerEffectsUI.Instance.ActiveEffect(EffectType.Slow);
+        await Task.Delay(2500);
         playerMovementSpeed = originalPlayerMovementSpeed;
+        PlayerEffectsUI.Instance.DeactiveEffect(EffectType.Slow);
         isSlowed = false;
         freeTimeFromWeb = true;
-        await Task.Delay(4000);
+        await Task.Delay(1000);
         freeTimeFromWeb = false;
     }
 
