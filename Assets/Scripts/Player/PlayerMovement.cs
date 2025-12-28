@@ -328,7 +328,11 @@ public class PlayerMovement : MonoBehaviour
             FightingMode();
         if (animator != null)
         {
-            bool isMoving = moveDir.magnitude > 0.1f;
+            bool isMoving = joystickMove.magnitude > 0.1f;
+
+            // Ustawiamy Speed na podstawie siły wychylenia joysticka (od 0 do 1)
+            float normalizedSpeed = Mathf.Clamp01(joystickMove.magnitude);
+            animator.SetFloat("Speed", normalizedSpeed);
 
             if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
             {
