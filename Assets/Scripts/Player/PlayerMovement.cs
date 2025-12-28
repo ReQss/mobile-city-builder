@@ -135,11 +135,53 @@ public class PlayerMovement : MonoBehaviour
     public float bulletSpawnYPos;
     public int maxHealth = 0;
     public Animator vignetteDamageAnimator;
+    [Header("Upper Body IK")]
+public Transform upperBodyBone; // np. "Spine_02" lub "Chest" z Rig
+private void RotateUpperBodyTowardsAim()
+{
+    // if(isShooting== false)return;
+    if (upperBodyBone == null || !(isCombat || attackDirActive)) return;
+    float verticalOffset = 0f; // możesz zmienić na -45f lub inną wartość
+
+    if(animator.GetBool("isShooting") ==true ) verticalOffset = -32f;
+    else if(animator.GetBool("bowAttack") ==true )verticalOffset = -75f;
+    else return;
+    // Kierunek strzału (jeśli brak, używamy kierunku przodu postaci)
+    Vector3 aimDirection = attackDir != Vector3.zero ? attackDir.normalized : transform.forward;
+
+    // Wyznacz kąt obrotu w poziomie (yaw)
+    float targetY = Mathf.Atan2(aimDirection.x, aimDirection.z) * Mathf.Rad2Deg;
+
+    // Wyznacz kąt obrotu w pionie (pitch)
+    float targetX = Mathf.Asin(aimDirection.y) * Mathf.Rad2Deg;
+
+    // Pobierz bazową rotację kości (z animacji)
+    Vector3 baseEuler = upperBodyBone.localEulerAngles;
+
+    // OFFSET w pionie (obrót w górę/dół)
+    // float verticalOffset = -35f; // możesz zmienić na -45f lub inną wartość
+    // float verticalOffset = -55f; // możesz zmienić na -45f lub inną wartość
+
+    // Ustaw nową rotację lokalną kości
+    upperBodyBone.localEulerAngles = new Vector3(
+        targetX + verticalOffset,      // pitch (X)
+        targetY - transform.eulerAngles.y, // yaw (Y) względem postaci
+        baseEuler.z                    // zachowujemy roll (Z)
+    );
+}
+
     public void FirstGameActivation()
     {
         GameManager.Instance.unlockedContent.moneyFactoryActivated = true;
         GameManager.Instance.unlockedContent.lotteryActivated = true;
     }
+    void LateUpdate()
+{
+    // ...existing code...
+
+    // Dodaj na końcu LateUpdate:
+    RotateUpperBodyTowardsAim();
+}
     void Start()
     {
         FirstGameActivation();
@@ -672,6 +714,7 @@ public class PlayerMovement : MonoBehaviour
     public async Task DeathOrRevive()
     {
         if (blockDeathOrRevive == true) return;
+
         blockDeathOrRevive = true;
         if (resurrectionManager.resurrectionCount > 0)
         {
