@@ -11178,6 +11178,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1127153655}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &722306457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1665329104326632868, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+    type: 3}
+  m_PrefabInstance: {fileID: 849945421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &746135075
 GameObject:
   m_ObjectHideFlags: 0
@@ -11617,6 +11623,12 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000047504902, y: 0.0063700676, z: 0.19427395}
     m_Extent: {x: 0.28933755, y: 0.21040449, z: 0.23534155}
   m_DirtyAABB: 0
+--- !u!95 &831962758 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4561623178876864834, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+    type: 3}
+  m_PrefabInstance: {fileID: 849945421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &842242233
 GameObject:
   m_ObjectHideFlags: 0
@@ -11861,10 +11873,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -18.599976
       objectReference: {fileID: 0}
+    - target: {fileID: 874018637554875144, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1637854169}
+    - target: {fileID: 874018637554875144, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextFrame
+      objectReference: {fileID: 0}
     - target: {fileID: 2080554568763084932, guid: 7cfdbc9a39e417f419f7226de2ff4133,
         type: 3}
       propertyPath: m_Name
       value: ExtraCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219178617416296467, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1316260075}
+    - target: {fileID: 6219178617416296467, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextFrame
       objectReference: {fileID: 0}
     - target: {fileID: 8890813220829791395, guid: 7cfdbc9a39e417f419f7226de2ff4133,
         type: 3}
@@ -15721,6 +15753,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1202406317}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1205025377 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5183755238290847810, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+    type: 3}
+  m_PrefabInstance: {fileID: 849945421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1208327804
 GameObject:
   m_ObjectHideFlags: 0
@@ -16867,11 +16905,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b88cca05c33f348a45191a5a473c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAnimator: {fileID: 0}
+  targetAnimator: {fileID: 831962758}
   animationName: chestopeninganim
   totalFrames: 10
   autoReverseInterval: 0.5
-  targetPanel: {fileID: 0}
+  targetPanel: {fileID: 1987101794}
   isRewardFrames: 1
   isWebFrames: 0
 --- !u!1 &1319019965
@@ -21128,11 +21166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b88cca05c33f348a45191a5a473c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetAnimator: {fileID: 0}
+  targetAnimator: {fileID: 1205025377}
   animationName: webbreakinganim
   totalFrames: 9
   autoReverseInterval: 0.5
-  targetPanel: {fileID: 0}
+  targetPanel: {fileID: 722306457}
   isRewardFrames: 0
   isWebFrames: 1
 --- !u!1 &1638317310
@@ -25271,6 +25309,12 @@ Transform:
   - {fileID: 684230239}
   m_Father: {fileID: 923763148}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1987101794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4602664567798641491, guid: 7cfdbc9a39e417f419f7226de2ff4133,
+    type: 3}
+  m_PrefabInstance: {fileID: 849945421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2001386011
 PrefabInstance:
   m_ObjectHideFlags: 0

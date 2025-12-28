@@ -1549,6 +1549,9 @@ private void RotateUpperBodyTowardsAim()
                     }
                 }
             }
+            
+            animator.SetBool("isDashing",true);
+            animator.SetTrigger("Roll");
             isDashing = true;
             dashTimer = dashDuration;
             dashDirection = moveDir.normalized != Vector3.zero ? moveDir.normalized : transform.forward;
@@ -1557,12 +1560,15 @@ private void RotateUpperBodyTowardsAim()
 
         if (isDashing)
         {
-            if(isMovementLocked == false)
+
+            if(isMovementLocked == false){
                 controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+            }
             dashTimer -= Time.deltaTime;
             if (dashTimer <= 0f)
             {
                 isDashing = false;
+                animator.SetBool("isDashing",false);
                 if (dashTrails != null)
                 {
                     foreach (var trail in dashTrails)
