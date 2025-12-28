@@ -391,7 +391,7 @@ private void RotateUpperBodyTowardsAim()
                 }
 
                 // WYGŁADZENIE (KLUCZ!)
-                animator.SetFloat("Speed", targetSpeed, 0.15f, Time.deltaTime);
+                animator.SetFloat("Speed", targetSpeed, 0.4f, Time.deltaTime);
 
 
                 if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
