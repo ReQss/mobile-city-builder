@@ -369,36 +369,47 @@ private void RotateUpperBodyTowardsAim()
         if(attackEnabled)
             FightingMode();
         if (animator != null)
-        {
-            bool isMoving = joystickMove.magnitude > 0.1f;
+            {
+                bool isMoving = joystickMove.magnitude > 0.1f;
 
-            // Ustawiamy Speed na podstawie siły wychylenia joysticka (od 0 do 1)
-            float normalizedSpeed = Mathf.Clamp01(joystickMove.magnitude);
-            animator.SetFloat("Speed", normalizedSpeed);
+                // Calculate the dot product to determine forward/backward movement
+                float dot = Vector3.Dot(moveDir, transform.forward);
+                float normalizedSpeed = Mathf.Clamp01(joystickMove.magnitude);
 
-            if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
-            {
-                Vector3 navDir = navMeshAgent.nextPosition - transform.position;
-                navDir.y = 0f;
-                isMoving = navDir.magnitude > 0.1f;
+                // If moving backwards, set speed negative
+                float blendSpeed = normalizedSpeed;
+                if (dot < -0.1f) // Threshold to avoid jitter near zero
+                    blendSpeed = -normalizedSpeed;
+                if(isShooting == false)
+                    animator.SetFloat("Speed", blendSpeed);
+                else
+                {
+                    animator.SetFloat("Speed", Mathf.Clamp(blendSpeed,-1f,0.3f));
+                }
+
+                if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
+                {
+                    Vector3 navDir = navMeshAgent.nextPosition - transform.position;
+                    navDir.y = 0f;
+                    isMoving = navDir.magnitude > 0.1f;
+                }
+                if (autoNavigationEnabled || autoAttackEnabled) animator.SetBool("isRunning", true);
+                else{ 
+                    animator.SetBool("isRunning", isMoving);
+                    playerCamera.GetComponent<Animator>().SetBool("running", isMoving);
+
+                }
+                if (attackDirActive)
+                {
+                    AttackAnimationsHandling();
+                }
+                else if (isCombat)
+                {
+                    AttackAnimationsHandling();
+                }
+                else DisableAttackAnimations();
+
             }
-            if (autoNavigationEnabled || autoAttackEnabled) animator.SetBool("isRunning", true);
-            else{ 
-                animator.SetBool("isRunning", isMoving);
-                playerCamera.GetComponent<Animator>().SetBool("running", isMoving);
-    
-            }
-            if (attackDirActive)
-            {
-                AttackAnimationsHandling();
-            }
-            else if (isCombat)
-            {
-                AttackAnimationsHandling();
-            }
-            else DisableAttackAnimations();
-            
-        }
 
         if (controller.isGrounded)
         {
