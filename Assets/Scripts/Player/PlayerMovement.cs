@@ -376,16 +376,23 @@ private void RotateUpperBodyTowardsAim()
                 float dot = Vector3.Dot(moveDir, transform.forward);
                 float normalizedSpeed = Mathf.Clamp01(joystickMove.magnitude);
 
-                // If moving backwards, set speed negative
+                // kierunek przód / tył
                 float blendSpeed = normalizedSpeed;
-                if (dot < -0.1f) // Threshold to avoid jitter near zero
+                if (dot < -0.1f)
                     blendSpeed = -normalizedSpeed;
-                if(isShooting == false)
-                    animator.SetFloat("Speed", blendSpeed);
-                else
+
+                // wartość docelowa
+                float targetSpeed = blendSpeed;
+
+                // ograniczenie podczas strzelania
+                if (isShooting)
                 {
-                    animator.SetFloat("Speed", Mathf.Clamp(blendSpeed,-1f,0.3f));
+                    targetSpeed = Mathf.Clamp(blendSpeed, -1f, 0.3f);
                 }
+
+                // WYGŁADZENIE (KLUCZ!)
+                animator.SetFloat("Speed", targetSpeed, 0.15f, Time.deltaTime);
+
 
                 if ((autoNavigationEnabled || autoAttackEnabled) && currentTarget != null && navMeshAgent != null)
                 {
