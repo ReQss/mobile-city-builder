@@ -137,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator vignetteDamageAnimator;
     [Header("Upper Body IK")]
 public Transform upperBodyBone; // np. "Spine_02" lub "Chest" z Rig
+    public int currentBulletAmount=1;
 private void RotateUpperBodyTowardsAim()
 {
     // if(isShooting== false)return;
@@ -841,7 +842,7 @@ private void RotateUpperBodyTowardsAim()
                 isShooting = true;
                 if(isCombat)
                     RotateTowardsEnemy();
-                _ = InstantiateMultipleBullets(numberOfBullets);
+                // _ = InstantiateMultipleBullets(numberOfBullets);
 
                 shotsFired++;
                 if (gameUIHandler != null)

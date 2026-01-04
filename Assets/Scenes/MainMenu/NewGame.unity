@@ -372,9 +372,27 @@ MonoBehaviour:
     isBowEnabled: 0
     isCrossbowEnabled: 0
     isRodEnabled: 0
+  unlockedContent:
+    magicShopUnlocked: 0
+    magicShopActivated: 0
+    armorShopUnlocked: 0
+    armorShopActivated: 0
+    weaponShopUnlocked: 0
+    weaponShopActivated: 0
+    lotteryActivated: 0
+    moneyFactoryActivated: 0
+    mapUnlocked: 0
+    healthUnlocked: 0
+    attackUnlocked: 0
+    speedUnlocked: 0
+    shieldUnlocked: 0
+    resurrectionUnlocked: 0
+    counterUnlocked: 0
+    dashUnlocked: 0
   realTimeUpdate: 0
   unlockedItems:
   - equipmentType: 1
+    equipmentQuality: 0
     isEquipped: 0
     itemName: Tunic
     itemDescription: 
@@ -387,6 +405,7 @@ MonoBehaviour:
     cost: 8000
     itemNameToDisable: 
   - equipmentType: 2
+    equipmentQuality: 0
     isEquipped: 0
     itemName: Gloves
     itemDescription: 
@@ -399,6 +418,7 @@ MonoBehaviour:
     cost: 5000
     itemNameToDisable: 
   - equipmentType: 3
+    equipmentQuality: 0
     isEquipped: 0
     itemName: Helmet
     itemDescription: 
@@ -411,6 +431,7 @@ MonoBehaviour:
     cost: 4000
     itemNameToDisable: 
   - equipmentType: 0
+    equipmentQuality: 0
     isEquipped: 0
     itemName: Boots
     itemDescription: 
@@ -423,6 +444,7 @@ MonoBehaviour:
     cost: 0
     itemNameToDisable: 
   - equipmentType: 4
+    equipmentQuality: 0
     isEquipped: 0
     itemName: Pants
     itemDescription: 
@@ -501,9 +523,10 @@ MonoBehaviour:
   energy: 100
   playerCoinCount: 0
   playerHealth: 100
-  playerAttack: 10
+  playerAttack: 20
   playerSpeed: 5
   playerLevel: 1
+  playerLevelPoints: 0
   playerExperienceToGetLevel: 1000
   playerCurrentExperience: 0
   pointsToSpend: 0
@@ -535,6 +558,7 @@ MonoBehaviour:
     speed: 0
     bonusItem:
       equipmentType: 0
+      equipmentQuality: 0
       isEquipped: 0
       itemName: 
       itemDescription: 
@@ -547,6 +571,7 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower: []
+  selectedNumberOfTreasureChests: 1
   references:
     version: 2
     RefIds: []
@@ -978,6 +1003,7 @@ MonoBehaviour:
   alertFailure: {fileID: 0}
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
+  dungeonSizeSmall: {x: 3, y: 3}
 --- !u!4 &499195251
 Transform:
   m_ObjectHideFlags: 0
@@ -1198,6 +1224,7 @@ MonoBehaviour:
     speed: 5
     bonusItem:
       equipmentType: 2
+      equipmentQuality: 0
       isEquipped: 1
       itemName: Gloves
       itemDescription: 
@@ -1234,6 +1261,7 @@ MonoBehaviour:
     speed: 6
     bonusItem:
       equipmentType: 0
+      equipmentQuality: 0
       isEquipped: 1
       itemName: Boots
       itemDescription: 
@@ -1273,6 +1301,7 @@ MonoBehaviour:
     speed: 4
     bonusItem:
       equipmentType: 1
+      equipmentQuality: 0
       isEquipped: 1
       itemName: Tunic
       itemDescription: 
@@ -1309,6 +1338,7 @@ MonoBehaviour:
     speed: 5
     bonusItem:
       equipmentType: 2
+      equipmentQuality: 0
       isEquipped: 1
       itemName: Gloves
       itemDescription: 
@@ -1348,6 +1378,7 @@ MonoBehaviour:
     speed: 8
     bonusItem:
       equipmentType: 5
+      equipmentQuality: 0
       isEquipped: 0
       itemName: 
       itemDescription: 
@@ -1384,6 +1415,7 @@ MonoBehaviour:
     speed: 5
     bonusItem:
       equipmentType: 1
+      equipmentQuality: 0
       isEquipped: 1
       itemName: Tunic
       itemDescription: 
@@ -1435,6 +1467,7 @@ MonoBehaviour:
     speed: 0
     bonusItem:
       equipmentType: 0
+      equipmentQuality: 0
       isEquipped: 0
       itemName: 
       itemDescription: 
