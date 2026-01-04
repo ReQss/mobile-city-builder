@@ -5,6 +5,7 @@ using TMPro;
 
 using UnityEngine.UI;
 using System.Threading.Tasks;
+
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
@@ -55,6 +56,7 @@ public class EnemyAI : MonoBehaviour
     private GameObject explosionEffectPrefab;
     private bool blockMovement = false;
     public GameObject slashPrefab;
+
     public void SlashAnimation()
     {
         if (slashPrefab == null) return;
@@ -71,6 +73,7 @@ public class EnemyAI : MonoBehaviour
             health = value;
             if (health <= 0)
             {
+                gameObject.GetComponent<Interactable>()?.ReceiveStatistics();
                 GameManager.Instance.coinsCollected += coinsAmount;
                 DungeonRewardsInfo.Instance.goldCollected += coinsAmount;
                 if (QuestManager.Instance.currentQuest != null)

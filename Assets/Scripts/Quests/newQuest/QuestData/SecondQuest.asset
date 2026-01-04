@@ -12,11 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f24bf16d398a142b34a13e31dcb700, type: 3}
   m_Name: SecondQuest
   m_EditorClassIdentifier: 
+  statisticsRequired:
+    shortDungeonFinished: 0
+    mediumDungeonFinished: 0
+    longDungeonFinished: 0
+    shortForestFinished: 0
+    mediumForestFinished: 0
+    longForestFinished: 0
+    thugsKilled: 10
+    archersKilled: 0
+    blackSpidersKilled: 0
+    whiteSpidersKilled: 0
+    spiderBossKilled: 0
+    knightBossKilled: 0
   questName: 2quest
   questDescription: Quest Description
-  questType: 0
+  questShortDescription: Short Description
   isCompleted: 0
-  targetAmount: 0
   goldReward: 0
   expReward: 0
-  questDialogue: []
+  questDialogue:
+  - {fileID: 11400000, guid: ab6dd45bd36bfd040a5c665070a4ee8a, type: 2}
+  currentDialogueIndex: 0

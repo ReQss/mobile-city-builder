@@ -1439,6 +1439,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1076739014106381091}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6811656395325949925}
     - targetCorrespondingSourceObject: {fileID: 1082271958561512970, guid: 0af0ca58aaffafe438284f3bb0f01ef0,
         type: 3}
       insertIndex: -1
@@ -2335,7 +2339,7 @@ MonoBehaviour:
   walkSound: {fileID: 8300000, guid: 1e1b8f2846cdddb42940f5c04d2441e5, type: 3}
   attackSound: {fileID: 8300000, guid: fd3e8e0948468e241a4a708f13c7f96f, type: 3}
   screamSound: {fileID: 8300000, guid: 62785e67d69fd3f4c84f96cda52ba63f, type: 3}
-  chaseRange: 25
+  chaseRange: 15
   patrolRange: 10
   attackRange: 4
   patrolWaitTime: 2
@@ -2481,6 +2485,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6811656395325949925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692448732760635344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ecbd1ce1af38a4a9b992eb57e43baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueData: {fileID: 0}
+  reward:
+    shortDungeonFinished: 0
+    mediumDungeonFinished: 0
+    longDungeonFinished: 0
+    shortForestFinished: 0
+    mediumForestFinished: 0
+    longForestFinished: 0
+    thugsKilled: 1
+    archersKilled: 0
+    blackSpidersKilled: 0
+    whiteSpidersKilled: 0
+    spiderBossKilled: 0
+    knightBossKilled: 0
 --- !u!1 &6855661601300944011 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1082271958561512970, guid: 0af0ca58aaffafe438284f3bb0f01ef0,

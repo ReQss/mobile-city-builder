@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class QuestUIHandler : MonoBehaviour
     public GameObject completeQuestButton;
     void Start()
     {
+        NewQuestManager.Instance.CheckQuestRequirements();
         FillInQuestUIElements(NewQuestManager.Instance.allQuests);
         FillInCurrentQuestUI(NewQuestManager.Instance.CurrentQuest);
         ChangeCompleteQuestButtonState();
@@ -21,6 +23,19 @@ public class QuestUIHandler : MonoBehaviour
     public void ChangeCompleteQuestButtonState()
     {
         completeQuestButton.SetActive(NewQuestManager.Instance.CurrentQuest.isCompleted);
+    }
+    public void SetQuestButtonsFalse()
+    {
+        completeQuestButton.SetActive(false);
+    }
+    public void FirstQuestDialogue()
+    {
+        if(!NewQuestManager.Instance.isFirstQuestReceived) {
+            NewQuestManager.Instance.isFirstQuestReceived = true;
+            QuestData CurrentQuest = NewQuestManager.Instance.CurrentQuest;
+            NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
+            CurrentQuest.currentDialogueIndex +=1;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -34,13 +49,17 @@ public class QuestUIHandler : MonoBehaviour
             QuestData CurrentQuest = NewQuestManager.Instance.CurrentQuest;
             FillInQuestUIElements(NewQuestManager.Instance.allQuests);
             FillInCurrentQuestUI(CurrentQuest);
-            NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
-            CurrentQuest.currentDialogueIndex +=1; 
+            NewQuestManager.Instance.CheckQuestRequirements();
+            ChangeCompleteQuestButtonState();
+            // start quest
+            // NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
+            // CurrentQuest.currentDialogueIndex +=1;
         }
         else if(questValid == NextQuestError.AllCompleted)
         {
             FillInQuestUIElements(null);
             FillInCurrentQuestUI(null);
+            SetQuestButtonsFalse();
         }
         // receive rewards
 

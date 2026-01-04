@@ -13,6 +13,7 @@ public class RoomDoors : MonoBehaviour
     private bool isPlayerInRoom = false;
     [SerializeField]
     private RoomEnemiesGenerator roomEnemiesGenerator;
+    private bool wereEnemiesGenerated = false;
 
     // Update is called once per frame
     void Update()
@@ -26,6 +27,8 @@ public class RoomDoors : MonoBehaviour
         {
             if (enemiesFolder.transform.childCount == 0)
             {
+                // true otwiera drzwi 
+                // false zamyka drzwi
                 _ = roomBehaviour.UnlockOrLockDoors(true);
                 isRoomCleared = true;
             }
@@ -36,11 +39,12 @@ public class RoomDoors : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRoom = true;
-            if (isEnabled && isRoomCleared == false)
+            if (isEnabled && isRoomCleared == false && wereEnemiesGenerated == false)
             {
                 if (roomEnemiesGenerator == null) return;
                 _ = roomEnemiesGenerator.SpawnObjectsNumber(roomEnemiesGenerator.spawnCount);
-                _ = roomBehaviour.UnlockOrLockDoors(false);
+                wereEnemiesGenerated = true;
+                // _ = roomBehaviour.UnlockOrLockDoors(false);
             }
         }
     }
