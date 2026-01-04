@@ -1,19 +1,7 @@
 using System.Collections; // ✅ REQUIRED
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public enum Zone
-{
-    SaveZone,
-    RitualZone,
-}
-[System.Serializable]
-public enum DialogueAnswerCorrectness
-{
-    Neutral,
-    Correct,
-    Incorrect,
-}
+
 public class NewDialogueManager : MonoBehaviour
 {
     public static NewDialogueManager Instance { get; private set; }
@@ -23,10 +11,8 @@ public class NewDialogueManager : MonoBehaviour
     private DialogueData currentDialogue;
     private int currentLineIndex = 0;
     private bool isDialogueActive = false;
-    public DialogueData startRitualMonologue;
     private System.Action onDialogueEnd; 
-    public DialogueAnswerCorrectness answerCorrectness;
-    public Zone zone;
+  
     void Awake()
     {
         if (Instance == null)
@@ -52,15 +38,12 @@ public class NewDialogueManager : MonoBehaviour
     }
    
     
-    void Update()
+    
+    public void DisplayNextSentence()
     {
-        // Sprawdzanie inputu podczas dialogu
         if (isDialogueActive)
         {
-            // Spacje, Enter lub kliknięcie myszy
-          
-                // Jeśli tekst się pisze, zakończ pisanie, w przeciwnym razie przejdź do następnej linii
-                if (dialogueUI != null && dialogueUI.IsTyping())
+            if (dialogueUI != null && dialogueUI.IsTyping())
                 {
                     dialogueUI.CompleteTyping();
                 }
@@ -68,16 +51,10 @@ public class NewDialogueManager : MonoBehaviour
                 {
                     NextLine();
                 }
-
-            // Escape zamyka dialog
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                EndDialogue();
-            }
         }
     }
 
-    public void StartDialogue(DialogueData dialogue, DialogueAnswerCorrectness answerCorrectness = DialogueAnswerCorrectness.Neutral, System.Action onEnd = null)
+    public void StartDialogue(DialogueData dialogue, System.Action onEnd = null)
     {
         if (dialogue == null || dialogue.dialogueLines == null || dialogue.dialogueLines.Length == 0)
         {
@@ -92,15 +69,12 @@ public class NewDialogueManager : MonoBehaviour
         currentLineIndex = 0;
         isDialogueActive = true;
         onDialogueEnd = onEnd;
-        this.answerCorrectness = answerCorrectness;
 
         // Zatrzymaj ruch gracza podczas dialogu
         if (PlayerMovement.playerMovementInstance != null)
         {
             PlayerMovement.playerMovementInstance.isMovementLocked = false;
         }
-
-        
 
         // Pokaż UI dialogu
         if (dialogueUI != null)

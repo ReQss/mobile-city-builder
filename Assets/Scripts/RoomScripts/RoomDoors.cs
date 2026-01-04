@@ -38,6 +38,7 @@ public class RoomDoors : MonoBehaviour
             isPlayerInRoom = true;
             if (isEnabled && isRoomCleared == false)
             {
+                if (roomEnemiesGenerator == null) return;
                 _ = roomEnemiesGenerator.SpawnObjectsNumber(roomEnemiesGenerator.spawnCount);
                 _ = roomBehaviour.UnlockOrLockDoors(false);
             }

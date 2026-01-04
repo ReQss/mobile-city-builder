@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
     private bool shouldLoadSceneAfterDialogue = false;
     private string sceneToLoadAfterDialogue = null;
     public bool isCurrentDialogueQuest = true;
+    private bool isDialogueActive = false;
     
     void Start()
     {
@@ -37,12 +38,15 @@ public class DialogueManager : MonoBehaviour
             this.sceneName = sceneName;
             specialAction = isSpecialAction;
         }
+        isDialogueActive = true;
         isCurrentDialogueQuest = isQuest;
         Time.timeScale = 0;
-        if (UIDialoguePanel != null)
-            UIDialoguePanel.SetActive(true);
         GameManager.Instance.isPlayerInteracting = true;
         DisableUIElements();
+        
+        if (UIDialoguePanel != null)
+            UIDialoguePanel.SetActive(true);
+        animator.gameObject.SetActive(true);
         animator.SetBool("IsOpen", true);
         nameText.text = dialogue.name;
         if (dialogue.npcImage != null)
@@ -107,6 +111,7 @@ public class DialogueManager : MonoBehaviour
     }
     public void DisplayNextSentence()
     {
+        if(isDialogueActive == false)return;
         if (sentences.Count == 0)
         {
             EndDialogue();
@@ -133,6 +138,8 @@ public class DialogueManager : MonoBehaviour
     }
     public void EndDialogue()
     {
+        if(isDialogueActive == false)return;
+        
         animator.SetBool("IsOpen", false);
         GameManager.Instance.isPlayerInteracting = false;
         if (UIDialoguePanel != null)
@@ -151,6 +158,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
         isCurrentDialogueQuest = true;
+        isDialogueActive = false;
         
     }
    

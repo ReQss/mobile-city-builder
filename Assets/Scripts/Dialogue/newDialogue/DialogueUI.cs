@@ -31,6 +31,7 @@ public class DialogueUI : MonoBehaviour
         if (dialoguePanel != null)
         {
             dialoguePanel.SetActive(true);
+            dialoguePanel.GetComponent<Animator>().SetBool("IsOpen", true);
         }
     }
 
@@ -39,6 +40,7 @@ public class DialogueUI : MonoBehaviour
         if (dialoguePanel != null)
         {
             dialoguePanel.SetActive(false);
+            dialoguePanel.GetComponent<Animator>().SetBool("IsOpen", false);
         }
         
         // Zatrzymaj wszystkie efekty

@@ -86,6 +86,16 @@ public class GameUIHandler : MonoBehaviour
     public GameObject specialActionPanel;
     public GameObject specialAction2Panel;
     public GameObject levelUpInfoPanel;
+    public TextMeshProUGUI currentQuestName;
+    public TextMeshProUGUI currentQuestShortDescription;
+    public void SetCurrentQuestUI()
+    {
+        if(NewQuestManager.Instance == null) return;
+        QuestData currentQuest = NewQuestManager.Instance.CurrentQuest;
+        if(currentQuestName == null || currentQuestShortDescription == null) return;
+        currentQuestName.text = currentQuest.questName;
+        currentQuestShortDescription.text = currentQuest.questShortDescription;
+    }
     public void EnableWeaponToChoose()
     {
         if (weaponChoosePanels == null || weaponChoosePanels.Count == 0)
@@ -340,6 +350,7 @@ public class GameUIHandler : MonoBehaviour
         }
         LoadPerksToUI();
         EnableWeaponToChoose();
+        SetCurrentQuestUI();
     }
     
 
