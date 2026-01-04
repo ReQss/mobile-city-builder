@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum NextQuestError
+{
+    Completed,
+    Incompleted,
+    AllCompleted
+}
 public class NewQuestManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,15 +28,21 @@ public class NewQuestManager : MonoBehaviour
     {
         
     }
-    public void AdvanceToNextQuest()
+    public NextQuestError AdvanceToNextQuest()
     {
-        if (currentQuestIndex < allQuests.Count - 1)
+        if ((currentQuestIndex < allQuests.Count - 1) && CurrentQuest.isCompleted == true)
         {
             currentQuestIndex++;
+            return NextQuestError.Completed;
+        }
+        else if((currentQuestIndex < allQuests.Count - 1) && CurrentQuest.isCompleted == false)
+        {
+             return NextQuestError.Incompleted;
         }
         else
         {
             Debug.Log("All quests completed!");
+            return NextQuestError.AllCompleted;
         }
     }
     

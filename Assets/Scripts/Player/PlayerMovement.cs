@@ -318,6 +318,15 @@ private void RotateUpperBodyTowardsAim()
         Vector2 attackInput = GameUIHandler.Instance.moveAttakAction.action.ReadValue<Vector2>();
         // moveDir = (isoRight * input.x + isoUp * input.y).normalized;
         attackDir = (isoRight * attackInput.x + isoUp * attackInput.y).normalized;
+        if(attackInput != Vector2.zero)
+        {
+            EnableBulletTrajectory();
+            playerMovementSpeed =(float) (originalPlayerMovementSpeed/3);
+        }
+        else{ 
+            DisableBulletTrajectory();
+            playerMovementSpeed = originalPlayerMovementSpeed;
+        }
         float currentSpeed = isCombat ? speed / divideMovementSpeedWhenShooting : speed;
         Vector2 joystickMove = floatingJoystickHandler.GetMovementAmount();
         float moveSpeed = speed * joystickMove.magnitude * playerMovementSpeed; // speed to Twój max speed
@@ -448,6 +457,18 @@ private void RotateUpperBodyTowardsAim()
         }
         CheckForBullets();
     }
+    public GameObject bulletTrajectory;
+    public void EnableBulletTrajectory()
+    {
+        // bulletTrajectory.SetActive(true);
+        bulletTrajectory.transform.GetChild(0).GetComponent<Animator>().SetBool("openTrajectory",true);
+    }
+    public void DisableBulletTrajectory()
+    {
+        // bulletTrajectory.SetActive(false);
+        bulletTrajectory.transform.GetChild(0).GetComponent<Animator>().SetBool("openTrajectory",false);
+
+    }
     public void AttackAnimationsHandling()
     {
         
@@ -505,8 +526,10 @@ private void RotateUpperBodyTowardsAim()
         animator.SetBool("isCasting", false);
         animator.SetBool("bowAttack", false);
     }
+  
     public void FightingMode()
     {
+        
         if (playerWeapon.currentWeapon != null)
         {
             string weaponName = playerWeapon.currentWeapon.gameObject.name;

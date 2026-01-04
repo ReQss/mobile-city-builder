@@ -23,5 +23,6 @@ public class QuestData : ScriptableObject
     public int goldReward = 0;
     public int expReward = 0;
     public List<DialogueData> questDialogue;
+    public int currentDialogueIndex = 0;
 
 }
