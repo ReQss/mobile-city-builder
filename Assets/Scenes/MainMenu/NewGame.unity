@@ -553,6 +553,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
+    classWeapon: {fileID: 0}
     health: 0
     attack: 0
     speed: 0
@@ -1219,7 +1220,9 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
-    health: 100
+    classWeapon: {fileID: 1891496501394277, guid: 0e690db66965d7842a15667c7f10a769,
+      type: 3}
+    health: 140
     attack: 16
     speed: 5
     bonusItem:
@@ -1256,8 +1259,10 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
-    health: 140
-    attack: 12
+    classWeapon: {fileID: 4269364708897539207, guid: 9eb7a3644f797e849a94020a61820d0e,
+      type: 3}
+    health: 100
+    attack: 14
     speed: 6
     bonusItem:
       equipmentType: 0
@@ -1274,46 +1279,9 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower:
-    - powerType: 2
+    - powerType: 0
       powerSprite: {fileID: 21300000, guid: 979e0d50677fe0e48b59d42f3adf5236, type: 3}
       isUnlocked: 1
-  - className:
-      m_TableReference:
-        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
-      m_TableEntryReference:
-        m_KeyId: 3750578626560
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-    classDescription:
-      m_TableReference:
-        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
-      m_TableEntryReference:
-        m_KeyId: 4783878971392
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-    classIcon: {fileID: 0}
-    health: 200
-    attack: 10
-    speed: 4
-    bonusItem:
-      equipmentType: 1
-      equipmentQuality: 0
-      isEquipped: 1
-      itemName: Tunic
-      itemDescription: 
-      itemIcon: {fileID: -676753607, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
-      health: 40
-      attack: 0
-      attackSpeed: 0
-      movementSpeed: 0
-      isUnlocked: 1
-      cost: 0
-      itemNameToDisable: 
-    characterPower: []
   - className:
       m_TableReference:
         m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
@@ -1333,6 +1301,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
+    classWeapon: {fileID: 0}
     health: 100
     attack: 14
     speed: 5
@@ -1358,43 +1327,6 @@ MonoBehaviour:
       m_TableReference:
         m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
       m_TableEntryReference:
-        m_KeyId: 4044276375552
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-    classDescription:
-      m_TableReference:
-        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
-      m_TableEntryReference:
-        m_KeyId: 4874626932736
-        m_Key: 
-      m_FallbackState: 0
-      m_WaitForCompletion: 0
-      m_LocalVariables: []
-    classIcon: {fileID: 0}
-    health: 1
-    attack: 80
-    speed: 8
-    bonusItem:
-      equipmentType: 5
-      equipmentQuality: 0
-      isEquipped: 0
-      itemName: 
-      itemDescription: 
-      itemIcon: {fileID: 21300000, guid: 22dd2f34d35524040967dbf4a4fddc41, type: 3}
-      health: 10
-      attack: 4
-      attackSpeed: 0
-      movementSpeed: 0
-      isUnlocked: 0
-      cost: 0
-      itemNameToDisable: 
-    characterPower: []
-  - className:
-      m_TableReference:
-        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
-      m_TableEntryReference:
         m_KeyId: 7336779849728
         m_Key: 
       m_FallbackState: 0
@@ -1410,6 +1342,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
+    classWeapon: {fileID: 0}
     health: 400
     attack: 40
     speed: 5
@@ -1434,6 +1367,45 @@ MonoBehaviour:
     - powerType: 2
       powerSprite: {fileID: 21300000, guid: e18e9d9db0903934e8dc557dadefe13e, type: 3}
       isUnlocked: 1
+  - className:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4044276375552
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classDescription:
+      m_TableReference:
+        m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
+      m_TableEntryReference:
+        m_KeyId: 4874626932736
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    classIcon: {fileID: 0}
+    classWeapon: {fileID: 6759873925576640573, guid: 1a916bd21e942904ba52c71b7d07e4c7,
+      type: 3}
+    health: 100
+    attack: 30
+    speed: 5
+    bonusItem:
+      equipmentType: 1
+      equipmentQuality: 0
+      isEquipped: 1
+      itemName: Tunic
+      itemDescription: 
+      itemIcon: {fileID: 327965450, guid: 38a740bc12da82f47a55d3e9cb8c85fd, type: 3}
+      health: 10
+      attack: 4
+      attackSpeed: 0
+      movementSpeed: 0
+      isUnlocked: 1
+      cost: 0
+      itemNameToDisable: 
+    characterPower: []
   statsTextsList:
   - {fileID: 1246425103}
   - {fileID: 82919617}
@@ -1462,6 +1434,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
+    classWeapon: {fileID: 0}
     health: 0
     attack: 0
     speed: 0

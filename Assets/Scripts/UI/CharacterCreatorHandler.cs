@@ -25,6 +25,7 @@ public class CharacterClass
     public LocalizedString className;
     public LocalizedString classDescription;
     public Sprite classIcon;
+    public GameObject classWeapon;
     public int health;
     public int attack;
     public int speed;
@@ -73,6 +74,7 @@ public class CharacterCreatorHandler : MonoBehaviour
             powerIcon.sprite = spriteNone;
         else
             powerIcon.sprite = characterClass.characterPower[0].powerSprite;
+
     }
     public void SelectNextClass()
     {

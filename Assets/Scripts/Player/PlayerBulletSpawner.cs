@@ -30,4 +30,12 @@ public class PlayerBulletSpawner : MonoBehaviour
     rb.linearVelocity = leftDirection * PlayerMovement.playerMovementInstance.projectileSpeed;
     // Debug.Log(leftDirection);
     }
+    // public void ShowWeaponInCombat()
+    // {
+    //     PlayerMovement.playerMovementInstance.ShowWeaponInCombat();
+    // }
+    // public void DisableWeaponInCombat()
+    // {
+    //     PlayerMovement.playerMovementInstance.DisableWeaponInCombat();
+    // }
 }
