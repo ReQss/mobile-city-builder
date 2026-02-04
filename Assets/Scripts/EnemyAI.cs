@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
-    public AudioClip walkSound;
-    public AudioClip attackSound;
-    public AudioClip screamSound;
+    public AudioClip bowShotSound;
+    public AudioClip swordSlashSound;
+    // public AudioClip attackSound;
+    // public AudioClip screamSound;
     private AudioSource audioSource;
     public float chaseRange = 10f;
     public float patrolRange = 5f;
@@ -49,6 +50,8 @@ public class EnemyAI : MonoBehaviour
     public int damageAmount = 10;
     public int expAmount = 100;
     public int maxHealth;
+    public float patrolSpeed = 3;
+    public float chaseSpeed = 6;
     private bool isMovementLocked = false;
     public bool hasKnockbackEffect = false;
     public bool explodeAfterDeath = false;
@@ -188,25 +191,13 @@ public class EnemyAI : MonoBehaviour
         // health = maxHealth;
         blockMovement = false;
         isMovementLocked = false;
-
-        // var rb = GetComponent<Rigidbody>();
-        // if (rb != null)
-        // {
-        //     rb.linearVelocity = Vector3.zero;
-        //     rb.angularVelocity = Vector3.zero;
-        //     rb.isKinematic = false;
-        // }
-        
-        // var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        // if (agent != null)
-        // {
-        //     agent.enabled = true;
-        // }
     }
     void Start()
     {
         maxHealth = health;
         agent = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
+
         if(agent.enabled == true)
             SetNewPatrolTarget();
         if (player == null)
@@ -233,8 +224,9 @@ public class EnemyAI : MonoBehaviour
     private void EnemyMovementLogicAndAnimations()
     {
         if (isMovementLocked || agent == null || !agent.enabled) return;
-
-        Animator anim = GetComponentInChildren<Animator>();
+        Animator anim = GetComponent<Animator>();
+        if(anim == null )
+            anim = GetComponentInChildren<Animator>();
         if (player == null)
             return;
 
@@ -274,6 +266,7 @@ public class EnemyAI : MonoBehaviour
             playerWasInRange = true;
             lostPlayerTimer = 0f;
             agent.isStopped = false;
+            agent.speed = chaseSpeed;
             agent.SetDestination(player.position);
 
             if (anim != null)
@@ -361,6 +354,7 @@ public class EnemyAI : MonoBehaviour
     }
     void SetNewPatrolTarget()
     {
+        agent.speed = patrolSpeed;
         Vector3 randomDirection = Random.insideUnitSphere * patrolRange;
         randomDirection.y = 0;
         patrolTarget = transform.position + randomDirection;
@@ -665,62 +659,14 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-
-    public void PlayWalkSound()
+    public void PlayBowShotSound()
     {
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-        if (walkSound != null && audioSource != null)
-        {
-            if (audioSource.isPlaying && audioSource.clip == walkSound)
-                return;
-
-            audioSource.Stop();
-            audioSource.clip = walkSound;
-            audioSource.loop = true;
-            audioSource.pitch = Random.Range(0.95f, 1.05f); // Dodaj losowy pitch
-            audioSource.Play();
-        }
+        audioSource.PlayOneShot(bowShotSound);
     }
-
-    public void PlayAttackSound()
+    public void PlaySwordSlashSound()
     {
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-        if (attackSound != null && audioSource != null)
-        {
-            audioSource.Stop(); // Dodaj to!
-            audioSource.clip = attackSound;
-            audioSource.loop = false;
-            audioSource.Play();
-        }
+        audioSource.PlayOneShot(swordSlashSound);
     }
+ 
 
-    public void StopSound()
-    {
-        if (audioSource != null)
-        {
-            audioSource.Stop();
-        }
-    }
-    public void StopWalkSound()
-    {
-        if (audioSource != null && audioSource.isPlaying && audioSource.clip == walkSound)
-        {
-            audioSource.Stop();
-        }
-
-    }
-    public void PlayScreamSound()
-    {
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-        if (screamSound != null && audioSource != null)
-        {
-            audioSource.Stop();
-            audioSource.clip = screamSound;
-            audioSource.loop = false;
-            audioSource.Play();
-        }
-    }
 }

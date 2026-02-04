@@ -1,158 +1,111 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine.AI;
+public enum EnemyType
+{
+    Prefab,
+    BossKnight,
+    BossWidow,
+    Archer,
+    Thug,
+    BlackWidow,
+    RedWidow,
+    GrayWidow
+}
 
 [System.Serializable]
 public class SpawnableObject
 {
-    public string name;
+    public EnemyType type;
     public GameObject prefab;
-    [Range(0f, 1f)]
-    public float spawnChance = 1f; // 1 = 100%, 0.5 = 50%
+    [Range(0f, 1f)] public float spawnChance = 1f;
 }
 
 public class RoomEnemiesGenerator : MonoBehaviour
 {
-    public List<SpawnableObject> objectsToSpawn; 
-    public int spawnCount = 10;
+    public List<SpawnableObject> objectsToSpawn;
     public float spawnRange = 20f;
     public Vector3 center = Vector3.zero;
     public Transform centerTransform;
     public Transform parentFolder;
-    private bool isSpawningEnemies = false;
+    public int numberOfEnemies = 1;
+    private bool isSpawning;
 
-    public async Task SpawnObjectsNumber(int count)
+    public void SpawnObjectsNumber()
     {
-        if (isSpawningEnemies)
-            return;
-        isSpawningEnemies = true;
-        Vector3 spawnCenter = centerTransform != null ? centerTransform.position : center;
+        if (isSpawning || objectsToSpawn.Count == 0) return;
+        isSpawning = true;
+        int count = numberOfEnemies;
+        Vector3 spawnCenter = centerTransform ? centerTransform.position : center;
+        int extra = GameManager.Instance.playerLevel / 4;
+        int target = count + extra;
 
-        if (objectsToSpawn == null || objectsToSpawn.Count == 0)
-            return;
-        int playerLevelExtraEnemies = GameManager.Instance.playerLevel / 4;
-        int spawned = 0;
-        int tries = 0;
-        int maxTries = (count + playerLevelExtraEnemies) * 10;
-
-        float totalChance = 0f;
-        foreach (var obj in objectsToSpawn)
-            totalChance += obj.spawnChance;
-
-        while (spawned < count + playerLevelExtraEnemies && tries < maxTries)
+        for (int i = 0; i < target; i++)
         {
-            tries++;
-            float rand = Random.value * totalChance;
-            float cumulative = 0f;
-            SpawnableObject candidate = null;
-            foreach (var obj in objectsToSpawn)
-            {
-                cumulative += obj.spawnChance;
-                if (rand <= cumulative)
-                {
-                    candidate = obj;
-                    break;
-                }
-            }
-            if (candidate == null)
-                continue;
-
-            Vector3 randomPos = spawnCenter + new Vector3(
-                Random.Range(-spawnRange, spawnRange),
-                0f,
-                Random.Range(-spawnRange, spawnRange)
-            );
-            // randomPos.y = Mathf.Max(1.0f, Terrain.activeTerrain != null ? Terrain.activeTerrain.SampleHeight(randomPos) : randomPos.y);
-
-            GameObject objectSpawned = null;
-            switch (candidate.name)
-            {
-                case "BossKnight":
-                    objectSpawned = EnemyPool.Instance.GetBossKnightEnemy();
-                    break;
-                case "BossWidow":
-                    objectSpawned = EnemyPool.Instance.GetBossWidowEnemy();
-                    break;
-                case "Archer":
-                    objectSpawned = EnemyPool.Instance.GetArcherEnemy();
-                    break;
-                case "Thug":
-                    objectSpawned = EnemyPool.Instance.GetThugEnemy();
-                    break;
-                case "BlackWidow":
-                    objectSpawned = EnemyPool.Instance.GetBlackWidowEnemy();
-                    break;
-                case "RedWidow":
-                    objectSpawned = EnemyPool.Instance.GetRedWidowEnemy();
-                    break;
-                case "GrayWidow":
-                    objectSpawned = EnemyPool.Instance.GetGrayWidowEnemy();
-                    break;
-                default:
-                    objectSpawned = Instantiate(candidate.prefab, randomPos, Quaternion.identity, parentFolder);
-                    break;
-            }
-
-            if (objectSpawned == null)
-                continue;
-
-            objectSpawned.transform.position = randomPos;
-            objectSpawned.transform.rotation = Quaternion.identity;
-            objectSpawned.transform.SetParent(parentFolder);
-            objectSpawned.SetActive(true);
-            objectSpawned.GetComponent<NavMeshAgent>().enabled = true;
-            spawned++;
+            var candidate = GetRandomObject();
+            Vector3 pos = GetRandomPosition(spawnCenter);
+            Spawn(candidate, pos);
         }
 
-        if (spawned == 0 && objectsToSpawn.Count > 0)
+        isSpawning = false;
+    }
+
+    SpawnableObject GetRandomObject()
+    {
+        float total = 0;
+        foreach (var o in objectsToSpawn) total += o.spawnChance;
+
+        float rand = Random.value * total;
+        float sum = 0;
+
+        foreach (var o in objectsToSpawn)
         {
-            Vector3 randomPos = spawnCenter + new Vector3(
-                Random.Range(-spawnRange, spawnRange),
-                0f,
-                Random.Range(-spawnRange, spawnRange)
-            );
-            GameObject objectSpawned = null;
-            var candidate = objectsToSpawn[0];
-            switch (candidate.name)
-            {
-                case "BossKnight":
-                    objectSpawned = EnemyPool.Instance.GetBossKnightEnemy();
-                    break;
-                case "BossWidow":
-                    objectSpawned = EnemyPool.Instance.GetBossWidowEnemy();
-                    break;
-                case "Archer":
-                    objectSpawned = EnemyPool.Instance.GetArcherEnemy();
-                    break;
-                case "Thug":
-                    objectSpawned = EnemyPool.Instance.GetThugEnemy();
-                    break;
-                case "BlackWidow":
-                    objectSpawned = EnemyPool.Instance.GetBlackWidowEnemy();
-                    break;
-                case "RedWidow":
-                    objectSpawned = EnemyPool.Instance.GetRedWidowEnemy();
-                    break;
-                case "GrayWidow":
-                    objectSpawned = EnemyPool.Instance.GetGrayWidowEnemy();
-                    break;
-                default:
-                    objectSpawned = Instantiate(candidate.prefab, randomPos, Quaternion.identity, parentFolder);
-                    break;
-            }
-            if (objectSpawned != null)
-            {
-                objectSpawned.transform.position = randomPos;
-                objectSpawned.transform.rotation = Quaternion.identity;
-                objectSpawned.transform.SetParent(parentFolder);
-                objectSpawned.SetActive(true);
-                var agent = objectSpawned.GetComponent<NavMeshAgent>();
-                if (agent != null) agent.enabled = true;
-                spawned = 1;
-            }
+            sum += o.spawnChance;
+            if (rand <= sum) return o;
         }
 
-        await Task.CompletedTask;
+        return objectsToSpawn[0];
+    }
+
+    Vector3 GetRandomPosition(Vector3 center)
+    {
+        return center + new Vector3(
+            Random.Range(-spawnRange, spawnRange),
+            0,
+            Random.Range(-spawnRange, spawnRange)
+        );
+    }
+
+    void Spawn(SpawnableObject obj, Vector3 pos)
+    {
+        GameObject go = GetFromPool(obj);
+
+        if (go == null && obj.prefab != null)
+            go = Instantiate(obj.prefab);
+
+        if (go == null) return;
+
+        go.transform.SetParent(parentFolder);
+        go.transform.position = pos;
+        go.transform.rotation = Quaternion.identity;
+        go.SetActive(true);
+
+        var agent = go.GetComponent<NavMeshAgent>();
+        if (agent) agent.enabled = true;
+    }
+
+    GameObject GetFromPool(SpawnableObject obj)
+    {
+        switch (obj.type)
+        {
+            case EnemyType.BossKnight: return EnemyPool.Instance.GetBossKnightEnemy();
+            case EnemyType.BossWidow: return EnemyPool.Instance.GetBossWidowEnemy();
+            case EnemyType.Archer: return EnemyPool.Instance.GetArcherEnemy();
+            case EnemyType.Thug: return EnemyPool.Instance.GetThugEnemy();
+            case EnemyType.BlackWidow: return EnemyPool.Instance.GetBlackWidowEnemy();
+            case EnemyType.RedWidow: return EnemyPool.Instance.GetRedWidowEnemy();
+            case EnemyType.GrayWidow: return EnemyPool.Instance.GetGrayWidowEnemy();
+            default: return null;
+        }
     }
 }

@@ -573,6 +573,10 @@ MonoBehaviour:
       itemNameToDisable: 
     characterPower: []
   selectedNumberOfTreasureChests: 1
+  playerPowers:
+    undead: 0
+    shield: 0
+    magicHeal: 0
   references:
     version: 2
     RefIds: []
@@ -1239,7 +1243,13 @@ MonoBehaviour:
       isUnlocked: 1
       cost: 0
       itemNameToDisable: 
-    characterPower: []
+    characterPower:
+    - powerType: 3
+      powerSprite: {fileID: 0}
+      isUnlocked: 1
+    - powerType: 1
+      powerSprite: {fileID: 0}
+      isUnlocked: 1
   - className:
       m_TableReference:
         m_TableCollectionName: GUID:c921d968836a2d144834addd70f4b8f4
@@ -1279,7 +1289,10 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower:
-    - powerType: 0
+    - powerType: 3
+      powerSprite: {fileID: 21300000, guid: 979e0d50677fe0e48b59d42f3adf5236, type: 3}
+      isUnlocked: 1
+    - powerType: 1
       powerSprite: {fileID: 21300000, guid: 979e0d50677fe0e48b59d42f3adf5236, type: 3}
       isUnlocked: 1
   - className:
@@ -1301,7 +1314,8 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
-    classWeapon: {fileID: 0}
+    classWeapon: {fileID: 8341462798322265706, guid: 5cf00dd47de186c428335ded64d3862a,
+      type: 3}
     health: 100
     attack: 14
     speed: 5
@@ -1320,6 +1334,9 @@ MonoBehaviour:
       cost: 0
       itemNameToDisable: 
     characterPower:
+    - powerType: 3
+      powerSprite: {fileID: 21300000, guid: e18e9d9db0903934e8dc557dadefe13e, type: 3}
+      isUnlocked: 1
     - powerType: 1
       powerSprite: {fileID: 21300000, guid: e18e9d9db0903934e8dc557dadefe13e, type: 3}
       isUnlocked: 1
@@ -1405,7 +1422,13 @@ MonoBehaviour:
       isUnlocked: 1
       cost: 0
       itemNameToDisable: 
-    characterPower: []
+    characterPower:
+    - powerType: 1
+      powerSprite: {fileID: 0}
+      isUnlocked: 1
+    - powerType: 3
+      powerSprite: {fileID: 0}
+      isUnlocked: 1
   statsTextsList:
   - {fileID: 1246425103}
   - {fileID: 82919617}

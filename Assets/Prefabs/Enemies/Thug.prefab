@@ -2336,9 +2336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  walkSound: {fileID: 8300000, guid: 1e1b8f2846cdddb42940f5c04d2441e5, type: 3}
-  attackSound: {fileID: 8300000, guid: fd3e8e0948468e241a4a708f13c7f96f, type: 3}
-  screamSound: {fileID: 8300000, guid: 62785e67d69fd3f4c84f96cda52ba63f, type: 3}
+  bowShotSound: {fileID: 0}
+  swordSlashSound: {fileID: 8300000, guid: dd5c8bc61ac37b643a21a2216a1d0504, type: 3}
   chaseRange: 15
   patrolRange: 10
   attackRange: 4
@@ -2362,6 +2361,8 @@ MonoBehaviour:
   damageAmount: 3
   expAmount: 100
   maxHealth: 40
+  patrolSpeed: 3
+  chaseSpeed: 6
   hasKnockbackEffect: 0
   explodeAfterDeath: 0
   explosionEffectPrefab: {fileID: 0}
@@ -2401,7 +2402,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 1e1b8f2846cdddb42940f5c04d2441e5, type: 3}
   m_Resource: {fileID: 8300000, guid: 1e1b8f2846cdddb42940f5c04d2441e5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.056
   m_Pitch: 1
   Loop: 1
   Mute: 0

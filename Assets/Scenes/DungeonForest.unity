@@ -3161,6 +3161,7 @@ MonoBehaviour:
       m_WaitForCompletion: 0
       m_LocalVariables: []
     classIcon: {fileID: 0}
+    classWeapon: {fileID: 0}
     health: 0
     attack: 0
     speed: 0
@@ -3189,6 +3190,10 @@ MonoBehaviour:
       powerSprite: {fileID: 0}
       isUnlocked: 0
   selectedNumberOfTreasureChests: 1
+  playerPowers:
+    undead: 0
+    shield: 0
+    magicHeal: 0
   references:
     version: 2
     RefIds: []
@@ -4021,19 +4026,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783ce6afcfabbf543bf3861d646a274a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDay: 0
+  dungeonType: 0
+  dayDirectionalLight: {fileID: 0}
+  dungeonDirectionalLight: {fileID: 0}
   size: {x: 2, y: 2}
   startPos: 0
-  rooms:
-  - room: {fileID: 7681763370866645276, guid: cd12cbf5bcfbf984f99c77309c3c79fa, type: 3}
-    minPosition: {x: 0, y: 0}
-    maxPosition: {x: 0, y: 0}
-    obligatory: 1
-    spawnChance: 0
-  - room: {fileID: 7681763370866645276, guid: 3f2ca4cf4b1c6f8449c230bbb875c292, type: 3}
-    minPosition: {x: 0, y: 0}
-    maxPosition: {x: 4, y: 4}
-    obligatory: 0
-    spawnChance: 100
+  roomsDungeon: []
+  roomsForest: []
   offset: {x: 76, y: 76}
   numberOfTreasureChests: 3
   lastRoomPrefab: {fileID: 7681763370866645276, guid: b7de462b6a74cde449cfaa8cc4180584,
@@ -8129,6 +8129,8 @@ MonoBehaviour:
   specialActionPanel: {fileID: 7066818519188862673}
   specialAction2Panel: {fileID: 7066818519188862674}
   levelUpInfoPanel: {fileID: 1208327804}
+  currentQuestName: {fileID: 0}
+  currentQuestShortDescription: {fileID: 0}
 --- !u!4 &508787345
 Transform:
   m_ObjectHideFlags: 0
@@ -8610,6 +8612,7 @@ MonoBehaviour:
   spiderWebPrefab: {fileID: 8560760188534764359, guid: 9b79fc792da48d24cb81481b564bba6b,
     type: 3}
   spiderWebPoolSize: 10
+  explosionPrefab: {fileID: 0}
 --- !u!4 &533758412
 Transform:
   m_ObjectHideFlags: 0
@@ -9069,92 +9072,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1127153655}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &568399842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 568399846}
-  - component: {fileID: 568399845}
-  - component: {fileID: 568399844}
-  m_Layer: 0
-  m_Name: Plane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!23 &568399844
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568399842}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a6446d868661ff347827ac4f7d52ff18, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &568399845
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568399842}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &568399846
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568399842}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.35077, y: -0.02, z: -57.51994}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &577073681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20299,6 +20216,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueData: {fileID: 11400000, guid: 653484449e4cc92458f46bf6debdf061, type: 2}
+  reward:
+    shortDungeonFinished: 0
+    mediumDungeonFinished: 0
+    longDungeonFinished: 0
+    shortForestFinished: 0
+    mediumForestFinished: 0
+    longForestFinished: 0
+    thugsKilled: 0
+    archersKilled: 0
+    blackSpidersKilled: 0
+    whiteSpidersKilled: 0
+    spiderBossKilled: 0
+    knightBossKilled: 0
 --- !u!4 &1507119824
 Transform:
   m_ObjectHideFlags: 0
@@ -27420,6 +27350,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &3839848119034607486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.35077
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -57.51994
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2692868044717442922, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9221143596829338248, guid: cfc77db2c21a83744a6fa1e6e3537f34,
+        type: 3}
+      propertyPath: m_Name
+      value: ForestFloor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cfc77db2c21a83744a6fa1e6e3537f34, type: 3}
 --- !u!1001 &3935000263978166680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28426,7 +28424,7 @@ SceneRoots:
   - {fileID: 660982321}
   - {fileID: 101766781}
   - {fileID: 1928814743}
-  - {fileID: 568399846}
+  - {fileID: 3839848119034607486}
   - {fileID: 1650534561}
   - {fileID: 862634901}
   - {fileID: 222167602}

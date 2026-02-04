@@ -10,7 +10,8 @@ public enum PowerType
 {
     None,
     Undead,
-    Shield
+    Shield,
+    MagicHeal
 }
 [System.Serializable]
 public class CharacterPower

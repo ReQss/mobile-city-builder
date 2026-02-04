@@ -28,14 +28,17 @@ public class PlayerBulletSpawner : MonoBehaviour
             Vector3 leftDirection = Quaternion.Euler(0, angle, 0) * transform.forward;
     projectile.transform.rotation = Quaternion.LookRotation(leftDirection, Vector3.up); // Ustaw rotację na kierunek lotu
     rb.linearVelocity = leftDirection * PlayerMovement.playerMovementInstance.projectileSpeed;
-    // Debug.Log(leftDirection);
     }
-    // public void ShowWeaponInCombat()
-    // {
-    //     PlayerMovement.playerMovementInstance.ShowWeaponInCombat();
-    // }
-    // public void DisableWeaponInCombat()
-    // {
-    //     PlayerMovement.playerMovementInstance.DisableWeaponInCombat();
-    // }
+
+    public void InstantiateMagicBullet()
+    {
+        GameObject projectile = BulletPool.Instance.GetMagicalBullet();
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        projectile.transform.position = new Vector3(
+        PlayerMovement.playerMovementInstance.bulletSpawnPos.position.x,
+        PlayerMovement.playerMovementInstance.bulletSpawnYPos,
+        PlayerMovement.playerMovementInstance.bulletSpawnPos.position.z);
+        projectile.transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.up); // Ustaw rotację na kierunek lotu
+        rb.linearVelocity = transform.forward * PlayerMovement.playerMovementInstance.projectileSpeed;
+    }
 }

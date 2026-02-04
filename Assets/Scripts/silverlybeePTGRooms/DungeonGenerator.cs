@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
-
+public enum DungeonType
+{
+    DUNGEON,
+    FOREST
+}
 public class DungeonGenerator : MonoBehaviour
 {
+    public bool isDay = false;
+    
+    public DungeonType dungeonType = DungeonType.DUNGEON;
+    public GameObject dayDirectionalLight;
+    public GameObject dungeonDirectionalLight;
     public class Cell
     {
         public bool visited = false;
@@ -38,7 +47,8 @@ public class DungeonGenerator : MonoBehaviour
 
     public Vector2Int size;
     public int startPos = 0;
-    public Rule[] rooms;
+    public Rule[] roomsDungeon;
+    public Rule[]roomsForest;
     public Vector2 offset;
 
     public int numberOfTreasureChests = 1;
@@ -85,6 +95,19 @@ public class DungeonGenerator : MonoBehaviour
 
     void GenerateDungeon()
     {
+        Rule[] rooms ;
+        if (dungeonType == DungeonType.FOREST)
+        {
+            rooms = roomsForest;
+            dayDirectionalLight.SetActive(true);
+            dungeonDirectionalLight.SetActive(false);
+        }
+        else
+        {
+            rooms = roomsDungeon;
+            dayDirectionalLight.SetActive(false);
+            dungeonDirectionalLight.SetActive(true);
+        }
     int numberOfTreasureChestsSpawned=0;
     for (int i = 0; i < size.x; i++)
     {

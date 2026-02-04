@@ -42,7 +42,7 @@ public class RoomDoors : MonoBehaviour
             if (isEnabled && isRoomCleared == false && wereEnemiesGenerated == false)
             {
                 if (roomEnemiesGenerator == null) return;
-                _ = roomEnemiesGenerator.SpawnObjectsNumber(roomEnemiesGenerator.spawnCount);
+                roomEnemiesGenerator.SpawnObjectsNumber();
                 wereEnemiesGenerated = true;
                 // _ = roomBehaviour.UnlockOrLockDoors(false);
             }

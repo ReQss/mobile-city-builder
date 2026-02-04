@@ -61,12 +61,14 @@ public class KeyItem
     public KeyType keyType;
     public int quantity;
 }
+[System.Serializable]
 public class PlayerPowers
 {
 
     [Header("Powers")]
     public bool undead; // gives 2 respawns in dung
     public bool shield; // shield can be activated every 5 s to neglected damage
+    public bool magicHeal; // heal 20 hp every 30 s
 }
 [System.Serializable]
 public class UnlockedContent
@@ -254,6 +256,9 @@ public class GameManager : MonoBehaviour
                     break;
                 case PowerType.Shield:
                     playerPowers.shield = true;
+                    break;
+                case PowerType.MagicHeal:
+                    playerPowers.magicHeal = true;
                     break;
             }
         }

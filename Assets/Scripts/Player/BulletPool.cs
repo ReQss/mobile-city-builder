@@ -34,6 +34,8 @@ public class BulletPool : MonoBehaviour
     public GameObject spiderWebPrefab;
     public int spiderWebPoolSize = 10;
     private Queue<GameObject> spiderWebPool = new Queue<GameObject>();
+    [Header("Explosion Effect")]
+    public GameObject explosionPrefab;
 
     void Awake()
     {
@@ -233,19 +235,26 @@ public class BulletPool : MonoBehaviour
 
     public void ReturnBullet(GameObject bullet)
     {
-        bullet.SetActive(false);
+        
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
+        bullet.SetActive(false);
         bulletProjectilePool.Enqueue(bullet);
     }
     public void ReturnMagicalBullet(GameObject magical)
     {
+        InstantiateExplosionEffect(magical.transform.position);
         magical.SetActive(false);
         magicalProjectilePool.Enqueue(magical);
+    }
+    public void InstantiateExplosionEffect(Vector3 position)
+    {
+        GameObject explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
+        Destroy(explosion, 1f); // Zniszcz efekt eksplozji po 2 sekundach
     }
     public void ReturnVersusProjectile1(GameObject versus1)
     {

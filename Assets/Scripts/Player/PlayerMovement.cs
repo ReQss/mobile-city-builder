@@ -475,7 +475,7 @@ private void RotateUpperBodyTowardsAim()
         
         bool hasSword = false;
         bool hasCrossbow = false;
-        bool hasRod = false;
+        bool hasMagic = false;
         bool hasBow = false;
         
 
@@ -485,14 +485,14 @@ private void RotateUpperBodyTowardsAim()
                 string weaponName = playerWeapon.currentWeapon.gameObject.name;
                 hasSword = weaponName.IndexOf("Sword", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasCrossbow = weaponName.IndexOf("Crossbow", System.StringComparison.OrdinalIgnoreCase) >= 0;
-                hasRod = weaponName.IndexOf("Rod", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                hasMagic = weaponName.IndexOf("Magic", System.StringComparison.OrdinalIgnoreCase) >= 0;
                 hasBow = weaponName.IndexOf("Bow", System.StringComparison.OrdinalIgnoreCase) >= 0;
             }
         
         // EnableWeaponPrefab(hasSword, hasCrossbow, hasRod, hasBow);
         animator.SetBool("isShooting", hasCrossbow);
         animator.SetBool("isSlashing", hasSword);
-        animator.SetBool("isCasting", hasRod); // Added for Rod
+        animator.SetBool("isCasting", hasMagic); // Added for Rod
         animator.SetBool("bowAttack", hasBow); // Added for Bow
     }
     public void EnableWeaponPrefab(bool hasSword, bool hasCrossbow, bool hasRod, bool hasBow)
@@ -789,9 +789,9 @@ private void RotateUpperBodyTowardsAim()
             health = 0;
         }
         else health -= damageAmount;
-        #if UNITY_ANDROID || UNITY_IOS
-                Handheld.Vibrate();
-        #endif
+        // #if UNITY_ANDROID || UNITY_IOS
+        //         Handheld.Vibrate();
+        // #endif
         UpdateHealthBar();
         vignetteDamageAnimator.SetTrigger("damage");
     }
@@ -1559,6 +1559,24 @@ private void RotateUpperBodyTowardsAim()
                     shieldPrefab.SetActive(false);
             }
         }
+    }
+    public float magicHealCooldown = 30f;
+    public bool magicHealCooldownLocked = false;
+    public IEnumerator magicHealCoroutine()
+    {
+        magicHealCooldownLocked = true;
+        yield return new WaitForSeconds(0.5f);
+        HealPlayer(50);
+        yield return new WaitForSeconds(magicHealCooldown);
+        magicHealCooldownLocked = false;
+    }
+    public void HandleMagicHeal()
+    {
+        
+        if(GameManager.Instance.playerPowers.magicHeal == false) return;
+        if (magicHealCooldownLocked) return;
+        StartCoroutine(magicHealCoroutine());
+        animator.SetTrigger("castSpell");
     }
     private void HandleDash()
     {
