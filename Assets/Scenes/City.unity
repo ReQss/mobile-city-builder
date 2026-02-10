@@ -15118,6 +15118,8 @@ MonoBehaviour:
     undead: 0
     shield: 0
     magicHeal: 0
+  introductionWeapon: {fileID: 0}
+  isIntroductionWeaponAchieved: 0
   isFirstPlaythrough: 0
   references:
     version: 2
@@ -34063,6 +34065,7 @@ MonoBehaviour:
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
   dungeonSizeSmall: {x: 3, y: 3}
+  testLevelSize: {x: 2, y: 2}
   uiToDisable: []
 --- !u!1 &1050472045 stripped
 GameObject:
@@ -44938,6 +44941,7 @@ MonoBehaviour:
     spiderBossKilled: 0
     knightBossKilled: 0
   isFirstQuestReceived: 0
+  currentDialogueIndex: 0
 --- !u!4 &1349083259
 Transform:
   m_ObjectHideFlags: 0
@@ -55603,6 +55607,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dd419052ab2e8a54692b61292413d8e7,
         type: 3}
+    - target: {fileID: 7666883051732493489, guid: 8b96395c8de01974da5beedd6b7873fc,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7968840893467711311, guid: 8b96395c8de01974da5beedd6b7873fc,
         type: 3}
       propertyPath: m_SizeDelta.x

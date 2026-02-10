@@ -66,7 +66,6 @@ public class QuestUIHandler : MonoBehaviour
             SetQuestButtonsFalse();
         }
         // receive rewards
-
     }
     public void FillInQuestUIElements(List<QuestData> quests)
     {

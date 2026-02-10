@@ -185,6 +185,9 @@ public class GameManager : MonoBehaviour
     public int selectedNumberOfTreasureChests = 1;
 
     public PlayerPowers playerPowers = new PlayerPowers();
+    [Header("Starting Weapons")]
+    public GameObject introductionWeapon;
+    public bool isIntroductionWeaponAchieved;
    
     public static GameManager Instance { get; private set; }
     public void SetDungeonSize(Vector2Int size, int numberOfTreasureChests)

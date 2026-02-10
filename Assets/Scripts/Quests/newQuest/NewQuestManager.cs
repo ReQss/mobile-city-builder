@@ -86,19 +86,8 @@ public class NewQuestManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-    public void StartIntroductionDialogue()
-    {
-        if(GameManager.Instance.isFirstPlaythrough)
-        {
-            if(NewDialogueManager.Instance.introductionDialogue != null){
-                NewDialogueManager.Instance.StartDialogue(NewDialogueManager.Instance.introductionDialogue);
-            }
-        }
-    }
-    void Start()
-    {
-        // StartIntroductionDialogue();
-    }
+  
+   
     public void CheckQuestRequirements()
     {
         if (CurrentQuest.statisticsRequired != null)
@@ -110,28 +99,34 @@ public class NewQuestManager : MonoBehaviour
                 if(playerStatistics.MeetRequirements(CurrentQuest.statisticsRequired))
                 {
                     CurrentQuest.isCompleted = true;
+                    AdvanceToNextQuest();
                 }
             }
         }
     }
     public NextQuestError AdvanceToNextQuest()
     {
-        if ((currentQuestIndex < allQuests.Count - 1) && CurrentQuest.isCompleted == true)
+        currentQuestIndex +=1;
+
+        NewQuestManager.Instance.currentDialogueIndex = 0;
+        Debug.Log(CurrentQuest.questName);
+Debug.Log(currentQuestIndex + " / " + allQuests.Count + " is completed: " + CurrentQuest.isCompleted);
+        if ((currentQuestIndex < allQuests.Count) )
         {
-            if(CurrentQuest.currentDialogueIndex < CurrentQuest.questDialogue.Count)
+            if (NewQuestManager.Instance.currentDialogueIndex < CurrentQuest.questDialogue.Count)
             {
-                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
-                CurrentQuest.currentDialogueIndex +=1; 
+                Debug.Log("Starting dialogue:");
+                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
+                NewQuestManager.Instance.currentDialogueIndex += 1;
             }
-            currentQuestIndex++;
-            if(CurrentQuest.currentDialogueIndex < CurrentQuest.questDialogue.Count)
+            if (NewQuestManager.Instance.currentDialogueIndex < CurrentQuest.questDialogue.Count)
             {
-                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
-                CurrentQuest.currentDialogueIndex +=1;
+                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
+                NewQuestManager.Instance.currentDialogueIndex += 1;
             }
             return NextQuestError.Completed;
         }
-        else if((currentQuestIndex < allQuests.Count - 1) && CurrentQuest.isCompleted == false)
+        else if((currentQuestIndex < allQuests.Count) && CurrentQuest.isCompleted == false)
         {
              return NextQuestError.Incompleted;
         }

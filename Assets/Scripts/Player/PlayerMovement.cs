@@ -213,7 +213,17 @@ private void RotateUpperBodyTowardsAim()
         UpdateHealthBar();
         GameManager.Instance.InitLightSettigns();
         maxHealth = health;
-        SetWeapon(GameManager.Instance.selectedClass.classWeapon);
+        SetWeaponClass();
+    }
+    public void SetWeaponClass()
+    {
+        if(GameManager.Instance.isIntroductionWeaponAchieved == true){
+            SetWeapon(GameManager.Instance.selectedClass.classWeapon);
+        }
+        else
+        {
+            SetWeapon(GameManager.Instance.introductionWeapon);
+        }
     }
     public void UpdateAdditionalBonuses()
     {

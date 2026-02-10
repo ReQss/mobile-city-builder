@@ -2476,6 +2476,7 @@ MonoBehaviour:
     undead: 0
     shield: 0
     magicHeal: 1
+  isFirstPlaythrough: 0
   references:
     version: 2
     RefIds: []
@@ -9035,6 +9036,7 @@ MonoBehaviour:
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
   dungeonSizeSmall: {x: 3, y: 3}
+  uiToDisable: []
 --- !u!4 &638691618
 Transform:
   m_ObjectHideFlags: 0
@@ -10595,6 +10597,7 @@ MonoBehaviour:
     spiderBossKilled: 0
     knightBossKilled: 0
   isFirstQuestReceived: 0
+  currentDialogueIndex: 0
 --- !u!4 &786528168
 Transform:
   m_ObjectHideFlags: 0
@@ -12348,6 +12351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUI: {fileID: 155738102}
+  introductionDialogue: {fileID: 0}
+  oldDialogueManagerInstance: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!4 &1037811723
 Transform:
   m_ObjectHideFlags: 0
@@ -17373,6 +17379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261234892325015858, guid: d958f2ebec916764fa89f14e70006433,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
         type: 3}

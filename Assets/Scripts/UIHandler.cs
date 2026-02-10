@@ -45,6 +45,7 @@ public class UIHandler : MonoBehaviour
     public GameObject continueButton;
     public List<Button> buttonToTriggetOnStart;
     public Vector2Int dungeonSizeSmall = new Vector2Int(3,3);
+    public Vector2Int testLevelSize = new Vector2Int(2,2);
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -77,7 +78,7 @@ public class UIHandler : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-        GameManager.Instance.SetDungeonSize(dungeonSizeSmall + new Vector2Int(1,1),2);
+        GameManager.Instance.SetDungeonSize(testLevelSize,2);
         }
     }
         public void SetDungeonSizeLarge()

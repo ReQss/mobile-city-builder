@@ -6333,6 +6333,7 @@ MonoBehaviour:
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
   dungeonSizeSmall: {x: 3, y: 3}
+  uiToDisable: []
 --- !u!1 &1669630767
 GameObject:
   m_ObjectHideFlags: 0
@@ -6951,12 +6952,12 @@ PrefabInstance:
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -6981,12 +6982,12 @@ PrefabInstance:
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadSceneByName
+      value: SetDungeonSizeMedium
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetDungeonSizeMedium
+      value: LoadSceneByName
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
@@ -7001,6 +7002,11 @@ PrefabInstance:
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: DungeonEasy
       objectReference: {fileID: 0}
     - target: {fileID: 8439552600752781832, guid: d0c4eb89eaa21bb4992de19ce584eab4,

@@ -81,7 +81,7 @@ public class NewDialogueManager : MonoBehaviour
         currentLineIndex = 0;
         isDialogueActive = true;
         onDialogueEnd = onEnd;
-        SetDialogueUI();
+        // SetDialogueUI();
         // Zatrzymaj ruch gracza podczas dialogu
         if (PlayerMovement.playerMovementInstance != null)
         {

@@ -23,9 +23,12 @@ public class CharacterPower
 [System.Serializable]
 public class CharacterClass
 {
+    
+
     public LocalizedString className;
     public LocalizedString classDescription;
     public Sprite classIcon;
+
     public GameObject classWeapon;
     public int health;
     public int attack;
