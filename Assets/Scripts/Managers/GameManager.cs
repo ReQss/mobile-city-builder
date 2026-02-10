@@ -519,7 +519,7 @@ public class GameManager : MonoBehaviour
     {
         playerCoinCount -= amount;
     }
-
+    public bool isFirstPlaythrough = false;
 
     private void Start()
     {

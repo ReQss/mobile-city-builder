@@ -100,6 +100,10 @@ public class UIHandler : MonoBehaviour
         DisablePerkUIElement();
         DisableContinueButton();
         EnableOrDisableInteractionButtons();
+        if (uiToDisable.Count > 0)
+        {
+            DisableUIElements();
+        }
     }
     public void EnableOrDisableInteractionButtons()
     {
@@ -582,7 +586,16 @@ public class UIHandler : MonoBehaviour
     {
         BuyIronConstitutionPerk(amount, 3);
     }
-
+    public List<GameObject> uiToDisable;
+     public void DisableUIElements()
+    {
+        foreach (GameObject gameObject in uiToDisable)
+        {
+            if (gameObject != null)
+                gameObject.SetActive(false);
+        }
+        Time.timeScale = 0;
+    }
     private void BuyIronConstitutionPerk(int amount, int targetLevel)
     {
         if (amount > GameManager.Instance.playerCoinCount)

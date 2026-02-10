@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+[System.Serializable]
+public class EnemyInstance
+{
+    public GameObject enemyPrefab;
+    public Queue<GameObject> enemyPool = new Queue<GameObject>();
+
+    public EnemyInstance(GameObject prefab)
+    {
+        enemyPrefab = prefab;
+    }
+}
 
 public class EnemyPool : MonoBehaviour
 {
@@ -9,22 +20,24 @@ public class EnemyPool : MonoBehaviour
 
     public int poolSize = 10;
 
-    [Header("Enemy Prefabs")]
-    public GameObject archerEnemyPrefab;
-    public GameObject thugEnemyPrefab;
-    public GameObject bossKnightPrefab;
-    public GameObject blackWidowPrefab;
-    public GameObject redWidowPrefab;
-    public GameObject grayWidowPrefab;
-    public GameObject bossWidowPrefab;
+    // [Header("Enemy Prefabs")]
+    // public GameObject archerEnemyPrefab;
+    // public GameObject thugEnemyPrefab;
+    // public GameObject bossKnightPrefab;
+    // public GameObject blackWidowPrefab;
+    // public GameObject redWidowPrefab;
+    // public GameObject grayWidowPrefab;
+    // public GameObject bossWidowPrefab;
 
-    private Queue<GameObject> archerEnemyPool = new Queue<GameObject>();
-    private Queue<GameObject> thugEnemyPool = new Queue<GameObject>();
-    private Queue<GameObject> bossKnightPool = new Queue<GameObject>();
-    private Queue<GameObject> blackWidowPool = new Queue<GameObject>();
-    private Queue<GameObject> redWidowPool = new Queue<GameObject>();
-    private Queue<GameObject> grayWidowPool = new Queue<GameObject>();
-    private Queue<GameObject> bossWidowPool = new Queue<GameObject>();
+    // private Queue<GameObject> archerEnemyPool = new Queue<GameObject>();
+    // private Queue<GameObject> thugEnemyPool = new Queue<GameObject>();
+    // private Queue<GameObject> bossKnightPool = new Queue<GameObject>();
+    // private Queue<GameObject> blackWidowPool = new Queue<GameObject>();
+    // private Queue<GameObject> redWidowPool = new Queue<GameObject>();
+    // private Queue<GameObject> grayWidowPool = new Queue<GameObject>();
+    // private Queue<GameObject> bossWidowPool = new Queue<GameObject>();
+
+    public List<EnemyInstance> enemyInstances = new List<EnemyInstance>();
 
     void Awake()
     {
@@ -33,32 +46,85 @@ public class EnemyPool : MonoBehaviour
 
     void Start()
     {
-        InitPool(archerEnemyPrefab, archerEnemyPool);
-        InitPool(thugEnemyPrefab, thugEnemyPool);
-        InitPool(bossKnightPrefab, bossKnightPool);
-        InitPool(blackWidowPrefab, blackWidowPool);
-        InitPool(redWidowPrefab, redWidowPool);
-        InitPool(grayWidowPrefab, grayWidowPool);
-        InitPool(bossWidowPrefab, bossWidowPool);
-    }
-
-    private void InitPool(GameObject prefab, Queue<GameObject> pool)
-    {
-        for (int i = 0; i < poolSize; i++)
+        // InitPool(archerEnemyPrefab, archerEnemyPool);
+        // InitPool(thugEnemyPrefab, thugEnemyPool);
+        // InitPool(bossKnightPrefab, bossKnightPool);
+        // InitPool(blackWidowPrefab, blackWidowPool);
+        // InitPool(redWidowPrefab, redWidowPool);
+        // InitPool(grayWidowPrefab, grayWidowPool);
+        // InitPool(bossWidowPrefab, bossWidowPool);
+        foreach (EnemyInstance instance in enemyInstances)
         {
-            GameObject enemy = Instantiate(prefab, this.transform);
-            enemy.SetActive(false);
-            pool.Enqueue(enemy);
+            instance.enemyPool = new Queue<GameObject>();
+            InitPool(instance.enemyPrefab, instance.enemyPool);
         }
     }
 
-    public GameObject GetArcherEnemy() => GetEnemyFromPool(archerEnemyPrefab, archerEnemyPool);
-    public GameObject GetThugEnemy() => GetEnemyFromPool(thugEnemyPrefab, thugEnemyPool);
-    public GameObject GetBossKnightEnemy() => GetEnemyFromPool(bossKnightPrefab, bossKnightPool);
-    public GameObject GetBlackWidowEnemy() => GetEnemyFromPool(blackWidowPrefab, blackWidowPool);
-    public GameObject GetRedWidowEnemy() => GetEnemyFromPool(redWidowPrefab, redWidowPool);
-    public GameObject GetGrayWidowEnemy() => GetEnemyFromPool(grayWidowPrefab, grayWidowPool);
-    public GameObject GetBossWidowEnemy() => GetEnemyFromPool(bossWidowPrefab, bossWidowPool);
+private void InitPool(GameObject prefab, Queue<GameObject> pool)
+{
+    if (prefab == null)
+    {
+        Debug.LogError("InitPool: prefab is NULL! Cannot instantiate.");
+        return;
+    }
+
+    if (pool == null)
+    {
+        Debug.LogError("InitPool: pool is NULL! This should never happen.");
+        return;
+    }
+
+    for (int i = 0; i < poolSize; i++)
+    {
+        GameObject enemy = Instantiate(prefab, this.transform);
+        enemy.SetActive(false);
+        pool.Enqueue(enemy);
+    }
+}
+
+
+    // public GameObject GetArcherEnemy() => GetEnemyFromPool(archerEnemyPrefab, archerEnemyPool);
+    // public GameObject GetThugEnemy() => GetEnemyFromPool(thugEnemyPrefab, thugEnemyPool);
+    // public GameObject GetBossKnightEnemy() => GetEnemyFromPool(bossKnightPrefab, bossKnightPool);
+    // public GameObject GetBlackWidowEnemy() => GetEnemyFromPool(blackWidowPrefab, blackWidowPool);
+    // public GameObject GetRedWidowEnemy() => GetEnemyFromPool(redWidowPrefab, redWidowPool);
+    // public GameObject GetGrayWidowEnemy() => GetEnemyFromPool(grayWidowPrefab, grayWidowPool);
+    // public GameObject GetBossWidowEnemy() => GetEnemyFromPool(bossWidowPrefab, bossWidowPool);
+    public GameObject GetEnemy(GameObject prefab)
+    {
+        EnemyInstance instance = enemyInstances.Find(x => x.enemyPrefab == prefab);
+        if (instance != null)
+        {
+            Debug.Log("Getting enemy from pool: " + prefab.name);
+            return GetEnemyFromPool(instance.enemyPrefab, instance.enemyPool);
+        }
+        else
+        {
+            Debug.LogWarning("Prefab not found in enemyInstances: " + prefab.name);
+            return null;
+        }
+    }
+
+ public bool ReturnEnemy(GameObject enemy)
+{
+    if (enemy == null) return false;
+
+    // Usuwamy "(Clone)" i spacje z nazwy wroga
+    string enemyName = enemy.name.Replace("(Clone)", "").Trim();
+
+    // Szukamy prefab w enemyInstances po nazwie
+    EnemyInstance instance = enemyInstances.Find(x => x.enemyPrefab != null && x.enemyPrefab.name == enemyName);
+
+    if (instance != null)
+    {
+        ReturnEnemyToPool(enemy, instance.enemyPool);
+        return true;
+    }
+
+    return false;
+}
+
+
     public void ResetEnemyComponents(GameObject enemy)
     {
         EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
@@ -69,7 +135,7 @@ public class EnemyPool : MonoBehaviour
         enemyAI.GetComponent<NavMeshAgent>().enabled = true;
         enemyAI.health = enemyAI.maxHealth;
     }
-    private GameObject GetEnemyFromPool(GameObject prefab, Queue<GameObject> pool)
+    public GameObject GetEnemyFromPool(GameObject prefab, Queue<GameObject> pool)
     {
         GameObject enemy;
         if (pool.Count > 0)
@@ -92,13 +158,13 @@ public class EnemyPool : MonoBehaviour
         return enemy;
     }
 
-    public void ReturnArcherEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, archerEnemyPool);
-    public void ReturnThugEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, thugEnemyPool);
-    public void ReturnBossKnightEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, bossKnightPool);
-    public void ReturnBlackWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, blackWidowPool);
-    public void ReturnRedWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, redWidowPool);
-    public void ReturnGrayWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, grayWidowPool);
-    public void ReturnBossWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, bossWidowPool);
+    // public void ReturnArcherEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, archerEnemyPool);
+    // public void ReturnThugEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, thugEnemyPool);
+    // public void ReturnBossKnightEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, bossKnightPool);
+    // public void ReturnBlackWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, blackWidowPool);
+    // public void ReturnRedWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, redWidowPool);
+    // public void ReturnGrayWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, grayWidowPool);
+    // public void ReturnBossWidowEnemy(GameObject enemy) => ReturnEnemyToPool(enemy, bossWidowPool);
 
     private void ReturnEnemyToPool(GameObject enemy, Queue<GameObject> pool)
     {

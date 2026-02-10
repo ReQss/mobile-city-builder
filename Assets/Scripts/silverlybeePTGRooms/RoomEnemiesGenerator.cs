@@ -93,19 +93,39 @@ public class RoomEnemiesGenerator : MonoBehaviour
         var agent = go.GetComponent<NavMeshAgent>();
         if (agent) agent.enabled = true;
     }
-
-    GameObject GetFromPool(SpawnableObject obj)
+    private GameObject GetFromPool(SpawnableObject obj)
+{
+    switch (obj.type)
     {
-        switch (obj.type)
-        {
-            case EnemyType.BossKnight: return EnemyPool.Instance.GetBossKnightEnemy();
-            case EnemyType.BossWidow: return EnemyPool.Instance.GetBossWidowEnemy();
-            case EnemyType.Archer: return EnemyPool.Instance.GetArcherEnemy();
-            case EnemyType.Thug: return EnemyPool.Instance.GetThugEnemy();
-            case EnemyType.BlackWidow: return EnemyPool.Instance.GetBlackWidowEnemy();
-            case EnemyType.RedWidow: return EnemyPool.Instance.GetRedWidowEnemy();
-            case EnemyType.GrayWidow: return EnemyPool.Instance.GetGrayWidowEnemy();
-            default: return null;
-        }
+        // case EnemyType.BossKnight: return EnemyPool.Instance.GetBossKnightEnemy();
+        // case EnemyType.BossWidow: return EnemyPool.Instance.GetBossWidowEnemy();
+        // case EnemyType.Archer: return EnemyPool.Instance.GetArcherEnemy();
+        // case EnemyType.Thug: return EnemyPool.Instance.GetThugEnemy();
+        // case EnemyType.BlackWidow: return EnemyPool.Instance.GetBlackWidowEnemy();
+        // case EnemyType.RedWidow: return EnemyPool.Instance.GetRedWidowEnemy();
+        // case EnemyType.GrayWidow: return EnemyPool.Instance.GetGrayWidowEnemy();
+        default:
+            // Sprawdzamy listę enemyInstances po prefabie
+            if (obj.prefab != null)
+            {
+                EnemyInstance instance = EnemyPool.Instance.enemyInstances
+                    .Find(x => x.enemyPrefab == obj.prefab);
+
+                if (instance != null)
+                {
+                    return EnemyPool.Instance.GetEnemyFromPool(instance.enemyPrefab, instance.enemyPool);
+                }
+                else
+                {
+                    Debug.LogWarning("Prefab not found in enemyInstances: " + obj.prefab.name);
+                    return null;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("SpawnableObject prefab is null for type: " + obj.type);
+                return null;
+            }
     }
 }
+}               

@@ -13,7 +13,7 @@ public class DialogueLine
 public class DialogueData : ScriptableObject
 {
     public DialogueLine[] dialogueLines;
-    public string ghostName = "DefaultName";
+    public string ghostName = "";
     public Sprite defaultPersonPortrait;
 }
 

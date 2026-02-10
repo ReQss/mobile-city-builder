@@ -19,6 +19,7 @@ public class QuestUIHandler : MonoBehaviour
         FillInQuestUIElements(NewQuestManager.Instance.allQuests);
         FillInCurrentQuestUI(NewQuestManager.Instance.CurrentQuest);
         ChangeCompleteQuestButtonState();
+        FirstQuestDialogue();
     }
     public void ChangeCompleteQuestButtonState()
     {
@@ -33,8 +34,11 @@ public class QuestUIHandler : MonoBehaviour
         if(!NewQuestManager.Instance.isFirstQuestReceived) {
             NewQuestManager.Instance.isFirstQuestReceived = true;
             QuestData CurrentQuest = NewQuestManager.Instance.CurrentQuest;
-            NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
-            CurrentQuest.currentDialogueIndex +=1;
+            // NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
+            // CurrentQuest.currentDialogueIndex +=1;
+            NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
+            NewQuestManager.Instance.currentDialogueIndex +=1;
+
         }
     }
     // Update is called once per frame

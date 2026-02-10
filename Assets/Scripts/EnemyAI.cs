@@ -114,7 +114,7 @@ public class EnemyAI : MonoBehaviour
 
         GiveLoot();
         
-        await Task.Delay(3000);
+        await Task.Delay(10000);
         ReturnToPool();
     }
     public void GiveLoot(){
@@ -155,33 +155,40 @@ public class EnemyAI : MonoBehaviour
     }
         private void ReturnToPool()
     {
-        switch (gameObject.name.Replace("(Clone)", "").Trim())
-        {
-            case "ArcherEnemy":
-                EnemyPool.Instance.ReturnArcherEnemy(gameObject);
-                break;
-            case "ThugEnemy":
-                EnemyPool.Instance.ReturnThugEnemy(gameObject);
-                break;
-            case "BossKnightEnemy":
-                EnemyPool.Instance.ReturnBossKnightEnemy(gameObject);
-                break;
-            case "BlackWidowEnemy":
-                EnemyPool.Instance.ReturnBlackWidowEnemy(gameObject);
-                break;
-            case "RedWidowEnemy":
-                EnemyPool.Instance.ReturnRedWidowEnemy(gameObject);
-                break;
-            case "GrayWidowEnemy":
-                EnemyPool.Instance.ReturnGrayWidowEnemy(gameObject);
-                break;
-            case "BossWidowEnemy":
-                EnemyPool.Instance.ReturnBossWidowEnemy(gameObject);
-                break;
-            default:
-                Destroy(gameObject);
-                break;
+        string enemyName = gameObject.name.Replace("(Clone)", "").Trim();
+        bool returned = EnemyPool.Instance.ReturnEnemy(gameObject);
+        if (returned){ 
+            // Debug.Log("yy");
+            return;
         }
+        // Debug.Log("xd");
+        // switch (enemyName)
+        // {
+        //     case "ArcherEnemy":
+        //         EnemyPool.Instance.ReturnArcherEnemy(gameObject);
+        //         break;
+        //     case "ThugEnemy":
+        //         EnemyPool.Instance.ReturnThugEnemy(gameObject);
+        //         break;
+        //     case "BossKnightEnemy":
+        //         EnemyPool.Instance.ReturnBossKnightEnemy(gameObject);
+        //         break;
+        //     case "BlackWidowEnemy":
+        //         EnemyPool.Instance.ReturnBlackWidowEnemy(gameObject);
+        //         break;
+        //     case "RedWidowEnemy":
+        //         EnemyPool.Instance.ReturnRedWidowEnemy(gameObject);
+        //         break;
+        //     case "GrayWidowEnemy":
+        //         EnemyPool.Instance.ReturnGrayWidowEnemy(gameObject);
+        //         break;
+        //     case "BossWidowEnemy":
+        //         EnemyPool.Instance.ReturnBossWidowEnemy(gameObject);
+        //         break;
+        //     default:
+        //         Destroy(gameObject);
+        //         break;
+        // }
     }
     public void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
     {

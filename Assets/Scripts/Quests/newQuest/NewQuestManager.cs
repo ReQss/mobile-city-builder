@@ -75,6 +75,8 @@ public class NewQuestManager : MonoBehaviour
     public static NewQuestManager Instance { get; private set; }
     public Statistics playerStatistics = new Statistics();
     public bool isFirstQuestReceived = false;
+    
+    public int currentDialogueIndex = 0;
      void Awake()
     {
         if (Instance == null){
@@ -84,10 +86,18 @@ public class NewQuestManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-
+    public void StartIntroductionDialogue()
+    {
+        if(GameManager.Instance.isFirstPlaythrough)
+        {
+            if(NewDialogueManager.Instance.introductionDialogue != null){
+                NewDialogueManager.Instance.StartDialogue(NewDialogueManager.Instance.introductionDialogue);
+            }
+        }
+    }
     void Start()
     {
-        
+        // StartIntroductionDialogue();
     }
     public void CheckQuestRequirements()
     {

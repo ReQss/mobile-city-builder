@@ -12,7 +12,8 @@ public class NewDialogueManager : MonoBehaviour
     private int currentLineIndex = 0;
     private bool isDialogueActive = false;
     private System.Action onDialogueEnd; 
-  
+    public DialogueData introductionDialogue; 
+    public DialogueManager oldDialogueManagerInstance;
     void Awake()
     {
         if (Instance == null)
@@ -53,7 +54,18 @@ public class NewDialogueManager : MonoBehaviour
                 }
         }
     }
+    public Animator animator;
+    public void SetDialogueUI()
+    {
+        // Time.timeScale = 0;
+        // GameManager.Instance.isPlayerInteracting = true;
+        // DisableUIElements();
 
+        if (oldDialogueManagerInstance.UIDialoguePanel != null)
+            oldDialogueManagerInstance.UIDialoguePanel.SetActive(true);
+        animator.gameObject.SetActive(true);
+        animator.SetBool("IsOpen", true);
+    }
     public void StartDialogue(DialogueData dialogue, System.Action onEnd = null)
     {
         if (dialogue == null || dialogue.dialogueLines == null || dialogue.dialogueLines.Length == 0)
@@ -69,7 +81,7 @@ public class NewDialogueManager : MonoBehaviour
         currentLineIndex = 0;
         isDialogueActive = true;
         onDialogueEnd = onEnd;
-
+        SetDialogueUI();
         // Zatrzymaj ruch gracza podczas dialogu
         if (PlayerMovement.playerMovementInstance != null)
         {
