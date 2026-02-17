@@ -27,6 +27,7 @@ public class FloatingJoystickHandler : MonoBehaviour
     public bool isJoystickEnabled = true; 
     private Vector2 initialJoystickPosition;
     public Image joystickImage;
+    public GameObject joystickBackground;
 
     void Start()
     {
@@ -91,50 +92,67 @@ public class FloatingJoystickHandler : MonoBehaviour
         isJoystickEnabled = false;
         HandleLoseFinger(MovementFinger);
     }
-    public void HandleLoseFinger(Finger LostFinger)
-    {
-        if (LostFinger == MovementFinger)
-        {
-            MovementFinger = null;
-            Joystick.Knob.anchoredPosition = Vector2.zero;
-            Joystick.RectTransform.anchoredPosition = initialJoystickPosition;
-            // Joystick.gameObject.SetActive(false);
-            initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
-            if (joystickImage != null)
-            {
-                Color c = joystickImage.color;
-                c.a = 0.5f; 
-                joystickImage.color = c;
-            }
-            MovementAmount = Vector2.zero;
-        }
-    }
-
     private void HandleFingerDown(Finger TouchedFinger)
+{
+    if (!isJoystickEnabled) return;
+
+    float x = TouchedFinger.screenPosition.x / Screen.width;
+    float y = TouchedFinger.screenPosition.y / Screen.height;
+
+    if (MovementFinger == null
+        && x >= minX && x <= maxX
+        && y >= minY && y <= maxY)
     {
-        if (!isJoystickEnabled) return;
+        MovementFinger = TouchedFinger;
+        MovementAmount = Vector2.zero;
+        Joystick.gameObject.SetActive(true);
+        initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
 
-        float x = TouchedFinger.screenPosition.x / Screen.width;
-        float y = TouchedFinger.screenPosition.y / Screen.height;
-
-        if (MovementFinger == null
-            && x >= minX && x <= maxX
-            && y >= minY && y <= maxY)
+        // Ustawienie koloru joysticka
+        if (joystickImage != null)
         {
-            MovementFinger = TouchedFinger;
-            MovementAmount = Vector2.zero;
-            Joystick.gameObject.SetActive(true);
-            initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
-            if (joystickImage != null)
-            {
-                Color c = joystickImage.color;
-                c.a = 1f;
-                joystickImage.color = c;
-            }
-            Joystick.RectTransform.sizeDelta = JoystickSize;
-            Joystick.RectTransform.anchoredPosition = ClampStartPosition(TouchedFinger.screenPosition);
+            Color c = joystickImage.color;
+            c.a = 1f;
+            joystickImage.color = c;
         }
+
+        // Wyłączenie tła joysticka
+        if (joystickBackground != null)
+        {
+            joystickBackground.SetActive(false);
+        }
+
+        Joystick.RectTransform.sizeDelta = JoystickSize;
+        Joystick.RectTransform.anchoredPosition = ClampStartPosition(TouchedFinger.screenPosition);
     }
+}
+
+public void HandleLoseFinger(Finger LostFinger)
+{
+    if (LostFinger == MovementFinger)
+    {
+        MovementFinger = null;
+        Joystick.Knob.anchoredPosition = Vector2.zero;
+        Joystick.RectTransform.anchoredPosition = initialJoystickPosition;
+        initialJoystickPosition = Joystick.RectTransform.anchoredPosition;
+
+        if (joystickImage != null)
+        {
+            Color c = joystickImage.color;
+            c.a = 0.5f; 
+            joystickImage.color = c;
+        }
+
+        // Włączenie tła joysticka
+        if (joystickBackground != null)
+        {
+            joystickBackground.SetActive(true);
+        }
+
+        MovementAmount = Vector2.zero;
+    }
+}
+
 
     private Vector2 ClampStartPosition(Vector2 StartPosition)
     {

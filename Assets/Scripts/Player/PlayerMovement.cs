@@ -304,18 +304,7 @@ private void RotateUpperBodyTowardsAim()
             if (temp != null)
                 temp.SetActive(false);
         }
-        if (autoNavigationEnabled)
-        {
-            NavigateTowardsCurrentQuestNpc();
-        }
-        else
-        {
-            GameObject temp = null;
-            if (GameUIHandler.Instance.autonavigationUI != null)
-                temp = GameUIHandler.Instance.autonavigationUI;
-            if (temp != null)
-                temp.SetActive(false);
-        }
+        
 
         if (isPlayerDead)
         {
@@ -427,15 +416,12 @@ private void RotateUpperBodyTowardsAim()
                     playerCamera.GetComponent<Animator>().SetBool("running", isMoving);
 
                 }
-                if (attackDirActive)
+                if (attackDirActive == false)
                 {
-                    AttackAnimationsHandling();
+                    DisableAttackAnimations();
+                    
                 }
-                else if (isCombat)
-                {
-                    AttackAnimationsHandling();
-                }
-                else DisableAttackAnimations();
+                else AttackAnimationsHandling();
 
             }
 
@@ -482,7 +468,10 @@ private void RotateUpperBodyTowardsAim()
     }
     public void AttackAnimationsHandling()
     {
-        
+        if(attackDirActive == false && isCombat == false){ 
+            Debug.Log("xd");
+            return;
+            }
         bool hasSword = false;
         bool hasCrossbow = false;
         bool hasMagic = false;
@@ -532,6 +521,7 @@ private void RotateUpperBodyTowardsAim()
     }
     public void DisableAttackAnimations()
     {
+        Debug.Log("xd");
         animator.SetBool("isShooting", false);
         animator.SetBool("isSlashing", false);
         animator.SetBool("isCasting", false);
@@ -578,23 +568,7 @@ private void RotateUpperBodyTowardsAim()
         currentTarget = null;
 
     }
-    public void EnableOrDisableAutoNavigation()
-    {
-
-        autoNavigationEnabled = !autoNavigationEnabled;
-        if (autoNavigationEnabled == false)
-        {
-            GameUIHandler.Instance.autoNavigationNofication.SetActive(false);
-        }
-        if (navMeshAgent != null)
-        {
-            navMeshAgent.Warp(transform.position);
-        }
-
-        autoAttackEnabled = false;
-        currentTarget = null;
-
-    }
+   
     public void EnableOrDisableAttack()
     {
         attackEnabled = !attackEnabled;
@@ -632,41 +606,7 @@ private void RotateUpperBodyTowardsAim()
         return closestEnemy;
     }
 
-    public void NavigateTowardsCurrentQuestNpc()
-    {
-        if (autoNavigationEnabled == false) return;
-        if (QuestManager.Instance == null || QuestManager.Instance.currentQuest == null || QuestManager.Instance.currentQuest.npc == null)
-            return;
-
-        Transform currentQuestNPC = QuestManager.Instance.currentQuest.npc.transform;
-        currentTarget = currentQuestNPC;
-
-        navMeshAgent.enabled = true;
-        navMeshAgent.SetDestination(currentTarget.position);
-
-        // Sync player position to NavMeshAgent
-        if (Vector3.Distance(transform.position, navMeshAgent.nextPosition) > 0.01f)
-        {
-            controller.enabled = false; // Disable CharacterController to avoid conflicts
-            transform.position = navMeshAgent.nextPosition;
-            controller.enabled = true;
-        }
-
-        float distanceToNPC = Vector3.Distance(transform.position, currentTarget.position);
-
-        if (distanceToNPC <= 5)
-        {
-            EnableOrDisableAutoNavigation();
-            currentQuestNPC.GetComponent<DialogueTrigger>().TriggerDialogue();
-            navMeshAgent.ResetPath();
-        }
-        else
-        {
-            isCombat = false;
-            // No manual controller.Move here; NavMeshAgent handles movement
-        }
-    }
-
+  
     public void RunTowardsTargetEnemy()
     {
         if (currentTarget == null || navMeshAgent == null || !autoAttackEnabled) return;

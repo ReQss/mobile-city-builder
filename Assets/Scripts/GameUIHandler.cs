@@ -158,6 +158,26 @@ public class GameUIHandler : MonoBehaviour
         PlayerMovement.playerMovementInstance.isMovementLocked = true;
         Time.timeScale = 0.1f;
     }
+    public void ChangeWeapon(GameObject weapon)
+    {
+        PlayerMovement.playerMovementInstance.SetWeapon(weapon);
+    }
+    public void ChangeToIntroductionWeapon()
+    {
+        Debug.Log("Change to introduction weapon");
+        PlayerMovement.playerMovementInstance.SetWeapon(GameManager.Instance.introductionWeapon);
+    }
+    public void ChangeToClassWeapon()
+    {
+        Debug.Log("Change to class weapon");
+        if(GameManager.Instance.GetFlag("isIntroductionWeaponAchieved") == true)
+            PlayerMovement.playerMovementInstance.SetWeapon(GameManager.Instance.selectedClass.classWeapon);
+    }
+    public void UnslowPause()
+    {
+        PlayerMovement.playerMovementInstance.isMovementLocked = false;
+        Time.timeScale = 1f;
+    }
     public void LevelUp()
     {
         if (levelUpVFX == null) return;
