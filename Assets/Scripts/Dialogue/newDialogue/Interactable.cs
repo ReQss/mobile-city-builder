@@ -7,12 +7,7 @@ public class Interactable : MonoBehaviour
     public DialogueData dialogueData;
     public Statistics reward;
     private bool statisticsReceived = false;
-    void Start()
-    {
-        
-        //   NewDialogueManager.Instance.StartDialogue(dialogueData);
-        //   _= startdialog();
-    }
+  
     public void StartDialog()
     {
         if(dialogueData == null) return;

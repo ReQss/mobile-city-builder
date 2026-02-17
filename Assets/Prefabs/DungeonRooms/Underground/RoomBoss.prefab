@@ -1870,8 +1870,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.55201, y: 12.82, z: 15.93205}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 185067020963730900}
   - {fileID: 4573290162425406949}
@@ -1952,15 +1952,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawn:
-  - name: 
+  - type: 0
     prefab: {fileID: 4570715811725816296, guid: 8968560f242b6884dbebafe4f49a10f8,
       type: 3}
     spawnChance: 100
-  spawnCount: 1
   spawnRange: 1
   center: {x: 0, y: 0, z: 0}
   centerTransform: {fileID: 5307645093389238367}
   parentFolder: {fileID: 54090965923966776}
+  numberOfEnemies: 1
 --- !u!1 &7724068002322567781
 GameObject:
   m_ObjectHideFlags: 0

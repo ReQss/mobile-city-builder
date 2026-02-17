@@ -59,6 +59,7 @@ public class EnemyAI : MonoBehaviour
     private GameObject explosionEffectPrefab;
     private bool blockMovement = false;
     public GameObject slashPrefab;
+    public float knockBackForce = 2f;
 
     public void SlashAnimation()
     {
@@ -143,7 +144,7 @@ public class EnemyAI : MonoBehaviour
         
         Animator anim = GetComponentInChildren<Animator>();
         anim.SetBool("explosion", true);
-        await Task.Delay(2000);
+        await Task.Delay(750);
 
         Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         

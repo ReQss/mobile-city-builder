@@ -2476,6 +2476,10 @@ MonoBehaviour:
     undead: 0
     shield: 0
     magicHeal: 1
+  introductionWeapon: {fileID: 4269364708897539207, guid: 9eb7a3644f797e849a94020a61820d0e,
+    type: 3}
+  isIntroductionWeaponAchieved: 0
+  dungeonType: 0
   isFirstPlaythrough: 0
   references:
     version: 2
@@ -3149,7 +3153,7 @@ MonoBehaviour:
   dungeonType: 0
   dayDirectionalLight: {fileID: 887379356}
   dungeonDirectionalLight: {fileID: 1692096606}
-  size: {x: 3, y: 3}
+  size: {x: 3, y: 4}
   startPos: 0
   roomsDungeon:
   - room: {fileID: 7681763370866645276, guid: 714813510935c484ebd8ff42dedf5d2b, type: 3}
@@ -3166,7 +3170,7 @@ MonoBehaviour:
     minPosition: {x: 0, y: 0}
     maxPosition: {x: 3, y: 3}
     obligatory: 0
-    spawnChance: 30
+    spawnChance: 10
   roomsForest:
   - room: {fileID: 7681763370866645276, guid: cd12cbf5bcfbf984f99c77309c3c79fa, type: 3}
     minPosition: {x: 0, y: 0}
@@ -3178,7 +3182,7 @@ MonoBehaviour:
     maxPosition: {x: 4, y: 4}
     obligatory: 0
     spawnChance: 100
-  offset: {x: 76, y: 76}
+  offset: {x: 45.6, y: 45.6}
   numberOfTreasureChests: 3
   lastRoomPrefab: {fileID: 7681763370866645276, guid: b7de462b6a74cde449cfaa8cc4180584,
     type: 3}
@@ -9036,6 +9040,7 @@ MonoBehaviour:
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
   dungeonSizeSmall: {x: 3, y: 3}
+  testLevelSize: {x: 2, y: 2}
   uiToDisable: []
 --- !u!4 &638691618
 Transform:
@@ -17367,79 +17372,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1093136007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1410510641
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6261234892325015858, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_Name
-      value: Rat
-      objectReference: {fileID: 0}
-    - target: {fileID: 6261234892325015858, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.623774
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 5.1180425
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6750771985692756872, guid: d958f2ebec916764fa89f14e70006433,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d958f2ebec916764fa89f14e70006433, type: 3}
 --- !u!1 &1413472775
 GameObject:
   m_ObjectHideFlags: 0
@@ -27089,7 +27021,7 @@ PrefabInstance:
     - target: {fileID: 8703210982264487993, guid: 7cfdbc9a39e417f419f7226de2ff4133,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.400177
+      value: -3.4002075
       objectReference: {fileID: 0}
     - target: {fileID: 8890813220829791395, guid: 7cfdbc9a39e417f419f7226de2ff4133,
         type: 3}
@@ -27238,4 +27170,3 @@ SceneRoots:
   - {fileID: 155738103}
   - {fileID: 1037811723}
   - {fileID: 786528168}
-  - {fileID: 1410510641}

@@ -37,6 +37,7 @@ public class QuestUIHandler : MonoBehaviour
             // NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[CurrentQuest.currentDialogueIndex]);
             // CurrentQuest.currentDialogueIndex +=1;
             NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
+            NewQuestManager.Instance.ExecuteQuestActions(CurrentQuest.questActionsStart);
             NewQuestManager.Instance.currentDialogueIndex +=1;
 
         }

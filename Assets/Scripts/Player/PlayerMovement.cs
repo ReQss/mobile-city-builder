@@ -217,7 +217,7 @@ private void RotateUpperBodyTowardsAim()
     }
     public void SetWeaponClass()
     {
-        if(GameManager.Instance.isIntroductionWeaponAchieved == true){
+        if(GameManager.Instance.GetFlag("isIntroductionWeaponAchieved") == true){
             SetWeapon(GameManager.Instance.selectedClass.classWeapon);
         }
         else
@@ -1419,7 +1419,7 @@ private void RotateUpperBodyTowardsAim()
                 _ = TakeDamageAsync(tempEnemy.damageAmount);
                 await Task.Yield();
                 if(tempEnemy.hasKnockbackEffect)
-                    _ = KnockbackEffect(other.transform.position);
+                    _ = KnockbackEffect(other.transform.position,tempEnemy.knockBackForce,0.1f);
             }
         }
     }

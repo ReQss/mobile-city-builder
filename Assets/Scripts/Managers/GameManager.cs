@@ -187,7 +187,9 @@ public class GameManager : MonoBehaviour
     public PlayerPowers playerPowers = new PlayerPowers();
     [Header("Starting Weapons")]
     public GameObject introductionWeapon;
-    public bool isIntroductionWeaponAchieved;
+    // public bool isIntroductionWeaponAchieved;
+    public DungeonType dungeonType = DungeonType.DUNGEON;
+    public Dictionary<string, bool> flags = new Dictionary<string, bool>();
    
     public static GameManager Instance { get; private set; }
     public void SetDungeonSize(Vector2Int size, int numberOfTreasureChests)
@@ -198,6 +200,14 @@ public class GameManager : MonoBehaviour
     public Vector2Int GetDungeonSize()
     {
         return selectedDungeonSize;
+    }
+    public void SetDungeonType(DungeonType type)
+    {
+        dungeonType = type;
+    }
+    public DungeonType GetDungeonType()
+    {
+        return dungeonType;
     }
 // copy new item stats to old item stats
     public void CopyNewItemStats(InventoryItem newItem)
@@ -237,19 +247,19 @@ public class GameManager : MonoBehaviour
 }
     public void StartNewGame(CharacterClass selectedClass)
     {
-        playerPowers.undead = false;
-        playerPowers.shield = false;
-        unlockedContent.armorShopActivated = false;
-        unlockedContent.magicShopActivated = false;
-        unlockedContent.weaponShopActivated = false;
-        unlockedContent.mapUnlocked = false;
-        unlockedContent.healthUnlocked = false;
-        unlockedContent.attackUnlocked = false;
-        unlockedContent.speedUnlocked = false;
-        unlockedContent.shieldUnlocked = false;
-        unlockedContent.resurrectionUnlocked = false;
-        unlockedContent.counterUnlocked = false;
-        unlockedContent.dashUnlocked = false;
+        // playerPowers.undead = false;
+        // playerPowers.shield = false;
+        // unlockedContent.armorShopActivated = false;
+        // unlockedContent.magicShopActivated = false;
+        // unlockedContent.weaponShopActivated = false;
+        // unlockedContent.mapUnlocked = false;
+        // unlockedContent.healthUnlocked = false;
+        // unlockedContent.attackUnlocked = false;
+        // unlockedContent.speedUnlocked = false;
+        // unlockedContent.shieldUnlocked = false;
+        // unlockedContent.resurrectionUnlocked = false;
+        // unlockedContent.counterUnlocked = false;
+        // unlockedContent.dashUnlocked = false;
         foreach (CharacterPower cp in selectedClass.characterPower)
         {
             switch (cp.powerType)
@@ -461,7 +471,18 @@ public class GameManager : MonoBehaviour
             Debug.Log("Duplicate GameManager destroyed: " + gameObject.name);
             Destroy(gameObject);
         }
+        flags["isIntroductionWeaponAchieved"] = false;
     }
+    public void SetFlag(string name, bool value)
+    {
+        flags[name] = value;
+    }
+
+    public bool GetFlag(string name)
+    {
+        return flags.TryGetValue(name, out var v) && v;
+    }
+
     
     private IEnumerator IncreaseCoinsToCollectOverTime(int amount, float time)
     {

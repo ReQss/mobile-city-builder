@@ -86,8 +86,8 @@ public class NewQuestManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-  
-   
+
+    
     public void CheckQuestRequirements()
     {
         if (CurrentQuest.statisticsRequired != null)
@@ -104,37 +104,45 @@ public class NewQuestManager : MonoBehaviour
             }
         }
     }
-    public NextQuestError AdvanceToNextQuest()
+    
+    public void ExecuteQuestActions(List<QuestAction> actions)
     {
-        currentQuestIndex +=1;
+        if (actions != null)
+        {
+            foreach (var action in actions)
+            {
+                Debug.Log("action made");
+                action.Execute();
+            }
+        }
+    }
+        public NextQuestError AdvanceToNextQuest()
+    {
+        currentQuestIndex += 1;
+        currentDialogueIndex = 0;
 
-        NewQuestManager.Instance.currentDialogueIndex = 0;
-        Debug.Log(CurrentQuest.questName);
-Debug.Log(currentQuestIndex + " / " + allQuests.Count + " is completed: " + CurrentQuest.isCompleted);
-        if ((currentQuestIndex < allQuests.Count) )
-        {
-            if (NewQuestManager.Instance.currentDialogueIndex < CurrentQuest.questDialogue.Count)
-            {
-                Debug.Log("Starting dialogue:");
-                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
-                NewQuestManager.Instance.currentDialogueIndex += 1;
-            }
-            if (NewQuestManager.Instance.currentDialogueIndex < CurrentQuest.questDialogue.Count)
-            {
-                NewDialogueManager.Instance.StartDialogue(CurrentQuest.questDialogue[NewQuestManager.Instance.currentDialogueIndex]);
-                NewQuestManager.Instance.currentDialogueIndex += 1;
-            }
-            return NextQuestError.Completed;
-        }
-        else if((currentQuestIndex < allQuests.Count) && CurrentQuest.isCompleted == false)
-        {
-             return NextQuestError.Incompleted;
-        }
-        else
+        if (currentQuestIndex >= allQuests.Count)
         {
             Debug.Log("All quests completed!");
             return NextQuestError.AllCompleted;
         }
+
+        QuestData newQuest = CurrentQuest;
+
+        // Wywołanie questActionsStart przy rozpoczęciu nowego questa
+        
+        ExecuteQuestActions(newQuest.questActionsStart);
+
+        // Jeśli nowy quest ma dialogi, startujemy pierwszy
+        if (newQuest.questDialogue != null && newQuest.questDialogue.Count > 0)
+        {
+            Debug.Log("Starting dialogue for new quest: " + newQuest.questName);
+            NewDialogueManager.Instance.StartDialogue(newQuest.questDialogue[currentDialogueIndex]);
+            currentDialogueIndex += 1;
+        }
+
+        return NextQuestError.Completed;
     }
+
     
 }

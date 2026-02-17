@@ -4,6 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+public enum SceneType
+{
+    None,
+    Camp,
+    Maps
+}
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -46,6 +52,8 @@ public class UIHandler : MonoBehaviour
     public List<Button> buttonToTriggetOnStart;
     public Vector2Int dungeonSizeSmall = new Vector2Int(3,3);
     public Vector2Int testLevelSize = new Vector2Int(2,2);
+    public SceneType sceneType = SceneType.None;
+    public List<GameObject> campBackgrounds;
     public bool IsUIOpen()
     {
         foreach (GameObject go in uiElements)
@@ -78,16 +86,28 @@ public class UIHandler : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-        GameManager.Instance.SetDungeonSize(testLevelSize,2);
+            GameManager.Instance.SetDungeonSize(dungeonSizeSmall + new Vector2Int(1, 1), 2);
         }
     }
-        public void SetDungeonSizeLarge()
-        {
+    public void SetDungeonSizeLarge()
+    {
             if (GameManager.Instance != null)
             {
             GameManager.Instance.SetDungeonSize(dungeonSizeSmall + new Vector2Int(2,2),3);
             }
+    }
+    public void SetDungeonType(int type)
+    {
+        // 0 - dungeon, 1 - forest
+        GameManager.Instance.SetDungeonType((DungeonType)type);
+    }
+    public void GetDungeonType()
+    {
+        if (GameManager.Instance != null)
+        {
+            DungeonType currentType = GameManager.Instance.GetDungeonType();
         }
+    }
 
     void Start()
     {
@@ -104,6 +124,39 @@ public class UIHandler : MonoBehaviour
         if (uiToDisable.Count > 0)
         {
             DisableUIElements();
+        }
+        if(GameManager.Instance != null){
+            
+            switch (sceneType){
+                case SceneType.Camp:
+                    SetCampBackground();
+                break;
+                case SceneType.Maps:
+                    if(GameManager.Instance!=null){
+                        SetDungeonSizeSmall();
+                        SetDungeonType(0);
+                    }
+                break;
+                default:
+                break;
+            }
+        }
+    }
+    public void SetCampBackground()
+    {
+        DungeonType currentType = GameManager.Instance.GetDungeonType();
+        if(campBackgrounds.Count < 2)
+        {
+            Debug.LogWarning("Not enough camp backgrounds assigned in the inspector!");
+            return;
+        }
+        if(currentType == DungeonType.DUNGEON){
+            campBackgrounds[0].SetActive(true);
+            campBackgrounds[1].SetActive(false);
+        }
+        else if(currentType == DungeonType.FOREST){
+            campBackgrounds[0].SetActive(false);
+            campBackgrounds[1].SetActive(true);
         }
     }
     public void EnableOrDisableInteractionButtons()

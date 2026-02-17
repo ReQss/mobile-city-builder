@@ -1769,8 +1769,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.55201, y: 12.82, z: 15.93205}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6587073725061200597}
   - {fileID: 4573290162425406949}
@@ -3262,6 +3262,85 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 526f8b42dddfb824e8e1cb25a3ca8964,
     type: 3}
   m_PrefabInstance: {fileID: 1908402704833483320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2630360972557997443
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2053991455527170628}
+    m_Modifications:
+    - target: {fileID: 1491776911232748897, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 4.4408913e-16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196383925501516116, guid: a243edb55b7c47e4183bdfc1196a554e,
+        type: 3}
+      propertyPath: m_Name
+      value: Campfire
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a243edb55b7c47e4183bdfc1196a554e, type: 3}
+--- !u!4 &1582935007729800813 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3564419193147032558, guid: a243edb55b7c47e4183bdfc1196a554e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2630360972557997443}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2704542879891750604
 PrefabInstance:
@@ -5879,6 +5958,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5307645093389238367}
     m_Modifications:
+    - target: {fileID: 50987230633736642, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_text
+      value: Rest
+      objectReference: {fileID: 0}
     - target: {fileID: 687086154735823547, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
       propertyPath: m_IsActive
@@ -5888,6 +5972,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828586196887134290, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885848697943092228, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2391494960322733613, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2481724233508826134, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773052652533784660, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2824717601403156908, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3240125929532241007, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429117276172767984, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3964888958304987447, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
@@ -5903,6 +6027,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Interactable, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117324511688678663, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5040824877168735340, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
@@ -5996,6 +6125,11 @@ PrefabInstance:
       objectReference: {fileID: 1714445340927731966}
     - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
+      propertyPath: dialogue.Array.data[0].name
+      value: Rest
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
       propertyPath: quests.Array.data[0].questName
       value: Dungeon completed
       objectReference: {fileID: 0}
@@ -6004,6 +6138,12 @@ PrefabInstance:
       propertyPath: quests.Array.data[0].questType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: dialogue.Array.data[0].npcImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 5362f18b0604fc147a727e9c4f0b5257,
+        type: 3}
     - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
       propertyPath: quests.Array.data[0].goldReward
@@ -6032,16 +6172,35 @@ PrefabInstance:
     - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
       propertyPath: dialogue.Array.data[0].sentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: dialogue.Array.data[1].sentences.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
       propertyPath: 'dialogue.Array.data[0].sentences.Array.data[0]'
-      value: Dobra robota z pokonaniem dungeonu
+      value: I should get some rest..
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: 'dialogue.Array.data[0].sentences.Array.data[1]'
+      value: I will explore further after some break
+      objectReference: {fileID: 0}
+    - target: {fileID: 8727431666434906417, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: 'dialogue.Array.data[1].sentences.Array.data[0]'
+      value: I should get some rest..
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7444832952174418586, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1582935007729800813}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7789693041581408288, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}

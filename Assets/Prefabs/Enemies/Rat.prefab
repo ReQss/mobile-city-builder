@@ -1539,8 +1539,8 @@ MonoBehaviour:
   player: {fileID: 0}
   bowShotSound: {fileID: 0}
   swordSlashSound: {fileID: 0}
-  chaseRange: 6
-  patrolRange: 8
+  chaseRange: 9
+  patrolRange: 7
   attackRange: 1
   patrolWaitTime: 2
   EnemyCanvasLockOnIsEnabled: 0
@@ -1560,7 +1560,7 @@ MonoBehaviour:
   rangedAttackCooldown: 2
   enemyBulletFolder: {fileID: 0}
   isShoting: 0
-  damageAmount: 5
+  damageAmount: 1
   expAmount: 100
   maxHealth: 0
   patrolSpeed: 3
@@ -1569,6 +1569,7 @@ MonoBehaviour:
   explodeAfterDeath: 0
   explosionEffectPrefab: {fileID: 0}
   slashPrefab: {fileID: 0}
+  knockBackForce: 2
 --- !u!195 &1793040333944702750
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1579,10 +1580,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.21
-  m_Speed: 2
-  m_Acceleration: 30
+  m_Speed: 4
+  m_Acceleration: 20
   avoidancePriority: 50
-  m_AngularSpeed: 400
+  m_AngularSpeed: 300
   m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1633,7 +1634,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

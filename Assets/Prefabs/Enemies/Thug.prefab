@@ -2338,13 +2338,13 @@ MonoBehaviour:
   player: {fileID: 0}
   bowShotSound: {fileID: 0}
   swordSlashSound: {fileID: 8300000, guid: dd5c8bc61ac37b643a21a2216a1d0504, type: 3}
-  chaseRange: 15
+  chaseRange: 11
   patrolRange: 10
   attackRange: 4
   patrolWaitTime: 2
   EnemyCanvasLockOnIsEnabled: 0
   EnemyCanvasLockOn: {fileID: 6560927320855199520}
-  health: 20
+  health: 200
   DamageDealtPrefabSmall: {fileID: 0}
   DamageDealtPrefabMagic2: {fileID: 5315537711970309577, guid: 9390fcad4fe390a408e82061dc03f1d5,
     type: 3}
@@ -2367,6 +2367,7 @@ MonoBehaviour:
   explodeAfterDeath: 0
   explosionEffectPrefab: {fileID: 0}
   slashPrefab: {fileID: 4972297966266038359}
+  knockBackForce: 2
 --- !u!195 &8225277712065359833
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -96,6 +96,7 @@ public class DungeonGenerator : MonoBehaviour
     void GenerateDungeon()
     {
         Rule[] rooms ;
+        dungeonType = GameManager.Instance.dungeonType;
         if (dungeonType == DungeonType.FOREST)
         {
             rooms = roomsForest;

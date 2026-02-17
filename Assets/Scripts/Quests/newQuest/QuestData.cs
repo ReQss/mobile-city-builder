@@ -14,6 +14,8 @@ public class QuestData : ScriptableObject
     public int expReward = 0;
     public List<DialogueData> questDialogue;
     public int currentDialogueIndex = 0;
+    public List<QuestAction> questActionsStart;
+    public List<QuestAction> questActionsComplete;
     // public bool startWithDialeogue
 
 }

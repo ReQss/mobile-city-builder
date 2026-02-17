@@ -2151,7 +2151,7 @@ MonoBehaviour:
   patrolWaitTime: 2
   EnemyCanvasLockOnIsEnabled: 0
   EnemyCanvasLockOn: {fileID: 6313124304895669814}
-  health: 35
+  health: 200
   DamageDealtPrefabSmall: {fileID: 0}
   DamageDealtPrefabMagic2: {fileID: 5315537711970309577, guid: 9390fcad4fe390a408e82061dc03f1d5,
     type: 3}
@@ -2168,10 +2168,13 @@ MonoBehaviour:
   damageAmount: 2
   expAmount: 100
   maxHealth: 50
+  patrolSpeed: 3
+  chaseSpeed: 6
   hasKnockbackEffect: 0
   explodeAfterDeath: 0
   explosionEffectPrefab: {fileID: 0}
   slashPrefab: {fileID: 0}
+  knockBackForce: 2
 --- !u!195 &3471720775948747504
 NavMeshAgent:
   m_ObjectHideFlags: 0

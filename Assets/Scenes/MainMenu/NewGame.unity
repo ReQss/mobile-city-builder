@@ -381,14 +381,14 @@ MonoBehaviour:
     weaponShopActivated: 0
     lotteryActivated: 0
     moneyFactoryActivated: 0
-    mapUnlocked: 0
+    mapUnlocked: 1
     healthUnlocked: 0
     attackUnlocked: 0
     speedUnlocked: 0
     shieldUnlocked: 0
-    resurrectionUnlocked: 0
-    counterUnlocked: 0
-    dashUnlocked: 0
+    resurrectionUnlocked: 1
+    counterUnlocked: 1
+    dashUnlocked: 1
   realTimeUpdate: 0
   unlockedItems:
   - equipmentType: 1
@@ -1013,6 +1013,7 @@ MonoBehaviour:
   continueButton: {fileID: 0}
   buttonToTriggetOnStart: []
   dungeonSizeSmall: {x: 3, y: 3}
+  testLevelSize: {x: 2, y: 2}
   uiToDisable: []
 --- !u!4 &499195251
 Transform:
@@ -1233,7 +1234,7 @@ MonoBehaviour:
       type: 3}
     health: 140
     attack: 16
-    speed: 5
+    speed: 4
     bonusItem:
       equipmentType: 2
       equipmentQuality: 0
@@ -1278,7 +1279,7 @@ MonoBehaviour:
       type: 3}
     health: 100
     attack: 14
-    speed: 6
+    speed: 4
     bonusItem:
       equipmentType: 0
       equipmentQuality: 0

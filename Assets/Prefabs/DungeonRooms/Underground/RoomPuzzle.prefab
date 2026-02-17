@@ -6296,6 +6296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollidingWithPlayer: 0
+  isBurning: 0
 --- !u!1 &6667078715790775377
 GameObject:
   m_ObjectHideFlags: 0
@@ -6580,7 +6581,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.55201, y: 12.82, z: 15.93205}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 173104116648624756}
@@ -6659,17 +6660,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawn:
-  - name: 
+  - type: 0
     prefab: {fileID: 0}
     spawnChance: 1
-  - name: 
+  - type: 0
     prefab: {fileID: 0}
     spawnChance: 1
-  spawnCount: 8
   spawnRange: 3
   center: {x: 0, y: 0, z: 0}
   centerTransform: {fileID: 5307645093389238367}
   parentFolder: {fileID: 54090965923966776}
+  numberOfEnemies: 1
 --- !u!1 &7702374085919829522
 GameObject:
   m_ObjectHideFlags: 0
@@ -11853,6 +11854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollidingWithPlayer: 0
+  isBurning: 0
 --- !u!1 &8558984354305793803
 GameObject:
   m_ObjectHideFlags: 0
@@ -16862,6 +16864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollidingWithPlayer: 0
+  isBurning: 0
 --- !u!1 &9220772173481089260
 GameObject:
   m_ObjectHideFlags: 0
@@ -21599,6 +21602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollidingWithPlayer: 0
+  isBurning: 0
 --- !u!1001 &175112949507501639
 PrefabInstance:
   m_ObjectHideFlags: 0

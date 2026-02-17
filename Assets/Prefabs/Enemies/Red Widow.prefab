@@ -1668,10 +1668,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  walkSound: {fileID: 8300000, guid: 1e1b8f2846cdddb42940f5c04d2441e5, type: 3}
-  attackSound: {fileID: 8300000, guid: fd3e8e0948468e241a4a708f13c7f96f, type: 3}
-  screamSound: {fileID: 8300000, guid: 62785e67d69fd3f4c84f96cda52ba63f, type: 3}
-  chaseRange: 25
+  bowShotSound: {fileID: 0}
+  swordSlashSound: {fileID: 0}
+  chaseRange: 5
   patrolRange: 7
   attackRange: 1
   patrolWaitTime: 2
@@ -1694,11 +1693,14 @@ MonoBehaviour:
   damageAmount: 5
   expAmount: 100
   maxHealth: 0
+  patrolSpeed: 3
+  chaseSpeed: 6
   hasKnockbackEffect: 0
   explodeAfterDeath: 1
   explosionEffectPrefab: {fileID: 4593184484909914552, guid: 2e1e9506f5904a64b81744324fb7cd50,
     type: 3}
   slashPrefab: {fileID: 0}
+  knockBackForce: 2
 --- !u!195 &5445818792063835851
 NavMeshAgent:
   m_ObjectHideFlags: 0
