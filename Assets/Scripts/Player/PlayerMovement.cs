@@ -521,7 +521,7 @@ private void RotateUpperBodyTowardsAim()
     }
     public void DisableAttackAnimations()
     {
-        Debug.Log("xd");
+        // Debug.Log("xd");
         animator.SetBool("isShooting", false);
         animator.SetBool("isSlashing", false);
         animator.SetBool("isCasting", false);

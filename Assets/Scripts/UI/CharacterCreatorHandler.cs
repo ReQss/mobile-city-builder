@@ -37,6 +37,7 @@ public class CharacterClass
     public InventoryItem bonusItem;
     
     public List<CharacterPower> characterPower = new List<CharacterPower>();
+    public bool isUnlocked = true;
 }
 public class CharacterCreatorHandler : MonoBehaviour
 {
@@ -50,6 +51,7 @@ public class CharacterCreatorHandler : MonoBehaviour
     private int currentClassIndex = 0;
     public CharacterClass selectedClass;
     public Sprite spriteNone;
+    public GameObject nextClassButton;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -76,9 +78,18 @@ public class CharacterCreatorHandler : MonoBehaviour
         bonusItem.sprite = characterClass.bonusItem.itemIcon;
         if (characterClass.characterPower.Count == 0)
             powerIcon.sprite = spriteNone;
-        else
-            powerIcon.sprite = characterClass.characterPower[0].powerSprite;
-
+        else{
+            if(characterClass.characterPower[0].powerSprite == null)
+                powerIcon.sprite = spriteNone;
+            else
+                powerIcon.sprite = characterClass.characterPower[0].powerSprite;
+        }
+        if(characterClass.isUnlocked == false){
+            nextClassButton.SetActive(false);
+        }
+        else{
+            nextClassButton.SetActive(true);
+        }
     }
     public void SelectNextClass()
     {

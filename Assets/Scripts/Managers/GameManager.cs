@@ -471,7 +471,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Duplicate GameManager destroyed: " + gameObject.name);
             Destroy(gameObject);
         }
-        flags["isIntroductionWeaponAchieved"] = false;
+        //gracz na poczatku ma bron ze swojej klasy 
+        flags["isIntroductionWeaponAchieved"] = true;
     }
     public void SetFlag(string name, bool value)
     {
