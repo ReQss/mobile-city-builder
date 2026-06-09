@@ -5973,6 +5973,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1189705182589976451, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1828586196887134290, guid: b5b19c094973cdb47ae78ee478bfef7f,
         type: 3}
       propertyPath: m_Enabled
@@ -6194,6 +6199,11 @@ PrefabInstance:
       propertyPath: 'dialogue.Array.data[1].sentences.Array.data[0]'
       value: I should get some rest..
       objectReference: {fileID: 0}
+    - target: {fileID: 8777167287131092343, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      propertyPath: m_Radius
+      value: 2.74
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6206,6 +6216,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5055345915204001312}
+    - targetCorrespondingSourceObject: {fileID: 7789693041581408288, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5669236652609653205}
+    - targetCorrespondingSourceObject: {fileID: 6860481387831229559, guid: b5b19c094973cdb47ae78ee478bfef7f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9127833778325664588}
   m_SourcePrefab: {fileID: 100100000, guid: b5b19c094973cdb47ae78ee478bfef7f, type: 3}
 --- !u!1 &1714445340927731966 stripped
 GameObject:
@@ -6239,12 +6257,42 @@ MonoBehaviour:
     whiteSpidersKilled: 0
     spiderBossKilled: 0
     knightBossKilled: 0
+--- !u!114 &5669236652609653205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714445340927731966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2dc89eea70013740aba1ed0fb4f93d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2053991455527170628 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7444832952174418586, guid: b5b19c094973cdb47ae78ee478bfef7f,
     type: 3}
   m_PrefabInstance: {fileID: 8921739131505666270}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2658585038848988329 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6860481387831229559, guid: b5b19c094973cdb47ae78ee478bfef7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8921739131505666270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9127833778325664588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658585038848988329}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4f3ef8cdc27b54c832d60ede4b746d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8926922761247160139
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -347,6 +347,7 @@ public class GameUIHandler : MonoBehaviour
         if (GameUIHandler.Instance.interactionAction != null && !GameUIHandler.Instance.interactionAction.action.enabled)
         {
             GameUIHandler.Instance.interactionAction.action.Enable();
+            Debug.Log("Interaction action enabled");
         }
         if (GameUIHandler.Instance.playerAction != null && !GameUIHandler.Instance.playerAction.action.enabled)
         {

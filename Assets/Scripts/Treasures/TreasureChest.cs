@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum RewardType
@@ -154,17 +155,28 @@ public class TreasureChest : MonoBehaviour
         isRewardCollected = true;
         Destroy(gameObject);
     }
-
+    private bool wasInteracted = false;
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
             playerInRange = true;
+        
+        if (other.CompareTag("Player")){
+            if(wasInteracted)return;
+            wasInteracted = true;
+            GameUIHandler.Instance.rewardFramesClick.OpenTargetUI();
+            GameUIHandler.Instance.rewardFramesClick.InitFrames(CollectReward);
+
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")){
             playerInRange = false;
+            wasInteracted = false;
+        }
+        
     }
 
     void Update()
@@ -180,4 +192,5 @@ public class TreasureChest : MonoBehaviour
             }
         }
     }
+   
 }
