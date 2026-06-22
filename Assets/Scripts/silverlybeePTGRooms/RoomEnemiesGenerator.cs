@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using System;
 public enum EnemyType
 {
     Prefab,
@@ -36,11 +37,13 @@ public class RoomEnemiesGenerator : MonoBehaviour
         if (isSpawning || objectsToSpawn.Count == 0) return;
         isSpawning = true;
         int count = numberOfEnemies;
+        //take player level too into account, every 2 levels add 1 extra enemy
+        int level = GameManager.Instance.playerLevel;
+        count += (int)MathF.Ceiling((level - 1) / 2f);
         Vector3 spawnCenter = centerTransform ? centerTransform.position : center;
-        int extra = GameManager.Instance.playerLevel / 4;
-        int target = count + extra;
 
-        for (int i = 0; i < target; i++)
+
+        for (int i = 0; i < count; i++)
         {
             var candidate = GetRandomObject();
             Vector3 pos = GetRandomPosition(spawnCenter);
@@ -55,7 +58,7 @@ public class RoomEnemiesGenerator : MonoBehaviour
         float total = 0;
         foreach (var o in objectsToSpawn) total += o.spawnChance;
 
-        float rand = Random.value * total;
+        float rand = UnityEngine.Random.value * total;
         float sum = 0;
 
         foreach (var o in objectsToSpawn)
@@ -70,9 +73,9 @@ public class RoomEnemiesGenerator : MonoBehaviour
     Vector3 GetRandomPosition(Vector3 center)
     {
         return center + new Vector3(
-            Random.Range(-spawnRange, spawnRange),
+            UnityEngine.Random.Range(-spawnRange, spawnRange),
             0,
-            Random.Range(-spawnRange, spawnRange)
+            UnityEngine.Random.Range(-spawnRange, spawnRange)
         );
     }
 

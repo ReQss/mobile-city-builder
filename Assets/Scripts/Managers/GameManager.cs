@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
     [Header("Player experience")]
     public int playerLevel = 1;
     public int playerLevelPoints = 0;
-    public int playerExperienceToGetLevel = 1000;
+    public int playerExperienceToGetLevel = 500;
     public int playerCurrentExperience = 0;
     public int pointsToSpend = 0;
     
@@ -306,7 +306,7 @@ public class GameManager : MonoBehaviour
             playerLevel++;
             pointsToSpend += 1;
             playerCurrentExperience = 0;
-            playerExperienceToGetLevel += 500;
+            // playerExperienceToGetLevel += 500;
             LevelUp();
         }
 

@@ -6,7 +6,45 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+[System.Serializable]
+public class LevelUpBonusUI
+{
+    public TextMeshProUGUI bonusNameText;
+    public TextMeshProUGUI bonusDescriptionText;
+    public Image bonusIconImage;
+    public LevelUpBonusType bonusType;
 
+    public void SetBonus(LevelUpBonus bonus)
+    {
+        bonusNameText.text = bonus.bonusName;
+        bonusDescriptionText.text = bonus.bonusDescription;
+        bonusIconImage.sprite = bonus.bonusIcon;
+        bonusType = bonus.bonusType;
+    }
+}
+[System.Serializable]
+public enum LevelUpBonusType
+{
+    Health,
+    Attack,
+    Speed,
+    BulletAmount,
+    Healing,
+    Tunic,
+    Helmet,
+    Boots,
+    Pants,
+    Gloves
+}
+[System.Serializable]
+public class LevelUpBonus
+{
+    public string bonusName;
+    public string bonusDescription;
+    public Sprite bonusIcon;
+    public LevelUpBonusType bonusType;
+    
+}
 public class GameUIHandler : MonoBehaviour
 {
     public static GameUIHandler Instance;
@@ -88,6 +126,8 @@ public class GameUIHandler : MonoBehaviour
     public GameObject levelUpInfoPanel;
     public TextMeshProUGUI currentQuestName;
     public TextMeshProUGUI currentQuestShortDescription;
+    public List<LevelUpBonus> levelUpBonuses;
+    public LevelUpBonusUI[] levelUpBonusUIElements = new LevelUpBonusUI[3];
     public void SetCurrentQuestUI()
     {
         if(NewQuestManager.Instance == null) return;
@@ -146,12 +186,48 @@ public class GameUIHandler : MonoBehaviour
     public void ShowLevelUpChoosePanel()
     {
         if (chooseLevelStatisticsPanel == null) return;
+        /// roll random bonuses
+        LevelUpBonus[] rolledBonuses = RollRandomLevelUpBonuses();
+        if (rolledBonuses == null)
+        {
+            Debug.Log("Rolled bonuses are null, cannot show level up choose panel.");
+            return;
+        }
+
+        for (int i = 0; i < levelUpBonusUIElements.Length; i++)
+        {
+            if (levelUpBonusUIElements[i] != null && i < rolledBonuses.Length)
+            {
+                levelUpBonusUIElements[i].SetBonus(rolledBonuses[i]);
+            }
+        }
+
+
         // if (touchCanvasJoystick == null) return;
         // touchCanvasJoystick.SetActive(false);
         chooseLevelStatisticsPanel.SetActive(true);
         if (touchCanvasJoystickPanel != null)
             touchCanvasJoystickPanel.LockJoystick();
         SlowPause();
+    }
+    public LevelUpBonus[] RollRandomLevelUpBonuses()
+    {
+        if (levelUpBonuses == null || levelUpBonuses.Count == 0) return null;
+        //fix this make array of 3 levelupbonuses
+        LevelUpBonus[] chosenLevelUpBonuses = new LevelUpBonus[3];
+        // every bonus should be unique, you can't chose same random number
+        HashSet<int> chosenIndices = new HashSet<int>();
+        for (int i = 0; i < chosenLevelUpBonuses.Length; i++)
+        {
+            int randomIndex;
+            do
+            {
+                randomIndex = UnityEngine.Random.Range(0, levelUpBonuses.Count);
+            } while (chosenIndices.Contains(randomIndex));
+            chosenIndices.Add(randomIndex);
+            chosenLevelUpBonuses[i] = levelUpBonuses[randomIndex];
+        }
+        return chosenLevelUpBonuses;
     }
     public void SlowPause()
     {
@@ -711,6 +787,90 @@ public class GameUIHandler : MonoBehaviour
         }
        
     }
+    public void IncreaseChosenStatisticsHandler(int statisticIndex)
+    {
+        
+        LevelUpBonusType type;
+        switch (statisticIndex)
+        {
+            case 0:
+                type = levelUpBonusUIElements[0].bonusType;
+                break;
+            case 1:
+                type = levelUpBonusUIElements[1].bonusType; 
+                break;
+            case 2:
+                type = levelUpBonusUIElements[2].bonusType; 
+                break;  
+            default:
+                Debug.LogWarning("Invalid statistic index: " + statisticIndex);
+                return;
+
+        }
+        switch (type)
+        {
+            case LevelUpBonusType.Health:
+                IncreasePlayerHealthByPoints();
+                break;
+            case LevelUpBonusType.Attack:
+                IncreasePlayerAttackByPoints();
+                break;
+            case LevelUpBonusType.Speed:
+                IncreasePlayerSpeedByPoints();
+                break;
+            case LevelUpBonusType.BulletAmount:
+                IncreasePlayerBulletAmountBy1Temp();
+                break;
+             case LevelUpBonusType.Healing:
+                PlayerMovement.playerMovementInstance.HealPlayer(PlayerMovement.playerMovementInstance.maxHealth);
+                break;
+            //armors
+            case LevelUpBonusType.Tunic:
+                UnlockArmorReward(LevelUpBonusType.Tunic);
+                break;
+            case LevelUpBonusType.Helmet:
+                UnlockArmorReward(LevelUpBonusType.Helmet);
+                break;
+            case LevelUpBonusType.Boots:
+                UnlockArmorReward(LevelUpBonusType.Boots);
+                break;
+            case LevelUpBonusType.Pants:
+                UnlockArmorReward(LevelUpBonusType.Pants);
+                break;
+            case LevelUpBonusType.Gloves:
+                UnlockArmorReward(LevelUpBonusType.Gloves);
+                break;
+            default:
+                Debug.LogWarning("Unknown statistic type: " + type);
+                break;
+        }
+        
+        if (touchCanvasJoystick != null)
+        {
+            touchCanvasJoystick.SetActive(true);
+        }
+        UnpauseGame();
+    }
+    
+    public void UnlockArmorReward(LevelUpBonusType armorType)
+    {
+        // Unlock the armor item based on the provided armorType
+        string armorName = armorType.ToString(); // Assuming the item name matches the enum name
+        InventoryItem itemToUnlock = GameManager.Instance.unlockedItems.Find(item => item.itemName == armorName);
+        if(itemToUnlock == null)
+        {
+            Debug.Log("Item not found: " + armorName);
+            return;
+        }
+        else
+        {
+            itemToUnlock.isUnlocked = true;
+            itemToUnlock.isEquipped = true;
+            PlayerMovement.playerMovementInstance.UpdateAdditionalBonus(itemToUnlock);
+            PlayerMovement.playerMovementInstance.GetComponent<InventorySystem>().PutOnItems();
+            Debug.Log(armorName + " has been unlocked!");
+        }
+    }
     public void IncreasePlayerHealthByPoints()
     {
         bool result = GameManager.Instance.UsePointForHealth();
@@ -721,6 +881,18 @@ public class GameUIHandler : MonoBehaviour
                 PlayerMovement.playerMovementInstance.maxHealth += 10;
             HandleStatistics();
         }
+        if (touchCanvasJoystick != null)
+        {
+            touchCanvasJoystick.SetActive(true);
+        }
+        UnpauseGame();
+    }
+
+    public void IncreasePlayerBulletAmountBy1Temp()
+    {
+        if (PlayerMovement.playerMovementInstance != null)
+            PlayerMovement.playerMovementInstance.currentBulletAmount += 1;
+        
         if (touchCanvasJoystick != null)
         {
             touchCanvasJoystick.SetActive(true);

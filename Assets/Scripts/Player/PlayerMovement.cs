@@ -248,6 +248,14 @@ private void RotateUpperBodyTowardsAim()
         playerAttack = GameManager.Instance.playerAttack + bonusAttack;
         speed = GameManager.Instance.playerSpeed + bonusMovementSpeed;
     }
+    public void UpdateAdditionalBonus(InventoryItem item)
+    {
+        if (item == null) return;
+
+        health += item.health;
+        playerAttack += item.attack;
+        speed += item.movementSpeed;
+    }
 
     void Update()
     {
@@ -697,7 +705,7 @@ private void RotateUpperBodyTowardsAim()
 
         if (health <= 0)
         {
-            
+            Debug.Log("xd");
                 if (resurrectionManager.resurrectionInProgress) return;
             _ = DeathOrRevive();
         }
@@ -709,12 +717,18 @@ private void RotateUpperBodyTowardsAim()
         if (blockDeathOrRevive == true) return;
 
         blockDeathOrRevive = true;
+        
+        PlayerMovement.playerMovementInstance.isMovementLocked = true;
+        animator.SetBool("isDead", true);
+        //wait 5 sec
+        await Task.Delay(2000);
         if (resurrectionManager.resurrectionCount > 0)
         {
             resurrectionManager.OpenResurrectionUI();
             resurrectionManager.InitResurrection();
             isInvincible = false;
             blockDamage = false;
+            animator.SetBool("isDead", false);
         }
         else
         {
